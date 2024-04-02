@@ -9,6 +9,7 @@
      height: 100%;
      margin: 0;
      padding: 0;
+     background-color: #ffffffd2;
  }
  
  ul {
@@ -18,13 +19,14 @@
  
  .ms-welcome__header {
     padding: 20px;
-    padding-bottom: 30px;
-    padding-top: 100px;
+    padding-bottom: 5px;
+    padding-top: 10px;
     display: -webkit-flex;
     display: flex;
     -webkit-flex-direction: column;
     flex-direction: column;
     align-items: center;
+    background-color: #ffe6e6d2;
  }
 
  .ms-welcome__main {
