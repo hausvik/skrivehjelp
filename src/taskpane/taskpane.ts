@@ -12,12 +12,13 @@ Office.onReady((info) => {
   if (info.host === Office.HostType.Word) {
     document.getElementById("sideload-msg").style.display = "none";
     document.getElementById("app-body").style.display = "flex";
-    document.getElementById("testMal").onclick = testMal;
+    document.getElementById("testMal").onclick = testMal; // A clicker is needed for every button
   }
 });
 
 /**
  * Inserts the HTML for testMal into the document.
+ * Serves as a template for later HTMLtext insertions.
  */
 export async function testMal() {
   const textToInsert = htmlContent;
@@ -35,22 +36,21 @@ export async function run(textToInsert) {
       context.load(range);
       await context.sync();
     } catch (error) {
-      // If the bookmark does not exist, get the range at the end of the document
+      // If the bookmark does not exist, use the range at the end of the document
+      // Should probably be removed in production code, and instead throw an error
       const body = context.document.body;
       range = body.getRange('End');
       context.load(range);
       await context.sync();
     }
 
-    // Insert text and create bookmarks
     await insertTextAndCreateBookmarks(context, range, textToInsert);
-
     await context.sync();
   });
 }
 
 /**
- * Inserts the text and creates bookmarks for each instance of the pattern '&&bookmark&&'.
+ * Inserts the text and creates bookmarks for each instance of the pattern '{{bookmark}}'.
  * @param context The Word request context
  * @param range The range to insert the initial text at
  * @param textToInsert The HTMLtext to insert as a string
@@ -60,7 +60,7 @@ async function insertTextAndCreateBookmarks(context: Word.RequestContext, range:
   range.insertHtml(textToInsert, Word.InsertLocation.replace);
   range.insertBookmark("START");
 
-  // Search for the pattern '&&bookmark&&'
+  // Search for the pattern '{{bookmark}}'
   const searchResults = context.document.body.search('{{*}}', { matchWildcards: true });
 
   // Load the search results into memory
