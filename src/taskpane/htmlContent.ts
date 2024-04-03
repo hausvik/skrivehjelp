@@ -23,18 +23,18 @@ export const htmlContent = `
   </head>
   <body>
       <h1>A header</h1>
-      <p>This is a &&bookmark1&& with text before and after.</p>
+      <p>This is a {{bookmark1}} with text before and after.</p>
       <table>
           <tr>
               <th>Header 1</th>
               <th>Header 2</th>
           </tr>
           <tr>
-              <td>This is a &&bookmark2&& within a table cell.</td>
+              <td>This is a {{bookmark2}} within a table cell.</td>
               <td>More text here.</td>
           </tr>
       </table>
-      <p>Here is another &&bookmark3&& at the end of the document.</p>
+      <p>Here is another {{bookmark3}} at the end of the document.</p>
   </body>
   </html>
 `;
