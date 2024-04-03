@@ -12,13 +12,22 @@ Office.onReady((info) => {
   if (info.host === Office.HostType.Word) {
     document.getElementById("sideload-msg").style.display = "none";
     document.getElementById("app-body").style.display = "flex";
-    document.getElementById("run").onclick = run;
+    document.getElementById("testMal").onclick = testMal;
   }
 });
 
-export async function run() {
+/**
+ * Inserts the HTML for testMal into the document.
+ */
+export async function testMal() {
+  const textToInsert = htmlContent;
+  run(textToInsert);
+}
+
+
+export async function run(textToInsert) {
   return Word.run(async (context) => {
-    const textToInsert = htmlContent;
+
     let range;
     try {
       // Try to get the range of the bookmark named "START"
@@ -40,12 +49,19 @@ export async function run() {
   });
 }
 
+/**
+ * Inserts the text and creates bookmarks for each instance of the pattern '&&bookmark&&'.
+ * @param context The Word request context
+ * @param range The range to insert the initial text at
+ * @param textToInsert The HTMLtext to insert as a string
+ */
 async function insertTextAndCreateBookmarks(context: Word.RequestContext, range: Word.Range, textToInsert: string): Promise<void> {
   // Insert the text
   range.insertHtml(textToInsert, Word.InsertLocation.replace);
+  range.insertBookmark("START");
 
   // Search for the pattern '&&bookmark&&'
-  const searchResults = context.document.body.search('&&*&&', { matchWildcards: true });
+  const searchResults = context.document.body.search('{{*}}', { matchWildcards: true });
 
   // Load the search results into memory
   context.load(searchResults, 'text, font');
@@ -55,5 +71,9 @@ async function insertTextAndCreateBookmarks(context: Word.RequestContext, range:
   for (let i = 0; i < searchResults.items.length; i++) {
     const bookmarkName = searchResults.items[i].text.slice(2, -2); // Remove the '&&' symbols from the bookmark name
     searchResults.items[i].insertBookmark(bookmarkName);
+    let bookmarkRange = context.document.getBookmarkRange(bookmarkName);
+    bookmarkRange.insertText(bookmarkName, Word.InsertLocation.replace);
+    bookmarkRange.insertBookmark(bookmarkName);
   }
 }
+
