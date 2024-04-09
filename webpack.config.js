@@ -20,6 +20,7 @@ module.exports = async (env, options) => {
       polyfill: ["core-js/stable", "regenerator-runtime/runtime"],
       taskpane: ["./src/taskpane/taskpane.ts", "./src/taskpane/taskpane.html"],
       commands: "./src/commands/commands.ts",
+      demopane: "./src/demopane/demopane.ts",
     },
     output: {
       clean: true,
@@ -55,9 +56,14 @@ module.exports = async (env, options) => {
     },
     plugins: [
       new HtmlWebpackPlugin({
-        filename: "taskpane.html",
-        template: "./src/taskpane/taskpane.html",
-        chunks: ["polyfill", "taskpane"],
+        template: './src/taskpane/taskpane.html',
+        chunks: ['taskpane'],
+        filename: 'taskpane.html'
+      }),
+      new HtmlWebpackPlugin({
+        template: './src/demopane/demopane.html',
+        chunks: ['demopane'],
+        filename: 'demopane.html'
       }),
       new CopyWebpackPlugin({
         patterns: [
@@ -88,6 +94,7 @@ module.exports = async (env, options) => {
       headers: {
         "Access-Control-Allow-Origin": "*",
       },
+      
       server: {
         type: "https",
         options: env.WEBPACK_BUILD || options.https !== undefined ? options.https : await getHttpsOptions(),

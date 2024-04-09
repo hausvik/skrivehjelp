@@ -1,0 +1,58 @@
+<!-- Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License. -->
+<!-- This file shows how to design a first-run page that provides a welcome screen to the user about the features of the add-in. -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>UiB add-in for maltekster</title>
+
+    <!-- Office JavaScript API -->
+    <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.js"></script>
+
+    <!-- For more information on Fluent UI, visit https://developer.microsoft.com/fluentui#/. -->
+    <link rel="stylesheet"
+        href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/11.0.0/css/fabric.min.css" />
+
+    <!-- Template styles -->
+    <link href="demopane.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body class="ms-font-m ms-welcome ms-Fabric">
+    <header class="ms-welcome__header ms-bgColor-neutralLighter">
+        <img width="90" height="90" src="../../assets/icon-128.png" alt="UiB Logo" title="UiB" />
+        <h1 class="ms-font-su">Velkommen</h1>
+    </header>
+    <section id="sideload-msg" class="ms-welcome__main">
+        <h2 class="ms-font-xl">Please <a target="_blank"
+                href="https://learn.microsoft.com/office/dev/add-ins/testing/test-debug-office-add-ins#sideload-an-office-add-in-for-testing"
+                rel="noopener noreferrer">sideload</a> your add-in to see app body.</h2>
+    </section>
+    <main id="app-body" class="ms-welcome__main">
+        <h2 class="ms-font-xl"> Velg en mal i listen under for å starte. </h2>
+        <div role="button" id="testMal" class="ms-welcome__action ms-Button ms-Button--hero ms-font-xl">
+            <span class="ms-Button-label">Testmal</span>
+        </div>
+        <p><label id="item-subject"></label></p>
+    </main>
+</body>
+
+<!-- Dropdown box -->
+<select id="avdeling" title="Avdeling">
+    <option value="HR-avdelingen">HR-avdelingen</option>
+    <option value="IT-avdelingen">IT-avdelingen</option>
+    <!-- Add more options as needed -->
+</select>
+
+<!-- Check box -->
+<label for="fastansatt">Fast ansatt?</label>
+<input type="checkbox" id="fastansatt">
+
+<!-- Text box -->
+<label for="lønn">Lønn i NOK</label>
+<input type="text" id="lønn">
+
+</html>

@@ -6,13 +6,11 @@
 
 /* global document, Office, Word */
 
-import { htmlContent } from './htmlContent';
-
 Office.onReady((info) => {
   if (info.host === Office.HostType.Word) {
-    document.getElementById("sideload-msg").style.display = "none";
-    document.getElementById("app-body").style.display = "flex";
-    document.getElementById("testMal").onclick = testMal; // A clicker is needed for every button
+    (document.getElementById("sideload-msg") as HTMLElement).style.display = "none";
+    (document.getElementById("app-body") as HTMLElement).style.display = "flex";
+    (document.getElementById("testMal") as HTMLButtonElement).onclick = testMal; // A clicker is needed for every button
   }
 });
 
@@ -21,12 +19,21 @@ Office.onReady((info) => {
  * Serves as a template for later HTMLtext insertions.
  */
 export async function testMal() {
-  const textToInsert = htmlContent;
-  run(textToInsert);
+  // Get a reference to the task pane's body
+  const taskPaneBody = document.getElementById("app-body");
+
+  // Load the content of demopane.html into the taskpane
+  fetch('src/demopane/demopane.html')
+    .then(response => response.text())
+    .then(data => {
+      if (taskPaneBody) {
+        taskPaneBody.innerHTML = data;
+      }
+    });
 }
 
 
-export async function run(textToInsert) {
+export async function insertText(textToInsert: string) {
   return Word.run(async (context) => {
 
     let range;
@@ -44,36 +51,10 @@ export async function run(textToInsert) {
       await context.sync();
     }
 
-    await insertTextAndCreateBookmarks(context, range, textToInsert);
+    // Insert the text
+    range.insertHtml(textToInsert, Word.InsertLocation.replace);
+    
     await context.sync();
   });
-}
-
-/**
- * Inserts the text and creates bookmarks for each instance of the pattern '{{bookmark}}'.
- * @param context The Word request context
- * @param range The range to insert the initial text at
- * @param textToInsert The HTMLtext to insert as a string
- */
-async function insertTextAndCreateBookmarks(context: Word.RequestContext, range: Word.Range, textToInsert: string): Promise<void> {
-  // Insert the text
-  range.insertHtml(textToInsert, Word.InsertLocation.replace);
-  range.insertBookmark("START");
-
-  // Search for the pattern '{{bookmark}}'
-  const searchResults = context.document.body.search('{{*}}', { matchWildcards: true });
-
-  // Load the search results into memory
-  context.load(searchResults, 'text, font');
-  await context.sync();
-
-  // Replace each match with a bookmark
-  for (let i = 0; i < searchResults.items.length; i++) {
-    const bookmarkName = searchResults.items[i].text.slice(2, -2); // Remove the '&&' symbols from the bookmark name
-    searchResults.items[i].insertBookmark(bookmarkName);
-    let bookmarkRange = context.document.getBookmarkRange(bookmarkName);
-    bookmarkRange.insertText(bookmarkName, Word.InsertLocation.replace);
-    bookmarkRange.insertBookmark(bookmarkName);
-  }
 }
 
