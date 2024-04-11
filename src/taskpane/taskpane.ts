@@ -1,4 +1,4 @@
-
+import { initializeDemopane } from '../demopane/demopane';
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.
  * See LICENSE in the project root for license information.
@@ -23,16 +23,19 @@ export async function testMal() {
   const taskPaneBody = document.getElementById("app-body");
 
   // Load the content of demopane.html into the taskpane
-  fetch('src/demopane/demopane.html')
+  fetch('https://localhost:3000/demopane.html')
     .then(response => response.text())
     .then(data => {
       if (taskPaneBody) {
         taskPaneBody.innerHTML = data;
+        initializeDemopane();
       }
     });
 }
-
-
+/**
+ * Inserts the given text into the document.
+ * @param textToInsert The text to insert into the document
+ */
 export async function insertText(textToInsert: string) {
   return Word.run(async (context) => {
 
@@ -42,9 +45,11 @@ export async function insertText(textToInsert: string) {
       range = context.document.getBookmarkRange("START");
       context.load(range);
       await context.sync();
+
     } catch (error) {
       // If the bookmark does not exist, use the range at the end of the document
       // Should probably be removed in production code, and instead throw an error
+
       const body = context.document.body;
       range = body.getRange('End');
       context.load(range);
@@ -53,7 +58,7 @@ export async function insertText(textToInsert: string) {
 
     // Insert the text
     range.insertHtml(textToInsert, Word.InsertLocation.replace);
-    
+
     await context.sync();
   });
 }

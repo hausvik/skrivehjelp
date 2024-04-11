@@ -1,24 +1,32 @@
-export function getDemoContent(bookmark1: string, bookmark2: string, excludeBookmark3: boolean): string {
+
+/**
+ * Returns a simple HTML template with placeholders for bookmarks.
+ * @param bookmark1 The text to insert at the first bookmark.
+ * @param bookmark2 The text to insert at the second bookmark.
+ * @param excludeBookmark3 Whether to exclude the third bookmark.
+ * @returns Valid HTML string.
+ */
+export function getDemoContent(bookmark1: string, bookmark2: string, excludeBookmark3: boolean) {
     return `
       <!DOCTYPE html>
       <html>
       <head>
-          <title>Demo Text</title>
+          <title>Tekst mal for demo</title>
       </head>
       <body>
-          <h1>A header</h1>
-          <p>This is a ${bookmark1} with text before and after.</p>
+          <h1>En tittel</h1>
+          <p>Valgt avdeling ${bookmark1} med noe tekst etter avdelingsnavnet.</p>
           <table>
               <tr>
                   <th>Header 1</th>
                   <th>Header 2</th>
               </tr>
               <tr>
-                  <td>This is a ${bookmark2} within a table cell.</td>
-                  <td>More text here.</td>
+                  <td>Lønnen er skrevet inn i tabellen her: ${bookmark2}</td>
+                  <td>Her er det også noe tekst</td>
               </tr>
           </table>
-          ${!excludeBookmark3 ? `<p>Here is a sentence that is only available for temporary positions.</p>` : ''}
+          ${!excludeBookmark3 ? `<p>Denne teksten er ikke med i faste stillinger</p>` : ''}
       </body>
       </html>
     `;
