@@ -1,0 +1,35 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License. -->
+<!-- This file shows how to design a first-run page that provides a welcome screen to the user about the features of the add-in. -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Demo tekst</title>
+    <script src="demopane.ts" defer></script>
+</head>
+
+<body>
+    <!-- Dropdown box -->
+    <select id="avdeling" title="Avdeling">
+        <option value="HR-avdelingen">HR-avdelingen</option>
+        <option value="IT-avdelingen">IT-avdelingen</option>
+        <!-- Add more options as needed -->
+    </select>
+
+    <!-- Check box -->
+    <label for="fastansatt">Fast ansatt?</label>
+    <input type="checkbox" id="fastansatt">
+
+    <!-- Text box -->
+    <label for="lonn">Lønn i NOK</label>
+    <input type="text" id="lonn">
+
+    <!-- Button -->
+    <button id="generateDocument" type="button">Generate Document</button>
+</body>
+
+</html>
