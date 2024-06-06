@@ -1,22 +1,27 @@
+/* eslint-disable no-undef */
 import { insertText } from "../taskpane/taskpane";
 import { getArbeidsavtaleHeadingEngelsk } from "./arbeidsavtaleContent";
 import { getArbeidsavtaleHeadingNorsk } from "./arbeidsavtaleContent";
 import { Arbeidsavtaleheader } from "./arbeidsavtaleheader";
+import { readCSV } from "./readCSV";
 
 let data: Arbeidsavtaleheader | null = null;
 
 export function initializeArbeidsavtalepane() {
+  let positionCodes = readCSV();
   // Checkboxes
   let fastansatt: HTMLInputElement | null = document.getElementById("fastansatt") as HTMLInputElement;
   let engelsk: HTMLInputElement | null = document.getElementById("engelsk") as HTMLInputElement;
-  let mobilityAllowanceBox: HTMLInputElement | null = document.getElementById("mobilityAllowanceBox") as HTMLInputElement;
+  let mobilityAllowanceBox: HTMLInputElement | null = document.getElementById(
+    "mobilityAllowanceBox"
+  ) as HTMLInputElement;
   let familyAllowanceBox: HTMLInputElement | null = document.getElementById("familyAllowanceBox") as HTMLInputElement;
 
   //input fields
   let nameElement: HTMLInputElement | null = document.getElementById("name") as HTMLInputElement;
   let personalIdElement: HTMLInputElement | null = document.getElementById("personalId") as HTMLInputElement;
   let placeOfWorkElement: HTMLInputElement | null = document.getElementById("placeOfWork") as HTMLInputElement;
-  let positionCodeElement: HTMLInputElement | null = document.getElementById("positionCode") as HTMLInputElement;
+  let positionCodeSelect: HTMLSelectElement | null = document.getElementById("positionCode") as HTMLSelectElement;
   let percentageFullTimeElement: HTMLInputElement | null = document.getElementById(
     "percentageWork"
   ) as HTMLInputElement;
@@ -32,11 +37,34 @@ export function initializeArbeidsavtalepane() {
     "mobilityAllowance"
   ) as HTMLInputElement;
   let familyAllowanceElement: HTMLInputElement | null = document.getElementById("familyAllowance") as HTMLInputElement;
-  let familyAllowanceGroup: HTMLElement | null = document.getElementById('familyAllowanceGroup');
+  let familyAllowanceGroup: HTMLElement | null = document.getElementById("familyAllowanceGroup");
   let mobilityAllowanceGroup: HTMLElement | null = document.getElementById("mobilityAllowanceGroup");
   let endDateGroup: HTMLElement | null = document.getElementById("endDateGroup");
 
   let button: HTMLButtonElement | null = document.getElementById("generateDocument") as HTMLButtonElement;
+
+  //Populates the HTMLSelect element related to position codes
+  if (positionCodeSelect) {
+    // Clear the select element
+    positionCodeSelect.innerHTML = "";
+
+    // Populate the select element with the position codes
+    positionCodes.forEach((positionCode: { SKO: string; EnglishTitle: string; NorwegianTitle: string }) => {
+      // Create a new option element
+      let option = document.createElement("option");
+
+      // Set the value and text of the option element
+      option.value = positionCode.SKO;
+      if (engelsk.checked) {
+        option.text = `${positionCode.SKO} - ${positionCode.EnglishTitle}`;
+      } else {
+        option.text = `${positionCode.SKO} - ${positionCode.NorwegianTitle} `;
+      }
+
+      // Add the option element to the select element
+      positionCodeSelect.add(option);
+    });
+  }
 
   // Hide the mobility and family allowance fields and labels as default
   if (mobilityAllowanceGroup) {
@@ -68,14 +96,13 @@ export function initializeArbeidsavtalepane() {
     });
   }
 
-
   if (button) {
     button.addEventListener("click", () => {
       if (
         nameElement &&
         personalIdElement &&
         placeOfWorkElement &&
-        positionCodeElement &&
+        positionCodeSelect &&
         percentageFullTimeElement &&
         jobTitleElement &&
         preparationHoursElement &&
@@ -90,7 +117,7 @@ export function initializeArbeidsavtalepane() {
           name: nameElement.value,
           personalId: personalIdElement.value,
           placeOfWork: placeOfWorkElement.value,
-          positionCode: positionCodeElement.value,
+          positionCode: positionCodeSelect.value,
           percentageFullTime: percentageFullTimeElement.value,
           jobTitle: jobTitleElement.value,
           preparationHours: preparationHoursElement.value,
@@ -104,14 +131,22 @@ export function initializeArbeidsavtalepane() {
 
         let htmlText: string | null = null;
         if (engelsk.checked) {
-          htmlText = getArbeidsavtaleHeadingEngelsk(data, fastansatt.checked, mobilityAllowanceBox.checked, familyAllowanceBox.checked);
+          htmlText = getArbeidsavtaleHeadingEngelsk(
+            data,
+            fastansatt.checked,
+            mobilityAllowanceBox.checked,
+            familyAllowanceBox.checked
+          );
         } else {
-          htmlText = getArbeidsavtaleHeadingNorsk(data, fastansatt.checked, mobilityAllowanceBox.checked, familyAllowanceBox.checked);
+          htmlText = getArbeidsavtaleHeadingNorsk(
+            data,
+            fastansatt.checked,
+            mobilityAllowanceBox.checked,
+            familyAllowanceBox.checked
+          );
         }
 
-        
-          insertText(htmlText);
-        
+        insertText(htmlText);
       }
     });
   }
