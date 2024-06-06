@@ -1,15 +1,14 @@
-import fetch from "node-fetch";
-
 interface Position {
   SKO: string;
   NorwegianTitle: string;
   EnglishTitle: string;
-  TA: string;
+  Category: string;
 }
 
-export async function readCSV(): Promise<Position[]> {
+export async function readCSV(url: string): Promise<Position[]> {
   // Fetch the CSV file
-  const response = await fetch("stillingskoder.csv");
+  // eslint-disable-next-line no-undef
+  const response = await fetch(url);
   const csvFile = await response.text();
 
   // Split the CSV file into lines
@@ -25,7 +24,7 @@ export async function readCSV(): Promise<Position[]> {
       SKO: columns[0],
       NorwegianTitle: columns[1],
       EnglishTitle: columns[2],
-      TA: columns[3],
+      Category: columns[3],
     };
 
     return position;

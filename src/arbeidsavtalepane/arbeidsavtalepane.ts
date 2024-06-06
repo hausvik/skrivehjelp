@@ -3,12 +3,12 @@ import { insertText } from "../taskpane/taskpane";
 import { getArbeidsavtaleHeadingEngelsk } from "./arbeidsavtaleContent";
 import { getArbeidsavtaleHeadingNorsk } from "./arbeidsavtaleContent";
 import { Arbeidsavtaleheader } from "./arbeidsavtaleheader";
-import { readCSV } from "./readCSV";
+import { readCSV } from "../utils/readCSV";
 
 let data: Arbeidsavtaleheader | null = null;
 
 export async function initializeArbeidsavtalepane() {
-  let positionCodes = await readCSV();
+  let positionCodes = await readCSV("assets/stillingskoder.csv");
   // Checkboxes
   let fastansatt: HTMLInputElement | null = document.getElementById("fastansatt") as HTMLInputElement;
   let engelsk: HTMLInputElement | null = document.getElementById("engelsk") as HTMLInputElement;
@@ -43,28 +43,26 @@ export async function initializeArbeidsavtalepane() {
 
   let button: HTMLButtonElement | null = document.getElementById("generateDocument") as HTMLButtonElement;
 
-  //Populates the HTMLSelect element related to position codes
-  if (positionCodeSelect) {
-    // Clear the select element
-    positionCodeSelect.innerHTML = "";
+  // Define a type for position code
+  type PositionCode = {
+    SKO: string;
+    EnglishTitle: string;
+    NorwegianTitle: string;
+    Category: string;
+  };
 
-    // Populate the select element with the position codes
-    positionCodes.forEach((positionCode: { SKO: string; EnglishTitle: string; NorwegianTitle: string }) => {
-      // Create a new option element
-      let option = document.createElement("option");
+  // Populate the select element with the position codes
+  positionCodes.forEach((positionCode: PositionCode) => {
+    // Create a new option element
+    let option = document.createElement("option");
 
-      // Set the value and text of the option element
-      option.value = positionCode.SKO;
-      if (engelsk.checked) {
-        option.text = `${positionCode.SKO} - ${positionCode.EnglishTitle}`;
-      } else {
-        option.text = `${positionCode.SKO} - ${positionCode.NorwegianTitle} `;
-      }
+    // Set the value and text of the option element
+    option.value = positionCode.SKO;
+    option.text = `${positionCode.SKO} - ${engelsk.checked ? positionCode.EnglishTitle : positionCode.NorwegianTitle}`;
 
-      // Add the option element to the select element
-      positionCodeSelect.add(option);
-    });
-  }
+    // Add the option element to the select element
+    positionCodeSelect.add(option);
+  });
 
   // Hide the mobility and family allowance fields and labels as default
   if (mobilityAllowanceGroup) {

@@ -1,7 +1,8 @@
 {
   "include": [
     "**/*",
-    "src/arbeidsavtalepane/demopane.ts"
+    "src/arbeidsavtalepane/arbeidsavtalepane.ts",
+    "src/utils/readCSV.ts"
   ],
   "compilerOptions": {
     "strict": true,
