@@ -64,6 +64,23 @@ export async function initializeArbeidsavtalepane() {
     positionCodeSelect.add(option);
   });
 
+  if (positionCodeSelect) {
+    positionCodeSelect.addEventListener("change", () => {
+      // Get the selected position code
+      let selectedPositionCode = positionCodeSelect.value;
+
+      // Find the corresponding position code object
+      let positionCodeObject = positionCodes.find(
+        (positionCode: PositionCode) => positionCode.SKO === selectedPositionCode
+      );
+
+      if (positionCodeObject) {
+        jobTitleElement.value = engelsk.checked ? positionCodeObject.EnglishTitle : positionCodeObject.NorwegianTitle;
+        let category = positionCodeObject.Category; //Will be used later, to determin text choices
+      }
+    });
+  }
+
   // Hide the mobility and family allowance fields and labels as default
   if (mobilityAllowanceGroup) {
     mobilityAllowanceGroup.style.display = "none";

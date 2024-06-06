@@ -7,36 +7,54 @@ import { Arbeidsavtaleheader } from "./arbeidsavtaleheader";
  * @returns {string} An HTML string representing the employment contract header.
  */
 export function getArbeidsavtaleHeadingEngelsk(
-        data: Arbeidsavtaleheader,
-        fastAnsatt: boolean,
-        mobility: boolean,
-        family: boolean
+  data: Arbeidsavtaleheader,
+  fastAnsatt: boolean,
+  mobility: boolean,
+  family: boolean
 ): string {
-        const {
-                name,
-                personalId,
-                placeOfWork,
-                positionCode,
-                percentageFullTime,
-                jobTitle,
-                preparationHours,
-                seniority,
-                annualSalary,
-                mobilityAllowance,
-                familyAllowance,
-                startingDate,
-                endDate,
-        } = data;
-        let mobilityRow1 = mobility ? "Mobility allowance" : "";
-        let mobilityRow2 = mobility ? `${mobilityAllowance}` : "";
-        let familyRow1 = family ? "Family allowance" : "";
-        let familyRow2 = family ? `${familyAllowance}` : "";
-        // Use mobilityRow in your table
-        return `
+  const {
+    name,
+    personalId,
+    placeOfWork,
+    positionCode,
+    percentageFullTime,
+    jobTitle,
+    preparationHours,
+    seniority,
+    annualSalary,
+    mobilityAllowance,
+    familyAllowance,
+    startingDate,
+    endDate,
+  } = data;
+  let mobilityRow1 = mobility ? "Mobility allowance" : "";
+  let mobilityRow2 = mobility ? `${mobilityAllowance}` : "";
+  let familyRow1 = family ? "Family allowance" : "";
+  let familyRow2 = family ? `${familyAllowance}` : "";
+  // Use mobilityRow in your table
+  return `
         <!DOCTYPE html>
         <html>
         <head>
                 <title>CONTRACT OF EMPLOYMENT</title>
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th, td {
+        border: 1px solid #ddd; /* Light grey border */
+        padding: 10px;
+        text-align: left;
+    }
+    th {
+        background-color: #f2f2f2; /* Light grey background */
+        font-weight: bold;
+    }
+    tr:nth-child(even) {
+        background-color: #f8f8f8; /* Lighter grey for every other row */
+    }
+</style>
         </head>
         <body>
                 <h1>CONTRACT OF EMPLOYMENT</h1>
@@ -56,6 +74,8 @@ export function getArbeidsavtaleHeadingEngelsk(
                         <tr>
                                 <td>Place of work</td>
                                 <td>${placeOfWork}</td>
+                                <td></td>
+                                <td></td>
                                 
                         </tr>
                         <tr>
@@ -102,36 +122,54 @@ export function getArbeidsavtaleHeadingEngelsk(
  * @returns {string} An HTML string representing the employment contract header.
  */
 export function getArbeidsavtaleHeadingNorsk(
-        data: Arbeidsavtaleheader,
-        fastAnsatt: boolean,
-        mobility: boolean,
-        family: boolean
+  data: Arbeidsavtaleheader,
+  fastAnsatt: boolean,
+  mobility: boolean,
+  family: boolean
 ): string {
-        const {
-                name,
-                personalId,
-                placeOfWork,
-                positionCode,
-                percentageFullTime,
-                jobTitle,
-                preparationHours,
-                seniority,
-                annualSalary,
-                mobilityAllowance,
-                familyAllowance,
-                startingDate,
-                endDate,
-        } = data;
-        let mobilityRow1 = mobility ? "Mobilitetstillegg" : "";
-        let mobilityRow2 = mobility ? `${mobilityAllowance}` : "";
-        let familyRow1 = family ? "Familietillegg" : "";
-        let familyRow2 = family ? `${familyAllowance}` : "";
-        return `
+  const {
+    name,
+    personalId,
+    placeOfWork,
+    positionCode,
+    percentageFullTime,
+    jobTitle,
+    preparationHours,
+    seniority,
+    annualSalary,
+    mobilityAllowance,
+    familyAllowance,
+    startingDate,
+    endDate,
+  } = data;
+  let mobilityRow1 = mobility ? "Mobilitetstillegg" : "";
+  let mobilityRow2 = mobility ? `${mobilityAllowance}` : "";
+  let familyRow1 = family ? "Familietillegg" : "";
+  let familyRow2 = family ? `${familyAllowance}` : "";
+  return `
     <!DOCTYPE html>
     <html>
-    <head>
-            <title>ARBEIDSAVTALE</title>
-    </head>
+            <head>
+                <title>ARBEIDSAVTALE</title>
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th, td {
+        border: 1px solid #ddd; /* Light grey border */
+        padding: 10px;
+        text-align: left;
+    }
+    th {
+        background-color: #f2f2f2; /* Light grey background */
+        font-weight: bold;
+    }
+    tr:nth-child(even) {
+        background-color: #f8f8f8; /* Lighter grey for every other row */
+    }
+</style>
+        </head>
     <body>
             <h1>ARBEIDSAVTALE</h1>
 
@@ -150,6 +188,8 @@ export function getArbeidsavtaleHeadingNorsk(
                     <tr>
                             <td>Arbeidssted</td>
                             <td>${placeOfWork}</td>
+                            <td></td>
+                            <td></td>
                             
                     </tr>
                     <tr>
