@@ -1,4 +1,8 @@
 {
+  "include": [
+    "**/*",
+    "src/arbeidsavtalepane/demopane.ts"
+  ],
   "compilerOptions": {
     "strict": true,
     "forceConsistentCasingInFileNames": true,

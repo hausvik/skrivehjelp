@@ -10,7 +10,7 @@ The proof of concept has been implemented as follows:
     * A check box
     * A text field where you enter text
 
-2. When clicking the generate document button, a named autotext is inserted into the document at a bookmark name or at the end of the document. The text is changed based on the input in the demopane.
+2. When clicking the generate document button, a named autotext is inserted into the document at a bookmark name ("START") or at the end of the document. The text is changed based on the input in the arbeidsavtalepane.
 
 
 The initial code was greated using [Yeoman Generator](https://learn.microsoft.com/en-us/office/dev/add-ins/develop/yeoman-generator-overview).

@@ -1,0 +1,118 @@
+<!-- Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License. -->
+<!-- This file shows how to design a first-run page that provides a welcome screen to the user about the features of the add-in. -->
+<!DOCTYPE html>
+<html lang="nb">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arbeidsavtale tekst</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="arbeidsavtalepane.ts" defer></script>
+</head>
+
+<body class="bg-light">
+    <div class="container py-5">
+        <h2 class="mb-5">Arbeidsavtale tekst</h2>
+<form>
+
+
+        <!-- Check box group -->
+<div class="form-group">
+        <label>Options:</label>
+        <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" id="fastansatt">
+            <label class="form-check-label" for="fastansatt">Fast ansatt</label>
+        </div>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="engelsk">
+            <label class="form-check-label" for="engelsk">Engelsk avtale</label>
+        </div>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="mobilityAllowanceBox">
+            <label class="form-check-label" for="mobilityAllowanceBox">Mobilitetstillegg</label>
+        </div>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="familyAllowanceBox">
+            <label class="form-check-label" for="familyAllowanceBox">Familietillegg</label>
+        </div>
+    <!-- Add more checkboxes as needed -->
+</div>
+<div class="form-group">
+
+        <div class="form-group">
+            <label for="name">Navn</label>
+            <input type="text" class="form-control" id="name">
+        </div>
+
+
+        <div class="form-group">
+            <label for="personalId">Fødselsnr.</label>
+            <input type="text" class="form-control" id="personalId">
+        </div>
+
+        <div class="form-group">
+            <label for="placeOfWork">Arbeidssted</label>
+            <input type="text" class="form-control" id="placeOfWork">
+        </div>
+
+
+        <div class="form-group">
+            <label for="positionCode">Stillingskode</label>
+            <input type="text" class="form-control" id="positionCode">
+        </div>
+
+
+        <div class="form-group">
+            <label for="percentageWork">Stillingsprosent</label>
+            <input type="text" class="form-control" id="percentageWork">
+        </div>
+
+        <div class="form-group">
+            <label for="jobTitle">Stillingsbetegnelse</label>
+            <input type="text" class="form-control" id="jobTitle">
+        </div>
+
+        <div class="form-group">
+            <label for="preparationHours">Antall timer forberedelse</label>
+            <input type="text" class="form-control" id="preparationHours">
+        </div>
+
+        <div class="form-group">
+            <label for="seniority">Tjenesteansiennitet</label>
+            <input type="text" class="form-control" id="seniority">
+        </div>
+        
+        <div class="form-group">
+            <label for="annualSalary">Årslønn/ltr</label>
+            <input type="text" class="form-control" id="annualSalary">
+        </div>
+        
+        <div class="form-group">
+            <label for="startingDate">Tiltredelsesdato</label>
+            <input type="text" class="form-control" id="startingDate">
+        </div>
+        
+        <div class="form-group">
+            <label for="endDate">Sluttdato</label>
+            <input type="text" class="form-control" id="endDate">
+        </div>
+
+        <div class="form-group">
+            <label for="mobilityAllowance">Mobilitetstillegg</label>
+            <input type="text" class="form-control" id="mobilityAllowance">
+        </div>
+
+        <div class="form-group">
+            <label for="familyAllowance">Familietillegg</label>
+            <input type="text" class="form-control" id="familyAllowance">
+        </div>
+</div>
+
+        <!-- Button -->
+        <button id="generateDocument" type="button" class="btn btn-primary">Generer dokument</button>
+    </div>
+</form>
+</body>
+
+</html>
