@@ -7,10 +7,10 @@ let data: Arbeidsavtaleheader | null = null;
 
 export function initializeArbeidsavtalepane() {
   // Checkboxes
-  let fastansatt = document.getElementById("fastansatt") as HTMLInputElement;
-  let engelsk = document.getElementById("engelsk") as HTMLInputElement;
-  let mobilityAllowanceBox = document.getElementById("mobilityAllowanceBox") as HTMLInputElement;
-  let familyAllowanceBox = document.getElementById("familyAllowanceBox") as HTMLInputElement;
+  let fastansatt: HTMLInputElement | null = document.getElementById("fastansatt") as HTMLInputElement;
+  let engelsk: HTMLInputElement | null = document.getElementById("engelsk") as HTMLInputElement;
+  let mobilityAllowanceBox: HTMLInputElement | null = document.getElementById("mobilityAllowanceBox") as HTMLInputElement;
+  let familyAllowanceBox: HTMLInputElement | null = document.getElementById("familyAllowanceBox") as HTMLInputElement;
 
   //input fields
   let nameElement: HTMLInputElement | null = document.getElementById("name") as HTMLInputElement;
@@ -32,34 +32,40 @@ export function initializeArbeidsavtalepane() {
     "mobilityAllowance"
   ) as HTMLInputElement;
   let familyAllowanceElement: HTMLInputElement | null = document.getElementById("familyAllowance") as HTMLInputElement;
+  let familyAllowanceGroup: HTMLElement | null = document.getElementById('familyAllowanceGroup');
+  let mobilityAllowanceGroup: HTMLElement | null = document.getElementById("mobilityAllowanceGroup");
+  let endDateGroup: HTMLElement | null = document.getElementById("endDateGroup");
 
-  //hides the mobility and family allowance fields as default
-  mobilityAllowanceElement.style.display = "none";
-  familyAllowanceElement.style.display = "none";
+  // Hide the mobility and family allowance fields and labels as default
+  if (mobilityAllowanceGroup) {
+    mobilityAllowanceGroup.style.display = "none";
+  }
+  if (familyAllowanceGroup) {
+    familyAllowanceGroup.style.display = "none";
+  }
 
-  if (fastansatt) {
+  if (endDateGroup && fastansatt) {
     fastansatt.addEventListener("change", () => {
-      if (endDateElement) {
-        endDateElement.style.display = fastansatt.checked ? "none" : "block";
-      }
+      endDateGroup.style.display = fastansatt.checked ? "none" : "block";
     });
   }
 
   if (familyAllowanceBox) {
     familyAllowanceBox.addEventListener("change", () => {
-      if (familyAllowanceElement) {
-        familyAllowanceElement.style.display = familyAllowanceBox.checked ? "none" : "block";
+      if (familyAllowanceGroup) {
+        familyAllowanceGroup.style.display = familyAllowanceBox.checked ? "block" : "none";
       }
     });
   }
 
   if (mobilityAllowanceBox) {
     mobilityAllowanceBox.addEventListener("change", () => {
-      if (mobilityAllowanceElement) {
-        mobilityAllowanceElement.style.display = mobilityAllowanceBox.checked ? "none" : "block";
+      if (mobilityAllowanceGroup) {
+        mobilityAllowanceGroup.style.display = mobilityAllowanceBox.checked ? "block" : "none";
       }
     });
   }
+
 
   if (button) {
     button.addEventListener("click", () => {
