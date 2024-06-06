@@ -7,8 +7,8 @@ import { readCSV } from "./readCSV";
 
 let data: Arbeidsavtaleheader | null = null;
 
-export function initializeArbeidsavtalepane() {
-  let positionCodes = readCSV();
+export async function initializeArbeidsavtalepane() {
+  let positionCodes = await readCSV();
   // Checkboxes
   let fastansatt: HTMLInputElement | null = document.getElementById("fastansatt") as HTMLInputElement;
   let engelsk: HTMLInputElement | null = document.getElementById("engelsk") as HTMLInputElement;

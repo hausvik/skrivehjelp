@@ -1,4 +1,4 @@
-import * as fs from "fs";
+import fetch from "node-fetch";
 
 interface Position {
   SKO: string;
@@ -7,15 +7,16 @@ interface Position {
   TA: string;
 }
 
-export function readCSV(): Position[] {
-  // Read the CSV file
-  const csvFile = fs.readFileSync("stillingskoder.csv", "utf8");
+export async function readCSV(): Promise<Position[]> {
+  // Fetch the CSV file
+  const response = await fetch("stillingskoder.csv");
+  const csvFile = await response.text();
 
   // Split the CSV file into lines
   const lines = csvFile.split("\n");
 
-  // Map each line to a Position object, starting from the first row (index 0)
-  const positions: Position[] = lines.map((line) => {
+  // Map each line to a Position object, starting from the first row (index 1)
+  const positions: Position[] = lines.slice(1).map((line) => {
     // Split the line into columns
     const columns = line.split(",");
 
