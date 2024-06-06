@@ -36,6 +36,8 @@ export function initializeArbeidsavtalepane() {
   let mobilityAllowanceGroup: HTMLElement | null = document.getElementById("mobilityAllowanceGroup");
   let endDateGroup: HTMLElement | null = document.getElementById("endDateGroup");
 
+  let button: HTMLButtonElement | null = document.getElementById("generateDocument") as HTMLButtonElement;
+
   // Hide the mobility and family allowance fields and labels as default
   if (mobilityAllowanceGroup) {
     mobilityAllowanceGroup.style.display = "none";
@@ -102,14 +104,14 @@ export function initializeArbeidsavtalepane() {
 
         let htmlText: string | null = null;
         if (engelsk.checked) {
-          htmlText = getArbeidsavtaleHeadingEngelsk(data);
+          htmlText = getArbeidsavtaleHeadingEngelsk(data, fastansatt.checked, mobilityAllowanceBox.checked, familyAllowanceBox.checked);
         } else {
-          htmlText = getArbeidsavtaleHeadingNorsk(data);
+          htmlText = getArbeidsavtaleHeadingNorsk(data, fastansatt.checked, mobilityAllowanceBox.checked, familyAllowanceBox.checked);
         }
 
-        if (htmlText != null) {
+        
           insertText(htmlText);
-        }
+        
       }
     });
   }
