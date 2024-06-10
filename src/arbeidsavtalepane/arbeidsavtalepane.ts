@@ -2,8 +2,11 @@
 import { insertText } from "../taskpane/taskpane";
 import { getArbeidsavtaleHeadingEngelsk } from "./arbeidsavtaleContent";
 import { getArbeidsavtaleHeadingNorsk } from "./arbeidsavtaleContent";
+import { getArbeidsavtaleBodyNorsk } from "./arbeidsavtaleMainText";
+import { getArbeidsavtaleBodyEngelsk } from "./arbeidsavtaleMainText";
 import { Arbeidsavtaleheader } from "./arbeidsavtaleheader";
 import { readExcel } from "../utils/readExcel";
+import { combineHtmlStrings } from "../utils/combineHTML";
 
 let data: Arbeidsavtaleheader | null = null;
 type PositionCode = {
@@ -156,24 +159,30 @@ if(teachingPrepBox){
           endDate: endDateElement.value,
         };
 
-        let htmlText: string | null = null;
+        let htmlHeaderText: string | null = null;
+        let htmlBodyText: string | null = null;
         if (engelsk.checked) {
-          htmlText = getArbeidsavtaleHeadingEngelsk(
+          htmlHeaderText = getArbeidsavtaleHeadingEngelsk(
             data,
             fastansatt.checked,
             mobilityAllowanceBox.checked,
             familyAllowanceBox.checked
           );
+          htmlBodyText = getArbeidsavtaleBodyEngelsk();
         } else {
-          htmlText = getArbeidsavtaleHeadingNorsk(
+          htmlHeaderText = getArbeidsavtaleHeadingNorsk(
             data,
             fastansatt.checked,
             mobilityAllowanceBox.checked,
             familyAllowanceBox.checked
           );
+          htmlBodyText = getArbeidsavtaleBodyNorsk();
         }
 
-        insertText(htmlText);
+        let htmlText = combineHtmlStrings([htmlHeaderText, htmlBodyText]);
+
+        insertText(htmlText); 
+
       }
     });
   }

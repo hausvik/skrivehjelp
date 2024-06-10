@@ -3,6 +3,7 @@
     "**/*",
     "src/arbeidsavtalepane/arbeidsavtalepane.ts",
     "src/utils/readExcel.ts",
+    "src/utils/combineHTML.ts",
   ],
   "compilerOptions": {
     "strict": true,
