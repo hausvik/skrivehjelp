@@ -44,10 +44,6 @@ export function getArbeidsavtaleHeadingEngelsk(
       </tr>` : '';
       
         return `
-          <!DOCTYPE html>
-          <html>
-                  <head>
-                      <title>ARBEIDSAVTALE</title>
       <style>
           table {
               width: 100%;
@@ -66,8 +62,6 @@ export function getArbeidsavtaleHeadingEngelsk(
               background-color: #f8f8f8; /* Lighter grey for every other row */
           }
       </style>
-              </head>
-          <body>
                   <h1>ARBEIDSAVTALE</h1>
       
       
@@ -111,8 +105,6 @@ export function getArbeidsavtaleHeadingEngelsk(
                                   <td>${endDate}</td>
                           </tr>
                   </table>
-          </body>
-          </html>
       `;
       }
 

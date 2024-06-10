@@ -180,8 +180,13 @@ if(teachingPrepBox){
         }
 
         let htmlText = combineHtmlStrings([htmlHeaderText, htmlBodyText]);
-
+        
         insertText(htmlText); 
+
+        let header = 'HEADER TEXT'
+        let body = `...`; // Your body text here
+        let combined = combineHtmlStrings([header, body]);
+        //insertText(combined); 
 
       }
     });
