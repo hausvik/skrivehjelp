@@ -2,7 +2,7 @@
   "include": [
     "**/*",
     "src/arbeidsavtalepane/arbeidsavtalepane.ts",
-    "src/utils/readCSV.ts"
+    "src/utils/readExcel.ts",
   ],
   "compilerOptions": {
     "strict": true,

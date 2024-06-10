@@ -3,12 +3,20 @@ import { insertText } from "../taskpane/taskpane";
 import { getArbeidsavtaleHeadingEngelsk } from "./arbeidsavtaleContent";
 import { getArbeidsavtaleHeadingNorsk } from "./arbeidsavtaleContent";
 import { Arbeidsavtaleheader } from "./arbeidsavtaleheader";
-import { readCSV } from "../utils/readCSV";
+import { readExcel } from "../utils/readExcel";
 
 let data: Arbeidsavtaleheader | null = null;
+type PositionCode = {
+  SKO: string;
+  Norsk: string;
+  Engelsk: string;
+  NorskStillingsbetegnelse: string;
+  EngelskStillingsbetegnelse: string;
+  Kategori: string;
+};
 
 export async function initializeArbeidsavtalepane() {
-  let positionCodes = await readCSV("assets/stillingskoder.csv");
+  let positionCodes: Promise<PositionCode[]>;
   // Checkboxes
   let fastansatt: HTMLInputElement | null = document.getElementById("fastansatt") as HTMLInputElement;
   let engelsk: HTMLInputElement | null = document.getElementById("engelsk") as HTMLInputElement;
@@ -16,7 +24,11 @@ export async function initializeArbeidsavtalepane() {
     "mobilityAllowanceBox"
   ) as HTMLInputElement;
   let familyAllowanceBox: HTMLInputElement | null = document.getElementById("familyAllowanceBox") as HTMLInputElement;
-
+  let additionalDutyBox: HTMLInputElement | null = document.getElementById("additionalDuty") as HTMLInputElement;
+  let teachingPosBox: HTMLInputElement | null = document.getElementById("teachingPos") as HTMLInputElement;
+  let teachingPrepBox: HTMLInputElement | null = document.getElementById("teachingPrep") as HTMLInputElement;
+  let teachingPrepDiv: HTMLElement | null = document.getElementById("teachingPrepDiv");
+  
   //input fields
   let nameElement: HTMLInputElement | null = document.getElementById("name") as HTMLInputElement;
   let personalIdElement: HTMLInputElement | null = document.getElementById("personalId") as HTMLInputElement;
@@ -25,7 +37,7 @@ export async function initializeArbeidsavtalepane() {
   let percentageFullTimeElement: HTMLInputElement | null = document.getElementById(
     "percentageWork"
   ) as HTMLInputElement;
-  let jobTitleElement: HTMLInputElement | null = document.getElementById("jobTitle") as HTMLInputElement;
+  let preparationHoursDiv: HTMLElement | null = document.getElementById("preparationHoursDiv") as HTMLElement;
   let preparationHoursElement: HTMLInputElement | null = document.getElementById(
     "preparationHours"
   ) as HTMLInputElement;
@@ -44,50 +56,51 @@ export async function initializeArbeidsavtalepane() {
   let button: HTMLButtonElement | null = document.getElementById("generateDocument") as HTMLButtonElement;
 
   // Define a type for position code
-  type PositionCode = {
-    SKO: string;
-    EnglishTitle: string;
-    NorwegianTitle: string;
-    Category: string;
-  };
 
-  // Populate the select element with the position codes
-  positionCodes.forEach((positionCode: PositionCode) => {
-    // Create a new option element
-    let option = document.createElement("option");
-
-    // Set the value and text of the option element
-    option.value = positionCode.SKO;
-    option.text = `${positionCode.SKO} - ${engelsk.checked ? positionCode.EnglishTitle : positionCode.NorwegianTitle}`;
-
-    // Add the option element to the select element
-    positionCodeSelect.add(option);
-  });
+  positionCodes = addToDropDown();
 
   if (positionCodeSelect) {
-    positionCodeSelect.addEventListener("change", () => {
+    positionCodeSelect.addEventListener("change", async () => {
       // Get the selected position code
       let selectedPositionCode = positionCodeSelect.value;
 
       // Find the corresponding position code object
-      let positionCodeObject = positionCodes.find(
-        (positionCode: PositionCode) => positionCode.SKO === selectedPositionCode
+      let positionCodeObject = (await positionCodes).find(
+        (positionCode: PositionCode) => positionCode.Norsk === selectedPositionCode
       );
 
       if (positionCodeObject) {
-        jobTitleElement.value = engelsk.checked ? positionCodeObject.EnglishTitle : positionCodeObject.NorwegianTitle;
-        let category = positionCodeObject.Category; //Will be used later, to determin text choices
+        let jobTitle = engelsk ? positionCodeObject.EngelskStillingsbetegnelse : positionCodeObject.NorskStillingsbetegnelse; // Might be usefill in the document text
+        let category = positionCodeObject.Kategori; //Will be used later, to determin text choices
       }
     });
   }
 
-  // Hide the mobility and family allowance fields and labels as default
-  if (mobilityAllowanceGroup) {
-    mobilityAllowanceGroup.style.display = "none";
+  
+
+if(teachingPosBox){
+    teachingPosBox.addEventListener("change", () => {
+      if (teachingPrepDiv) {
+        if (teachingPosBox.checked) {
+          teachingPrepDiv.style.display = 'block'; // Show the teachingPrepBox
+        } else {
+          teachingPrepDiv.style.display = 'none'; // Hide the teachingPrepBox
+        }
+      }
+    });
+}
+
+if(teachingPrepBox){
+  teachingPrepBox.addEventListener("change", () => {
+    if(teachingPrepBox.checked){
+      preparationHoursDiv.style.display = 'block';
+    }
+      else{
+        preparationHoursDiv.style.display = 'none';
+      }
+    });
   }
-  if (familyAllowanceGroup) {
-    familyAllowanceGroup.style.display = "none";
-  }
+
 
   if (endDateGroup && fastansatt) {
     fastansatt.addEventListener("change", () => {
@@ -119,7 +132,6 @@ export async function initializeArbeidsavtalepane() {
         placeOfWorkElement &&
         positionCodeSelect &&
         percentageFullTimeElement &&
-        jobTitleElement &&
         preparationHoursElement &&
         seniorityElement &&
         annualSalaryElement &&
@@ -134,7 +146,6 @@ export async function initializeArbeidsavtalepane() {
           placeOfWork: placeOfWorkElement.value,
           positionCode: positionCodeSelect.value,
           percentageFullTime: percentageFullTimeElement.value,
-          jobTitle: jobTitleElement.value,
           preparationHours: preparationHoursElement.value,
           seniority: seniorityElement.value,
           annualSalary: annualSalaryElement.value,
@@ -165,4 +176,35 @@ export async function initializeArbeidsavtalepane() {
       }
     });
   }
+}
+
+function initialSetup() {
+  // move the logic to hide fields here
+}
+
+/**
+ * Reads the position codes from an Excel file and adds them to the position code dropdown.
+ * @returns {Promise<PositionCode[]>} - A promise that resolves to an array of position codes.
+ */
+async function addToDropDown(): Promise<PositionCode[]> {
+  let positionCodes: PositionCode[] = await readExcel("assets/stillingskoder.xlsx");
+
+  let positionCodeSelect: HTMLSelectElement | null = document.getElementById("positionCode") as HTMLSelectElement;
+
+  // Populate the select element with the position codes
+  positionCodes.forEach((positionCode: PositionCode, index: number) => {
+    // Ignore the first element
+    if (index === 0) return;
+    // Create a new option element
+    let option = document.createElement("option");
+
+    // Set the value and text of the option element
+    option.value = positionCode.Norsk;
+    option.text = positionCode.Norsk;
+
+    // Add the option element to the select element
+    positionCodeSelect.add(option);
+  });
+
+  return positionCodes;
 }
