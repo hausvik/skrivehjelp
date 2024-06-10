@@ -1,5 +1,6 @@
 import * as XLSX from 'xlsx';
 
+
 interface Position {
   SKO: string;
   Norsk: string;
@@ -8,7 +9,12 @@ interface Position {
   EngelskStillingsbetegnelse: string;
   Kategori: string;
 }
-
+/**
+ * Reads an Excel file and returns an array of Position objects.
+ * The sorting matches the Excel-file, if we want to enforce a spesific order add another column at the end of the table in the Excel-file and sort by that.
+ * @param url - The URL of the Excel file.
+ * @returns {Promise<Position[]>} - A promise that resolves to an array of Position objects.
+ **/
 export async function readExcel(url: string): Promise<Position[]> {
   // Fetch the Excel file
   const response = await fetch(url);
