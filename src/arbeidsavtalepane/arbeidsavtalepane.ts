@@ -55,10 +55,9 @@ export async function initializeArbeidsavtalepane() {
 
   let button: HTMLButtonElement | null = document.getElementById("generateDocument") as HTMLButtonElement;
 
-  // Define a type for position code
-
+  // Adds to the dropdown
   positionCodes = addToDropDown();
-
+  // Event listeners for the dropdown
   if (positionCodeSelect) {
     positionCodeSelect.addEventListener("change", async () => {
       // Get the selected position code
@@ -77,7 +76,7 @@ export async function initializeArbeidsavtalepane() {
   }
 
   
-
+// Event listeners for the teachingPosBox
 if(teachingPosBox){
     teachingPosBox.addEventListener("change", () => {
       if (teachingPrepDiv) {
@@ -90,6 +89,7 @@ if(teachingPosBox){
     });
 }
 
+// Event listeners for the teachingPrepBox
 if(teachingPrepBox){
   teachingPrepBox.addEventListener("change", () => {
     if(teachingPrepBox.checked){
@@ -101,13 +101,13 @@ if(teachingPrepBox){
     });
   }
 
-
+// Event listner for the fastansatt box
   if (endDateGroup && fastansatt) {
     fastansatt.addEventListener("change", () => {
       endDateGroup.style.display = fastansatt.checked ? "none" : "block";
     });
   }
-
+// Event listeners for the familyAllowanceBox
   if (familyAllowanceBox) {
     familyAllowanceBox.addEventListener("change", () => {
       if (familyAllowanceGroup) {
@@ -115,7 +115,7 @@ if(teachingPrepBox){
       }
     });
   }
-
+// Event listeners for the mobilityAllowanceBox
   if (mobilityAllowanceBox) {
     mobilityAllowanceBox.addEventListener("change", () => {
       if (mobilityAllowanceGroup) {
@@ -124,6 +124,7 @@ if(teachingPrepBox){
     });
   }
 
+  // Button logic
   if (button) {
     button.addEventListener("click", () => {
       if (
@@ -176,10 +177,6 @@ if(teachingPrepBox){
       }
     });
   }
-}
-
-function initialSetup() {
-  // move the logic to hide fields here
 }
 
 /**
