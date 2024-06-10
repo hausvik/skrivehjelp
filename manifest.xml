@@ -74,7 +74,7 @@
       <bt:ShortStrings>
         <bt:String id="GetStarted.Title" DefaultValue="Kom i gang med standardtekster!"/>
         <bt:String id="CommandsGroup.Label" DefaultValue="UiB brevtekster"/>
-        <bt:String id="TaskpaneButton.Label" DefaultValue="Arbeidsavtaler"/>
+        <bt:String id="TaskpaneButton.Label" DefaultValue="UiB Standardtekster"/>
       </bt:ShortStrings>
       <bt:LongStrings>
         <bt:String id="GetStarted.Description" DefaultValue="Ditt eksempel på tilleggsprogram ble lastet inn vellykket. Gå til HJEM-fanen og klikk på 'Start appen'-knappen for å komme i gang."/>
