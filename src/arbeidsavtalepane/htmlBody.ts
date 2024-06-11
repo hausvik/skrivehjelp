@@ -1,6 +1,3 @@
-import { ArbeidsavtaleBody } from './bodyInterface';
-
-
 export function getArbeidsavtaleBodyEngelsk(
     educationalCompetenceValue: boolean,
     norwegianCompetenceParam: boolean,
@@ -9,10 +6,13 @@ export function getArbeidsavtaleBodyEngelsk(
     projectEndDate: string,
     projectTasks: string,
     externallyFoundedResearcher: boolean,
+    substituteAdvertised : boolean,
+    substituteTypeGroupValue: string,
+    substituteFor: string,
 
 ): string {
     return getArbeidsavtaleBodyNorsk(educationalCompetenceValue, norwegianCompetenceParam, externallyFunded,
-        projectName, projectEndDate, projectTasks, externallyFoundedResearcher);
+        projectName, projectEndDate, projectTasks, externallyFoundedResearcher, substituteAdvertised, substituteTypeGroupValue, substituteFor);
 }
 
 /**
@@ -29,11 +29,16 @@ export function getArbeidsavtaleBodyNorsk(
     projectEndDate: string,
     projectTasks: string,
     externallyFoundedResearcher: boolean,
+    substituteAdvertised : boolean,
+    substituteTypeGroupValue: string,
+    substituteFor: string,
 ): string {
     let educationalCompetenceNeeded = "";
     let norwegianCompetenceNeeded = "";
     let externallyFundedText = "";
     let externallyFoundedResearcherText = "";
+    let substituteAdvertisedText = "";
+    let substituteText = "";
 
     if (educationalCompetenceParam) {
         educationalCompetenceNeeded = "Det er en forutsetning for ansettelsen at utdanningsfaglig kompetanse oppnås innen to år etter tiltredelsen. "
@@ -46,11 +51,31 @@ export function getArbeidsavtaleBodyNorsk(
             ", med antatt avslutning " + projectEndDate + ". Beskrivelse av arbeidstakers oppgaver: " + projectTasks;
     }
     if (externallyFoundedResearcher) {
-        externallyFoundedResearcherText = "Ved avslutning av prosjektet forutsettes fortsatt ansettelse av videre ekstern finansiering av stillingen. " +
-            "Den ansatte oppfordres til å ta aktiv del i arbeidet med søknader om nye prosjektmidler til finansiering av stillingen.";
+        externallyFoundedResearcherText = `Ved avslutning av prosjektet forutsettes fortsatt ansettelse av videre 
+  ekstern finansiering av stillingen. Den ansatte oppfordres til å ta aktiv del i arbeidet med søknader om 
+  nye prosjektmidler til finansiering av stillingen.`;
     }
 
-    let bodyIntro = "<p>" + educationalCompetenceNeeded + norwegianCompetenceNeeded + externallyFundedText + externallyFoundedResearcherText + "</p>";
+    if (!substituteAdvertised) {
+        substituteAdvertisedText = "Hvis nei: Blir ikke aktuelt med forlengelse (finn formuleringen i eksisterende mal) ";
+    }
+    if (substituteTypeGroupValue === "pending") {
+        substituteText = `Ansettelsesforholdet gjelder vikariat i ledig stilling i påvente av ordinær ansettelsesprosedyre, 
+  jf. statsansatteloven § 9 (1) b.  Ansettelsesforholdet er tidsbegrenset og opphører uten oppsigelse når tiden er ute, 
+  eller når stillingsinnehaver tiltrer stillingen på et tidligere tidspunkt, jf. statsansatteloven § 17 (1).`;
+    }
+    else if (substituteTypeGroupValue === "person") {
+        substituteText = `Ansettelsen skjer i henhold til statsansatteloven § 9 (1) b som vikar for: ${substituteFor}.
+         Ansettelsesforholdet opphører uten skriftlig oppsigelse når tiden er ute, eller når stillingens faste innehaver gjeninntrer i stillingen,
+          jf. statsansattelovens § 17 (1). `;
+    }
+    else if (substituteTypeGroupValue === "many") {
+        substituteText = `Ansettelsen skjer i henhold til statsansatteloven § 9 (1) b i vikariatet som gjelder: ${substituteFor}.
+         Ansettelsesforholdet opphører uten skriftlig oppsigelse når tiden er ute, eller når stillingens faste innehaver gjeninntrer i stillingen,
+          jf. statsansattelovens § 17 (1). `;
+    }
+
+    let bodyIntro = "<p>" + educationalCompetenceNeeded + norwegianCompetenceNeeded + externallyFundedText + externallyFoundedResearcherText + substituteText + "</p>";
 
     return `
     ${bodyIntro}
@@ -69,7 +94,7 @@ export function getArbeidsavtaleBodyNorsk(
             Lønn utbetales den 12. hver måned via bank, med mindre annet er avtalt særskilt. 
             Det trekkes 20% pensjonsinnskudd til medlemskap i Statens pensjonskasse for stillinger med minimum 20 prosent av full stilling. 
             Staten og hovedsammenslutningene har gjennom særavtale fastsatt at arbeidstakere i 100 % stilling skal trekkes kr 400,- i bruttolønn pr år, 
-            som inngår i delfinansiering av opplærings- og utviklingstiltak, 
+            som inngår i delfinansiering av opplærings- og utviklingstiltak, 
         </p>
         <p>
             Reglene i statsansatteloven § 15 om prøvetid gjelder. Prøvetiden er 6 måneder fra tiltredelse.

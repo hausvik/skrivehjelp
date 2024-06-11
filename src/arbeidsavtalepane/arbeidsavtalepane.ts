@@ -7,7 +7,7 @@ import { getArbeidsavtaleBodyEngelsk } from "./htmlBody";
 import { Arbeidsavtaleheader } from "./headerInterface";
 import { readExcel } from "../utils/readExcel";
 import { combineHtmlStrings } from "../utils/combineHTML";
-import { getSelectedRadioButtonValue, uncheckAllRadioButtons } from "../utils/radioButton";
+import * as radioButtonUtils from "../utils/radioButton";
 
 let data: Arbeidsavtaleheader | null = null;
 type PositionCode = {
@@ -26,6 +26,7 @@ export async function initializeArbeidsavtalepane() {
   let positionCodes: Promise<PositionCode[]>;
   // Checkboxes
   let tempEmployee: HTMLInputElement | null = document.getElementById("tempEmployee") as HTMLInputElement;
+  let substituteEmployee: HTMLInputElement | null = document.getElementById("substituteEmployee") as HTMLInputElement;
   let engelsk: HTMLInputElement | null = document.getElementById("engelsk") as HTMLInputElement;
   let mobilityAllowanceBox: HTMLInputElement | null = document.getElementById(
     "mobilityAllowanceBox"
@@ -66,15 +67,22 @@ export async function initializeArbeidsavtalepane() {
   let endDateGroup: HTMLElement | null = document.getElementById("endDateGroup");
   let button: HTMLButtonElement | null = document.getElementById("generateDocument") as HTMLButtonElement;
 
-  //radio buttons
+  //radio buttons and such
   let educationalCompetence: HTMLElement | null = document.getElementById("educationalCompetence") as HTMLElement;
   let norwegianCompetence: HTMLElement | null = document.getElementById("norwegianCompetence") as HTMLElement;
+  let substituteGroup: HTMLElement | null = document.getElementById("substituteGroup") as HTMLElement; // main group for substitute
+  let substituteAdvertised: HTMLInputElement | null = document.getElementById("substituteAdvertised") as HTMLInputElement; // checkbox for substitute
+  let substituteTypeGroup: HTMLElement | null = document.getElementById("substituteTypeGroup") as HTMLElement; // radiobuttongroup for substitute
+  let substituteForGroup: HTMLInputElement | null = document.getElementById("substiuteForGroup") as HTMLInputElement; // input field for substitute
+  let substituteFor: HTMLInputElement | null = document.getElementById("substituteFor") as HTMLInputElement; // textField
 
 
   // Variables for the text choices
   let externallyFoundedResearcher = false as boolean;
   let jobTitle = "" as string;
   let category = "" as string;
+  let substituteTypeGroupValue = "" as string;
+
 
 
   // Adds to the dropdown
@@ -114,7 +122,7 @@ export async function initializeArbeidsavtalepane() {
       educationalCompetence.style.display = displayValue; // Show or hide the educationalCompetence
 
       if (!teachingPosBox.checked) {
-        uncheckAllRadioButtons(educationalCompetence, "educationalCompetence");
+        radioButtonUtils.uncheckAllRadioButtons(educationalCompetence, "educationalCompetence");
       }
       if (teachingPrepDiv) {
         teachingPrepDiv.style.display = displayValue; // Show or hide the tchingPrepBox
@@ -135,12 +143,59 @@ export async function initializeArbeidsavtalepane() {
     });
   }
 
-  // Event listner for the tempEmployee box
+  // Event listener for the tempEmployee box
   if (endDateGroup && tempEmployee) {
     tempEmployee.addEventListener("change", () => {
       endDateGroup.style.display = tempEmployee.checked ? "block" : "none";
+      if (!tempEmployee.checked) {
+        substituteEmployee.checked = false;
+        substituteGroup.style.display = "none";
+        substituteFor.value = "";
+        substituteFor.value = "";
+        substituteForGroup.style.display = "none";
+        substituteAdvertised.checked = false;
+        const radios = substituteTypeGroup.querySelectorAll('input[type="radio"]');
+        radios.forEach((radio: Element) => {
+          (radio as HTMLInputElement).checked = false;
+        });
+
+      }
     });
   }
+
+  if (substituteEmployee) {
+    substituteEmployee.addEventListener("change", () => {
+      if (substituteEmployee.checked) {
+        tempEmployee.checked = true;
+        substituteGroup.style.display = "block";
+      } else {
+        substituteGroup.style.display = "none";
+
+        const radios = substituteTypeGroup.querySelectorAll('input[type="radio"]');
+        radios.forEach((radio: Element) => {
+          (radio as HTMLInputElement).checked = false;
+        });
+        substituteFor.value = "";
+        substituteAdvertised.checked = false;
+      }
+    });
+  }
+
+  if (substituteTypeGroup && substituteForGroup) {
+    substituteTypeGroup.addEventListener("change", () => {
+      substituteTypeGroupValue = radioButtonUtils.getSelectedRadioButtonValue(substituteTypeGroup, "substitute");
+      if (substituteTypeGroupValue === "person" || substituteTypeGroupValue === "many") {
+        substituteForGroup.style.display = "block";
+      } else {
+        substituteForGroup.style.display = "none";
+        substituteFor.value = "";
+        substituteAdvertised.checked = false;
+      }
+    });
+  }
+
+
+
   // Event listeners for the familyAllowanceBox
   if (familyAllowanceBox) {
     familyAllowanceBox.addEventListener("change", () => {
@@ -190,7 +245,7 @@ export async function initializeArbeidsavtalepane() {
           endDate: endDateElement.value,
         };
 
-        if(!tempEmployee.checked && externallyFundedBox.checked && (jobTitle === "Forsker" || jobTitle === "Researcher")){
+        if (!tempEmployee.checked && externallyFundedBox.checked && (jobTitle === "Forsker" || jobTitle === "Researcher")) {
           externallyFoundedResearcher = true;
         }
         let htmlHeaderText: string | null = null;
@@ -204,14 +259,17 @@ export async function initializeArbeidsavtalepane() {
             familyAllowanceBox.checked
           );
           htmlBodyText = getArbeidsavtaleBodyEngelsk(
-            getSelectedRadioButtonValue(educationalCompetence, "educationalCompetence", "no"),
-            getSelectedRadioButtonValue(norwegianCompetence, "norwegianCompetence", "no"),
+            radioButtonUtils.checkSelectedRadioButtonValue(educationalCompetence, "educationalCompetence", "no"),
+            radioButtonUtils.checkSelectedRadioButtonValue(norwegianCompetence, "norwegianCompetence", "no"),
             externallyFundedBox.checked,
             externallyFundedProjectName.value,
             externallyFundedEndDate.value,
             externallyFundedTasks.value,
             externallyFoundedResearcher,
-        );
+            substituteAdvertised.checked,
+            substituteTypeGroupValue,
+            substituteFor.value,
+          );
         } else {
           htmlHeaderText = getArbeidsavtaleHeadingNorsk(
             data,
@@ -220,13 +278,16 @@ export async function initializeArbeidsavtalepane() {
             familyAllowanceBox.checked
           );
           htmlBodyText = getArbeidsavtaleBodyNorsk(
-            getSelectedRadioButtonValue(educationalCompetence, "educationalCompetence", "no"),
-            getSelectedRadioButtonValue(norwegianCompetence, "norwegianCompetence", "no"),
+            radioButtonUtils.checkSelectedRadioButtonValue(educationalCompetence, "educationalCompetence", "no"),
+            radioButtonUtils.checkSelectedRadioButtonValue(norwegianCompetence, "norwegianCompetence", "no"),
             externallyFundedBox.checked,
             externallyFundedProjectName.value,
             externallyFundedEndDate.value,
             externallyFundedTasks.value,
             externallyFoundedResearcher,
+            substituteAdvertised.checked,
+            substituteTypeGroupValue,
+            substituteFor.value,
           );
         }
 
