@@ -1,10 +1,49 @@
+import { ArbeidsavtaleBody } from './bodyInterface';
 
-export function getArbeidsavtaleBodyEngelsk() {
-    return getArbeidsavtaleBodyNorsk();
+
+export function getArbeidsavtaleBodyEngelsk(
+    educationalCompetenceValue: boolean, 
+    norwegianCompetenceParam: boolean, 
+    externallyFunded: boolean, 
+    projectName: string,
+    projectEndDate: string,
+    projectTasks: string,
+
+): string {
+    return getArbeidsavtaleBodyNorsk(educationalCompetenceValue, norwegianCompetenceParam, externallyFunded, projectName, projectEndDate, projectTasks);
 }
 
-export function getArbeidsavtaleBodyNorsk() {
+/**
+ * Generates an HTML string representing the body of an employment contract, in English.
+ * @function
+ * @param {Arbeidsavtale} data - An object representing an employment contract.
+ * @returns {string} An HTML string representing the employment contract body.
+ */
+export function getArbeidsavtaleBodyNorsk(
+    educationalCompetenceParam: boolean, 
+    norwegianCompetenceParam: boolean, 
+    externallyFunded: boolean, 
+    projectName: string,
+    projectEndDate: string,
+    projectTasks: string,
+): string {
+    let educationalCompetenceNeeded = "";
+    let norwegianCompetenceNeeded = "";
+    let externallyFundedText = "";
+    if(educationalCompetenceParam) {
+        educationalCompetenceNeeded = "Det er en forutsetning for ansettelsen at utdanningsfaglig kompetanse oppnås innen to år etter tiltredelsen. "
+    }
+    if(norwegianCompetenceParam) {
+        norwegianCompetenceNeeded = "Det er en forutsetning for ansettelsen at det dokumenteres norskferdigheter på minimum nivå B2 innen tre år etter tiltredelsen. "
+    }
+    if(externallyFunded) {
+        externallyFundedText = "Ansettelsesforholdet er knyttet til eksternt finansiert oppdrag i prosjektet:  " + projectName + ", med antatt avslutning " + projectEndDate + ". Beskrivelse av arbeidstakers oppgaver: " + projectTasks;
+    }
+
+    let bodyIntro = "<p>" + educationalCompetenceNeeded + norwegianCompetenceNeeded + externallyFundedText + "</p>";
+    // Now you can use both educationalCompetenceParam and educationalCompetenceValue in your code
     return `
+    ${bodyIntro}
         <p>
             Arbeidsavtalen inneholder, sammen med eventuell utlysningstekst, 
             ansettelsesvilkårene ved tiltredelsen. Ansettelsen skjer med plikt 

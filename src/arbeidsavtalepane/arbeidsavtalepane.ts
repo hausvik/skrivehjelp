@@ -7,6 +7,7 @@ import { getArbeidsavtaleBodyEngelsk } from "./htmlBody";
 import { Arbeidsavtaleheader } from "./headerInterface";
 import { readExcel } from "../utils/readExcel";
 import { combineHtmlStrings } from "../utils/combineHTML";
+import { getSelectedRadioButtonValue, uncheckAllRadioButtons } from "../utils/radioButton";
 
 let data: Arbeidsavtaleheader | null = null;
 type PositionCode = {
@@ -33,7 +34,12 @@ export async function initializeArbeidsavtalepane() {
   let additionalDutyBox: HTMLInputElement | null = document.getElementById("additionalDuty") as HTMLInputElement;
   let teachingPosBox: HTMLInputElement | null = document.getElementById("teachingPos") as HTMLInputElement;
   let teachingPrepBox: HTMLInputElement | null = document.getElementById("teachingPrep") as HTMLInputElement;
-  let teachingPrepDiv: HTMLElement | null = document.getElementById("teachingPrepDiv");
+  let teachingPrepDiv: HTMLElement | null = document.getElementById("teachingPrepDiv") as HTMLElement;
+  let externallyFundedBox: HTMLInputElement | null = document.getElementById("externallyFunded") as HTMLInputElement;
+  let externallyFundedGroup: HTMLElement | null = document.getElementById("externallyFundedGroup") as HTMLElement;
+  let externallyFundedProjectName: HTMLInputElement | null = document.getElementById("externallyFundedProjectName") as HTMLInputElement;
+  let externallyFundedEndDate: HTMLInputElement | null = document.getElementById("externallyFundedEndDate") as HTMLInputElement;
+  let externallyFundedTasks: HTMLInputElement | null = document.getElementById("externallyFundedTasks") as HTMLInputElement;
 
   //input fields
   let nameElement: HTMLInputElement | null = document.getElementById("name") as HTMLInputElement;
@@ -58,8 +64,13 @@ export async function initializeArbeidsavtalepane() {
   let familyAllowanceGroup: HTMLElement | null = document.getElementById("familyAllowanceGroup");
   let mobilityAllowanceGroup: HTMLElement | null = document.getElementById("mobilityAllowanceGroup");
   let endDateGroup: HTMLElement | null = document.getElementById("endDateGroup");
-
   let button: HTMLButtonElement | null = document.getElementById("generateDocument") as HTMLButtonElement;
+
+  //radio buttons
+  let educationalCompetence: HTMLElement | null = document.getElementById("educationalCompetence") as HTMLElement;
+  let norwegianCompetence: HTMLElement | null = document.getElementById("norwegianCompetence") as HTMLElement;
+  let hasEducationalCompetence = false as boolean;
+  let hasNorwegianCompetence = false as boolean;
 
   // Adds to the dropdown
   positionCodes = addToDropDown();
@@ -82,16 +93,27 @@ export async function initializeArbeidsavtalepane() {
     });
   }
 
+  // Event listner for the externallyFunded box
+  if (externallyFundedBox) {
+    externallyFundedBox.addEventListener("change", () => {
+      if (externallyFundedGroup) {
+        externallyFundedGroup.style.display = externallyFundedBox.checked ? "block" : "none";
+      }
+    });
+  }
 
   // Event listeners for the teachingPosBox
   if (teachingPosBox) {
     teachingPosBox.addEventListener("change", () => {
+      const displayValue = teachingPosBox.checked ? 'block' : 'none';
+      educationalCompetence.style.display = displayValue; // Show or hide the educationalCompetence
+
+      if (!teachingPosBox.checked) {
+        uncheckAllRadioButtons(educationalCompetence, "educationalCompetence");
+      }
       if (teachingPrepDiv) {
-        if (teachingPosBox.checked) {
-          teachingPrepDiv.style.display = 'block'; // Show the teachingPrepBox
-        } else {
-          teachingPrepDiv.style.display = 'none'; // Hide the teachingPrepBox
-        }
+        teachingPrepDiv.style.display = displayValue; // Show or hide the tchingPrepBox
+
       }
     });
   }
@@ -165,6 +187,7 @@ export async function initializeArbeidsavtalepane() {
 
         let htmlHeaderText: string | null = null;
         let htmlBodyText: string | null = null;
+
         if (engelsk.checked) {
           htmlHeaderText = getArbeidsavtaleHeadingEngelsk(
             data,
@@ -172,7 +195,14 @@ export async function initializeArbeidsavtalepane() {
             mobilityAllowanceBox.checked,
             familyAllowanceBox.checked
           );
-          htmlBodyText = getArbeidsavtaleBodyEngelsk();
+          htmlBodyText = getArbeidsavtaleBodyEngelsk(
+            getSelectedRadioButtonValue(educationalCompetence, "educationalCompetence", "no"),
+            getSelectedRadioButtonValue(norwegianCompetence, "norwegianCompetence", "no"),
+            externallyFundedBox.checked,
+            externallyFundedProjectName.value,
+            externallyFundedEndDate.value,
+            externallyFundedTasks.value
+        );
         } else {
           htmlHeaderText = getArbeidsavtaleHeadingNorsk(
             data,
@@ -180,7 +210,13 @@ export async function initializeArbeidsavtalepane() {
             mobilityAllowanceBox.checked,
             familyAllowanceBox.checked
           );
-          htmlBodyText = getArbeidsavtaleBodyNorsk();
+          htmlBodyText = getArbeidsavtaleBodyNorsk(
+            getSelectedRadioButtonValue(educationalCompetence, "educationalCompetence", "no"),
+            getSelectedRadioButtonValue(norwegianCompetence, "norwegianCompetence", "no"),
+            externallyFundedBox.checked,
+            externallyFundedProjectName.value,
+            externallyFundedEndDate.value,
+            externallyFundedTasks.value);
         }
 
         let htmlText = combineHtmlStrings([htmlHeaderText, htmlBodyText]);
