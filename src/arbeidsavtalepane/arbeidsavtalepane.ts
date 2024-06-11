@@ -1,10 +1,10 @@
 /* eslint-disable no-undef */
 import { insertText } from "../taskpane/taskpane";
-import { getArbeidsavtaleHeadingEngelsk } from "./arbeidsavtaleContent";
-import { getArbeidsavtaleHeadingNorsk } from "./arbeidsavtaleContent";
-import { getArbeidsavtaleBodyNorsk } from "./arbeidsavtaleMainText";
-import { getArbeidsavtaleBodyEngelsk } from "./arbeidsavtaleMainText";
-import { Arbeidsavtaleheader } from "./arbeidsavtaleheader";
+import { getArbeidsavtaleHeadingEngelsk } from "./htmlHeader";
+import { getArbeidsavtaleHeadingNorsk } from "./htmlHeader";
+import { getArbeidsavtaleBodyNorsk } from "./htmlBody";
+import { getArbeidsavtaleBodyEngelsk } from "./htmlBody";
+import { Arbeidsavtaleheader } from "./headerInterface";
 import { readExcel } from "../utils/readExcel";
 import { combineHtmlStrings } from "../utils/combineHTML";
 
@@ -63,7 +63,7 @@ export async function initializeArbeidsavtalepane() {
 
   // Adds to the dropdown
   positionCodes = addToDropDown();
-  
+
   // Event listeners for the dropdown
   if (positionCodeSelect) {
     positionCodeSelect.addEventListener("change", async () => {

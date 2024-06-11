@@ -1,4 +1,4 @@
-import { Arbeidsavtaleheader } from "./arbeidsavtaleheader";
+import { Arbeidsavtaleheader } from "./headerInterface";
 
 /**
  * Generates an HTML string representing the header of an employment contract, in English.
