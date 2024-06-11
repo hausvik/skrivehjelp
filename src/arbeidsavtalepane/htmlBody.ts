@@ -2,15 +2,17 @@ import { ArbeidsavtaleBody } from './bodyInterface';
 
 
 export function getArbeidsavtaleBodyEngelsk(
-    educationalCompetenceValue: boolean, 
-    norwegianCompetenceParam: boolean, 
-    externallyFunded: boolean, 
+    educationalCompetenceValue: boolean,
+    norwegianCompetenceParam: boolean,
+    externallyFunded: boolean,
     projectName: string,
     projectEndDate: string,
     projectTasks: string,
+    externallyFoundedResearcher: boolean,
 
 ): string {
-    return getArbeidsavtaleBodyNorsk(educationalCompetenceValue, norwegianCompetenceParam, externallyFunded, projectName, projectEndDate, projectTasks);
+    return getArbeidsavtaleBodyNorsk(educationalCompetenceValue, norwegianCompetenceParam, externallyFunded,
+        projectName, projectEndDate, projectTasks, externallyFoundedResearcher);
 }
 
 /**
@@ -20,28 +22,36 @@ export function getArbeidsavtaleBodyEngelsk(
  * @returns {string} An HTML string representing the employment contract body.
  */
 export function getArbeidsavtaleBodyNorsk(
-    educationalCompetenceParam: boolean, 
-    norwegianCompetenceParam: boolean, 
-    externallyFunded: boolean, 
+    educationalCompetenceParam: boolean,
+    norwegianCompetenceParam: boolean,
+    externallyFunded: boolean,
     projectName: string,
     projectEndDate: string,
     projectTasks: string,
+    externallyFoundedResearcher: boolean,
 ): string {
     let educationalCompetenceNeeded = "";
     let norwegianCompetenceNeeded = "";
     let externallyFundedText = "";
-    if(educationalCompetenceParam) {
+    let externallyFoundedResearcherText = "";
+
+    if (educationalCompetenceParam) {
         educationalCompetenceNeeded = "Det er en forutsetning for ansettelsen at utdanningsfaglig kompetanse oppnås innen to år etter tiltredelsen. "
     }
-    if(norwegianCompetenceParam) {
+    if (norwegianCompetenceParam) {
         norwegianCompetenceNeeded = "Det er en forutsetning for ansettelsen at det dokumenteres norskferdigheter på minimum nivå B2 innen tre år etter tiltredelsen. "
     }
-    if(externallyFunded) {
-        externallyFundedText = "Ansettelsesforholdet er knyttet til eksternt finansiert oppdrag i prosjektet:  " + projectName + ", med antatt avslutning " + projectEndDate + ". Beskrivelse av arbeidstakers oppgaver: " + projectTasks;
+    if (externallyFunded) {
+        externallyFundedText = "Ansettelsesforholdet er knyttet til eksternt finansiert oppdrag i prosjektet:  " + projectName +
+            ", med antatt avslutning " + projectEndDate + ". Beskrivelse av arbeidstakers oppgaver: " + projectTasks;
+    }
+    if (externallyFoundedResearcher) {
+        externallyFoundedResearcherText = "Ved avslutning av prosjektet forutsettes fortsatt ansettelse av videre ekstern finansiering av stillingen. " +
+            "Den ansatte oppfordres til å ta aktiv del i arbeidet med søknader om nye prosjektmidler til finansiering av stillingen.";
     }
 
-    let bodyIntro = "<p>" + educationalCompetenceNeeded + norwegianCompetenceNeeded + externallyFundedText + "</p>";
-    // Now you can use both educationalCompetenceParam and educationalCompetenceValue in your code
+    let bodyIntro = "<p>" + educationalCompetenceNeeded + norwegianCompetenceNeeded + externallyFundedText + externallyFoundedResearcherText + "</p>";
+
     return `
     ${bodyIntro}
         <p>

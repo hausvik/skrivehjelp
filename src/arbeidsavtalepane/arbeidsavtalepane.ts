@@ -69,8 +69,13 @@ export async function initializeArbeidsavtalepane() {
   //radio buttons
   let educationalCompetence: HTMLElement | null = document.getElementById("educationalCompetence") as HTMLElement;
   let norwegianCompetence: HTMLElement | null = document.getElementById("norwegianCompetence") as HTMLElement;
-  let hasEducationalCompetence = false as boolean;
-  let hasNorwegianCompetence = false as boolean;
+
+
+  // Variables for the text choices
+  let externallyFoundedResearcher = false as boolean;
+  let jobTitle = "" as string;
+  let category = "" as string;
+
 
   // Adds to the dropdown
   positionCodes = addToDropDown();
@@ -87,8 +92,8 @@ export async function initializeArbeidsavtalepane() {
       );
 
       if (positionCodeObject) {
-        let jobTitle = engelsk ? positionCodeObject.EngelskStillingsbetegnelse : positionCodeObject.NorskStillingsbetegnelse; // Might be usefill in the document text
-        let category = positionCodeObject.Kategori; //Will be used later, to determin text choices
+        jobTitle = engelsk ? positionCodeObject.EngelskStillingsbetegnelse : positionCodeObject.NorskStillingsbetegnelse; // Might be usefill in the document text
+        category = positionCodeObject.Kategori; //Will be used later, to determin text choices
       }
     });
   }
@@ -185,6 +190,9 @@ export async function initializeArbeidsavtalepane() {
           endDate: endDateElement.value,
         };
 
+        if(!tempEmployee.checked && externallyFundedBox.checked && (jobTitle === "Forsker" || jobTitle === "Researcher")){
+          externallyFoundedResearcher = true;
+        }
         let htmlHeaderText: string | null = null;
         let htmlBodyText: string | null = null;
 
@@ -201,7 +209,8 @@ export async function initializeArbeidsavtalepane() {
             externallyFundedBox.checked,
             externallyFundedProjectName.value,
             externallyFundedEndDate.value,
-            externallyFundedTasks.value
+            externallyFundedTasks.value,
+            externallyFoundedResearcher,
         );
         } else {
           htmlHeaderText = getArbeidsavtaleHeadingNorsk(
@@ -216,7 +225,9 @@ export async function initializeArbeidsavtalepane() {
             externallyFundedBox.checked,
             externallyFundedProjectName.value,
             externallyFundedEndDate.value,
-            externallyFundedTasks.value);
+            externallyFundedTasks.value,
+            externallyFoundedResearcher,
+          );
         }
 
         let htmlText = combineHtmlStrings([htmlHeaderText, htmlBodyText]);
