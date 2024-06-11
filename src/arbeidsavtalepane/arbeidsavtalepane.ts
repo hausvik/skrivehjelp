@@ -18,10 +18,13 @@ type PositionCode = {
   Kategori: string;
 };
 
+/**
+ * Initializes the arbeidsavtalepane by adding event listeners to the input fields and checkboxes.
+ */
 export async function initializeArbeidsavtalepane() {
   let positionCodes: Promise<PositionCode[]>;
   // Checkboxes
-  let fastansatt: HTMLInputElement | null = document.getElementById("fastansatt") as HTMLInputElement;
+  let tempEmployee: HTMLInputElement | null = document.getElementById("tempEmployee") as HTMLInputElement;
   let engelsk: HTMLInputElement | null = document.getElementById("engelsk") as HTMLInputElement;
   let mobilityAllowanceBox: HTMLInputElement | null = document.getElementById(
     "mobilityAllowanceBox"
@@ -31,7 +34,7 @@ export async function initializeArbeidsavtalepane() {
   let teachingPosBox: HTMLInputElement | null = document.getElementById("teachingPos") as HTMLInputElement;
   let teachingPrepBox: HTMLInputElement | null = document.getElementById("teachingPrep") as HTMLInputElement;
   let teachingPrepDiv: HTMLElement | null = document.getElementById("teachingPrepDiv");
-  
+
   //input fields
   let nameElement: HTMLInputElement | null = document.getElementById("name") as HTMLInputElement;
   let personalIdElement: HTMLInputElement | null = document.getElementById("personalId") as HTMLInputElement;
@@ -60,6 +63,7 @@ export async function initializeArbeidsavtalepane() {
 
   // Adds to the dropdown
   positionCodes = addToDropDown();
+  
   // Event listeners for the dropdown
   if (positionCodeSelect) {
     positionCodeSelect.addEventListener("change", async () => {
@@ -78,9 +82,9 @@ export async function initializeArbeidsavtalepane() {
     });
   }
 
-  
-// Event listeners for the teachingPosBox
-if(teachingPosBox){
+
+  // Event listeners for the teachingPosBox
+  if (teachingPosBox) {
     teachingPosBox.addEventListener("change", () => {
       if (teachingPrepDiv) {
         if (teachingPosBox.checked) {
@@ -90,27 +94,27 @@ if(teachingPosBox){
         }
       }
     });
-}
+  }
 
-// Event listeners for the teachingPrepBox
-if(teachingPrepBox){
-  teachingPrepBox.addEventListener("change", () => {
-    if(teachingPrepBox.checked){
-      preparationHoursDiv.style.display = 'block';
-    }
-      else{
+  // Event listeners for the teachingPrepBox
+  if (teachingPrepBox) {
+    teachingPrepBox.addEventListener("change", () => {
+      if (teachingPrepBox.checked) {
+        preparationHoursDiv.style.display = 'block';
+      }
+      else {
         preparationHoursDiv.style.display = 'none';
       }
     });
   }
 
-// Event listner for the fastansatt box
-  if (endDateGroup && fastansatt) {
-    fastansatt.addEventListener("change", () => {
-      endDateGroup.style.display = fastansatt.checked ? "none" : "block";
+  // Event listner for the tempEmployee box
+  if (endDateGroup && tempEmployee) {
+    tempEmployee.addEventListener("change", () => {
+      endDateGroup.style.display = tempEmployee.checked ? "block" : "none";
     });
   }
-// Event listeners for the familyAllowanceBox
+  // Event listeners for the familyAllowanceBox
   if (familyAllowanceBox) {
     familyAllowanceBox.addEventListener("change", () => {
       if (familyAllowanceGroup) {
@@ -118,7 +122,7 @@ if(teachingPrepBox){
       }
     });
   }
-// Event listeners for the mobilityAllowanceBox
+  // Event listeners for the mobilityAllowanceBox
   if (mobilityAllowanceBox) {
     mobilityAllowanceBox.addEventListener("change", () => {
       if (mobilityAllowanceGroup) {
@@ -164,7 +168,7 @@ if(teachingPrepBox){
         if (engelsk.checked) {
           htmlHeaderText = getArbeidsavtaleHeadingEngelsk(
             data,
-            fastansatt.checked,
+            tempEmployee.checked,
             mobilityAllowanceBox.checked,
             familyAllowanceBox.checked
           );
@@ -172,7 +176,7 @@ if(teachingPrepBox){
         } else {
           htmlHeaderText = getArbeidsavtaleHeadingNorsk(
             data,
-            fastansatt.checked,
+            tempEmployee.checked,
             mobilityAllowanceBox.checked,
             familyAllowanceBox.checked
           );
@@ -180,14 +184,8 @@ if(teachingPrepBox){
         }
 
         let htmlText = combineHtmlStrings([htmlHeaderText, htmlBodyText]);
-        
-        insertText(htmlText); 
 
-        let header = 'HEADER TEXT'
-        let body = `...`; // Your body text here
-        let combined = combineHtmlStrings([header, body]);
-        //insertText(combined); 
-
+        insertText(htmlText);
       }
     });
   }

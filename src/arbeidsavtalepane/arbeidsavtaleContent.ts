@@ -8,7 +8,7 @@ import { Arbeidsavtaleheader } from "./arbeidsavtaleheader";
  */
 export function getArbeidsavtaleHeadingEngelsk(
         data: Arbeidsavtaleheader,
-        fastAnsatt: boolean,
+        tempEmployee: boolean,
         mobility: boolean,
         family: boolean
       ): string {
@@ -116,9 +116,9 @@ export function getArbeidsavtaleHeadingEngelsk(
  */
 export function getArbeidsavtaleHeadingNorsk(
   data: Arbeidsavtaleheader,
-  fastAnsatt: boolean,
+  tempEmployee: boolean,
   mobility: boolean,
   family: boolean
 ): string {
-  return getArbeidsavtaleHeadingEngelsk(data, fastAnsatt, mobility, family);
+  return getArbeidsavtaleHeadingEngelsk(data, tempEmployee, mobility, family);
 }
