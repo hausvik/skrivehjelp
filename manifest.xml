@@ -4,7 +4,7 @@
   <Version>1.0.0.0</Version>
   <ProviderName>Contoso</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
-  <DisplayName DefaultValue="My Template Test"/>
+  <DisplayName DefaultValue="UiB Standardtekster"/>
   <Description DefaultValue="A template to get started."/>
   <IconUrl DefaultValue="https://localhost:3000/assets/icon-32.png"/>
   <HighResolutionIconUrl DefaultValue="https://localhost:3000/assets/icon-64.png"/>
@@ -74,7 +74,7 @@
       <bt:ShortStrings>
         <bt:String id="GetStarted.Title" DefaultValue="Kom i gang med standardtekster!"/>
         <bt:String id="CommandsGroup.Label" DefaultValue="UiB brevtekster"/>
-        <bt:String id="TaskpaneButton.Label" DefaultValue="Demotekster"/>
+        <bt:String id="TaskpaneButton.Label" DefaultValue="UiB Standardtekster"/>
       </bt:ShortStrings>
       <bt:LongStrings>
         <bt:String id="GetStarted.Description" DefaultValue="Ditt eksempel på tilleggsprogram ble lastet inn vellykket. Gå til HJEM-fanen og klikk på 'Start appen'-knappen for å komme i gang."/>

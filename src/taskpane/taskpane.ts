@@ -1,4 +1,4 @@
-import { initializeDemopane } from '../demopane/demopane';
+import { initializeArbeidsavtalepane } from '../arbeidsavtalepane/arbeidsavtalepane';
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.
  * See LICENSE in the project root for license information.
@@ -22,13 +22,13 @@ export async function testMal() {
   // Get a reference to the task pane's body
   const taskPaneBody = document.getElementById("app-body");
 
-  // Load the content of demopane.html into the taskpane
-  fetch('https://localhost:3000/demopane.html')
+  // Load the content of arbeidsavtalepane.html into the taskpane
+  fetch('https://localhost:3000/arbeidsavtalepane.html')
     .then(response => response.text())
     .then(data => {
       if (taskPaneBody) {
         taskPaneBody.innerHTML = data;
-        initializeDemopane();
+        initializeArbeidsavtalepane();
       }
     });
 }

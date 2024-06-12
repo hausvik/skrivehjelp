@@ -1,4 +1,11 @@
 {
+  "include": [
+    "**/*",
+    "src/arbeidsavtalepane/arbeidsavtalepane.ts",
+    "src/utils/readExcel.ts",
+    "src/utils/combineHTML.ts",
+    "src/utils/radioButton.ts",
+  ],
   "compilerOptions": {
     "strict": true,
     "forceConsistentCasingInFileNames": true,
