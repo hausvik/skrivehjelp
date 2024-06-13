@@ -38,9 +38,15 @@ export async function initializeArbeidsavtalepane() {
   let teachingPrepDiv: HTMLElement | null = document.getElementById("teachingPrepDiv") as HTMLElement;
   let externallyFundedBox: HTMLInputElement | null = document.getElementById("externallyFunded") as HTMLInputElement;
   let externallyFundedGroup: HTMLElement | null = document.getElementById("externallyFundedGroup") as HTMLElement;
-  let externallyFundedProjectName: HTMLInputElement | null = document.getElementById("externallyFundedProjectName") as HTMLInputElement;
-  let externallyFundedEndDate: HTMLInputElement | null = document.getElementById("externallyFundedEndDate") as HTMLInputElement;
-  let externallyFundedTasks: HTMLInputElement | null = document.getElementById("externallyFundedTasks") as HTMLInputElement;
+  let externallyFundedProjectName: HTMLInputElement | null = document.getElementById(
+    "externallyFundedProjectName"
+  ) as HTMLInputElement;
+  let externallyFundedEndDate: HTMLInputElement | null = document.getElementById(
+    "externallyFundedEndDate"
+  ) as HTMLInputElement;
+  let externallyFundedTasks: HTMLInputElement | null = document.getElementById(
+    "externallyFundedTasks"
+  ) as HTMLInputElement;
 
   //input fields
   let nameElement: HTMLInputElement | null = document.getElementById("name") as HTMLInputElement;
@@ -71,19 +77,18 @@ export async function initializeArbeidsavtalepane() {
   let educationalCompetence: HTMLElement | null = document.getElementById("educationalCompetence") as HTMLElement;
   let norwegianCompetence: HTMLElement | null = document.getElementById("norwegianCompetence") as HTMLElement;
   let substituteGroup: HTMLElement | null = document.getElementById("substituteGroup") as HTMLElement; // main group for substitute
-  let substituteAdvertised: HTMLInputElement | null = document.getElementById("substituteAdvertised") as HTMLInputElement; // checkbox for substitute
+  let substituteAdvertised: HTMLInputElement | null = document.getElementById(
+    "substituteAdvertised"
+  ) as HTMLInputElement; // checkbox for substitute
   let substituteTypeGroup: HTMLElement | null = document.getElementById("substituteTypeGroup") as HTMLElement; // radiobuttongroup for substitute
   let substituteForGroup: HTMLInputElement | null = document.getElementById("substiuteForGroup") as HTMLInputElement; // input field for substitute
   let substituteFor: HTMLInputElement | null = document.getElementById("substituteFor") as HTMLInputElement; // textField
-
 
   // Variables for the text choices
   let externallyFoundedResearcher = false as boolean;
   let jobTitle = "" as string;
   let category = "" as string;
   let substituteTypeGroupValue = "" as string;
-
-
 
   // Adds to the dropdown
   positionCodes = addToDropDown();
@@ -100,7 +105,9 @@ export async function initializeArbeidsavtalepane() {
       );
 
       if (positionCodeObject) {
-        jobTitle = engelsk ? positionCodeObject.EngelskStillingsbetegnelse : positionCodeObject.NorskStillingsbetegnelse; // Might be usefill in the document text
+        jobTitle = engelsk
+          ? positionCodeObject.EngelskStillingsbetegnelse
+          : positionCodeObject.NorskStillingsbetegnelse; // Might be usefill in the document text
         category = positionCodeObject.Kategori; //Will be used later, to determin text choices
       }
     });
@@ -118,7 +125,7 @@ export async function initializeArbeidsavtalepane() {
   // Event listeners for the teachingPosBox
   if (teachingPosBox) {
     teachingPosBox.addEventListener("change", () => {
-      const displayValue = teachingPosBox.checked ? 'block' : 'none';
+      const displayValue = teachingPosBox.checked ? "block" : "none";
       educationalCompetence.style.display = displayValue; // Show or hide the educationalCompetence
 
       if (!teachingPosBox.checked) {
@@ -126,7 +133,6 @@ export async function initializeArbeidsavtalepane() {
       }
       if (teachingPrepDiv) {
         teachingPrepDiv.style.display = displayValue; // Show or hide the tchingPrepBox
-
       }
     });
   }
@@ -135,10 +141,9 @@ export async function initializeArbeidsavtalepane() {
   if (teachingPrepBox) {
     teachingPrepBox.addEventListener("change", () => {
       if (teachingPrepBox.checked) {
-        preparationHoursDiv.style.display = 'block';
-      }
-      else {
-        preparationHoursDiv.style.display = 'none';
+        preparationHoursDiv.style.display = "block";
+      } else {
+        preparationHoursDiv.style.display = "none";
       }
     });
   }
@@ -158,7 +163,6 @@ export async function initializeArbeidsavtalepane() {
         radios.forEach((radio: Element) => {
           (radio as HTMLInputElement).checked = false;
         });
-
       }
     });
   }
@@ -193,8 +197,6 @@ export async function initializeArbeidsavtalepane() {
       }
     });
   }
-
-
 
   // Event listeners for the familyAllowanceBox
   if (familyAllowanceBox) {
@@ -245,7 +247,11 @@ export async function initializeArbeidsavtalepane() {
           endDate: endDateElement.value,
         };
 
-        if (!tempEmployee.checked && externallyFundedBox.checked && (jobTitle === "Forsker" || jobTitle === "Researcher")) {
+        if (
+          !tempEmployee.checked &&
+          externallyFundedBox.checked &&
+          (jobTitle === "Forsker" || jobTitle === "Researcher")
+        ) {
           externallyFoundedResearcher = true;
         }
         let htmlHeaderText: string | null = null;
@@ -268,7 +274,7 @@ export async function initializeArbeidsavtalepane() {
             externallyFoundedResearcher,
             substituteAdvertised.checked,
             substituteTypeGroupValue,
-            substituteFor.value,
+            substituteFor.value
           );
         } else {
           htmlHeaderText = getArbeidsavtaleHeadingNorsk(
@@ -287,7 +293,7 @@ export async function initializeArbeidsavtalepane() {
             externallyFoundedResearcher,
             substituteAdvertised.checked,
             substituteTypeGroupValue,
-            substituteFor.value,
+            substituteFor.value
           );
         }
 
