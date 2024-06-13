@@ -1,18 +1,27 @@
 export function getArbeidsavtaleBodyEngelsk(
-    educationalCompetenceValue: boolean,
-    norwegianCompetenceParam: boolean,
-    externallyFunded: boolean,
-    projectName: string,
-    projectEndDate: string,
-    projectTasks: string,
-    externallyFoundedResearcher: boolean,
-    substituteAdvertised : boolean,
-    substituteTypeGroupValue: string,
-    substituteFor: string,
-
+  educationalCompetenceValue: boolean,
+  norwegianCompetenceParam: boolean,
+  externallyFunded: boolean,
+  projectName: string,
+  projectEndDate: string,
+  projectTasks: string,
+  externallyFoundedResearcher: boolean,
+  substituteAdvertised: boolean,
+  substituteTypeGroupValue: string,
+  substituteFor: string
 ): string {
-    return getArbeidsavtaleBodyNorsk(educationalCompetenceValue, norwegianCompetenceParam, externallyFunded,
-        projectName, projectEndDate, projectTasks, externallyFoundedResearcher, substituteAdvertised, substituteTypeGroupValue, substituteFor);
+  return getArbeidsavtaleBodyNorsk(
+    educationalCompetenceValue,
+    norwegianCompetenceParam,
+    externallyFunded,
+    projectName,
+    projectEndDate,
+    projectTasks,
+    externallyFoundedResearcher,
+    substituteAdvertised,
+    substituteTypeGroupValue,
+    substituteFor
+  );
 }
 
 /**
@@ -22,62 +31,76 @@ export function getArbeidsavtaleBodyEngelsk(
  * @returns {string} An HTML string representing the employment contract body.
  */
 export function getArbeidsavtaleBodyNorsk(
-    educationalCompetenceParam: boolean,
-    norwegianCompetenceParam: boolean,
-    externallyFunded: boolean,
-    projectName: string,
-    projectEndDate: string,
-    projectTasks: string,
-    externallyFoundedResearcher: boolean,
-    substituteAdvertised : boolean,
-    substituteTypeGroupValue: string,
-    substituteFor: string,
+  educationalCompetenceParam: boolean,
+  norwegianCompetenceParam: boolean,
+  externallyFunded: boolean,
+  projectName: string,
+  projectEndDate: string,
+  projectTasks: string,
+  externallyFoundedResearcher: boolean,
+  substituteAdvertised: boolean,
+  substituteTypeGroupValue: string,
+  substituteFor: string
 ): string {
-    let educationalCompetenceNeeded = "";
-    let norwegianCompetenceNeeded = "";
-    let externallyFundedText = "";
-    let externallyFoundedResearcherText = "";
-    let substituteAdvertisedText = "";
-    let substituteText = "";
+  let educationalCompetenceNeeded = "";
+  let norwegianCompetenceNeeded = "";
+  let externallyFundedText = "";
+  let externallyFoundedResearcherText = "";
+  let substituteNotAdvertisedText = "";
+  let substituteText = "";
 
-    if (educationalCompetenceParam) {
-        educationalCompetenceNeeded = "Det er en forutsetning for ansettelsen at utdanningsfaglig kompetanse oppnås innen to år etter tiltredelsen. "
-    }
-    if (norwegianCompetenceParam) {
-        norwegianCompetenceNeeded = "Det er en forutsetning for ansettelsen at det dokumenteres norskferdigheter på minimum nivå B2 innen tre år etter tiltredelsen. "
-    }
-    if (externallyFunded) {
-        externallyFundedText = "Ansettelsesforholdet er knyttet til eksternt finansiert oppdrag i prosjektet:  " + projectName +
-            ", med antatt avslutning " + projectEndDate + ". Beskrivelse av arbeidstakers oppgaver: " + projectTasks;
-    }
-    if (externallyFoundedResearcher) {
-        externallyFoundedResearcherText = `Ved avslutning av prosjektet forutsettes fortsatt ansettelse av videre 
+  if (educationalCompetenceParam) {
+    educationalCompetenceNeeded =
+      "Det er en forutsetning for ansettelsen at utdanningsfaglig kompetanse oppnås innen to år etter tiltredelsen. ";
+  }
+  if (norwegianCompetenceParam) {
+    norwegianCompetenceNeeded =
+      "Det er en forutsetning for ansettelsen at det dokumenteres norskferdigheter på minimum nivå B2 innen tre år etter tiltredelsen. ";
+  }
+  if (externallyFunded) {
+    externallyFundedText =
+      "Ansettelsesforholdet er knyttet til eksternt finansiert oppdrag i prosjektet:  " +
+      projectName +
+      ", med antatt avslutning " +
+      projectEndDate +
+      ". Beskrivelse av arbeidstakers oppgaver: " +
+      projectTasks;
+  }
+  if (externallyFoundedResearcher) {
+    externallyFoundedResearcherText = `Ved avslutning av prosjektet forutsettes fortsatt ansettelse av videre 
   ekstern finansiering av stillingen. Den ansatte oppfordres til å ta aktiv del i arbeidet med søknader om 
   nye prosjektmidler til finansiering av stillingen.`;
-    }
+  }
 
-    if (!substituteAdvertised) {
-        substituteAdvertisedText = "Hvis nei: Blir ikke aktuelt med forlengelse (finn formuleringen i eksisterende mal) ";
-    }
-    if (substituteTypeGroupValue === "pending") {
-        substituteText = `Ansettelsesforholdet gjelder vikariat i ledig stilling i påvente av ordinær ansettelsesprosedyre, 
+  if (!substituteAdvertised) {
+    substituteNotAdvertisedText =
+      "Hvis nei: Blir ikke aktuelt med forlengelse (finn formuleringen i eksisterende mal) ";
+  }
+  if (substituteTypeGroupValue === "pending") {
+    substituteText = `Ansettelsesforholdet gjelder vikariat i ledig stilling i påvente av ordinær ansettelsesprosedyre, 
   jf. statsansatteloven § 9 (1) b.  Ansettelsesforholdet er tidsbegrenset og opphører uten oppsigelse når tiden er ute, 
   eller når stillingsinnehaver tiltrer stillingen på et tidligere tidspunkt, jf. statsansatteloven § 17 (1).`;
-    }
-    else if (substituteTypeGroupValue === "person") {
-        substituteText = `Ansettelsen skjer i henhold til statsansatteloven § 9 (1) b som vikar for: ${substituteFor}.
+  } else if (substituteTypeGroupValue === "person") {
+    substituteText = `Ansettelsen skjer i henhold til statsansatteloven § 9 (1) b som vikar for: ${substituteFor}.
          Ansettelsesforholdet opphører uten skriftlig oppsigelse når tiden er ute, eller når stillingens faste innehaver gjeninntrer i stillingen,
           jf. statsansattelovens § 17 (1). `;
-    }
-    else if (substituteTypeGroupValue === "many") {
-        substituteText = `Ansettelsen skjer i henhold til statsansatteloven § 9 (1) b i vikariatet som gjelder: ${substituteFor}.
+  } else if (substituteTypeGroupValue === "many") {
+    substituteText = `Ansettelsen skjer i henhold til statsansatteloven § 9 (1) b i vikariatet som gjelder: ${substituteFor}.
          Ansettelsesforholdet opphører uten skriftlig oppsigelse når tiden er ute, eller når stillingens faste innehaver gjeninntrer i stillingen,
           jf. statsansattelovens § 17 (1). `;
-    }
+  }
 
-    let bodyIntro = "<p>" + educationalCompetenceNeeded + norwegianCompetenceNeeded + externallyFundedText + externallyFoundedResearcherText + substituteText + "</p>";
+  let bodyIntro =
+    "<p>" +
+    educationalCompetenceNeeded +
+    norwegianCompetenceNeeded +
+    externallyFundedText +
+    externallyFoundedResearcherText +
+    substituteNotAdvertisedText +
+    substituteText +
+    "</p>";
 
-    return `
+  return `
     ${bodyIntro}
         <p>
             Arbeidsavtalen inneholder, sammen med eventuell utlysningstekst, 
