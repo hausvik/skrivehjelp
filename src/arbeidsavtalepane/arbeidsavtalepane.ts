@@ -5,7 +5,7 @@ import { getArbeidsavtaleHeadingNorsk } from "./htmlHeader";
 import { getArbeidsavtaleBodyNorsk } from "./htmlBody";
 import { getArbeidsavtaleBodyEngelsk } from "./htmlBody";
 import { Arbeidsavtaleheader } from "./headerInterface";
-import { readExcel } from "../utils/readExcel";
+import { addToDropDown } from "../utils/readExcel";
 import { combineHtmlStrings } from "../utils/combineHTML";
 import * as radioButtonUtils from "../utils/radioButton";
 
@@ -91,7 +91,8 @@ export async function initializeArbeidsavtalepane() {
   let substituteTypeGroupValue = "" as string;
 
   // Adds to the dropdown
-  positionCodes = addToDropDown();
+  // Adds to the dropdown
+  positionCodes = addToDropDown('assets\\stillingskoder.xlsx', 'positionCode')
 
   // Event listeners for the dropdown
   if (positionCodeSelect) {
@@ -305,29 +306,3 @@ export async function initializeArbeidsavtalepane() {
   }
 }
 
-/**
- * Reads the position codes from an Excel file and adds them to the position code dropdown.
- * @returns {Promise<PositionCode[]>} - A promise that resolves to an array of position codes.
- */
-async function addToDropDown(): Promise<PositionCode[]> {
-  let positionCodes: PositionCode[] = await readExcel("assets/stillingskoder.xlsx");
-
-  let positionCodeSelect: HTMLSelectElement | null = document.getElementById("positionCode") as HTMLSelectElement;
-
-  // Populate the select element with the position codes
-  positionCodes.forEach((positionCode: PositionCode, index: number) => {
-    // Ignore the first element
-    if (index === 0) return;
-    // Create a new option element
-    let option = document.createElement("option");
-
-    // Set the value and text of the option element
-    option.value = positionCode.Norsk;
-    option.text = positionCode.Norsk;
-
-    // Add the option element to the select element
-    positionCodeSelect.add(option);
-  });
-
-  return positionCodes;
-}
