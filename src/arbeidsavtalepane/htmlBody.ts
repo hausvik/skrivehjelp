@@ -74,7 +74,8 @@ export function getArbeidsavtaleBodyNorsk(
 
   if (!substituteAdvertised) {
     substituteNotAdvertisedText =
-      "Hvis nei: Blir ikke aktuelt med forlengelse (finn formuleringen i eksisterende mal) ";
+      `Ansettelsen er foretatt uten utlysing og er tidsbegrenset til dato for siste arbeidsdag. 
+      Dersom det etter ansettelse viser seg at det er behov for vikar ut over 6 måneder, tas det forbehold om at stillingen vil bli lyst ut.`;
   }
   if (substituteTypeGroupValue === "pending") {
     substituteText = `Ansettelsesforholdet gjelder vikariat i ledig stilling i påvente av ordinær ansettelsesprosedyre, 
