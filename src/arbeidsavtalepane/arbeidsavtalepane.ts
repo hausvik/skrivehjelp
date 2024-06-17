@@ -25,6 +25,7 @@ type PositionCode = {
 export async function initializeArbeidsavtalepane() {
   let positionCodes: PositionCode[];
   // Checkboxes
+  let termCheckBox: HTMLInputElement | null = document.getElementById("termCheckBox") as HTMLInputElement;
   let tempEmployee: HTMLInputElement | null = document.getElementById("tempEmployee") as HTMLInputElement;
   let substituteEmployee: HTMLInputElement | null = document.getElementById("substituteEmployee") as HTMLInputElement;
   let engelsk: HTMLInputElement | null = document.getElementById("engelsk") as HTMLInputElement;
@@ -50,6 +51,8 @@ export async function initializeArbeidsavtalepane() {
     "externallyFundedTasks"
   ) as HTMLInputElement;
 
+  //termcheckboxGroup
+  let termOptionsGroup: HTMLElement | null = document.getElementById("termOptionsGroup") as HTMLElement;
   //input fields
   let nameElement: HTMLInputElement | null = document.getElementById("name") as HTMLInputElement;
   let personalIdElement: HTMLInputElement | null = document.getElementById("personalId") as HTMLInputElement;
@@ -149,12 +152,28 @@ export async function initializeArbeidsavtalepane() {
     });
   }
 
-  //Event listner for additionalDutyBox
-  if (additionalDutyBox) {
-    additionalDutyBox.addEventListener("change", () => {
-      additionalDutyGroup.style.display = additionalDutyBox.checked ? "block" : "none";
-    });
-  }
+// termCheckBox event listener
+if(termCheckBox) {
+  termCheckBox.addEventListener("change", () => {
+    if (termCheckBox.checked) {
+      termOptionsGroup.style.display = "block";
+    } else {
+      termOptionsGroup.style.display = "none";
+      radioButtonUtils.uncheckAllRadioButtons(termOptionsGroup, "termType");
+      additionalDutyGroup.style.display = "none";
+    }
+  });
+}
+
+// Event listener for termOptionsGroup
+if (termOptionsGroup) {
+  termOptionsGroup.addEventListener("change", () => {
+    radioButtonUtils.checkSelectedRadioButtonValue(termOptionsGroup, "termType", "ekstraverv")? 
+      additionalDutyGroup.style.display = "block":
+      additionalDutyGroup.style.display = "none";
+    }
+  );
+}
 
   // Event listener for the tempEmployee box
   if (endDateGroup && tempEmployee) {

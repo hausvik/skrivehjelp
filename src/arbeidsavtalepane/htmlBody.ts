@@ -81,7 +81,7 @@ export function getArbeidsavtaleBodyNorsk(
 
   if (additionalDuty != null) {
     additionalDutyText = `Ekstraervervet kommer i tillegg til hovedstilling ved: ${additionalDuty}. 
-    Ansettelsen er på åremål, jf. uhl. § 7-7. Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp, jf. statsansatteloven § 17 (2).`;
+    Ansettelsen er på åremål, jf. uhl. § 7-7. Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp, jf. statsansatteloven § 17 (2). `;
   }
   if (educationalCompetenceParam) {
     educationalCompetenceNeeded =
@@ -93,7 +93,7 @@ export function getArbeidsavtaleBodyNorsk(
   }
   if (externallyFunded) {
 externallyFundedText = `Ansettelsesforholdet er knyttet til eksternt finansiert oppdrag i prosjektet:  ${projectName},
- med antatt avslutning ${projectEndDate}. Beskrivelse av arbeidstakers oppgaver: ${projectTasks}`;
+ med antatt avslutning ${projectEndDate}. Beskrivelse av arbeidstakers oppgaver: ${projectTasks}. `;
   }
   if (externallyFoundedResearcher) {
     externallyFoundedResearcherText = `Ved avslutning av prosjektet forutsettes fortsatt ansettelse av videre 
