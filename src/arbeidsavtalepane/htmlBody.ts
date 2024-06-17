@@ -1,4 +1,8 @@
 export function getArbeidsavtaleBodyEngelsk(
+  fastAnsatt: boolean,
+  vikar: boolean,
+  underviser: boolean,
+  jobTitle: string,
   educationalCompetenceValue: boolean,
   norwegianCompetenceParam: boolean,
   externallyFunded: boolean,
@@ -8,9 +12,14 @@ export function getArbeidsavtaleBodyEngelsk(
   externallyFoundedResearcher: boolean,
   substituteAdvertised: boolean,
   substituteTypeGroupValue: string,
-  substituteFor: string
+  substituteFor: string,
+  workDescription: string
 ): string {
   return getArbeidsavtaleBodyNorsk(
+    fastAnsatt,
+    vikar,
+    underviser,
+    jobTitle,
     educationalCompetenceValue,
     norwegianCompetenceParam,
     externallyFunded,
@@ -20,7 +29,8 @@ export function getArbeidsavtaleBodyEngelsk(
     externallyFoundedResearcher,
     substituteAdvertised,
     substituteTypeGroupValue,
-    substituteFor
+    substituteFor,
+    workDescription
   );
 }
 
@@ -31,6 +41,10 @@ export function getArbeidsavtaleBodyEngelsk(
  * @returns {string} An HTML string representing the employment contract body.
  */
 export function getArbeidsavtaleBodyNorsk(
+  midlertidigAnsatt: boolean,
+  vikar: boolean,
+  underviser: boolean,
+  jobTitle: string,
   educationalCompetenceParam: boolean,
   norwegianCompetenceParam: boolean,
   externallyFunded: boolean,
@@ -40,7 +54,8 @@ export function getArbeidsavtaleBodyNorsk(
   externallyFoundedResearcher: boolean,
   substituteAdvertised: boolean,
   substituteTypeGroupValue: string,
-  substituteFor: string
+  substituteFor: string,
+  workDescription: string
 ): string {
   let educationalCompetenceNeeded = "";
   let norwegianCompetenceNeeded = "";
@@ -48,6 +63,17 @@ export function getArbeidsavtaleBodyNorsk(
   let externallyFoundedResearcherText = "";
   let substituteNotAdvertisedText = "";
   let substituteText = "";
+  let tempEmployeeText = "";
+
+
+  if (midlertidigAnsatt && !underviser) {
+    tempEmployeeText = `Arbeidet som skal utføres er av midlertidig karakter, jf. statsansatteloven § 9 (1) a.  
+    Beskrivelse av arbeidet: ${workDescription}. Ansettelsesforholdet opphører ved det avtalte tidsrommets utløp iht. statsansatteloven § 17 (1). `;
+  }
+  else if (midlertidigAnsatt && underviser) {
+    tempEmployeeText = `Ansettelsen er midlertidig for å dekke undervisningsbehov i den utlyste stillingen som ${jobTitle} i henhold til. til uhl. § 7-3.  
+    Ansettelsesforholdet opphører uten oppsigelse når ansettelsesperioden er utløpt.  `;
+  }
 
   if (educationalCompetenceParam) {
     educationalCompetenceNeeded =
@@ -72,20 +98,20 @@ export function getArbeidsavtaleBodyNorsk(
   nye prosjektmidler til finansiering av stillingen.`;
   }
 
-  if (!substituteAdvertised) {
+  if (!substituteAdvertised && vikar) {
     substituteNotAdvertisedText =
       `Ansettelsen er foretatt uten utlysing og er tidsbegrenset til dato for siste arbeidsdag. 
       Dersom det etter ansettelse viser seg at det er behov for vikar ut over 6 måneder, tas det forbehold om at stillingen vil bli lyst ut.`;
   }
-  if (substituteTypeGroupValue === "pending") {
+  if (substituteTypeGroupValue === "pending" && vikar) {
     substituteText = `Ansettelsesforholdet gjelder vikariat i ledig stilling i påvente av ordinær ansettelsesprosedyre, 
   jf. statsansatteloven § 9 (1) b.  Ansettelsesforholdet er tidsbegrenset og opphører uten oppsigelse når tiden er ute, 
   eller når stillingsinnehaver tiltrer stillingen på et tidligere tidspunkt, jf. statsansatteloven § 17 (1).`;
-  } else if (substituteTypeGroupValue === "person") {
+  } else if (substituteTypeGroupValue === "person" && vikar) {
     substituteText = `Ansettelsen skjer i henhold til statsansatteloven § 9 (1) b som vikar for: ${substituteFor}.
          Ansettelsesforholdet opphører uten skriftlig oppsigelse når tiden er ute, eller når stillingens faste innehaver gjeninntrer i stillingen,
           jf. statsansattelovens § 17 (1). `;
-  } else if (substituteTypeGroupValue === "many") {
+  } else if (substituteTypeGroupValue === "many" && vikar) {
     substituteText = `Ansettelsen skjer i henhold til statsansatteloven § 9 (1) b i vikariatet som gjelder: ${substituteFor}.
          Ansettelsesforholdet opphører uten skriftlig oppsigelse når tiden er ute, eller når stillingens faste innehaver gjeninntrer i stillingen,
           jf. statsansattelovens § 17 (1). `;
@@ -93,6 +119,7 @@ export function getArbeidsavtaleBodyNorsk(
 
   let bodyIntro =
     "<p>" +
+    tempEmployeeText +
     educationalCompetenceNeeded +
     norwegianCompetenceNeeded +
     externallyFundedText +

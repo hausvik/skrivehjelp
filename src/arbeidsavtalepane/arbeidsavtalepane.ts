@@ -67,6 +67,8 @@ export async function initializeArbeidsavtalepane() {
   let mobilityAllowanceElement: HTMLInputElement | null = document.getElementById(
     "mobilityAllowance"
   ) as HTMLInputElement;
+  let workDescriptionElement: HTMLInputElement | null = document.getElementById("workDescription") as HTMLInputElement;
+  let workDescriptionText: HTMLInputElement | null = document.getElementById("workDescriptionText") as HTMLInputElement;
   let familyAllowanceElement: HTMLInputElement | null = document.getElementById("familyAllowance") as HTMLInputElement;
   let familyAllowanceGroup: HTMLElement | null = document.getElementById("familyAllowanceGroup");
   let mobilityAllowanceGroup: HTMLElement | null = document.getElementById("mobilityAllowanceGroup");
@@ -90,7 +92,6 @@ export async function initializeArbeidsavtalepane() {
   let category = "" as string;
   let substituteTypeGroupValue = "" as string;
 
-  // Adds to the dropdown
   // Adds to the dropdown
   positionCodes = addToDropDown('assets\\stillingskoder.xlsx', 'positionCode')
 
@@ -126,7 +127,7 @@ export async function initializeArbeidsavtalepane() {
   // Event listeners for the teachingPosBox
   if (teachingPosBox) {
     teachingPosBox.addEventListener("change", () => {
-      const displayValue = teachingPosBox.checked ? "block" : "none";
+      const displayValue = teachingPosBox.checked && !tempEmployee.checked ? "block" : "none";
       educationalCompetence.style.display = displayValue; // Show or hide the educationalCompetence
 
       if (!teachingPosBox.checked) {
@@ -156,14 +157,22 @@ export async function initializeArbeidsavtalepane() {
       if (!tempEmployee.checked) {
         substituteEmployee.checked = false;
         substituteGroup.style.display = "none";
+        workDescriptionElement.style.display = "none";
         substituteFor.value = "";
         substituteFor.value = "";
         substituteForGroup.style.display = "none";
         substituteAdvertised.checked = false;
+        norwegianCompetence.style.display = "block";
         const radios = substituteTypeGroup.querySelectorAll('input[type="radio"]');
         radios.forEach((radio: Element) => {
           (radio as HTMLInputElement).checked = false;
         });
+        if (teachingPosBox.checked) { educationalCompetence.style.display = "block"; }
+      }
+      else {
+        workDescriptionElement.style.display = "block";
+        norwegianCompetence.style.display = "none";
+        if (teachingPosBox.checked) { educationalCompetence.style.display = "none"; }
       }
     });
   }
@@ -266,6 +275,10 @@ export async function initializeArbeidsavtalepane() {
             familyAllowanceBox.checked
           );
           htmlBodyText = getArbeidsavtaleBodyEngelsk(
+            tempEmployee.checked,
+            substituteEmployee.checked,
+            teachingPosBox.checked,
+            jobTitle,
             radioButtonUtils.checkSelectedRadioButtonValue(educationalCompetence, "educationalCompetence", "no"),
             radioButtonUtils.checkSelectedRadioButtonValue(norwegianCompetence, "norwegianCompetence", "no"),
             externallyFundedBox.checked,
@@ -275,7 +288,8 @@ export async function initializeArbeidsavtalepane() {
             externallyFoundedResearcher,
             substituteAdvertised.checked,
             substituteTypeGroupValue,
-            substituteFor.value
+            substituteFor.value,
+            workDescriptionText.value,
           );
         } else {
           htmlHeaderText = getArbeidsavtaleHeadingNorsk(
@@ -285,6 +299,10 @@ export async function initializeArbeidsavtalepane() {
             familyAllowanceBox.checked
           );
           htmlBodyText = getArbeidsavtaleBodyNorsk(
+            tempEmployee.checked,
+            substituteEmployee.checked,
+            teachingPosBox.checked,
+            jobTitle,
             radioButtonUtils.checkSelectedRadioButtonValue(educationalCompetence, "educationalCompetence", "no"),
             radioButtonUtils.checkSelectedRadioButtonValue(norwegianCompetence, "norwegianCompetence", "no"),
             externallyFundedBox.checked,
@@ -294,7 +312,8 @@ export async function initializeArbeidsavtalepane() {
             externallyFoundedResearcher,
             substituteAdvertised.checked,
             substituteTypeGroupValue,
-            substituteFor.value
+            substituteFor.value,
+            workDescriptionText.value,
           );
         }
 
