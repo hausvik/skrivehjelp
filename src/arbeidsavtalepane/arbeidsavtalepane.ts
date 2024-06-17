@@ -14,8 +14,8 @@ type PositionCode = {
   SKO: string;
   Norsk: string;
   Engelsk: string;
-  NorskStillingsbetegnelse: string;
-  EngelskStillingsbetegnelse: string;
+  norJobTitle: string;
+  engJobTitle: string;
   Kategori: string;
 };
 
@@ -23,7 +23,7 @@ type PositionCode = {
  * Initializes the arbeidsavtalepane by adding event listeners to the input fields and checkboxes.
  */
 export async function initializeArbeidsavtalepane() {
-  let positionCodes: Promise<PositionCode[]>;
+  let positionCodes: PositionCode[];
   // Checkboxes
   let tempEmployee: HTMLInputElement | null = document.getElementById("tempEmployee") as HTMLInputElement;
   let substituteEmployee: HTMLInputElement | null = document.getElementById("substituteEmployee") as HTMLInputElement;
@@ -93,27 +93,22 @@ export async function initializeArbeidsavtalepane() {
   let substituteTypeGroupValue = "" as string;
 
   // Adds to the dropdown
-  positionCodes = addToDropDown('assets\\stillingskoder.xlsx', 'positionCode')
+  positionCodes = await addToDropDown('assets\\stillingskoder.xlsx', 'positionCode')
 
-  // Event listeners for the dropdown
-  if (positionCodeSelect) {
-    positionCodeSelect.addEventListener("change", async () => {
-      // Get the selected position code
-      let selectedPositionCode = positionCodeSelect.value;
+  positionCodeSelect?.addEventListener("change", async () => {
+    // Get the selected position code
+    const selectedPositionCode = positionCodeSelect.value;
 
-      // Find the corresponding position code object
-      let positionCodeObject = (await positionCodes).find(
-        (positionCode: PositionCode) => positionCode.Norsk === selectedPositionCode
-      );
+    // Get the corresponding position details
+    const positionDetails = positionCodes.find(c => c.Norsk === selectedPositionCode) || null;
 
-      if (positionCodeObject) {
-        jobTitle = engelsk
-          ? positionCodeObject.EngelskStillingsbetegnelse
-          : positionCodeObject.NorskStillingsbetegnelse; // Might be usefill in the document text
-        category = positionCodeObject.Kategori; //Will be used later, to determin text choices
-      }
-    });
-  }
+
+    if (positionDetails) {
+      jobTitle = engelsk.checked
+        ? (positionDetails as any)['Engelsk stillingsbetegnelse']
+        : (positionDetails as any)['Norsk stillingsbetegnelse'];
+    }
+  });
 
   // Event listner for the externallyFunded box
   if (externallyFundedBox) {
