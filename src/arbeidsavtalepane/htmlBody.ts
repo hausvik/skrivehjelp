@@ -13,7 +13,8 @@ export function getArbeidsavtaleBodyEngelsk(
   substituteAdvertised: boolean,
   substituteTypeGroupValue: string,
   substituteFor: string,
-  workDescription: string
+  workDescription: string,
+  additionalDuty:string,
 ): string {
   return getArbeidsavtaleBodyNorsk(
     fastAnsatt,
@@ -30,7 +31,8 @@ export function getArbeidsavtaleBodyEngelsk(
     substituteAdvertised,
     substituteTypeGroupValue,
     substituteFor,
-    workDescription
+    workDescription,
+    additionalDuty
   );
 }
 
@@ -55,7 +57,8 @@ export function getArbeidsavtaleBodyNorsk(
   substituteAdvertised: boolean,
   substituteTypeGroupValue: string,
   substituteFor: string,
-  workDescription: string
+  workDescription: string,
+  additionalDuty:string,
 ): string {
   let educationalCompetenceNeeded = "";
   let norwegianCompetenceNeeded = "";
@@ -64,6 +67,7 @@ export function getArbeidsavtaleBodyNorsk(
   let substituteNotAdvertisedText = "";
   let substituteText = "";
   let tempEmployeeText = "";
+  let additionalDutyText = "";
 
 
   if (midlertidigAnsatt && !underviser) {
@@ -75,6 +79,10 @@ export function getArbeidsavtaleBodyNorsk(
     Ansettelsesforholdet opphører uten oppsigelse når ansettelsesperioden er utløpt.  `;
   }
 
+  if (additionalDuty != null) {
+    additionalDutyText = `Ekstraervervet kommer i tillegg til hovedstilling ved: ${additionalDuty}. 
+    Ansettelsen er på åremål, jf. uhl. § 7-7. Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp, jf. statsansatteloven § 17 (2).`;
+  }
   if (educationalCompetenceParam) {
     educationalCompetenceNeeded =
       "Det er en forutsetning for ansettelsen at utdanningsfaglig kompetanse oppnås innen to år etter tiltredelsen. ";
@@ -84,29 +92,24 @@ export function getArbeidsavtaleBodyNorsk(
       "Det er en forutsetning for ansettelsen at det dokumenteres norskferdigheter på minimum nivå B2 innen tre år etter tiltredelsen. ";
   }
   if (externallyFunded) {
-    externallyFundedText =
-      "Ansettelsesforholdet er knyttet til eksternt finansiert oppdrag i prosjektet:  " +
-      projectName +
-      ", med antatt avslutning " +
-      projectEndDate +
-      ". Beskrivelse av arbeidstakers oppgaver: " +
-      projectTasks;
+externallyFundedText = `Ansettelsesforholdet er knyttet til eksternt finansiert oppdrag i prosjektet:  ${projectName},
+ med antatt avslutning ${projectEndDate}. Beskrivelse av arbeidstakers oppgaver: ${projectTasks}`;
   }
   if (externallyFoundedResearcher) {
     externallyFoundedResearcherText = `Ved avslutning av prosjektet forutsettes fortsatt ansettelse av videre 
   ekstern finansiering av stillingen. Den ansatte oppfordres til å ta aktiv del i arbeidet med søknader om 
-  nye prosjektmidler til finansiering av stillingen.`;
+  nye prosjektmidler til finansiering av stillingen. `;
   }
 
   if (!substituteAdvertised && vikar) {
     substituteNotAdvertisedText =
       `Ansettelsen er foretatt uten utlysing og er tidsbegrenset til dato for siste arbeidsdag. 
-      Dersom det etter ansettelse viser seg at det er behov for vikar ut over 6 måneder, tas det forbehold om at stillingen vil bli lyst ut.`;
+      Dersom det etter ansettelse viser seg at det er behov for vikar ut over 6 måneder, tas det forbehold om at stillingen vil bli lyst ut. `;
   }
   if (substituteTypeGroupValue === "pending" && vikar) {
     substituteText = `Ansettelsesforholdet gjelder vikariat i ledig stilling i påvente av ordinær ansettelsesprosedyre, 
   jf. statsansatteloven § 9 (1) b.  Ansettelsesforholdet er tidsbegrenset og opphører uten oppsigelse når tiden er ute, 
-  eller når stillingsinnehaver tiltrer stillingen på et tidligere tidspunkt, jf. statsansatteloven § 17 (1).`;
+  eller når stillingsinnehaver tiltrer stillingen på et tidligere tidspunkt, jf. statsansatteloven § 17 (1). `;
   } else if (substituteTypeGroupValue === "person" && vikar) {
     substituteText = `Ansettelsen skjer i henhold til statsansatteloven § 9 (1) b som vikar for: ${substituteFor}.
          Ansettelsesforholdet opphører uten skriftlig oppsigelse når tiden er ute, eller når stillingens faste innehaver gjeninntrer i stillingen,
@@ -121,6 +124,7 @@ export function getArbeidsavtaleBodyNorsk(
     "<p>" +
     tempEmployeeText +
     educationalCompetenceNeeded +
+    additionalDutyText +
     norwegianCompetenceNeeded +
     externallyFundedText +
     externallyFoundedResearcherText +

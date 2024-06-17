@@ -33,6 +33,8 @@ export async function initializeArbeidsavtalepane() {
   ) as HTMLInputElement;
   let familyAllowanceBox: HTMLInputElement | null = document.getElementById("familyAllowanceBox") as HTMLInputElement;
   let additionalDutyBox: HTMLInputElement | null = document.getElementById("additionalDuty") as HTMLInputElement;
+  let additionalDutyGroup: HTMLElement | null = document.getElementById("additionalDutyGroup") as HTMLElement;
+  let additionalDutyText: HTMLInputElement | null = document.getElementById("additionalDutyText") as HTMLInputElement;
   let teachingPosBox: HTMLInputElement | null = document.getElementById("teachingPos") as HTMLInputElement;
   let teachingPrepBox: HTMLInputElement | null = document.getElementById("teachingPrep") as HTMLInputElement;
   let teachingPrepDiv: HTMLElement | null = document.getElementById("teachingPrepDiv") as HTMLElement;
@@ -89,7 +91,7 @@ export async function initializeArbeidsavtalepane() {
   // Variables for the text choices
   let externallyFoundedResearcher = false as boolean;
   let jobTitle = "" as string;
-  let category = "" as string;
+  let category = "" as string; // might be usefull?
   let substituteTypeGroupValue = "" as string;
 
   // Adds to the dropdown
@@ -107,6 +109,8 @@ export async function initializeArbeidsavtalepane() {
       jobTitle = engelsk.checked
         ? (positionDetails as any)['Engelsk stillingsbetegnelse']
         : (positionDetails as any)['Norsk stillingsbetegnelse'];
+      jobTitle = jobTitle.toLowerCase();
+      category = (positionDetails as any)['Kategori']; // might be usefull?
     }
   });
 
@@ -142,6 +146,13 @@ export async function initializeArbeidsavtalepane() {
       } else {
         preparationHoursDiv.style.display = "none";
       }
+    });
+  }
+
+  //Event listner for additionalDutyBox
+  if (additionalDutyBox) {
+    additionalDutyBox.addEventListener("change", () => {
+      additionalDutyGroup.style.display = additionalDutyBox.checked ? "block" : "none";
     });
   }
 
@@ -285,6 +296,7 @@ export async function initializeArbeidsavtalepane() {
             substituteTypeGroupValue,
             substituteFor.value,
             workDescriptionText.value,
+            additionalDutyText.value,
           );
         } else {
           htmlHeaderText = getArbeidsavtaleHeadingNorsk(
@@ -309,6 +321,7 @@ export async function initializeArbeidsavtalepane() {
             substituteTypeGroupValue,
             substituteFor.value,
             workDescriptionText.value,
+            additionalDutyText.value,
           );
         }
 
