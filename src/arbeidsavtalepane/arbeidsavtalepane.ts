@@ -88,7 +88,7 @@ export async function initializeArbeidsavtalepane() {
   let substituteAdvertised: HTMLInputElement | null = document.getElementById(
     "substituteAdvertised"
   ) as HTMLInputElement;
-    let substituteTypeGroup: HTMLElement | null = document.getElementById("substituteTypeGroup") as HTMLElement; // radiobuttongroup for substitute
+  let substituteTypeGroup: HTMLElement | null = document.getElementById("substituteTypeGroup") as HTMLElement; // radiobuttongroup for substitute
   let substituteForGroup: HTMLInputElement | null = document.getElementById("substiuteForGroup") as HTMLInputElement; // input field for substitute
   let substituteFor: HTMLInputElement | null = document.getElementById("substituteFor") as HTMLInputElement; // textField
 
@@ -153,39 +153,39 @@ export async function initializeArbeidsavtalepane() {
     });
   }
 
-// termCheckBox event listener
-if(termCheckBox && endDateGroup) {
-  termCheckBox.addEventListener("change", () => {
-    if (termCheckBox.checked) {
-      termOptionsGroup.style.display = "block";
-      endDateGroup.style.display = termCheckBox.checked ? "block" : "none";
-    } else {
-      termOptionsGroup.style.display = "none";
-      radioButtonUtils.uncheckAllRadioButtons(termOptionsGroup, "termType");
-      additionalDutyGroup.style.display = "none";
-      endDateGroup.style.display = termCheckBox.checked ? "block" : "none";
-    }
-  });
-}
+  // termCheckBox event listener
+  if (termCheckBox && endDateGroup) {
+    termCheckBox.addEventListener("change", () => {
+      if (termCheckBox.checked) {
+        termOptionsGroup.style.display = "block";
+        endDateGroup.style.display = termCheckBox.checked ? "block" : "none";
+      } else {
+        termOptionsGroup.style.display = "none";
+        radioButtonUtils.uncheckAllRadioButtons(termOptionsGroup, "termType");
+        additionalDutyGroup.style.display = "none";
+        endDateGroup.style.display = termCheckBox.checked ? "block" : "none";
+      }
+    });
+  }
 
-// Event listener for termOptionsGroup
-if (termOptionsGroup) {
-  termOptionsGroup.addEventListener("change", () => {
-    radioButtonUtils.checkSelectedRadioButtonValue(termOptionsGroup, "termType", "ekstraverv")? 
-      additionalDutyGroup.style.display = "block":
-      additionalDutyGroup.style.display = "none";
+  // Event listener for termOptionsGroup
+  if (termOptionsGroup) {
+    termOptionsGroup.addEventListener("change", () => {
+      radioButtonUtils.checkSelectedRadioButtonValue(termOptionsGroup, "termType", "ekstraverv") ?
+        additionalDutyGroup.style.display = "block" :
+        additionalDutyGroup.style.display = "none";
     }
-  );
-}
+    );
+  }
 
-//Event listner for mandatoryWork
-if (mandatoryWork) {
-  mandatoryWork.addEventListener("change", () => {
-    if (mandatoryWorkAmount) {
-      mandatoryWorkAmount.style.display = mandatoryWork.checked ? "block" : "none";
-    }
-  });
-}
+  //Event listner for mandatoryWork
+  if (mandatoryWork) {
+    mandatoryWork.addEventListener("change", () => {
+      if (mandatoryWorkAmount) {
+        mandatoryWorkAmount.style.display = mandatoryWork.checked ? "block" : "none";
+      }
+    });
+  }
 
   // Event listener for the tempEmployee box
   if (endDateGroup && tempEmployee) {
@@ -294,14 +294,18 @@ if (mandatoryWork) {
           endDate: endDateElement.value,
         };
 
+
         if (
           !tempEmployee.checked &&
           externallyFundedBox.checked &&
-          (jobTitle === "Forsker" || jobTitle === "Researcher")
+          (jobTitle === "forsker" || jobTitle === "researcher")
         ) {
           externallyFoundedResearcher = true;
-          console.log("Forsker");
         }
+        else {
+          externallyFoundedResearcher = false;
+        }
+
         let htmlHeaderText: string | null = null;
         let htmlBodyText: string | null = null;
 
