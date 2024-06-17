@@ -63,52 +63,66 @@
             <!-- Åremål gruppe av knapper-->
             <div class="form-group" id="termOptionsGroup" style="display: none;">
                 <label>Åremål</label>
-                <div>
-                    <input type="radio" class="form-check-input" name="termType" id="additionalDuty" value="ekstraverv">
-                    <label class="form-check-label" for="additionalDuty">Ekstraverv</label>
+                <div style="padding-left: 20px;">
+                    <div>
+                        <input type="radio" class="form-check-input" name="termType" id="additionalDuty"
+                            value="ekstraverv">
+                        <label class="form-check-label" for="additionalDuty">Ekstraverv</label>
+                    </div>
+                    <div>
+                        <input type="radio" class="form-check-input" name="termType" id="leader" value="leader">
+                        <label class="form-check-label" for="leader">Leder for avdeling eller grunnenhet</label>
+                    </div>
+                    <div>
+                        <input type="radio" class="form-check-input" name="termType" id="doubleCompetence"
+                            value="dobbeltkompetanseutdanning">
+                        <label class="form-check-label" for="doubleCompetence">Dobbeltkompetanseutdanning</label>
+                    </div>
+                    <div>
+                        <input type="radio" class="form-check-input" name="termType" id="specialistCandidate"
+                            value="spesialistkandidat">
+                        <label class="form-check-label" for="specialistCandidate">Spesialistkandidat</label>
+                    </div>
+                    <div>
+                        <input type="radio" class="form-check-input" name="termType" id="entryPosition"
+                            value="innstegsstilling">
+                        <label class="form-check-label" for="entryPosition">Innstegsstilling</label>
+                    </div>
+                    <div>
+                        <input type="radio" class="form-check-input" name="termType" id="creativeArtist"
+                            value="skapende">
+                        <label class="form-check-label" for="creativeArtist">Skapende eller utøvende kunstnerisk
+                            kompetanse</label>
+                    </div>
+                    <div>
+                        <input type="radio" class="form-check-input" name="termType" id="postdoc" value="postdoktor">
+                        <label class="form-check-label" for="postdoc">Postdoktor</label>
+                    </div>
+                    <div>
+                        <input type="radio" class="form-check-input" name="termType" id="researchFellow"
+                            value="stipendiat">
+                        <label class="form-check-label" for="researchFellow">Stipendiat</label>
+                    </div>
+                    <div>
+                        <input type="radio" class="form-check-input" name="termType" id="artisticFellow"
+                            value="kunstnerisk">
+                        <label class="form-check-label" for="artisticFellow">Stipendiat - utøvende kunstnerisk utvikling</label>
+                    </div>
+                    <div>
+                        <input type="radio" class="form-check-input" name="termType" id="scientificAssistant"
+                            value="vitenskapelig">
+                        <label class="form-check-label" for="scientificAssistant">Vitenskapelig assistent</label>
+                    </div>
                 </div>
+                <br>
+                <!-- Karrierefremmende checkbox -->
                 <div>
-                    <input type="radio" class="form-check-input" name="termType" id="leader" value="leader">
-                    <label class="form-check-label" for="leader">Leder for avdeling eller grunnenhet</label>
+                    <input type="checkbox" id="mandatoryWork">
+                    <label for="mandatoryWork">Karrierefremmende arbeid</label>
                 </div>
-                <div>
-                    <input type="radio" class="form-check-input" name="termType" id="doubleCompetence"
-                        value="dobbeltkompetanseutdanning">
-                    <label class="form-check-label" for="doubleCompetence">Dobbeltkompetanseutdanning</label>
-                </div>
-                <div>
-                    <input type="radio" class="form-check-input" name="termType" id="specialistCandidate"
-                        value="spesialistkandidat">
-                    <label class="form-check-label" for="specialistCandidate">Spesialistkandidat</label>
-                </div>
-                <div>
-                    <input type="radio" class="form-check-input" name="termType" id="entryPosition"
-                        value="innstegsstilling">
-                    <label class="form-check-label" for="entryPosition">Innstegsstilling</label>
-                </div>
-                <div>
-                    <input type="radio" class="form-check-input" name="termType" id="creativeArtist" value="skapende">
-                    <label class="form-check-label" for="creativeArtist">Skapende eller utøvende kunstnerisk
-                        kompetanse</label>
-                </div>
-                <div>
-                    <input type="radio" class="form-check-input" name="termType" id="postdoc" value="postdoktor">
-                    <label class="form-check-label" for="postdoc">Postdoktor</label>
-                </div>
-                <div>
-                    <input type="radio" class="form-check-input" name="termType" id="researchFellow" value="stipendiat">
-                    <label class="form-check-label" for="researchFellow">Stipendiat</label>
-                </div>
-                <div>
-                    <input type="radio" class="form-check-input" name="termType" id="artisticFellow"
-                        value="kunstnerisk">
-                    <label class="form-check-label" for="artisticFellow">Stipendiat – utøvende kunstnerisk utvikling med
-                        plikt</label>
-                </div>
-                <div>
-                    <input type="radio" class="form-check-input" name="termType" id="scientificAssistant"
-                        value="vitenskapelig">
-                    <label class="form-check-label" for="scientificAssistant">Vitenskapelig assistent</label>
+                <div class="form-group" id= "mandatoryWorkAmount" style="display: none;">
+                    <label for="mandatoryWorkAmount">Mengde karrierefremmende arbeid</label>
+                    <input type="text" class="form-control" id="mandatoryWorkAmountText">
                 </div>
             </div>
 

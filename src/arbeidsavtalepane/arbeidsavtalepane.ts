@@ -79,15 +79,16 @@ export async function initializeArbeidsavtalepane() {
   let mobilityAllowanceGroup: HTMLElement | null = document.getElementById("mobilityAllowanceGroup");
   let endDateGroup: HTMLElement | null = document.getElementById("endDateGroup");
   let button: HTMLButtonElement | null = document.getElementById("generateDocument") as HTMLButtonElement;
-
-  //radio buttons and such
+  let mandatoryWork: HTMLInputElement | null = document.getElementById("mandatoryWork") as HTMLInputElement;
+  let mandatoryWorkAmount: HTMLElement | null = document.getElementById("mandatoryWorkAmount") as HTMLElement;
+  let mandatoryWorkAmountText: HTMLInputElement | null = document.getElementById("mandatoryWorkAmountText") as HTMLInputElement;
   let educationalCompetence: HTMLElement | null = document.getElementById("educationalCompetence") as HTMLElement;
   let norwegianCompetence: HTMLElement | null = document.getElementById("norwegianCompetence") as HTMLElement;
   let substituteGroup: HTMLElement | null = document.getElementById("substituteGroup") as HTMLElement; // main group for substitute
   let substituteAdvertised: HTMLInputElement | null = document.getElementById(
     "substituteAdvertised"
-  ) as HTMLInputElement; // checkbox for substitute
-  let substituteTypeGroup: HTMLElement | null = document.getElementById("substituteTypeGroup") as HTMLElement; // radiobuttongroup for substitute
+  ) as HTMLInputElement;
+    let substituteTypeGroup: HTMLElement | null = document.getElementById("substituteTypeGroup") as HTMLElement; // radiobuttongroup for substitute
   let substituteForGroup: HTMLInputElement | null = document.getElementById("substiuteForGroup") as HTMLInputElement; // input field for substitute
   let substituteFor: HTMLInputElement | null = document.getElementById("substituteFor") as HTMLInputElement; // textField
 
@@ -153,14 +154,16 @@ export async function initializeArbeidsavtalepane() {
   }
 
 // termCheckBox event listener
-if(termCheckBox) {
+if(termCheckBox && endDateGroup) {
   termCheckBox.addEventListener("change", () => {
     if (termCheckBox.checked) {
       termOptionsGroup.style.display = "block";
+      endDateGroup.style.display = termCheckBox.checked ? "block" : "none";
     } else {
       termOptionsGroup.style.display = "none";
       radioButtonUtils.uncheckAllRadioButtons(termOptionsGroup, "termType");
       additionalDutyGroup.style.display = "none";
+      endDateGroup.style.display = termCheckBox.checked ? "block" : "none";
     }
   });
 }
@@ -173,6 +176,15 @@ if (termOptionsGroup) {
       additionalDutyGroup.style.display = "none";
     }
   );
+}
+
+//Event listner for mandatoryWork
+if (mandatoryWork) {
+  mandatoryWork.addEventListener("change", () => {
+    if (mandatoryWorkAmount) {
+      mandatoryWorkAmount.style.display = mandatoryWork.checked ? "block" : "none";
+    }
+  });
 }
 
   // Event listener for the tempEmployee box
@@ -288,6 +300,7 @@ if (termOptionsGroup) {
           (jobTitle === "Forsker" || jobTitle === "Researcher")
         ) {
           externallyFoundedResearcher = true;
+          console.log("Forsker");
         }
         let htmlHeaderText: string | null = null;
         let htmlBodyText: string | null = null;
@@ -316,6 +329,9 @@ if (termOptionsGroup) {
             substituteFor.value,
             workDescriptionText.value,
             additionalDutyText.value,
+            radioButtonUtils.getSelectedRadioButtonValue(termOptionsGroup, "termType"),
+            mandatoryWork.checked,
+            mandatoryWorkAmountText.value,
           );
         } else {
           htmlHeaderText = getArbeidsavtaleHeadingNorsk(
@@ -341,6 +357,9 @@ if (termOptionsGroup) {
             substituteFor.value,
             workDescriptionText.value,
             additionalDutyText.value,
+            radioButtonUtils.getSelectedRadioButtonValue(termOptionsGroup, "termType"),
+            mandatoryWork.checked,
+            mandatoryWorkAmountText.value,
           );
         }
 

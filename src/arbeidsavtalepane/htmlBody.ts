@@ -15,6 +15,9 @@ export function getArbeidsavtaleBodyEngelsk(
   substituteFor: string,
   workDescription: string,
   additionalDuty:string,
+  termEmployee: string,
+  karrierefremmendeArbeid: boolean,
+  termAmount: string,
 ): string {
   return getArbeidsavtaleBodyNorsk(
     fastAnsatt,
@@ -32,7 +35,11 @@ export function getArbeidsavtaleBodyEngelsk(
     substituteTypeGroupValue,
     substituteFor,
     workDescription,
-    additionalDuty
+    additionalDuty,
+    termEmployee,
+    karrierefremmendeArbeid,
+    termAmount
+
   );
 }
 
@@ -59,6 +66,9 @@ export function getArbeidsavtaleBodyNorsk(
   substituteFor: string,
   workDescription: string,
   additionalDuty:string,
+  termEmployee: string,
+  karrierefremmendeArbeid: boolean,
+  karrierefremmendeArbeidMengde: string,
 ): string {
   let educationalCompetenceNeeded = "";
   let norwegianCompetenceNeeded = "";
@@ -67,8 +77,66 @@ export function getArbeidsavtaleBodyNorsk(
   let substituteNotAdvertisedText = "";
   let substituteText = "";
   let tempEmployeeText = "";
-  let additionalDutyText = "";
+  let aremalText = '';
 
+
+if (termEmployee != null) {
+    switch (termEmployee) {
+        case 'ekstraverv':
+            aremalText = `Ekstraervervet kommer i tillegg til hovedstilling ved: ${additionalDuty}. 
+    Ansettelsen er på åremål, jf. uhl. § 7-7. Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp, jf. statsansatteloven § 17 (2). `;
+            break;
+        case 'leader':
+            aremalText = `Ansettelsen er på åremål, jf. uhl. § 7-6 (1) c. Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp, 
+            jf. statsansattelovens § 17 (2).  Eventuell fornyelse av åremålsperiode skjer etter vanlig offentlig kunngjøring og ansettelsesprosedyre.  `
+            break;
+        case 'dobbelkompetanseutdanning':
+            aremalText = `Ansettelsen er på åremål, jf. uhl. § 6-4 (1) h). Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp 
+            jf. statsansatteloven § 17 (2).  Plan for gjennomføring av dobbelkompetanseutdanningen inngår som vedlegg til arbeidskontrakten
+            , herunder fordeling av arbeidstiden mellom doktorgradsutdanning, spesialistutdanning og karrierefremmende arbeid.  
+            ${karrierefremmendeArbeid ? `Karrierefremmende arbeid utgjør ${karrierefremmendeArbeidMengde} av åremålsperioden. ` : ''}`
+            break;
+        case 'spesialistkandidat':
+            aremalText = `Ansettelsen er på åremål, jf. uhl. § 6-4 (1) h). Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp,
+             jf. statsansatteloven § 17 (2).  Plan for gjennomføring av spesialistutdanningen inngår som vedlegg til arbeidskontrakten${karrierefremmendeArbeid ?
+              `. Karrierefremmende arbeid utgjør ${karrierefremmendeArbeidMengde} av åremålsperioden. Ved ansettelse utover
+               to år kan institusjonen inkludere annet karrierefremmende arbeid i stillingen` : ''}. `
+            break;
+        case 'innstegsstilling':
+            aremalText = `Ansettelsen er på åremål, jf. uhl. § 7-6 (1) e.  jf. forskrift om ansettelse på innstegsvilkår. For å få fast ansettelse må
+             kravene i retningslinjer for bruk av innstegsstillinger ved UiB pkt. 5.1 være oppfylt. Fakultetsstyret avgjør med utgangspunkt i sluttevalueringen
+              om fast ansettelse skal gis. Gis ikke fast ansettelse, opphører ansettelsesforholdet uten oppsigelse ved åremålsperiodens utløp, jf.
+               statsansatteloven § 17 (2).  `
+            break;
+        case 'skapende':
+            aremalText = `Ansettelsen er på åremål, jf. uhl. § 7-6 (1) d. Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp,
+             jf. statsansatteloven § 17 (2). `
+            break;
+        case 'postdoktor':
+            aremalText = `Ansettelsen er på åremål, jf. uhl § 7-6 (1) f. Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp,
+             jf. statsansatteloven § 17 (2). ${karrierefremmendeArbeid ? ` Karrierefremmende arbeid utgjør ${karrierefremmendeArbeidMengde} av åremålsperioden` : ''}. `
+            break;
+        case 'stipendiat':
+            aremalText = `Ansettelsen er på åremål, jf. uhl § 7-6 (1) g. Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp, jf. statsansatteloven
+             § 17 (2). Opptak til doktorgradsprogram er et vilkår for tiltredelse i stillingen.  For å bli ansatt som stipendiat kreves opptak i et doktorgradsprogram,
+              eller at det foreligger en forpliktende avtale om opptak. ${karrierefremmendeArbeid ? `Karrierefremmende arbeid utgjør ${karrierefremmendeArbeidMengde}
+                 av åremålsperioden. Vise til karriereplan som spesifiserer den kompetansen som postdoktoren skal opparbeide seg` : ''}. `
+            break;
+        case 'kunstnerisk':
+            aremalText = `Ansettelsen er på åremål, jf. uhl § 7-6 (1) g. Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp, jf.
+             statsansatteloven § 17 (2).  Ansettelsen er knyttet til Stipendprogram for kunstnerisk utviklingsarbeid. ${karrierefremmendeArbeid ? 
+              `Karrierefremmende arbeid utgjør ${karrierefremmendeArbeidMengde} av åremålsperioden. Vise til karriereplan som spesifiserer den kompetansen
+               som postdoktoren skal opparbeide seg` : ''}. `
+            break;
+        case 'vitenskapelig':
+            aremalText = `Ansettelsen er på åremål, jf. uhl. § 6-4 (1) i. Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp,
+             jf. statsansatteloven § 17 (2). `
+            break;
+        default:
+            console.log('This should not happen! Please check the termType value.');
+            break;
+    }
+}
 
   if (midlertidigAnsatt && !underviser) {
     tempEmployeeText = `Arbeidet som skal utføres er av midlertidig karakter, jf. statsansatteloven § 9 (1) a.  
@@ -79,10 +147,6 @@ export function getArbeidsavtaleBodyNorsk(
     Ansettelsesforholdet opphører uten oppsigelse når ansettelsesperioden er utløpt.  `;
   }
 
-  if (additionalDuty != null) {
-    additionalDutyText = `Ekstraervervet kommer i tillegg til hovedstilling ved: ${additionalDuty}. 
-    Ansettelsen er på åremål, jf. uhl. § 7-7. Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp, jf. statsansatteloven § 17 (2). `;
-  }
   if (educationalCompetenceParam) {
     educationalCompetenceNeeded =
       "Det er en forutsetning for ansettelsen at utdanningsfaglig kompetanse oppnås innen to år etter tiltredelsen. ";
@@ -124,7 +188,7 @@ externallyFundedText = `Ansettelsesforholdet er knyttet til eksternt finansiert 
     "<p>" +
     tempEmployeeText +
     educationalCompetenceNeeded +
-    additionalDutyText +
+    aremalText +
     norwegianCompetenceNeeded +
     externallyFundedText +
     externallyFoundedResearcherText +
