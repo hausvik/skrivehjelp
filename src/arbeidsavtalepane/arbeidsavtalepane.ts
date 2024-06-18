@@ -23,7 +23,6 @@ type PositionCode = {
  * Initializes the arbeidsavtalepane by adding event listeners to the input fields and checkboxes.
  */
 export async function initializeArbeidsavtalepane() {
-  console.log("Debugg-active");
   let positionCodes: PositionCode[];
   // Checkboxes
   let engelsk: HTMLInputElement | null = document.getElementById("engelsk") as HTMLInputElement;
