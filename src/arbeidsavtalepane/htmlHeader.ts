@@ -11,42 +11,42 @@ export function getArbeidsavtaleHeading(engelsk: boolean, data: Arbeidsavtalehea
  * @returns {string} An HTML string representing the employment contract header.
  */
 function getArbeidsavtaleHeadingEngelsk(
-        data: Arbeidsavtaleheader
-      ): string {
-        const {
-          name,
-          personalId,
-          placeOfWork,
-          positionCode,
-          percentageFullTime,
-          preparationHours,
-          seniority,
-          annualSalary,
-          mobilityAllowance,
-          familyAllowance,
-          startingDate,
-          endDate,
-          mobility,
-          family
-        } = data;
-        let mobilityRow1 = mobility ? "Mobilitetstillegg" : "";
-        let mobilityRow2 = mobility ? `${mobilityAllowance}` : "";
-        let familyRow1 = family ? "Familietillegg" : "";
-        let familyRow2 = family ? `${familyAllowance}` : "";
-        let preparationHoursRow = preparationHours !== "" ? 
-      `<tr>
+  data: Arbeidsavtaleheader
+): string {
+  const {
+    name,
+    personalId,
+    placeOfWork,
+    positionCode,
+    percentageFullTime,
+    preparationHours,
+    seniority,
+    annualSalary,
+    mobilityAllowance,
+    familyAllowance,
+    startingDate,
+    endDate,
+    mobility,
+    family
+  } = data;
+  let mobilityRow1 = mobility ? "Mobilitetstillegg" : "";
+  let mobilityRow2 = mobility ? `${mobilityAllowance}` : "";
+  let familyRow1 = family ? "Familietillegg" : "";
+  let familyRow2 = family ? `${familyAllowance}` : "";
+  let preparationHoursRow = preparationHours !== "" ?
+    `<tr>
           <td>Antall forberedelsestimer</td>
           <td>${preparationHours}</td>
       </tr>` : '';
-      let mobFamAllowance = (mobilityRow2 !== "" || familyRow2 !== "") ? 
-      `<tr>
+  let mobFamAllowance = (mobilityRow2 !== "" || familyRow2 !== "") ?
+    `<tr>
           <td>${mobilityRow1}</td>
           <td>${mobilityRow2}</td>
           <td>${familyRow1}</td>
           <td>${familyRow2}</td>
       </tr>` : '';
-      
-        return `
+
+  return `
       <style>
           table {
               width: 100%;
@@ -104,12 +104,12 @@ function getArbeidsavtaleHeadingEngelsk(
                           <tr>
                                   <td>Startdato</td>
                                   <td>${startingDate}</td>
-                                  <td>Sluttdato</td>
-                                  <td>${endDate}</td>
+                                  <td>${endDate !== "" ? "Slutt dato" : ""}</td>
+                                  <td>${endDate !== "" ? endDate : ""}</td>
                           </tr>
                   </table>
       `;
-      }
+}
 
 /**
  * Generates an HTML string representing the header of an employment contract, in Norwegian.
