@@ -5,7 +5,7 @@
   <ProviderName>Contoso</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
   <DisplayName DefaultValue="UiB Standardtekster"/>
-  <Description DefaultValue="A template to get started."/>
+  <Description DefaultValue= "Inneholder standardtekster fra UiB f.eks. til å generere arbeidsavtaler."/>
   <IconUrl DefaultValue="https://localhost:3000/assets/icon-32.png"/>
   <HighResolutionIconUrl DefaultValue="https://localhost:3000/assets/icon-64.png"/>
   <SupportUrl DefaultValue="https://www.uib.no"/>  <!-- Muligens lenke til support side? -->
@@ -72,12 +72,11 @@
         <bt:Url id="Taskpane.Url" DefaultValue="https://localhost:3000/taskpane.html"/>
       </bt:Urls>
       <bt:ShortStrings>
-        <bt:String id="GetStarted.Title" DefaultValue="Kom i gang med standardtekster!"/>
-        <bt:String id="CommandsGroup.Label" DefaultValue="UiB brevtekster"/>
+        <bt:String id="CommandsGroup.Label" DefaultValue="UiB Standardtekster"/>
         <bt:String id="TaskpaneButton.Label" DefaultValue="UiB Standardtekster"/>
       </bt:ShortStrings>
       <bt:LongStrings>
-        <bt:String id="GetStarted.Description" DefaultValue="Ditt eksempel på tilleggsprogram ble lastet inn vellykket. Gå til HJEM-fanen og klikk på 'Start appen'-knappen for å komme i gang."/>
+        <bt:String id="GetStarted.Description" DefaultValue="Word tillegget ditt ble startet som det skulle, klikk her for å komme i gang!"/>
         <bt:String id="TaskpaneButton.Tooltip" DefaultValue="Klikk for å starte appen."/>
       </bt:LongStrings>
     </Resources>
