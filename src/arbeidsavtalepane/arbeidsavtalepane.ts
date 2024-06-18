@@ -5,7 +5,7 @@ import { getArbeidsavtaleHeadingNorsk } from "./htmlHeader";
 import { getArbeidsavtaleBodyNorsk } from "./htmlBody";
 import { getArbeidsavtaleBodyEngelsk } from "./htmlBody";
 import { Arbeidsavtaleheader } from "./headerInterface";
-import { addToDropDown } from "../utils/readExcel";
+import { addToDropDown, updateDropDown } from "../utils/readExcel";
 import { combineHtmlStrings } from "../utils/combineHTML";
 import * as radioButtonUtils from "../utils/radioButton";
 
@@ -43,11 +43,22 @@ function getPositionDetail(positionCodesElement: any, checkString: string, retur
   return null;
 }
 
+// Function to filter and update the dropdown
+function filterAndUpdateDropdown(AllPositionCodes: PositionCode[], searchTerm: string, selectElement: HTMLSelectElement): void {
+  let filteredPositionCodes = AllPositionCodes.filter(code => code.Norsk.includes(searchTerm));
+  updateDropDown(selectElement, filteredPositionCodes);
+}
+
+// Function to reset the dropdown
+function resetDropdown(AllPositionCodes: PositionCode[], selectElement: HTMLSelectElement): void {
+updateDropDown(selectElement, AllPositionCodes);
+}
+
 /**
  * Initializes the arbeidsavtalepane by adding event listeners to the input fields and checkboxes.
  */
 export async function initializeArbeidsavtalepane() {
-  let positionCodes: PositionCode[];
+  let AllPositionCodes: PositionCode[];
   // Checkboxes
   let engelsk: HTMLInputElement | null = document.getElementById("engelsk") as HTMLInputElement;
   let mobilityAllowanceBox: HTMLInputElement | null = document.getElementById(
@@ -131,17 +142,24 @@ export async function initializeArbeidsavtalepane() {
   let substituteTypeGroupValue = "" as string;
 
   // Adds to the dropdown
-  positionCodes = await addToDropDown('assets\\stillingskoder.xlsx', 'positionCode')
+  AllPositionCodes = await addToDropDown('assets\\stillingskoder.xlsx', 'positionCode')
 
+  positionCodeSelect?.addEventListener("click", () => {
+    if(scientificAssistant.checked){
+    filterAndUpdateDropdown(AllPositionCodes, "Vitenskapelig", positionCodeSelect);}
+    else {
+      resetDropdown(AllPositionCodes, positionCodeSelect);
+    }
+  });
   positionCodeSelect?.addEventListener("change", async () => {
     // Get the selected position code
     const selectedPositionCode = positionCodeSelect.value;
 
     // Get the corresponding position details
-    jobTitle = getPositionDetail(positionCodes, selectedPositionCode, 1, engelsk.checked);
-    category = getPositionDetail(positionCodes, selectedPositionCode, 2, engelsk.checked);
+    jobTitle = getPositionDetail(AllPositionCodes, selectedPositionCode, 1, engelsk.checked);
+    category = getPositionDetail(AllPositionCodes, selectedPositionCode, 2, engelsk.checked);
 
-    if (employee.checked && category ==="V") {
+    if (employee.checked && category === "V") {
       norwegianCompetence.style.display = "block";
     }
     else {
@@ -270,24 +288,24 @@ export async function initializeArbeidsavtalepane() {
   if (researchFellow) {
     researchFellow.addEventListener('click', () => {
       positionCodeSelect.value = "1017 - Stipendiat";
-      jobTitle = getPositionDetail(positionCodes, positionCodeSelect.value, 1, engelsk.checked);
-      category = getPositionDetail(positionCodes, positionCodeSelect.value, 2, engelsk.checked);
+      jobTitle = getPositionDetail(AllPositionCodes, positionCodeSelect.value, 1, engelsk.checked);
+      category = getPositionDetail(AllPositionCodes, positionCodeSelect.value, 2, engelsk.checked);
     });
   }
 
   if (artisticFellow) {
     artisticFellow.addEventListener('click', () => {
       positionCodeSelect.value = "1017 - Stipendiat";
-      jobTitle = getPositionDetail(positionCodes, positionCodeSelect.value, 1, engelsk.checked);
-      category = getPositionDetail(positionCodes, positionCodeSelect.value, 2, engelsk.checked);
+      jobTitle = getPositionDetail(AllPositionCodes, positionCodeSelect.value, 1, engelsk.checked);
+      category = getPositionDetail(AllPositionCodes, positionCodeSelect.value, 2, engelsk.checked);
     });
   }
 
   if (postdoktor) {
     postdoktor.addEventListener('click', () => {
       positionCodeSelect.value = "1352 - Postdoktor";
-      jobTitle = getPositionDetail(positionCodes, positionCodeSelect.value, 1, engelsk.checked);
-      category = getPositionDetail(positionCodes, positionCodeSelect.value, 2, engelsk.checked);
+      jobTitle = getPositionDetail(AllPositionCodes, positionCodeSelect.value, 1, engelsk.checked);
+      category = getPositionDetail(AllPositionCodes, positionCodeSelect.value, 2, engelsk.checked);
     });
   }
 

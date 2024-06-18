@@ -62,3 +62,36 @@ export async function addToDropDown<T extends { Norsk: string }>(filePath: strin
 
   return data;
 }
+
+type PositionCode = {
+  SKO: string;
+  Norsk: string;
+  Engelsk: string;
+  norJobTitle: string;
+  engJobTitle: string;
+  Kategori: string;
+};
+
+export function updateDropDown(selectElement: HTMLSelectElement, positionCodes: PositionCode[]): void {
+  // Clear existing options
+  selectElement.innerHTML = '';
+
+  // Create and add a blank option at the start
+  let blankOption = document.createElement("option");
+  blankOption.value = '';
+  blankOption.text = '';
+  selectElement.add(blankOption);
+
+  // Populate the select element with the data
+  positionCodes.forEach((item: PositionCode) => {
+    // Create a new option element
+    let option = document.createElement("option");
+
+    // Set the value and text of the option element
+    option.value = item.Norsk;
+    option.text = item.Norsk;
+
+    // Add the option element to the select element
+    selectElement.add(option);
+  });
+}
