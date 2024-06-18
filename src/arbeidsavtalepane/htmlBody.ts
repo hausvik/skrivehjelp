@@ -186,9 +186,9 @@ if (termEmployee != null) {
             break;
         case 'spesialistkandidat':
             aremalText = `Ansettelsen er på åremål, jf. uhl. § 6-4 (1) h). Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp,
-             jf. statsansatteloven § 17 (2).  Plan for gjennomføring av spesialistutdanningen inngår som vedlegg til arbeidskontrakten${karrierefremmendeArbeid ?
-              `. Karrierefremmende arbeid utgjør ${karrierefremmendeArbeidMengde} av åremålsperioden. Ved ansettelse utover
-               to år kan institusjonen inkludere annet karrierefremmende arbeid i stillingen` : ''}. `
+             jf. statsansatteloven § 17 (2).  Plan for gjennomføring av spesialistutdanningen inngår som vedlegg til arbeidskontrakten. ${karrierefremmendeArbeid ?
+              `Karrierefremmende arbeid utgjør ${karrierefremmendeArbeidMengde} av åremålsperioden. Ved ansettelse utover
+               to år kan institusjonen inkludere annet karrierefremmende arbeid i stillingen` : ''}`
             break;
         case 'innstegsstilling':
             aremalText = `Ansettelsen er på åremål, jf. uhl. § 7-6 (1) e.  jf. forskrift om ansettelse på innstegsvilkår. For å få fast ansettelse må
@@ -202,19 +202,19 @@ if (termEmployee != null) {
             break;
         case 'postdoktor':
             aremalText = `Ansettelsen er på åremål, jf. uhl § 7-6 (1) f. Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp,
-             jf. statsansatteloven § 17 (2). ${karrierefremmendeArbeid ? ` Karrierefremmende arbeid utgjør ${karrierefremmendeArbeidMengde} av åremålsperioden` : ''}. `
+             jf. statsansatteloven § 17 (2). ${karrierefremmendeArbeid ? `Karrierefremmende arbeid utgjør ${karrierefremmendeArbeidMengde} av åremålsperioden.` : ''} `
             break;
         case 'stipendiat':
             aremalText = `Ansettelsen er på åremål, jf. uhl § 7-6 (1) g. Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp, jf. statsansatteloven
              § 17 (2). Opptak til doktorgradsprogram er et vilkår for tiltredelse i stillingen.  For å bli ansatt som stipendiat kreves opptak i et doktorgradsprogram,
               eller at det foreligger en forpliktende avtale om opptak. ${karrierefremmendeArbeid ? `Karrierefremmende arbeid utgjør ${karrierefremmendeArbeidMengde}
-                 av åremålsperioden. Vise til karriereplan som spesifiserer den kompetansen som postdoktoren skal opparbeide seg` : ''}. `
+                 av åremålsperioden. Vise til karriereplan som spesifiserer den kompetansen som postdoktoren skal opparbeide seg.` : ''}`
             break;
         case 'kunstnerisk':
             aremalText = `Ansettelsen er på åremål, jf. uhl § 7-6 (1) g. Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp, jf.
              statsansatteloven § 17 (2).  Ansettelsen er knyttet til Stipendprogram for kunstnerisk utviklingsarbeid. ${karrierefremmendeArbeid ? 
               `Karrierefremmende arbeid utgjør ${karrierefremmendeArbeidMengde} av åremålsperioden. Vise til karriereplan som spesifiserer den kompetansen
-               som postdoktoren skal opparbeide seg` : ''}. `
+               som postdoktoren skal opparbeide seg.` : ''}`
             break;
         case 'vitenskapelig':
             aremalText = `Ansettelsen er på åremål, jf. uhl. § 6-4 (1) i. Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp,
