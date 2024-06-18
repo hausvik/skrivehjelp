@@ -1,20 +1,16 @@
-# Word Add in proof of concept
+# Word Add-in
 
-Purpose is to create a word add in replace ment for the VBA code that is in use in ephorte.
+Welcome to our Word Add-in, a tool designed to streamline the process of creating work agreements at UiB. This Add-in replaces our legacy VBA macros, providing a more efficient and user-friendly way to generate these documents.
 
-The proof of concept has been implemented as follows: 
-    
-1. The Add in is a form that has asks you to choose a template to use.
-2. Based on the template chosen, you get to a new pane where you input information in:
-    * A dropdown menu
-    * A check box
-    * A text field where you enter text
+With this Add-in, you can automatically populate arbeidsavtaler with the necessary information, saving time and reducing the possibility of errors. It's designed with simplicity in mind, making it easy for anyone to generate arbeidsavtaler directly within Microsoft Word.
 
-2. When clicking the generate document button, a named autotext is inserted into the document at a bookmark name ("START") or at the end of the document. The text is changed based on the input in the arbeidsavtalepane.
+# How to Run
 
+Before running the Word Add-in, make sure you have [Node.js](https://nodejs.org/) installed on your machine.
 
-The initial code was greated using [Yeoman Generator](https://learn.microsoft.com/en-us/office/dev/add-ins/develop/yeoman-generator-overview).
+Follow the steps below to run the Add-in:
 
-# How to run
-
-To run it, start a lokal sever using "npm start" in cmd at the rootlocation of the project.
+1. Open your command prompt or terminal.
+2. Navigate to the root directory of the project using the `cd` command. For example, if your project is in a folder named `word-add-in` on your desktop, you would type `cd Desktop/word-add-in`.
+3. Once you're in the project's root directory, install the project's dependencies by running `npm install`.
+4. After the dependencies have been installed, you can start the local server by running `npm start`.
