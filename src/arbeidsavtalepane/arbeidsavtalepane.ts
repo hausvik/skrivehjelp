@@ -51,111 +51,94 @@ function filterAndUpdateDropdown(AllPositionCodes: PositionCode[], searchTerm: s
 
 // Function to reset the dropdown
 function resetDropdown(AllPositionCodes: PositionCode[], selectElement: HTMLSelectElement): void {
-updateDropDown(selectElement, AllPositionCodes);
+  updateDropDown(selectElement, AllPositionCodes);
 }
 
 /**
  * Initializes the arbeidsavtalepane by adding event listeners to the input fields and checkboxes.
  */
 export async function initializeArbeidsavtalepane() {
-  let AllPositionCodes: PositionCode[];
-  // Checkboxes
+
+  // Input elements
   let engelsk: HTMLInputElement | null = document.getElementById("engelsk") as HTMLInputElement;
-  let mobilityAllowanceBox: HTMLInputElement | null = document.getElementById(
-    "mobilityAllowanceBox"
-  ) as HTMLInputElement;
+  let mobilityAllowanceBox: HTMLInputElement | null = document.getElementById("mobilityAllowanceBox") as HTMLInputElement;
   let familyAllowanceBox: HTMLInputElement | null = document.getElementById("familyAllowanceBox") as HTMLInputElement;
   let additionalDutyBox: HTMLInputElement | null = document.getElementById("additionalDuty") as HTMLInputElement;
-  let additionalDutyGroup: HTMLElement | null = document.getElementById("additionalDutyGroup") as HTMLElement;
   let additionalDutyText: HTMLInputElement | null = document.getElementById("additionalDutyText") as HTMLInputElement;
   let teachingPosBox: HTMLInputElement | null = document.getElementById("teachingPos") as HTMLInputElement;
   let teachingPrepBox: HTMLInputElement | null = document.getElementById("teachingPrep") as HTMLInputElement;
-  let teachingPrepDiv: HTMLElement | null = document.getElementById("teachingPrepDiv") as HTMLElement;
   let externallyFundedBox: HTMLInputElement | null = document.getElementById("externallyFunded") as HTMLInputElement;
-  let externallyFundedGroup: HTMLElement | null = document.getElementById("externallyFundedGroup") as HTMLElement;
-  let externallyFundedProjectName: HTMLInputElement | null = document.getElementById(
-    "externallyFundedProjectName"
-  ) as HTMLInputElement;
-  let externallyFundedEndDate: HTMLInputElement | null = document.getElementById(
-    "externallyFundedEndDate"
-  ) as HTMLInputElement;
-  let externallyFundedTasks: HTMLInputElement | null = document.getElementById(
-    "externallyFundedTasks"
-  ) as HTMLInputElement;
-
-  //termEmployeeGroup
-  let termOptionsGroup: HTMLElement | null = document.getElementById("termOptionsGroup") as HTMLElement;
-  //input fields
+  let externallyFundedProjectName: HTMLInputElement | null = document.getElementById("externallyFundedProjectName") as HTMLInputElement;
+  let externallyFundedEndDate: HTMLInputElement | null = document.getElementById("externallyFundedEndDate") as HTMLInputElement;
+  let externallyFundedTasks: HTMLInputElement | null = document.getElementById("externallyFundedTasks") as HTMLInputElement;
+  let employee: HTMLInputElement | null = document.getElementById("employee") as HTMLInputElement;
+  let tempEmployee: HTMLInputElement | null = document.getElementById("tempEmployee") as HTMLInputElement;
+  let substituteEmployee: HTMLInputElement | null = document.getElementById("substituteEmployee") as HTMLInputElement;
+  let termEmployee: HTMLInputElement | null = document.getElementById("termEmployee") as HTMLInputElement;
+  let researchFellow: HTMLInputElement | null = document.getElementById("researchFellow") as HTMLInputElement;
+  let artisticFellow: HTMLInputElement | null = document.getElementById("artisticFellow") as HTMLInputElement;
+  let postdoktor: HTMLInputElement | null = document.getElementById("postdoc") as HTMLInputElement;
+  let scientificAssistant: HTMLInputElement | null = document.getElementById("scientificAssistant") as HTMLInputElement;
   let nameElement: HTMLInputElement | null = document.getElementById("name") as HTMLInputElement;
   let personalIdElement: HTMLInputElement | null = document.getElementById("personalId") as HTMLInputElement;
   let placeOfWorkElement: HTMLInputElement | null = document.getElementById("placeOfWork") as HTMLInputElement;
-  let positionCodeSelect: HTMLSelectElement | null = document.getElementById("positionCode") as HTMLSelectElement;
-  let percentageFullTimeElement: HTMLInputElement | null = document.getElementById(
-    "percentageWork"
-  ) as HTMLInputElement;
-  let preparationHoursDiv: HTMLElement | null = document.getElementById("preparationHoursDiv") as HTMLElement;
-  let preparationHoursElement: HTMLInputElement | null = document.getElementById(
-    "preparationHours"
-  ) as HTMLInputElement;
+  let percentageFullTimeElement: HTMLInputElement | null = document.getElementById("percentageWork") as HTMLInputElement;
+  let preparationHoursElement: HTMLInputElement | null = document.getElementById("preparationHours") as HTMLInputElement;
   let seniorityElement: HTMLInputElement | null = document.getElementById("seniority") as HTMLInputElement;
   let annualSalaryElement: HTMLInputElement | null = document.getElementById("annualSalary") as HTMLInputElement;
   let startingDateElement: HTMLInputElement | null = document.getElementById("startingDate") as HTMLInputElement;
   let endDateElement: HTMLInputElement | null = document.getElementById("endDate") as HTMLInputElement;
-  let mobilityAllowanceElement: HTMLInputElement | null = document.getElementById(
-    "mobilityAllowance"
-  ) as HTMLInputElement;
+  let mobilityAllowanceElement: HTMLInputElement | null = document.getElementById("mobilityAllowance") as HTMLInputElement;
   let workDescriptionElement: HTMLInputElement | null = document.getElementById("workDescription") as HTMLInputElement;
   let workDescriptionText: HTMLInputElement | null = document.getElementById("workDescriptionText") as HTMLInputElement;
   let familyAllowanceElement: HTMLInputElement | null = document.getElementById("familyAllowance") as HTMLInputElement;
-  let familyAllowanceGroup: HTMLElement | null = document.getElementById("familyAllowanceGroup");
-  let mobilityAllowanceGroup: HTMLElement | null = document.getElementById("mobilityAllowanceGroup");
-  let endDateGroup: HTMLElement | null = document.getElementById("endDateGroup");
-  let button: HTMLButtonElement | null = document.getElementById("generateDocument") as HTMLButtonElement;
   let mandatoryWork: HTMLInputElement | null = document.getElementById("mandatoryWork") as HTMLInputElement;
-  let mandatoryWorkAmount: HTMLElement | null = document.getElementById("mandatoryWorkAmount") as HTMLElement;
   let mandatoryWorkAmountText: HTMLInputElement | null = document.getElementById("mandatoryWorkAmountText") as HTMLInputElement;
+  let substituteAdvertised: HTMLInputElement | null = document.getElementById("substituteAdvertised") as HTMLInputElement;
+  let substituteForGroup: HTMLInputElement | null = document.getElementById("substiuteForGroup") as HTMLInputElement;
+  let substituteFor: HTMLInputElement | null = document.getElementById("substituteFor") as HTMLInputElement;
+
+  // Select elements
+  let positionCodeSelect: HTMLSelectElement | null = document.getElementById("positionCode") as HTMLSelectElement;
+
+  // Elements
+  let additionalDutyGroup: HTMLElement | null = document.getElementById("additionalDutyGroup") as HTMLElement;
+  let teachingPrepDiv: HTMLElement | null = document.getElementById("teachingPrepDiv") as HTMLElement;
+  let externallyFundedGroup: HTMLElement | null = document.getElementById("externallyFundedGroup") as HTMLElement;
+  let termOptionsGroup: HTMLElement | null = document.getElementById("termOptionsGroup") as HTMLElement;
+  let preparationHoursDiv: HTMLElement | null = document.getElementById("preparationHoursDiv") as HTMLElement;
+  let familyAllowanceGroup: HTMLElement | null = document.getElementById("familyAllowanceGroup") as HTMLElement;
+  let mobilityAllowanceGroup: HTMLElement | null = document.getElementById("mobilityAllowanceGroup") as HTMLElement;
+  let endDateGroup: HTMLElement | null = document.getElementById("endDateGroup") as HTMLElement;
+  let mandatoryWorkAmount: HTMLElement | null = document.getElementById("mandatoryWorkAmount") as HTMLElement;
   let educationalCompetence: HTMLElement | null = document.getElementById("educationalCompetence") as HTMLElement;
   let norwegianCompetence: HTMLElement | null = document.getElementById("norwegianCompetence") as HTMLElement;
-  let substituteGroup: HTMLElement | null = document.getElementById("substituteGroup") as HTMLElement; // main group for substitute
-  let substituteAdvertised: HTMLInputElement | null = document.getElementById(
-    "substituteAdvertised"
-  ) as HTMLInputElement;
-  let substituteTypeGroup: HTMLElement | null = document.getElementById("substituteTypeGroup") as HTMLElement; // radiobuttongroup for substitute
-  let substituteForGroup: HTMLInputElement | null = document.getElementById("substiuteForGroup") as HTMLInputElement; // input field for substitute
-  let substituteFor: HTMLInputElement | null = document.getElementById("substituteFor") as HTMLInputElement; // textField
-  let employeeTypeRadio: HTMLElement | null = document.getElementById("employeeTypeRadio") as HTMLElement; // radio group for employee type
-  let employee: HTMLInputElement | null = document.getElementById("employee") as HTMLInputElement; // radio button for employee
-  let tempEmployee: HTMLInputElement | null = document.getElementById("tempEmployee") as HTMLInputElement; // radio button for tempEmployee
-  let substituteEmployee: HTMLInputElement | null = document.getElementById("substituteEmployee") as HTMLInputElement; // radio button for substituteEmployee
-  let termEmployee: HTMLInputElement | null = document.getElementById("termEmployee") as HTMLInputElement;
+  let substituteGroup: HTMLElement | null = document.getElementById("substituteGroup") as HTMLElement;
+  let substituteTypeGroup: HTMLElement | null = document.getElementById("substituteTypeGroup") as HTMLElement;
+  let employeeTypeRadio: HTMLElement | null = document.getElementById("employeeTypeRadio") as HTMLElement;
 
-  let researchFellow: HTMLInputElement | null = document.getElementById("researchFellow") as HTMLInputElement; // radio button for researchFellow
-  let artisticFellow: HTMLInputElement | null = document.getElementById("artisticFellow") as HTMLInputElement; // radio button for artisticFellow
-  let postdoktor: HTMLInputElement | null = document.getElementById("postdoc") as HTMLInputElement; // radio button for postdoktor
-  let scientificAssistant: HTMLInputElement | null = document.getElementById("scientificAssistant") as HTMLInputElement; // radio button for scientificAssistant
-  let norwegianCompetenceGroup: HTMLElement | null = document.getElementById("norwegianCompetenceGroup") as HTMLElement; // radio group for norwegian competence
+  // Button
+  let button: HTMLButtonElement | null = document.getElementById("generateDocument") as HTMLButtonElement;
 
-  // Variables for the text choices
+  // Variables
   let externallyFoundedResearcher = false as boolean;
   let jobTitle = "" as string;
   let category = "" as string; // might be usefull?
   let substituteTypeGroupValue = "" as string;
-
-  // Adds to the dropdown
-  AllPositionCodes = await addToDropDown('assets\\stillingskoder.xlsx', 'positionCode')
+  const AllPositionCodes: PositionCode[] = await addToDropDown('assets\\stillingskoder.xlsx', 'positionCode');
 
   positionCodeSelect?.addEventListener("click", () => {
-    if(scientificAssistant.checked){
-    filterAndUpdateDropdown(AllPositionCodes, "Vitenskapelig", positionCodeSelect);}
+    if (scientificAssistant.checked) {
+      filterAndUpdateDropdown(AllPositionCodes, "Vitenskapelig", positionCodeSelect);
+    }
     else {
       resetDropdown(AllPositionCodes, positionCodeSelect);
     }
   });
   positionCodeSelect?.addEventListener("change", async () => {
-    // Get the selected position code
-    const selectedPositionCode = positionCodeSelect.value;
 
-    // Get the corresponding position details
+    // Get the selected position code and corresponding data
+    const selectedPositionCode = positionCodeSelect.value;
     jobTitle = getPositionDetail(AllPositionCodes, selectedPositionCode, 1, engelsk.checked);
     category = getPositionDetail(AllPositionCodes, selectedPositionCode, 2, engelsk.checked);
 
@@ -181,13 +164,13 @@ export async function initializeArbeidsavtalepane() {
   if (teachingPosBox) {
     teachingPosBox.addEventListener("change", () => {
       const displayValue = teachingPosBox.checked && !tempEmployee.checked ? "block" : "none";
-      educationalCompetence.style.display = displayValue; // Show or hide the educationalCompetence
+      educationalCompetence.style.display = displayValue;
 
       if (!teachingPosBox.checked) {
         radioButtonUtils.uncheckAllRadioButtons(educationalCompetence, "educationalCompetence");
       }
       if (teachingPrepDiv) {
-        teachingPrepDiv.style.display = displayValue; // Show or hide the tchingPrepBox
+        teachingPrepDiv.style.display = displayValue;
       }
     });
   }
@@ -203,10 +186,9 @@ export async function initializeArbeidsavtalepane() {
     });
   }
 
-  // Event listener for the employee radio button
+  // Code for when "Fast ansatt" is selected
   if (employee && endDateGroup) {
     employee.addEventListener("change", () => {
-      // Code for when "Fast ansatt" is selected
       endDateGroup.style.display = "none";
       additionalDutyGroup.style.display = "none";
       substituteGroup.style.display = "none";
@@ -214,10 +196,9 @@ export async function initializeArbeidsavtalepane() {
     });
   }
 
-  // Event listener for the tempEmployee radio button
+  // Code for when "Midlertidig" is selected
   if (tempEmployee && endDateGroup) {
     tempEmployee.addEventListener("change", () => {
-      // Code for when "Midlertidig" is selected
       endDateGroup.style.display = "block";
       workDescriptionElement.style.display = "block";
       norwegianCompetence.style.display = "none";
@@ -229,10 +210,9 @@ export async function initializeArbeidsavtalepane() {
     });
   }
 
-  // Event listener for the substituteEmployee radio button
+  // Code for when "Vikar" is selected
   if (substituteEmployee && endDateGroup) {
     substituteEmployee.addEventListener("change", () => {
-      // Code for when "Vikar" is selected
       substituteGroup.style.display = "block";
       additionalDutyGroup.style.display = "none";
       endDateGroup.style.display = "none";
@@ -249,10 +229,10 @@ export async function initializeArbeidsavtalepane() {
     });
   }
 
-  // Event listener for the termEmployee radio button
+  // Code for when "Åremål" is selected
   if (termEmployee && endDateGroup) {
     termEmployee.addEventListener("change", () => {
-      // Code for when "Åremål" is selected
+
       termOptionsGroup.style.display = "block";
       norwegianCompetence.style.display = "none";
       endDateGroup.style.display = "block";
@@ -261,7 +241,7 @@ export async function initializeArbeidsavtalepane() {
     });
   }
 
-  //Event listner for mandatoryWork (karrierefremmende arbeid)
+  //Event listner for karrierefremmende arbeid
   if (mandatoryWork) {
     mandatoryWork.addEventListener("change", () => {
       if (mandatoryWorkAmount) {
@@ -284,7 +264,7 @@ export async function initializeArbeidsavtalepane() {
     });
   }
 
-  // Add event listeners
+  // Event listner for Research Fellow
   if (researchFellow) {
     researchFellow.addEventListener('click', () => {
       positionCodeSelect.value = "1017 - Stipendiat";
@@ -293,6 +273,7 @@ export async function initializeArbeidsavtalepane() {
     });
   }
 
+  // Event listner for artisticFellow
   if (artisticFellow) {
     artisticFellow.addEventListener('click', () => {
       positionCodeSelect.value = "1017 - Stipendiat";
@@ -300,7 +281,7 @@ export async function initializeArbeidsavtalepane() {
       category = getPositionDetail(AllPositionCodes, positionCodeSelect.value, 2, engelsk.checked);
     });
   }
-
+  // Event listner for postdoktor
   if (postdoktor) {
     postdoktor.addEventListener('click', () => {
       positionCodeSelect.value = "1352 - Postdoktor";
@@ -356,6 +337,9 @@ export async function initializeArbeidsavtalepane() {
           familyAllowance: familyAllowanceElement.value,
           startingDate: startingDateElement.value,
           endDate: endDateElement.value,
+          mobility: mobilityAllowanceBox.checked,
+          family: familyAllowanceBox.checked,
+
         };
 
 
@@ -374,12 +358,8 @@ export async function initializeArbeidsavtalepane() {
         let htmlBodyText: string | null = null;
 
         if (engelsk.checked) {
-          htmlHeaderText = getArbeidsavtaleHeadingEngelsk(
-            data,
-            tempEmployee.checked,
-            mobilityAllowanceBox.checked,
-            familyAllowanceBox.checked
-          );
+          htmlHeaderText = getArbeidsavtaleHeadingEngelsk(data);
+
           htmlBodyText = getArbeidsavtaleBodyEngelsk(
             tempEmployee.checked,
             substituteEmployee.checked,
@@ -403,10 +383,8 @@ export async function initializeArbeidsavtalepane() {
           );
         } else {
           htmlHeaderText = getArbeidsavtaleHeadingNorsk(
-            data,
-            tempEmployee.checked,
-            mobilityAllowanceBox.checked,
-            familyAllowanceBox.checked
+            data
+
           );
           htmlBodyText = getArbeidsavtaleBodyNorsk(
             tempEmployee.checked,

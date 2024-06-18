@@ -8,9 +8,6 @@ import { Arbeidsavtaleheader } from "./headerInterface";
  */
 export function getArbeidsavtaleHeadingEngelsk(
         data: Arbeidsavtaleheader,
-        tempEmployee: boolean,
-        mobility: boolean,
-        family: boolean
       ): string {
         const {
           name,
@@ -25,6 +22,8 @@ export function getArbeidsavtaleHeadingEngelsk(
           familyAllowance,
           startingDate,
           endDate,
+          mobility,
+          family
         } = data;
         let mobilityRow1 = mobility ? "Mobilitetstillegg" : "";
         let mobilityRow2 = mobility ? `${mobilityAllowance}` : "";
@@ -116,9 +115,7 @@ export function getArbeidsavtaleHeadingEngelsk(
  */
 export function getArbeidsavtaleHeadingNorsk(
   data: Arbeidsavtaleheader,
-  tempEmployee: boolean,
-  mobility: boolean,
-  family: boolean
+
 ): string {
-  return getArbeidsavtaleHeadingEngelsk(data, tempEmployee, mobility, family);
+  return getArbeidsavtaleHeadingEngelsk(data);
 }

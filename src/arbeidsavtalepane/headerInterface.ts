@@ -14,6 +14,8 @@
  * @property {string} familyAllowance - The family allowance for the employee.
  * @property {string} startingDate - The starting date of the employment contract.
  * @property {string} endDate - The end date of the employment contract.
+ * @property {boolean} mobility - Whether the employee is entitled to a mobility allowance.
+ * @property {boolean} family - Whether the employee is entitled to a family allowance.
  */
 export interface Arbeidsavtaleheader {
   name: string;
@@ -28,4 +30,6 @@ export interface Arbeidsavtaleheader {
   familyAllowance: string;
   startingDate: string;
   endDate: string;
+  mobility: boolean;
+  family: boolean;
 }
