@@ -1,4 +1,5 @@
 import { initializeArbeidsavtalepane } from '../arbeidsavtalepane/arbeidsavtalepane';
+import arbeidsavtalepaneHtml from '../arbeidsavtalepane/arbeidsavtalepane.html';
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.
  * See LICENSE in the project root for license information.
@@ -10,7 +11,7 @@ Office.onReady((info) => {
   if (info.host === Office.HostType.Word) {
     (document.getElementById("sideload-msg") as HTMLElement).style.display = "none";
     (document.getElementById("app-body") as HTMLElement).style.display = "flex";
-    (document.getElementById("testMal") as HTMLButtonElement).onclick = testMal; // A clicker is needed for every button
+    (document.getElementById("testMal") as HTMLButtonElement).onclick = arbeidsavtalePane; // A clicker is needed for every button
   }
 });
 
@@ -18,19 +19,15 @@ Office.onReady((info) => {
  * Inserts the HTML for testMal into the document.
  * Serves as a template for later HTMLtext insertions.
  */
-export async function testMal() {
+export async function arbeidsavtalePane() {
   // Get a reference to the task pane's body
   const taskPaneBody = document.getElementById("app-body");
 
   // Load the content of arbeidsavtalepane.html into the taskpane
-  fetch('https://localhost:3000/arbeidsavtalepane.html')
-    .then(response => response.text())
-    .then(data => {
-      if (taskPaneBody) {
-        taskPaneBody.innerHTML = data;
-        initializeArbeidsavtalepane();
-      }
-    });
+  if (taskPaneBody) {
+    taskPaneBody.innerHTML = arbeidsavtalepaneHtml;
+    initializeArbeidsavtalepane();
+  }
 }
 /**
  * Inserts the given text into the document.
@@ -56,10 +53,10 @@ export async function insertText(textToInsert: string) {
       await context.sync();
     }
 
-    // Insert the text
-    range.insertHtml(textToInsert, Word.InsertLocation.replace);
+// Insert the page break and the text
+range.insertHtml("<br style='mso-special-character:line-break;page-break-before:always'>" + textToInsert, Word.InsertLocation.replace);
 
-    await context.sync();
+await context.sync();
   });
 }
 
