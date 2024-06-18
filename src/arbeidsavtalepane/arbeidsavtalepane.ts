@@ -23,11 +23,9 @@ type PositionCode = {
  * Initializes the arbeidsavtalepane by adding event listeners to the input fields and checkboxes.
  */
 export async function initializeArbeidsavtalepane() {
+  console.log("Debugg-active");
   let positionCodes: PositionCode[];
   // Checkboxes
-  let termCheckBox: HTMLInputElement | null = document.getElementById("termCheckBox") as HTMLInputElement;
-  let tempEmployee: HTMLInputElement | null = document.getElementById("tempEmployee") as HTMLInputElement;
-  let substituteEmployee: HTMLInputElement | null = document.getElementById("substituteEmployee") as HTMLInputElement;
   let engelsk: HTMLInputElement | null = document.getElementById("engelsk") as HTMLInputElement;
   let mobilityAllowanceBox: HTMLInputElement | null = document.getElementById(
     "mobilityAllowanceBox"
@@ -51,7 +49,7 @@ export async function initializeArbeidsavtalepane() {
     "externallyFundedTasks"
   ) as HTMLInputElement;
 
-  //termcheckboxGroup
+  //termEmployeeGroup
   let termOptionsGroup: HTMLElement | null = document.getElementById("termOptionsGroup") as HTMLElement;
   //input fields
   let nameElement: HTMLInputElement | null = document.getElementById("name") as HTMLInputElement;
@@ -91,7 +89,11 @@ export async function initializeArbeidsavtalepane() {
   let substituteTypeGroup: HTMLElement | null = document.getElementById("substituteTypeGroup") as HTMLElement; // radiobuttongroup for substitute
   let substituteForGroup: HTMLInputElement | null = document.getElementById("substiuteForGroup") as HTMLInputElement; // input field for substitute
   let substituteFor: HTMLInputElement | null = document.getElementById("substituteFor") as HTMLInputElement; // textField
-
+  let employeeTypeRadio: HTMLElement | null = document.getElementById("employeeTypeRadio") as HTMLElement; // radio group for employee type
+  let employee: HTMLInputElement | null = document.getElementById("employee") as HTMLInputElement; // radio button for employee
+  let tempEmployee: HTMLInputElement | null = document.getElementById("tempEmployee") as HTMLInputElement; // radio button for tempEmployee
+  let substituteEmployee: HTMLInputElement | null = document.getElementById("substituteEmployee") as HTMLInputElement; // radio button for substituteEmployee
+  let termEmployee: HTMLInputElement | null = document.getElementById("termEmployee") as HTMLInputElement;
   // Variables for the text choices
   let externallyFoundedResearcher = false as boolean;
   let jobTitle = "" as string;
@@ -153,27 +155,66 @@ export async function initializeArbeidsavtalepane() {
     });
   }
 
-  // termCheckBox event listener
-  if (termCheckBox && endDateGroup) {
-    termCheckBox.addEventListener("change", () => {
-      if (termCheckBox.checked) {
-        termOptionsGroup.style.display = "block";
-        endDateGroup.style.display = termCheckBox.checked ? "block" : "none";
+  // Event listener for the employee radio button
+  if (employee && endDateGroup) {
+    employee.addEventListener("change", () => {
+      // Code for when "Fast ansatt" is selected
+      endDateGroup.style.display = "none";
+      additionalDutyGroup.style.display = "none";
+      substituteGroup.style.display = "none";
+      termOptionsGroup.style.display = "none";
+    });
+  }
+
+  // Event listener for the tempEmployee radio button
+  if (tempEmployee && endDateGroup) {
+    tempEmployee.addEventListener("change", () => {
+      // Code for when "Midlertidig" is selected
+      endDateGroup.style.display = "block";
+      workDescriptionElement.style.display = "block";
+      norwegianCompetence.style.display = "none";
+      additionalDutyGroup.style.display = "none";
+      substituteGroup.style.display = "none";
+      termOptionsGroup.style.display = "none";
+      if (teachingPosBox.checked) { educationalCompetence.style.display = "none"; }
+    });
+  }
+
+  // Event listener for the substituteEmployee radio button
+  if (substituteEmployee && endDateGroup) {
+    substituteEmployee.addEventListener("change", () => {
+      // Code for when "Vikar" is selected
+      substituteGroup.style.display = "block";
+      additionalDutyGroup.style.display = "none";
+      endDateGroup.style.display = "none";
+      termOptionsGroup.style.display = "none";
+      substituteTypeGroupValue = radioButtonUtils.getSelectedRadioButtonValue(substituteTypeGroup, "substitute");
+      if (substituteTypeGroupValue === "person" || substituteTypeGroupValue === "many") {
+        substituteForGroup.style.display = "block";
       } else {
-        termOptionsGroup.style.display = "none";
-        radioButtonUtils.uncheckAllRadioButtons(termOptionsGroup, "termType");
-        additionalDutyGroup.style.display = "none";
-        endDateGroup.style.display = termCheckBox.checked ? "block" : "none";
+        substituteForGroup.style.display = "none";
+        substituteFor.value = "";
+        substituteAdvertised.checked = false;
       }
+    });
+  }
+
+  // Event listener for the termEmployee radio button
+  if (termEmployee && endDateGroup) {
+    termEmployee.addEventListener("change", () => {
+      // Code for when "Åremål" is selected
+      termOptionsGroup.style.display = "block";
+      endDateGroup.style.display = "block";
+      substituteGroup.style.display = "none";
+      additionalDutyGroup.style.display = "none";
     });
   }
 
   // Event listener for termOptionsGroup
   if (termOptionsGroup) {
     termOptionsGroup.addEventListener("change", () => {
-      radioButtonUtils.checkSelectedRadioButtonValue(termOptionsGroup, "termType", "ekstraverv") ?
-        additionalDutyGroup.style.display = "block" :
-        additionalDutyGroup.style.display = "none";
+      additionalDutyGroup.style.display = "block"
+
     }
     );
   }
@@ -187,50 +228,6 @@ export async function initializeArbeidsavtalepane() {
     });
   }
 
-  // Event listener for the tempEmployee box
-  if (endDateGroup && tempEmployee) {
-    tempEmployee.addEventListener("change", () => {
-      endDateGroup.style.display = tempEmployee.checked ? "block" : "none";
-      if (!tempEmployee.checked) {
-        substituteEmployee.checked = false;
-        substituteGroup.style.display = "none";
-        workDescriptionElement.style.display = "none";
-        substituteFor.value = "";
-        substituteFor.value = "";
-        substituteForGroup.style.display = "none";
-        substituteAdvertised.checked = false;
-        norwegianCompetence.style.display = "block";
-        const radios = substituteTypeGroup.querySelectorAll('input[type="radio"]');
-        radios.forEach((radio: Element) => {
-          (radio as HTMLInputElement).checked = false;
-        });
-        if (teachingPosBox.checked) { educationalCompetence.style.display = "block"; }
-      }
-      else {
-        workDescriptionElement.style.display = "block";
-        norwegianCompetence.style.display = "none";
-        if (teachingPosBox.checked) { educationalCompetence.style.display = "none"; }
-      }
-    });
-  }
-
-  if (substituteEmployee) {
-    substituteEmployee.addEventListener("change", () => {
-      if (substituteEmployee.checked) {
-        tempEmployee.checked = true;
-        substituteGroup.style.display = "block";
-      } else {
-        substituteGroup.style.display = "none";
-
-        const radios = substituteTypeGroup.querySelectorAll('input[type="radio"]');
-        radios.forEach((radio: Element) => {
-          (radio as HTMLInputElement).checked = false;
-        });
-        substituteFor.value = "";
-        substituteAdvertised.checked = false;
-      }
-    });
-  }
 
   if (substituteTypeGroup && substituteForGroup) {
     substituteTypeGroup.addEventListener("change", () => {
