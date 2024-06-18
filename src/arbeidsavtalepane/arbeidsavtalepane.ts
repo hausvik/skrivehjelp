@@ -20,6 +20,30 @@ type PositionCode = {
 };
 
 /**
+ * Get job title or category from a position code.
+ * @param positionCodesElement Element from the positionCodes array
+ * @param checkString String to check for
+ * @param returnType 1 to return jobTitle, 2 to return category
+ * @param isEnglish Boolean to specify whether to return the Norwegian or English job title
+ * @returns Job title or category, depending on returnType
+ */
+function getPositionDetail(positionCodesElement: any, checkString: string, returnType: number, isEnglish: boolean) {
+  const positionDetails = positionCodesElement.find((c: any) => c.Norsk === checkString) || null;
+
+  if (positionDetails) {
+    if (returnType === 1) {
+      return isEnglish
+        ? positionDetails['Engelsk stillingsbetegnelse'].toLowerCase()
+        : positionDetails['Norsk stillingsbetegnelse'].toLowerCase();
+    } else if (returnType === 2) {
+      return positionDetails['Kategori'];
+    }
+  }
+
+  return null;
+}
+
+/**
  * Initializes the arbeidsavtalepane by adding event listeners to the input fields and checkboxes.
  */
 export async function initializeArbeidsavtalepane() {
@@ -93,6 +117,13 @@ export async function initializeArbeidsavtalepane() {
   let tempEmployee: HTMLInputElement | null = document.getElementById("tempEmployee") as HTMLInputElement; // radio button for tempEmployee
   let substituteEmployee: HTMLInputElement | null = document.getElementById("substituteEmployee") as HTMLInputElement; // radio button for substituteEmployee
   let termEmployee: HTMLInputElement | null = document.getElementById("termEmployee") as HTMLInputElement;
+
+  let researchFellow: HTMLInputElement | null = document.getElementById("researchFellow") as HTMLInputElement; // radio button for researchFellow
+  let artisticFellow: HTMLInputElement | null = document.getElementById("artisticFellow") as HTMLInputElement; // radio button for artisticFellow
+  let postdoktor: HTMLInputElement | null = document.getElementById("postdoc") as HTMLInputElement; // radio button for postdoktor
+  let scientificAssistant: HTMLInputElement | null = document.getElementById("scientificAssistant") as HTMLInputElement; // radio button for scientificAssistant
+  let norwegianCompetenceGroup: HTMLElement | null = document.getElementById("norwegianCompetenceGroup") as HTMLElement; // radio group for norwegian competence
+
   // Variables for the text choices
   let externallyFoundedResearcher = false as boolean;
   let jobTitle = "" as string;
@@ -107,15 +138,15 @@ export async function initializeArbeidsavtalepane() {
     const selectedPositionCode = positionCodeSelect.value;
 
     // Get the corresponding position details
-    const positionDetails = positionCodes.find(c => c.Norsk === selectedPositionCode) || null;
+    jobTitle = getPositionDetail(positionCodes, selectedPositionCode, 1, engelsk.checked);
+    category = getPositionDetail(positionCodes, selectedPositionCode, 2, engelsk.checked);
 
-
-    if (positionDetails) {
-      jobTitle = engelsk.checked
-        ? (positionDetails as any)['Engelsk stillingsbetegnelse']
-        : (positionDetails as any)['Norsk stillingsbetegnelse'];
-      jobTitle = jobTitle.toLowerCase();
-      category = (positionDetails as any)['Kategori']; // might be usefull?
+    if (employee.checked && category ==="V") {
+      norwegianCompetence.style.display = "block";
+    }
+    else {
+      norwegianCompetence.style.display = "none";
+      radioButtonUtils.uncheckAllRadioButtons(norwegianCompetence, "norwegianCompetence");
     }
   });
 
@@ -175,6 +206,7 @@ export async function initializeArbeidsavtalepane() {
       additionalDutyGroup.style.display = "none";
       substituteGroup.style.display = "none";
       termOptionsGroup.style.display = "none";
+      norwegianCompetence.style.display = "none";
       if (teachingPosBox.checked) { educationalCompetence.style.display = "none"; }
     });
   }
@@ -187,6 +219,7 @@ export async function initializeArbeidsavtalepane() {
       additionalDutyGroup.style.display = "none";
       endDateGroup.style.display = "none";
       termOptionsGroup.style.display = "none";
+      norwegianCompetence.style.display = "none";
       substituteTypeGroupValue = radioButtonUtils.getSelectedRadioButtonValue(substituteTypeGroup, "substitute");
       if (substituteTypeGroupValue === "person" || substituteTypeGroupValue === "many") {
         substituteForGroup.style.display = "block";
@@ -203,22 +236,14 @@ export async function initializeArbeidsavtalepane() {
     termEmployee.addEventListener("change", () => {
       // Code for when "Åremål" is selected
       termOptionsGroup.style.display = "block";
+      norwegianCompetence.style.display = "none";
       endDateGroup.style.display = "block";
       substituteGroup.style.display = "none";
-      additionalDutyGroup.style.display = "none";
+
     });
   }
 
-  // Event listener for termOptionsGroup
-  if (termOptionsGroup) {
-    termOptionsGroup.addEventListener("change", () => {
-      additionalDutyGroup.style.display = "block"
-
-    }
-    );
-  }
-
-  //Event listner for mandatoryWork
+  //Event listner for mandatoryWork (karrierefremmende arbeid)
   if (mandatoryWork) {
     mandatoryWork.addEventListener("change", () => {
       if (mandatoryWorkAmount) {
@@ -227,7 +252,7 @@ export async function initializeArbeidsavtalepane() {
     });
   }
 
-
+  //Event listener for the substituteTypeGroup (vikar)
   if (substituteTypeGroup && substituteForGroup) {
     substituteTypeGroup.addEventListener("change", () => {
       substituteTypeGroupValue = radioButtonUtils.getSelectedRadioButtonValue(substituteTypeGroup, "substitute");
@@ -238,6 +263,31 @@ export async function initializeArbeidsavtalepane() {
         substituteFor.value = "";
         substituteAdvertised.checked = false;
       }
+    });
+  }
+
+  // Add event listeners
+  if (researchFellow) {
+    researchFellow.addEventListener('click', () => {
+      positionCodeSelect.value = "1017 - Stipendiat";
+      jobTitle = getPositionDetail(positionCodes, positionCodeSelect.value, 1, engelsk.checked);
+      category = getPositionDetail(positionCodes, positionCodeSelect.value, 2, engelsk.checked);
+    });
+  }
+
+  if (artisticFellow) {
+    artisticFellow.addEventListener('click', () => {
+      positionCodeSelect.value = "1017 - Stipendiat";
+      jobTitle = getPositionDetail(positionCodes, positionCodeSelect.value, 1, engelsk.checked);
+      category = getPositionDetail(positionCodes, positionCodeSelect.value, 2, engelsk.checked);
+    });
+  }
+
+  if (postdoktor) {
+    postdoktor.addEventListener('click', () => {
+      positionCodeSelect.value = "1352 - Postdoktor";
+      jobTitle = getPositionDetail(positionCodes, positionCodeSelect.value, 1, engelsk.checked);
+      category = getPositionDetail(positionCodes, positionCodeSelect.value, 2, engelsk.checked);
     });
   }
 

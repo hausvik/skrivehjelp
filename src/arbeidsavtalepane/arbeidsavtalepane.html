@@ -16,7 +16,7 @@
         <h2 class="mb-5">Arbeidsavtale tekst</h2>
         <form>
             <!-- Check box group -->
-            <div class="form-group" style="display: flex; flex-wrap: wrap;">
+            <div class="form-group" style="display: flex; flex-wrap: wrap; justify-content: space-between;">
                 <div style="flex: 1;">
                     <div class="form-check" id="employeeTypeRadio">
                         <input type="radio" class="form-check-input" id="employee" name="employeeType" checked>
@@ -44,8 +44,6 @@
                         <input type="checkbox" class="form-check-input" id="familyAllowanceBox">
                         <label class="form-check-label" for="familyAllowanceBox">Familietillegg</label>
                     </div>
-                </div>
-                <div style="flex: 1;">
                     <div class="form-check">
                         <input type="checkbox" class="form-check-input" id="engelsk">
                         <label class="form-check-label" for="engelsk">Engelsk avtale</label>
@@ -59,7 +57,6 @@
                         <label class="form-check-label" for="externallyFunded">Eksternfinansiert</label>
                     </div>
                 </div>
-                <!-- Add more checkboxes as needed -->
             </div>
 
             <!-- Åremål gruppe av knapper-->
@@ -108,7 +105,8 @@
                     <div>
                         <input type="radio" class="form-check-input" name="termType" id="artisticFellow"
                             value="kunstnerisk">
-                        <label class="form-check-label" for="artisticFellow">Stipendiat - utøvende kunstnerisk utvikling</label>
+                        <label class="form-check-label" for="artisticFellow">Stipendiat - utøvende kunstnerisk
+                            utvikling</label>
                     </div>
                     <div>
                         <input type="radio" class="form-check-input" name="termType" id="scientificAssistant"
@@ -122,14 +120,11 @@
                     <input type="checkbox" id="mandatoryWork">
                     <label for="mandatoryWork">Karrierefremmende arbeid</label>
                 </div>
-                <div class="form-group" id= "mandatoryWorkAmount" style="display: none;">
+                <div class="form-group" id="mandatoryWorkAmount" style="display: none;">
                     <label for="mandatoryWorkAmount">Mengde karrierefremmende arbeid</label>
                     <input type="text" class="form-control" id="mandatoryWorkAmountText">
                 </div>
             </div>
-
-
-
             <div class="form-group" id="substituteGroup" style="display: none;">
                 <label>Om vikariatet</label>
                 <div class="form-check">
@@ -180,21 +175,7 @@
                 </div>
             </div>
 
-            <div class="form-group" id="norwegianCompetence">
-                <div>
-                    <label>Innfrir den ansatte kravet om norskferdigheter ved ansettelse?</label>
-                    <div class="form-check">
-                        <input type="radio" class="form-check-input" name="norwegianCompetence"
-                            id="norwegianCompetenceYes" value="yes">
-                        <label class="form-check-label" for="norwegianCompetenceYes">Ja</label>
-                    </div>
-                    <div class="form-check">
-                        <input type="radio" class="form-check-input" name="norwegianCompetence"
-                            id="norwegianCompetenceNo" value="no">
-                        <label class="form-check-label" for="norwegianCompetenceNo">Nei</label>
-                    </div>
-                </div>
-            </div>
+
 
             <div class="form-group">
 
@@ -219,6 +200,21 @@
                     <select class="form-control" id="positionCode">
                         <option value=""></option>
                     </select>
+                </div>
+                <div class="form-group" id="norwegianCompetence" style="display: none">
+                    <div>
+                        <label>Innfrir den ansatte kravet om norskferdigheter ved ansettelse?</label>
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input" name="norwegianCompetence"
+                                id="norwegianCompetenceYes" value="yes">
+                            <label class="form-check-label" for="norwegianCompetenceYes">Ja</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input" name="norwegianCompetence"
+                                id="norwegianCompetenceNo" value="no">
+                            <label class="form-check-label" for="norwegianCompetenceNo">Nei</label>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="form-group">
