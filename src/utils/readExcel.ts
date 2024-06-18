@@ -1,44 +1,97 @@
-import * as XLSX from 'xlsx';
+import { Workbook } from "exceljs";
+import fetch from "node-fetch";
 
-
-interface Position {
-  SKO: string;
-  Norsk: string;
-  Engelsk: string;
-  NorskStillingsbetegnelse: string;
-  EngelskStillingsbetegnelse: string;
-  Kategori: string;
-}
-/**
- * Reads an Excel file and returns an array of Position objects.
- * The sorting matches the Excel-file, if we want to enforce a spesific order add another column at the end of the table in the Excel-file and sort by that.
- * @param url - The URL of the Excel file.
- * @returns {Promise<Position[]>} - A promise that resolves to an array of Position objects.
- **/
-export async function readExcel(url: string): Promise<Position[]> {
+export async function readExcel(url: string): Promise<any[]> {
   // Fetch the Excel file
   const response = await fetch(url);
   const arrayBuffer = await response.arrayBuffer();
 
   // Parse the Excel file
-  const workbook = XLSX.read(new Uint8Array(arrayBuffer), { type: 'array' });
+  const workbook = new Workbook();
+  await workbook.xlsx.load(new Uint8Array(arrayBuffer));
 
   // Get the first worksheet
-  const worksheetName = workbook.SheetNames[0];
-  const worksheet = workbook.Sheets[worksheetName];
+  const worksheet = workbook.worksheets[0];
 
-  // Convert the worksheet to JSON
-  const json = XLSX.utils.sheet_to_json(worksheet, { header: 'A' });
+  // Get headers from the first row
+  let headers: string[] = [];
+  worksheet.getRow(1).eachCell((cell, colNumber) => {
+    headers[colNumber - 1] = cell.text;
+  });
 
-  // Map each row to a Position object
-  const positions: Position[] = json.map((row: any) => ({
-    SKO: row['A'],
-    Norsk: row['B'],
-    Engelsk: row['C'],
-    NorskStillingsbetegnelse: row['D'],
-    EngelskStillingsbetegnelse: row['E'],
-    Kategori: row['F'],
-  }));
+  // Map each row to an object using headers as keys
+  const data: any[] = [];
+  worksheet.eachRow((row, rowNumber) => {
+    if (rowNumber > 1) { // Skip header row
+      let rowData: any = {};
+      row.eachCell((cell, colNumber) => {
+        rowData[headers[colNumber - 1]] = cell.text;
+      });
+      data.push(rowData);
+    }
+  });
 
-  return positions;
+  return data;
+}
+
+/**
+ * Reads data from an Excel file and adds it to a dropdown.
+ * @param {string} filePath - The path to the Excel file.
+ * @param {string} elementId - The id of the dropdown element.
+ * @returns {Promise<T[]>} - A promise that resolves to an array of data.
+ */
+export async function addToDropDown<T extends { Norsk: string }>(filePath: string, elementId: string): Promise<T[]> {
+  let data: T[] = await readExcel(filePath);
+
+  let selectElement: HTMLSelectElement | null = document.getElementById(elementId) as HTMLSelectElement;
+
+  // Populate the select element with the data
+  data.forEach((item: T, index: number) => {
+    // Ignore the first element
+    if (index === 0) return;
+    // Create a new option element
+    let option = document.createElement("option");
+
+    // Set the value and text of the option element
+    option.value = item.Norsk;
+    option.text = item.Norsk;
+
+    // Add the option element to the select element
+    selectElement.add(option);
+  });
+
+  return data;
+}
+
+type PositionCode = {
+  SKO: string;
+  Norsk: string;
+  Engelsk: string;
+  norJobTitle: string;
+  engJobTitle: string;
+  Kategori: string;
+};
+
+export function updateDropDown(selectElement: HTMLSelectElement, positionCodes: PositionCode[]): void {
+  // Clear existing options
+  selectElement.innerHTML = '';
+
+  // Create and add a blank option at the start
+  let blankOption = document.createElement("option");
+  blankOption.value = '';
+  blankOption.text = '';
+  selectElement.add(blankOption);
+
+  // Populate the select element with the data
+  positionCodes.forEach((item: PositionCode) => {
+    // Create a new option element
+    let option = document.createElement("option");
+
+    // Set the value and text of the option element
+    option.value = item.Norsk;
+    option.text = item.Norsk;
+
+    // Add the option element to the select element
+    selectElement.add(option);
+  });
 }

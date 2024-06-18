@@ -5,9 +5,9 @@
   <ProviderName>Contoso</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
   <DisplayName DefaultValue="UiB Standardtekster"/>
-  <Description DefaultValue="A template to get started."/>
-  <IconUrl DefaultValue="\\felles2.uib.no\UiBFelles\Office Addins\vew002\assets\icon-32.png"/>
-  <HighResolutionIconUrl DefaultValue="\\felles2.uib.no\UiBFelles\Office Addins\vew002\assets\icon-64.png"/>
+  <Description DefaultValue= "Inneholder standardtekster fra UiB f.eks. til å generere arbeidsavtaler."/>
+  <IconUrl DefaultValue="https://org.uib.no/ds/add-in/prod/assets/icon-32.png"/>
+  <HighResolutionIconUrl DefaultValue="https://org.uib.no/ds/add-in/prod/assets/icon-64.png"/>
   <SupportUrl DefaultValue="https://www.uib.no"/>  <!-- Muligens lenke til support side? -->
   <AppDomains>
     <AppDomain>https://www.uib.no</AppDomain>
@@ -16,7 +16,7 @@
     <Host Name="Document"/>
   </Hosts>
   <DefaultSettings>
-    <SourceLocation DefaultValue="\\felles2.uib.no\UiBFelles\Office Addins\vew002\taskpane.html"/>
+    <SourceLocation DefaultValue="https://org.uib.no/ds/add-in/prod/taskpane.html"/>
   </DefaultSettings>
   <Permissions>ReadWriteDocument</Permissions>
   <VersionOverrides xmlns="http://schemas.microsoft.com/office/taskpaneappversionoverrides" xsi:type="VersionOverridesV1_0">
@@ -62,22 +62,21 @@
     </Hosts>
     <Resources>
       <bt:Images>
-        <bt:Image id="Icon.16x16" DefaultValue="\\felles2.uib.no\UiBFelles\Office Addins\vew002\assets\icon-16.png"/>
-        <bt:Image id="Icon.32x32" DefaultValue="\\felles2.uib.no\UiBFelles\Office Addins\vew002\assets\icon-32.png"/>
-        <bt:Image id="Icon.80x80" DefaultValue="\\felles2.uib.no\UiBFelles\Office Addins\vew002\assets\icon-80.png"/>
+        <bt:Image id="Icon.16x16" DefaultValue="https://org.uib.no/ds/add-in/prod/assets/icon-16.png"/>
+        <bt:Image id="Icon.32x32" DefaultValue="https://org.uib.no/ds/add-in/prod/assets/icon-32.png"/>
+        <bt:Image id="Icon.80x80" DefaultValue="https://org.uib.no/ds/add-in/prod/assets/icon-80.png"/>
       </bt:Images>
       <bt:Urls>
         <bt:Url id="GetStarted.LearnMoreUrl" DefaultValue="https://go.microsoft.com/fwlink/?LinkId=276812"/>
-        <bt:Url id="Commands.Url" DefaultValue="\\felles2.uib.no\UiBFelles\Office Addins\vew002\commands.html"/>
-        <bt:Url id="Taskpane.Url" DefaultValue="\\felles2.uib.no\UiBFelles\Office Addins\vew002\taskpane.html"/>
+        <bt:Url id="Commands.Url" DefaultValue="https://org.uib.no/ds/add-in/prod/commands.html"/>
+        <bt:Url id="Taskpane.Url" DefaultValue="https://org.uib.no/ds/add-in/prod/taskpane.html"/>
       </bt:Urls>
       <bt:ShortStrings>
-        <bt:String id="GetStarted.Title" DefaultValue="Kom i gang med standardtekster!"/>
-        <bt:String id="CommandsGroup.Label" DefaultValue="UiB brevtekster"/>
+        <bt:String id="CommandsGroup.Label" DefaultValue="UiB Standardtekster"/>
         <bt:String id="TaskpaneButton.Label" DefaultValue="UiB Standardtekster"/>
       </bt:ShortStrings>
       <bt:LongStrings>
-        <bt:String id="GetStarted.Description" DefaultValue="Ditt eksempel på tilleggsprogram ble lastet inn vellykket. Gå til HJEM-fanen og klikk på 'Start appen'-knappen for å komme i gang."/>
+        <bt:String id="GetStarted.Description" DefaultValue="Word tillegget ditt ble startet som det skulle, klikk her for å komme i gang!"/>
         <bt:String id="TaskpaneButton.Tooltip" DefaultValue="Klikk for å starte appen."/>
       </bt:LongStrings>
     </Resources>

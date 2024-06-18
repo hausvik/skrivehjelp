@@ -15,22 +15,24 @@
     <div class="container py-5">
         <h2 class="mb-5">Arbeidsavtale tekst</h2>
         <form>
-
-
             <!-- Check box group -->
-            <div class="form-group" style="display: flex; flex-wrap: wrap;">
+            <div class="form-group" style="display: flex; flex-wrap: wrap; justify-content: space-between;">
                 <div style="flex: 1;">
+                    <div class="form-check" id="employeeTypeRadio">
+                        <input type="radio" class="form-check-input" id="employee" name="employeeType" checked>
+                        <label class="form-check-label" for="employee">Fast ansatt</label>
+                    </div>
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="tempEmployee">
+                        <input type="radio" class="form-check-input" id="tempEmployee" name="employeeType">
                         <label class="form-check-label" for="tempEmployee">Midlertidig</label>
                     </div>
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="substituteEmployee">
+                        <input type="radio" class="form-check-input" id="substituteEmployee" name="employeeType">
                         <label class="form-check-label" for="substituteEmployee">Vikar</label>
                     </div>
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="engelsk">
-                        <label class="form-check-label" for="engelsk">Engelsk avtale</label>
+                        <input type="radio" class="form-check-input" id="termEmployee" name="employeeType">
+                        <label class="form-check-label" for="termEmployee">Åremål</label>
                     </div>
                 </div>
                 <div style="flex: 1;">
@@ -42,11 +44,9 @@
                         <input type="checkbox" class="form-check-input" id="familyAllowanceBox">
                         <label class="form-check-label" for="familyAllowanceBox">Familietillegg</label>
                     </div>
-                </div>
-                <div style="flex: 1;">
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="additionalDuty">
-                        <label class="form-check-label" for="additionalDuty">Ekstraverv</label>
+                        <input type="checkbox" class="form-check-input" id="engelsk">
+                        <label class="form-check-label" for="engelsk">Engelsk avtale</label>
                     </div>
                     <div class="form-check">
                         <input type="checkbox" class="form-check-input" id="teachingPos">
@@ -57,9 +57,75 @@
                         <label class="form-check-label" for="externallyFunded">Eksternfinansiert</label>
                     </div>
                 </div>
-                <!-- Add more checkboxes as needed -->
             </div>
-            <div class="form-group" id="substituteGroup" class="form-group" style="display: none;">
+
+            <!-- Åremål gruppe av knapper-->
+            <div class="form-group" id="termOptionsGroup" style="display: none;">
+                <label>Åremål</label>
+                <div style="padding-left: 20px;">
+                    <div>
+                        <input type="radio" class="form-check-input" name="termType" id="additionalDuty"
+                            value="ekstraverv">
+                        <label class="form-check-label" for="additionalDuty">Ekstraverv</label>
+                    </div>
+                    <div>
+                        <input type="radio" class="form-check-input" name="termType" id="leader" value="leader">
+                        <label class="form-check-label" for="leader">Leder for avdeling eller grunnenhet</label>
+                    </div>
+                    <div>
+                        <input type="radio" class="form-check-input" name="termType" id="doubleCompetence"
+                            value="dobbeltkompetanseutdanning">
+                        <label class="form-check-label" for="doubleCompetence">Dobbeltkompetanseutdanning</label>
+                    </div>
+                    <div>
+                        <input type="radio" class="form-check-input" name="termType" id="specialistCandidate"
+                            value="spesialistkandidat">
+                        <label class="form-check-label" for="specialistCandidate">Spesialistkandidat</label>
+                    </div>
+                    <div>
+                        <input type="radio" class="form-check-input" name="termType" id="entryPosition"
+                            value="innstegsstilling">
+                        <label class="form-check-label" for="entryPosition">Innstegsstilling</label>
+                    </div>
+                    <div>
+                        <input type="radio" class="form-check-input" name="termType" id="creativeArtist"
+                            value="skapende">
+                        <label class="form-check-label" for="creativeArtist">Skapende eller utøvende kunstnerisk
+                            kompetanse</label>
+                    </div>
+                    <div>
+                        <input type="radio" class="form-check-input" name="termType" id="postdoc" value="postdoktor">
+                        <label class="form-check-label" for="postdoc">Postdoktor</label>
+                    </div>
+                    <div>
+                        <input type="radio" class="form-check-input" name="termType" id="researchFellow"
+                            value="stipendiat">
+                        <label class="form-check-label" for="researchFellow">Stipendiat</label>
+                    </div>
+                    <div>
+                        <input type="radio" class="form-check-input" name="termType" id="artisticFellow"
+                            value="kunstnerisk">
+                        <label class="form-check-label" for="artisticFellow">Stipendiat - utøvende kunstnerisk
+                            utvikling</label>
+                    </div>
+                    <div>
+                        <input type="radio" class="form-check-input" name="termType" id="scientificAssistant"
+                            value="vitenskapelig">
+                        <label class="form-check-label" for="scientificAssistant">Vitenskapelig assistent</label>
+                    </div>
+                </div>
+                <br>
+                <!-- Karrierefremmende checkbox -->
+                <div>
+                    <input type="checkbox" id="mandatoryWork">
+                    <label for="mandatoryWork">Karrierefremmende arbeid</label>
+                </div>
+                <div class="form-group" id="mandatoryWorkAmount" style="display: none;">
+                    <label for="mandatoryWorkAmount">Mengde karrierefremmende arbeid</label>
+                    <input type="text" class="form-control" id="mandatoryWorkAmountText">
+                </div>
+            </div>
+            <div class="form-group" id="substituteGroup" style="display: none;">
                 <label>Om vikariatet</label>
                 <div class="form-check">
                     <input type="checkbox" class="form-check-input" id="substituteAdvertised">
@@ -109,21 +175,7 @@
                 </div>
             </div>
 
-            <div class="form-group" id="norwegianCompetence">
-                <div>
-                    <label>Innfrir den ansatte kravet om norskferdigheter ved ansettelse?</label>
-                    <div class="form-check">
-                        <input type="radio" class="form-check-input" name="norwegianCompetence"
-                            id="norwegianCompetenceYes" value="yes">
-                        <label class="form-check-label" for="norwegianCompetenceYes">Ja</label>
-                    </div>
-                    <div class="form-check">
-                        <input type="radio" class="form-check-input" name="norwegianCompetence"
-                            id="norwegianCompetenceNo" value="no">
-                        <label class="form-check-label" for="norwegianCompetenceNo">Nei</label>
-                    </div>
-                </div>
-            </div>
+
 
             <div class="form-group">
 
@@ -148,6 +200,21 @@
                     <select class="form-control" id="positionCode">
                         <option value=""></option>
                     </select>
+                </div>
+                <div class="form-group" id="norwegianCompetence" style="display: none">
+                    <div>
+                        <label>Innfrir den ansatte kravet om norskferdigheter ved ansettelse?</label>
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input" name="norwegianCompetence"
+                                id="norwegianCompetenceYes" value="yes">
+                            <label class="form-check-label" for="norwegianCompetenceYes">Ja</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input" name="norwegianCompetence"
+                                id="norwegianCompetenceNo" value="no">
+                            <label class="form-check-label" for="norwegianCompetenceNo">Nei</label>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -193,6 +260,16 @@
                 <div class="form-group" id="familyAllowanceGroup" style="display: none;">
                     <label for="familyAllowance">Familietillegg</label>
                     <input type="text" class="form-control" id="familyAllowance">
+                </div>
+
+                <div class="form-group" id="workDescription" style="display: none;">
+                    <label for="workDescription">Beskrivelse av arbeidet</label>
+                    <input type="text" class="form-control" id="workDescriptionText">
+                </div>
+
+                <div class="form-group" id="additionalDutyGroup" style="display: none;">
+                    <label for="workDescription">Hovedstilling ved</label>
+                    <input type="text" class="form-control" id="additionalDutyText">
                 </div>
 
                 <div class="form-group" id="externallyFundedGroup" style="display: none;">
