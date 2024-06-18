@@ -1,13 +1,17 @@
 import { Arbeidsavtaleheader } from "./headerInterface";
 
+
+export function getArbeidsavtaleHeading(engelsk: boolean, data: Arbeidsavtaleheader): string {
+  return engelsk ? getArbeidsavtaleHeadingEngelsk(data) : getArbeidsavtaleHeadingNorsk(data);
+}
 /**
  * Generates an HTML string representing the header of an employment contract, in English.
  * @function
  * @param {Arbeidsavtale} data - An object representing an employment contract.
  * @returns {string} An HTML string representing the employment contract header.
  */
-export function getArbeidsavtaleHeadingEngelsk(
-        data: Arbeidsavtaleheader,
+function getArbeidsavtaleHeadingEngelsk(
+        data: Arbeidsavtaleheader
       ): string {
         const {
           name,
@@ -113,7 +117,7 @@ export function getArbeidsavtaleHeadingEngelsk(
  * @param {Arbeidsavtale} data - An object representing an employment contract.
  * @returns {string} An HTML string representing the employment contract header.
  */
-export function getArbeidsavtaleHeadingNorsk(
+function getArbeidsavtaleHeadingNorsk(
   data: Arbeidsavtaleheader,
 
 ): string {

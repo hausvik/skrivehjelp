@@ -1,4 +1,98 @@
-export function getArbeidsavtaleBodyEngelsk(
+
+/**
+ *  This function returns the body of the arbeidsavtalepane in Norwegian or English.
+ * @param engelsk True if the document should be in English, false if it should be in Norwegian.
+ * @param fastAnsatt True if the employee is permanent, false if the employee is temporary.
+ * @param vikar True if the employee is a substitute, false if the employee is not a substitute.
+ * @param underviser True if the employee is a teacher, false if the employee is not a teacher.
+ * @param jobTitle The job title.
+ * @param educationalCompetenceValue True if educational competence is needed, false if it is not needed.
+ * @param norwegianCompetenceParam True if Norwegian competence is needed, false if it is not needed.
+ * @param externallyFunded True if the employee is externally funded, false if the employee is not externally funded.
+ * @param projectName The name of the project.
+ * @param projectEndDate The end date of the project.
+ * @param projectTasks The tasks to be performed for the project.
+ * @param externallyFoundedResearcher True if the researcher is externally funded, false if the researcher is not externally funded.
+ * @param substituteAdvertised True if the substitute is advertised, false if the substitute is not advertised.
+ * @param substituteTypeGroupValue The type of substitute.
+ * @param substituteFor The person/group for whom the substitute is for.
+ * @param workDescription The description of the work to be done.
+ * @param additionalDuty The additional duties.
+ * @param termEmployee The type of term employee.
+ * @param karrierefremmendeArbeid True if the work is career-promoting, false if it is not.
+ * @param termAmount The amount of term work.
+ * @returns The body of the document as an HTMLString.
+ */
+export function getArbeidsavtale(
+  engelsk: boolean,
+  fastAnsatt: boolean,
+  vikar: boolean,
+  underviser: boolean,
+  jobTitle: string,
+  educationalCompetenceValue: boolean,
+  norwegianCompetenceParam: boolean,
+  externallyFunded: boolean,
+  projectName: string,
+  projectEndDate: string,
+  projectTasks: string,
+  externallyFoundedResearcher: boolean,
+  substituteAdvertised: boolean,
+  substituteTypeGroupValue: string,
+  substituteFor: string,
+  workDescription: string,
+  additionalDuty:string,
+  termEmployee: string,
+  karrierefremmendeArbeid: boolean,
+  termAmount: string,
+): string {
+  if(engelsk){
+  return getArbeidsavtaleBodyEngelsk(
+    fastAnsatt,
+    vikar,
+    underviser,
+    jobTitle,
+    educationalCompetenceValue,
+    norwegianCompetenceParam,
+    externallyFunded,
+    projectName,
+    projectEndDate,
+    projectTasks,
+    externallyFoundedResearcher,
+    substituteAdvertised,
+    substituteTypeGroupValue,
+    substituteFor,
+    workDescription,
+    additionalDuty,
+    termEmployee,
+    karrierefremmendeArbeid,
+    termAmount);
+  }
+  else{
+    return getArbeidsavtaleBodyNorsk(
+      fastAnsatt,
+      vikar,
+      underviser,
+      jobTitle,
+      educationalCompetenceValue,
+      norwegianCompetenceParam,
+      externallyFunded,
+      projectName,
+      projectEndDate,
+      projectTasks,
+      externallyFoundedResearcher,
+      substituteAdvertised,
+      substituteTypeGroupValue,
+      substituteFor,
+      workDescription,
+      additionalDuty,
+      termEmployee,
+      karrierefremmendeArbeid,
+      termAmount);
+  }
+}
+
+
+function getArbeidsavtaleBodyEngelsk(
   fastAnsatt: boolean,
   vikar: boolean,
   underviser: boolean,
@@ -43,13 +137,7 @@ export function getArbeidsavtaleBodyEngelsk(
   );
 }
 
-/**
- * Generates an HTML string representing the body of an employment contract, in English.
- * @function
- * @param {Arbeidsavtale} data - An object representing an employment contract.
- * @returns {string} An HTML string representing the employment contract body.
- */
-export function getArbeidsavtaleBodyNorsk(
+function getArbeidsavtaleBodyNorsk(
   midlertidigAnsatt: boolean,
   vikar: boolean,
   underviser: boolean,

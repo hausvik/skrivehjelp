@@ -1,15 +1,15 @@
 /* eslint-disable no-undef */
 import { insertText } from "../taskpane/taskpane";
-import { getArbeidsavtaleHeadingEngelsk } from "./htmlHeader";
-import { getArbeidsavtaleHeadingNorsk } from "./htmlHeader";
-import { getArbeidsavtaleBodyNorsk } from "./htmlBody";
-import { getArbeidsavtaleBodyEngelsk } from "./htmlBody";
+import { getArbeidsavtaleHeading } from "./htmlHeader";
+import { getArbeidsavtale } from "./htmlBody";
 import { Arbeidsavtaleheader } from "./headerInterface";
 import { addToDropDown, updateDropDown } from "../utils/readExcel";
 import { combineHtmlStrings } from "../utils/combineHTML";
 import * as radioButtonUtils from "../utils/radioButton";
 
-let data: Arbeidsavtaleheader | null = null;
+let headerData: Arbeidsavtaleheader | null = null;
+
+
 type PositionCode = {
   SKO: string;
   Norsk: string;
@@ -127,7 +127,7 @@ export async function initializeArbeidsavtalepane() {
   let substituteTypeGroupValue = "" as string;
   const AllPositionCodes: PositionCode[] = await addToDropDown('assets\\stillingskoder.xlsx', 'positionCode');
 
-  positionCodeSelect?.addEventListener("click", () => {
+  positionCodeSelect?.addEventListener("mousedown", () => {
     if (scientificAssistant.checked) {
       filterAndUpdateDropdown(AllPositionCodes, "Vitenskapelig", positionCodeSelect);
     }
@@ -135,8 +135,9 @@ export async function initializeArbeidsavtalepane() {
       resetDropdown(AllPositionCodes, positionCodeSelect);
     }
   });
+  
   positionCodeSelect?.addEventListener("change", async () => {
-
+    console.log("positionCodeSelect changed")
     // Get the selected position code and corresponding data
     const selectedPositionCode = positionCodeSelect.value;
     jobTitle = getPositionDetail(AllPositionCodes, selectedPositionCode, 1, engelsk.checked);
@@ -324,7 +325,7 @@ export async function initializeArbeidsavtalepane() {
         startingDateElement &&
         endDateElement
       ) {
-        data = {
+        headerData = {
           name: nameElement.value,
           personalId: personalIdElement.value,
           placeOfWork: placeOfWorkElement.value,
@@ -357,57 +358,30 @@ export async function initializeArbeidsavtalepane() {
         let htmlHeaderText: string | null = null;
         let htmlBodyText: string | null = null;
 
-        if (engelsk.checked) {
-          htmlHeaderText = getArbeidsavtaleHeadingEngelsk(data);
+        htmlHeaderText = getArbeidsavtaleHeading(engelsk.checked, headerData);
 
-          htmlBodyText = getArbeidsavtaleBodyEngelsk(
-            tempEmployee.checked,
-            substituteEmployee.checked,
-            teachingPosBox.checked,
-            jobTitle,
-            radioButtonUtils.checkSelectedRadioButtonValue(educationalCompetence, "educationalCompetence", "no"),
-            radioButtonUtils.checkSelectedRadioButtonValue(norwegianCompetence, "norwegianCompetence", "no"),
-            externallyFundedBox.checked,
-            externallyFundedProjectName.value,
-            externallyFundedEndDate.value,
-            externallyFundedTasks.value,
-            externallyFoundedResearcher,
-            substituteAdvertised.checked,
-            substituteTypeGroupValue,
-            substituteFor.value,
-            workDescriptionText.value,
-            additionalDutyText.value,
-            radioButtonUtils.getSelectedRadioButtonValue(termOptionsGroup, "termType"),
-            mandatoryWork.checked,
-            mandatoryWorkAmountText.value,
-          );
-        } else {
-          htmlHeaderText = getArbeidsavtaleHeadingNorsk(
-            data
-
-          );
-          htmlBodyText = getArbeidsavtaleBodyNorsk(
-            tempEmployee.checked,
-            substituteEmployee.checked,
-            teachingPosBox.checked,
-            jobTitle,
-            radioButtonUtils.checkSelectedRadioButtonValue(educationalCompetence, "educationalCompetence", "no"),
-            radioButtonUtils.checkSelectedRadioButtonValue(norwegianCompetence, "norwegianCompetence", "no"),
-            externallyFundedBox.checked,
-            externallyFundedProjectName.value,
-            externallyFundedEndDate.value,
-            externallyFundedTasks.value,
-            externallyFoundedResearcher,
-            substituteAdvertised.checked,
-            substituteTypeGroupValue,
-            substituteFor.value,
-            workDescriptionText.value,
-            additionalDutyText.value,
-            radioButtonUtils.getSelectedRadioButtonValue(termOptionsGroup, "termType"),
-            mandatoryWork.checked,
-            mandatoryWorkAmountText.value,
-          );
-        }
+        htmlBodyText = getArbeidsavtale(
+          engelsk.checked,
+          tempEmployee.checked,
+          substituteEmployee.checked,
+          teachingPosBox.checked,
+          jobTitle,
+          radioButtonUtils.checkSelectedRadioButtonValue(educationalCompetence, "educationalCompetence", "no"),
+          radioButtonUtils.checkSelectedRadioButtonValue(norwegianCompetence, "norwegianCompetence", "no"),
+          externallyFundedBox.checked,
+          externallyFundedProjectName.value,
+          externallyFundedEndDate.value,
+          externallyFundedTasks.value,
+          externallyFoundedResearcher,
+          substituteAdvertised.checked,
+          substituteTypeGroupValue,
+          substituteFor.value,
+          workDescriptionText.value,
+          additionalDutyText.value,
+          radioButtonUtils.getSelectedRadioButtonValue(termOptionsGroup, "termType"),
+          mandatoryWork.checked,
+          mandatoryWorkAmountText.value,
+        );
 
         let htmlText = combineHtmlStrings([htmlHeaderText, htmlBodyText]);
 
