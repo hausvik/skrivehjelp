@@ -3,12 +3,12 @@
   <Id>6e848c44-a055-4344-8c35-3a4eb05de075</Id>
   <Version>1.0.0.0</Version>
   <ProviderName>UiBs engler</ProviderName>
-  <DefaultLocale>en-US</DefaultLocale>
+  <DefaultLocale>nb-NO</DefaultLocale>
   <DisplayName DefaultValue="UiB Standardtekster"/>
   <Description DefaultValue= "Inneholder standardtekster fra UiB f.eks. til å generere arbeidsavtaler."/>
   <IconUrl DefaultValue="https://org.uib.no/ds/add-in/prod/assets/icon-32.png"/>
   <HighResolutionIconUrl DefaultValue="https://org.uib.no/ds/add-in/prod/assets/icon-64.png"/>
-  <SupportUrl DefaultValue="https://www.uib.no"/>  <!-- Muligens lenke til support side? -->
+  <SupportUrl DefaultValue="https://www.uib.no"/>
   <AppDomains>
     <AppDomain>https://www.uib.no</AppDomain>
   </AppDomains>
@@ -67,7 +67,7 @@
         <bt:Image id="Icon.80x80" DefaultValue="https://org.uib.no/ds/add-in/prod/assets/icon-80.png"/>
       </bt:Images>
       <bt:Urls>
-        <bt:Url id="GetStarted.LearnMoreUrl" DefaultValue="https://go.microsoft.com/fwlink/?LinkId=276812"/>
+        <bt:Url id="GetStarted.LearnMoreUrl" DefaultValue="https://www.uib.no"/>
         <bt:Url id="Commands.Url" DefaultValue="https://org.uib.no/ds/add-in/prod/commands.html"/>
         <bt:Url id="Taskpane.Url" DefaultValue="https://org.uib.no/ds/add-in/prod/taskpane.html"/>
       </bt:Urls>
