@@ -1,0 +1,72 @@
+default:
+  image: node
+  cache:
+    - key: $CI_COMMIT_REF_SLUG  # Beholdes på tvers av commits
+      paths:
+        - .npm/
+    - key: $CI_COMMIT_SHA  # Ny for hver commit
+      paths:
+        - dist/
+  before_script:
+    - npm ci --cache .npm --prefer-offline
+    ## https://docs.gitlab.com/ee/ci/ssh_keys/#ssh-keys-when-using-the-docker-executor
+    ##
+    ## Install ssh-agent if not already installed, it is required by Docker.
+    ## (change apt-get to yum if you use an RPM-based image)
+    - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
+
+    ## Run ssh-agent (inside the build environment)
+    - eval $(ssh-agent -s)
+
+    ## Give the right permissions, otherwise ssh-add will refuse to add files
+    ## Add the SSH key stored in SSH_PRIVATE_KEY file type CI/CD variable to the agent store
+    - chmod 400 "$SSH_PRIVATE_KEY"
+    - ssh-add "$SSH_PRIVATE_KEY"
+
+    ## Create the SSH directory and give it the right permissions
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+
+    ## Add fingreprints to SSH known hosts
+    - cp "$SSH_KNOWN_HOSTS" ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+
+build:
+  stage: build
+  script:
+    - echo "Bygg filene som skal kopieres til webserveren."
+    - npm --version
+    - npm run build
+  # Så lenge det ikke gjennomføres noen automatiske tester, er det ikke
+  # nødvendig å kjøre skriptet ved hver commit.
+  only:
+    variables:
+      - $CI_COMMIT_REF_PROTECTED
+
+# test-job{1,2} vil kjøre parallelt.
+#test-job1:
+#  stage: test
+#  script:
+#    - echo "This job tests something."
+
+#test-job2:
+#  stage: test
+#  script:
+#    - echo "Utfør noen tester"
+
+deploy:
+  stage: deploy
+  script:
+    - echo "Kopier filene til webserveren $CI_COMMIT_BRANCH"
+    - ls -la dist
+    - ssh -V
+    - ssh ds@radisson7.uib.no rm -rf "/var/www/org/ds/add-in/$CI_COMMIT_BRANCH/*"
+    - scp -r dist/* "ds@radisson7.uib.no:/var/www/org/ds/add-in/$CI_COMMIT_BRANCH/"
+    - ssh ds@radisson7.uib.no chmod 755 "/var/www/org/ds/add-in/$CI_COMMIT_BRANCH"
+  only:
+    variables:
+      - $CI_COMMIT_REF_PROTECTED
+
+# bruk scp, men hvis det hadde vært rsync ...
+#rsync -acv --copy-links --progress --delete --chmod=u=rwX,g=rX,o=rx \
+#  dist radisson7.uib.no:/var/www/org/ds/$CI_COMMIT_BRANCH"
