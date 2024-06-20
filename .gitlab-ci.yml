@@ -62,7 +62,7 @@ deploy:
     - ssh -V
     - ssh ds@radisson7.uib.no rm -rf "/var/www/org/ds/add-in/$CI_COMMIT_BRANCH/*"
     - scp -r dist/* "ds@radisson7.uib.no:/var/www/org/ds/add-in/$CI_COMMIT_BRANCH/"
-    - ssh ds@radisson7.uib.no chmod 755 "/var/www/org/ds/add-in/$CI_COMMIT_BRANCH/*"
+    - ssh ds@radisson7.uib.no chmod 755 "/var/www/org/ds/add-in/$CI_COMMIT_BRANCH"
   only:
     variables:
       - $CI_COMMIT_REF_PROTECTED
