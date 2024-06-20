@@ -43,6 +43,8 @@ build:
     - echo "$CI_COMMIT_REF_PROTECTED"
     - npm --version
     - npm run build
+    - ls -la
+    - ls -la dist
 
 # test-job{1,2} vil kjøre parallelt.
 #test-job1:
