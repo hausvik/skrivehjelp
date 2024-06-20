@@ -14,3 +14,13 @@ Follow the steps below to run the Add-in:
 2. Navigate to the root directory of the project using the `cd` command. For example, if your project is in a folder named `word-add-in` on your desktop, you would type `cd Desktop/word-add-in`.
 3. Once you're in the project's root directory, install the project's dependencies by running `npm install`.
 4. After the dependencies have been installed, you can start the local server by running `npm start`.
+
+
+# CI
+
+Whenever something is commited to a protected branch, the application is built and uploaded to `https://org.uib.no/ds/add-in/$CI_COMMIT_BRANCH`:
+
+* `dev` branch: https://org.uib.no/ds/add-in/dev/
+* `prod` branch: https://org.uib.no/ds/add-in/prod/
+
+Only maintainers can modify the protected branches.
