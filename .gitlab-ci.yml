@@ -39,9 +39,8 @@ build:
     - npm run build
   # Så lenge det ikke gjennomføres noen automatiske tester, er det ikke
   # nødvendig å kjøre skriptet ved hver commit.
-  only:
-    variables:
-      - $CI_COMMIT_REF_PROTECTED
+  rules:
+    - if: $CI_COMMIT_REF_PROTECTED
 
 # test-job{1,2} vil kjøre parallelt.
 #test-job1:
@@ -63,9 +62,8 @@ deploy:
     - ssh ds@radisson7.uib.no rm -rf "/var/www/org/ds/add-in/$CI_COMMIT_BRANCH/*"
     - scp -r dist/* "ds@radisson7.uib.no:/var/www/org/ds/add-in/$CI_COMMIT_BRANCH/"
     - ssh ds@radisson7.uib.no chmod 755 "/var/www/org/ds/add-in/$CI_COMMIT_BRANCH"
-  only:
-    variables:
-      - $CI_COMMIT_REF_PROTECTED
+  rules:
+    - if: $CI_COMMIT_REF_PROTECTED
 
 # bruk scp, men hvis det hadde vært rsync ...
 #rsync -acv --copy-links --progress --delete --chmod=u=rwX,g=rX,o=rx \
