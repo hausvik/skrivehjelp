@@ -7,11 +7,6 @@ default:
     - key: $CI_COMMIT_SHA  # Ny for hver commit
       paths:
         - dist/
-  # Så lenge det ikke gjennomføres noen automatiske tester, er det ikke
-  # nødvendig å kjøre skriptet ved hver commit.
-  only:
-    variables:
-      - $CI_COMMIT_REF_PROTECTED
   before_script:
     - npm ci --cache .npm --prefer-offline
     ## https://docs.gitlab.com/ee/ci/ssh_keys/#ssh-keys-when-using-the-docker-executor
@@ -42,6 +37,11 @@ build:
     - echo "Bygg filene som skal kopieres til webserveren."
     - npm --version
     - npm run build
+  # Så lenge det ikke gjennomføres noen automatiske tester, er det ikke
+  # nødvendig å kjøre skriptet ved hver commit.
+  only:
+    variables:
+      - $CI_COMMIT_REF_PROTECTED
 
 # test-job{1,2} vil kjøre parallelt.
 #test-job1:
