@@ -4,7 +4,7 @@
   <Version>1.0.0.0</Version>
   <ProviderName>Universitetet i Bergen</ProviderName>
   <DefaultLocale>nb-NO</DefaultLocale>
-  <DisplayName DefaultValue="Text assistant"/>
+  <DisplayName DefaultValue="Assistent"/>
   <Description DefaultValue= "Inneholder standardtekster fra UiB f.eks. til å generere arbeidsavtaler."/>
   <IconUrl DefaultValue="https://org.uib.no/ds/add-in/dev/assets/icon-32-dev.png"/>
   <HighResolutionIconUrl DefaultValue="https://org.uib.no/ds/add-in/dev/assets/icon-64-dev.png"/>
@@ -73,11 +73,11 @@
       </bt:Urls>
       <bt:ShortStrings>
         <bt:String id="GetStarted.Title" DefaultValue="Skrivehjelp" />
-        <bt:String id="CommandsGroup.Label" DefaultValue="Text assistant"/>
-        <bt:String id="TaskpaneButton.Label" DefaultValue="Text assistant"/>
+        <bt:String id="CommandsGroup.Label" DefaultValue="Assistent"/>
+        <bt:String id="TaskpaneButton.Label" DefaultValue="Skrivehjelp"/>
       </bt:ShortStrings>
       <bt:LongStrings>
-        <bt:String id="GetStarted.Description" DefaultValue="Word tillegget ditt ble startet som det skulle, klikk her for å komme i gang!"/>
+        <bt:String id="GetStarted.Description" DefaultValue="Assistenten din ble installert som den skulle, klikk her for å komme i gang!"/>
         <bt:String id="TaskpaneButton.Tooltip" DefaultValue="Klikk for å starte appen."/>
       </bt:LongStrings>
     </Resources>
