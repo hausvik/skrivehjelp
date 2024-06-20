@@ -33,16 +33,16 @@ default:
 
 build:
   stage: build
+  # Så lenge det ikke gjennomføres noen automatiske tester, er det ikke
+  # nødvendig å kjøre skriptet ved hver commit.
   rules:
-    - if: $CI_COMMIT_REF_PROTECTED
+    - if: $CI_COMMIT_REF_PROTECTED == "true"
   script:
     - echo "Bygg filene som skal kopieres til webserveren."
     - echo "CI_COMMIT_REF_PROTECTED?"
     - echo "$CI_COMMIT_REF_PROTECTED"
     - npm --version
     - npm run build
-  # Så lenge det ikke gjennomføres noen automatiske tester, er det ikke
-  # nødvendig å kjøre skriptet ved hver commit.
 
 # test-job{1,2} vil kjøre parallelt.
 #test-job1:
@@ -58,7 +58,7 @@ build:
 deploy:
   stage: deploy
   rules:
-    - if: $CI_COMMIT_REF_PROTECTED
+    - if: $CI_COMMIT_REF_PROTECTED == "true"
   script:
     - echo "Kopier filene til webserveren $CI_COMMIT_BRANCH"
     - ls -la dist
