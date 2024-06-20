@@ -25,6 +25,8 @@
     "start:web": "office-addin-debugging start manifest.xml web",
     "stop": "office-addin-debugging stop manifest.xml",
     "validate": "office-addin-manifest validate manifest.xml",
+    "validateProd": "office-addin-manifest validate manifest-prod.xml",
+    "validateDev": "office-addin-manifest validate manifest-dev.xml",
     "watch": "webpack --mode development --watch"
   },
   "dependencies": {
