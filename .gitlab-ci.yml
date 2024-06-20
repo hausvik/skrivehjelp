@@ -61,6 +61,7 @@ deploy:
     - if: $CI_COMMIT_REF_PROTECTED == "true"
   script:
     - echo "Kopier filene til webserveren $CI_COMMIT_BRANCH"
+    - ls -la
     - ls -la dist
     - ssh -V
     - ssh ds@radisson7.uib.no rm -rf "/var/www/org/ds/add-in/$CI_COMMIT_BRANCH/*"
