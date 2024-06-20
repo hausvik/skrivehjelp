@@ -2,12 +2,12 @@
 <OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0" xmlns:ov="http://schemas.microsoft.com/office/taskpaneappversionoverrides" xsi:type="TaskPaneApp">
   <Id>6e848c44-a055-4344-8c35-3a4eb05de075</Id>
   <Version>1.0.0.0</Version>
-  <ProviderName>UiBs engler</ProviderName>
+  <ProviderName>Universitetet i Bergen</ProviderName>
   <DefaultLocale>nb-NO</DefaultLocale>
-  <DisplayName DefaultValue="UiB Standardtekster"/>
+  <DisplayName DefaultValue="Skrivehjelp"/>
   <Description DefaultValue= "Inneholder standardtekster fra UiB f.eks. til å generere arbeidsavtaler."/>
-  <IconUrl DefaultValue="https://org.uib.no/ds/add-in/prod/assets/icon-32.png"/>
-  <HighResolutionIconUrl DefaultValue="https://org.uib.no/ds/add-in/prod/assets/icon-64.png"/>
+  <IconUrl DefaultValue="https://org.uib.no/ds/add-in/prod/assets/icon-32-prod.png"/>
+  <HighResolutionIconUrl DefaultValue="https://org.uib.no/ds/add-in/prod/assets/icon-64-prod.png"/>
   <SupportUrl DefaultValue="https://www.uib.no"/>
   <AppDomains>
     <AppDomain>https://www.uib.no</AppDomain>
@@ -62,9 +62,9 @@
     </Hosts>
     <Resources>
       <bt:Images>
-        <bt:Image id="Icon.16x16" DefaultValue="https://org.uib.no/ds/add-in/prod/assets/icon-16.png"/>
-        <bt:Image id="Icon.32x32" DefaultValue="https://org.uib.no/ds/add-in/prod/assets/icon-32.png"/>
-        <bt:Image id="Icon.80x80" DefaultValue="https://org.uib.no/ds/add-in/prod/assets/icon-80.png"/>
+        <bt:Image id="Icon.16x16" DefaultValue="https://org.uib.no/ds/add-in/prod/assets/icon-16-prod.png"/>
+        <bt:Image id="Icon.32x32" DefaultValue="https://org.uib.no/ds/add-in/prod/assets/icon-32-prod.png"/>
+        <bt:Image id="Icon.80x80" DefaultValue="https://org.uib.no/ds/add-in/prod/assets/icon-80-prod.png"/>
       </bt:Images>
       <bt:Urls>
         <bt:Url id="GetStarted.LearnMoreUrl" DefaultValue="https://www.uib.no"/>
@@ -72,12 +72,12 @@
         <bt:Url id="Taskpane.Url" DefaultValue="https://org.uib.no/ds/add-in/prod/taskpane.html"/>
       </bt:Urls>
       <bt:ShortStrings>
-        <bt:String id="GetStarted.Title" DefaultValue="Standardtekster" />
-        <bt:String id="CommandsGroup.Label" DefaultValue="UiB Standardtekster"/>
-        <bt:String id="TaskpaneButton.Label" DefaultValue="UiB Standardtekster"/>
+        <bt:String id="GetStarted.Title" DefaultValue="Skrivehjelp" />
+        <bt:String id="CommandsGroup.Label" DefaultValue="Assistent"/>
+        <bt:String id="TaskpaneButton.Label" DefaultValue="Skrivehjelp"/>
       </bt:ShortStrings>
       <bt:LongStrings>
-        <bt:String id="GetStarted.Description" DefaultValue="Word tillegget ditt ble startet som det skulle, klikk her for å komme i gang!"/>
+        <bt:String id="GetStarted.Description" DefaultValue="Assistenten din ble installert som den skulle, klikk her for å komme i gang!"/>
         <bt:String id="TaskpaneButton.Tooltip" DefaultValue="Klikk for å starte appen."/>
       </bt:LongStrings>
     </Resources>
