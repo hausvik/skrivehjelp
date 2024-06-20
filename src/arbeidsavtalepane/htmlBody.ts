@@ -280,8 +280,8 @@ externallyFundedText = `Ansettelsesforholdet er knyttet til eksternt finansiert 
     norwegianCompetenceNeeded +
     externallyFundedText +
     externallyFoundedResearcherText +
-    substituteNotAdvertisedText +
     substituteText +
+    substituteNotAdvertisedText +
     "</p>";
 
   return `
