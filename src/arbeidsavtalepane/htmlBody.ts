@@ -185,13 +185,13 @@ if (termEmployee != null) {
             jf. statsansattelovens § 17 (2).  Eventuell fornyelse av åremålsperiode skjer etter vanlig offentlig kunngjøring og ansettelsesprosedyre.  `
             break;
         case 'dobbelkompetanseutdanning':
-            aremalText = `Ansettelsen er på åremål, jf. uhl. § 6-4 (1) h). Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp 
+            aremalText = `Ansettelsen er på åremål, jf. uhl. § 7-4 (1) h). Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp 
             jf. statsansatteloven § 17 (2).  Plan for gjennomføring av dobbelkompetanseutdanningen inngår som vedlegg til arbeidskontrakten
             , herunder fordeling av arbeidstiden mellom doktorgradsutdanning, spesialistutdanning og karrierefremmende arbeid.  
             ${karrierefremmendeArbeid ? `Karrierefremmende arbeid utgjør ${karrierefremmendeArbeidMengde} av åremålsperioden. ` : ''}`
             break;
         case 'spesialistkandidat':
-            aremalText = `Ansettelsen er på åremål, jf. uhl. § 6-4 (1) h). Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp,
+            aremalText = `Ansettelsen er på åremål, jf. uhl. § 7-4 (1) h). Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp,
              jf. statsansatteloven § 17 (2).  Plan for gjennomføring av spesialistutdanningen inngår som vedlegg til arbeidskontrakten. ${karrierefremmendeArbeid ?
               `Karrierefremmende arbeid utgjør ${karrierefremmendeArbeidMengde} av åremålsperioden. Ved ansettelse utover
                to år kan institusjonen inkludere annet karrierefremmende arbeid i stillingen` : ''}`
@@ -223,7 +223,7 @@ if (termEmployee != null) {
                som postdoktoren skal opparbeide seg.` : ''}`
             break;
         case 'vitenskapelig':
-            aremalText = `Ansettelsen er på åremål, jf. uhl. § 6-4 (1) i. Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp,
+            aremalText = `Ansettelsen er på åremål, jf. uhl. § 7-4 (1) i. Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp,
              jf. statsansatteloven § 17 (2). `
             break;
         default:
@@ -306,7 +306,7 @@ externallyFundedText = `Ansettelsesforholdet er knyttet til eksternt finansiert 
         </p>
         <p>
             Lønn utbetales den 12. hver måned via bank, med mindre annet er avtalt særskilt. 
-            Det trekkes 20% pensjonsinnskudd til medlemskap i Statens pensjonskasse for stillinger med minimum 20 prosent av full stilling. 
+            Det trekkes 2% pensjonsinnskudd til medlemskap i Statens pensjonskasse for stillinger med minimum 20 prosent av full stilling. 
             Staten og hovedsammenslutningene har gjennom særavtale fastsatt at arbeidstakere i 100 % stilling skal trekkes kr 400,- i bruttolønn pr år, 
             som inngår i delfinansiering av opplærings- og utviklingstiltak, 
         </p>
