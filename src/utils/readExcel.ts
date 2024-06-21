@@ -40,7 +40,7 @@ export async function readExcel(url: string): Promise<any[]> {
  * @param {string} elementId - The id of the dropdown element.
  * @returns {Promise<T[]>} - A promise that resolves to an array of data.
  */
-export async function addToDropDown<T extends { Norsk: string }>(filePath: string, elementId: string): Promise<T[]> {
+export async function addToDropDown<T extends { Norsk: string, Undervisning: string }>(filePath: string, elementId: string): Promise<T[]> {
   let data: T[] = await readExcel(filePath);
 
   let selectElement: HTMLSelectElement | null = document.getElementById(elementId) as HTMLSelectElement;
@@ -70,6 +70,7 @@ type PositionCode = {
   norJobTitle: string;
   engJobTitle: string;
   Kategori: string;
+  Undervisning: string;
 };
 
 export function updateDropDown(selectElement: HTMLSelectElement, positionCodes: PositionCode[]): void {
