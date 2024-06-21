@@ -17,15 +17,16 @@ type PositionCode = {
   norJobTitle: string;
   engJobTitle: string;
   Kategori: string;
+  Undervisning: string;
 };
 
 /**
  * Get job title or category from a position code.
  * @param positionCodesElement Element from the positionCodes array
  * @param checkString String to check for
- * @param returnType 1 to return jobTitle, 2 to return category
+ * @param returnType 1 to return jobTitle, 2 to return category, 3 for teachingposition boolean
  * @param isEnglish Boolean to specify whether to return the Norwegian or English job title
- * @returns Job title or category, depending on returnType
+ * @returns Job title, category, teachingpos, depending on returnType
  */
 function getPositionDetail(positionCodesElement: any, checkString: string, returnType: number, isEnglish: boolean) {
   const positionDetails = positionCodesElement.find((c: any) => c.Norsk === checkString) || null;
@@ -37,6 +38,9 @@ function getPositionDetail(positionCodesElement: any, checkString: string, retur
         : positionDetails['Norsk stillingsbetegnelse'].toLowerCase();
     } else if (returnType === 2) {
       return positionDetails['Kategori'];
+    }
+    else if (returnType === 3) {
+      return positionDetails['Undervisning'];
     }
   }
 
@@ -65,8 +69,6 @@ export async function initializeArbeidsavtalepane() {
   let familyAllowanceBox: HTMLInputElement | null = document.getElementById("familyAllowanceBox") as HTMLInputElement;
   let additionalDutyBox: HTMLInputElement | null = document.getElementById("additionalDuty") as HTMLInputElement;
   let additionalDutyText: HTMLInputElement | null = document.getElementById("additionalDutyText") as HTMLInputElement;
-  let teachingPosBox: HTMLInputElement | null = document.getElementById("teachingPos") as HTMLInputElement;
-  let teachingPrepBox: HTMLInputElement | null = document.getElementById("teachingPrep") as HTMLInputElement;
   let externallyFundedBox: HTMLInputElement | null = document.getElementById("externallyFunded") as HTMLInputElement;
   let externallyFundedProjectName: HTMLInputElement | null = document.getElementById("externallyFundedProjectName") as HTMLInputElement;
   let externallyFundedEndDate: HTMLInputElement | null = document.getElementById("externallyFundedEndDate") as HTMLInputElement;
@@ -124,6 +126,7 @@ export async function initializeArbeidsavtalepane() {
   let externallyFoundedResearcher = false as boolean;
   let jobTitle = "" as string;
   let category = "" as string; // might be usefull?
+  let teachingPos = false as boolean;
   let substituteTypeGroupValue = "" as string;
   const AllPositionCodes: PositionCode[] = await addToDropDown('assets\\stillingskoder.xlsx', 'positionCode');
 
@@ -135,13 +138,15 @@ export async function initializeArbeidsavtalepane() {
       resetDropdown(AllPositionCodes, positionCodeSelect);
     }
   });
-  
+
   positionCodeSelect?.addEventListener("change", async () => {
     console.log("positionCodeSelect changed")
     // Get the selected position code and corresponding data
     const selectedPositionCode = positionCodeSelect.value;
     jobTitle = getPositionDetail(AllPositionCodes, selectedPositionCode, 1, engelsk.checked);
     category = getPositionDetail(AllPositionCodes, selectedPositionCode, 2, engelsk.checked);
+    teachingPos = getPositionDetail(AllPositionCodes, selectedPositionCode, 3, engelsk.checked) === '1' ? true : false;
+
 
     if (employee.checked && category === "V") {
       norwegianCompetence.style.display = "block";
@@ -150,244 +155,228 @@ export async function initializeArbeidsavtalepane() {
       norwegianCompetence.style.display = "none";
       radioButtonUtils.uncheckAllRadioButtons(norwegianCompetence, "norwegianCompetence");
     }
+
+    if (teachingPos && employee) {
+      educationalCompetence.style.display = "block";
+      norwegianCompetence.style.display = "block";
+    } else {
+      educationalCompetence.style.display = "none";
+      radioButtonUtils.uncheckAllRadioButtons(educationalCompetence, "educationalCompetence");
+      norwegianCompetence.style.display = "none";
+      radioButtonUtils.uncheckAllRadioButtons(norwegianCompetence, "norwegianCompetence");
+    }
   });
 
-  // Event listner for the externallyFunded box
-  if (externallyFundedBox) {
-    externallyFundedBox.addEventListener("change", () => {
-      if (externallyFundedGroup) {
-        externallyFundedGroup.style.display = externallyFundedBox.checked ? "block" : "none";
-      }
-    });
-  }
+    // Event listner for the externallyFunded box
+    if (externallyFundedBox) {
+      externallyFundedBox.addEventListener("change", () => {
+        if (externallyFundedGroup) {
+          externallyFundedGroup.style.display = externallyFundedBox.checked ? "block" : "none";
+        }
+      });
+    }
 
-  // Event listeners for the teachingPosBox
-  if (teachingPosBox) {
-    teachingPosBox.addEventListener("change", () => {
-      const displayValue = teachingPosBox.checked && !tempEmployee.checked ? "block" : "none";
-      educationalCompetence.style.display = displayValue;
+    // Code for when "Fast ansatt" is selected
+    if (employee && endDateGroup) {
+      employee.addEventListener("change", () => {
+        endDateGroup.style.display = "none";
+        additionalDutyGroup.style.display = "none";
+        substituteGroup.style.display = "none";
+        termOptionsGroup.style.display = "none";
+      });
+    }
 
-      if (!teachingPosBox.checked) {
+    // Code for when "Midlertidig" is selected
+    if (tempEmployee && endDateGroup) {
+      tempEmployee.addEventListener("change", () => {
+        endDateGroup.style.display = "block";
+        workDescriptionElement.style.display = "block";
+        norwegianCompetence.style.display = "none";
+        additionalDutyGroup.style.display = "none";
+        substituteGroup.style.display = "none";
+        termOptionsGroup.style.display = "none";
+        norwegianCompetence.style.display = "none";
+        educationalCompetence.style.display = "none";
         radioButtonUtils.uncheckAllRadioButtons(educationalCompetence, "educationalCompetence");
-      }
-      if (teachingPrepDiv) {
-        teachingPrepDiv.style.display = displayValue;
-      }
-    });
-  }
+      });
+    }
 
-  // Event listeners for the teachingPrepBox
-  if (teachingPrepBox) {
-    teachingPrepBox.addEventListener("change", () => {
-      if (teachingPrepBox.checked) {
-        preparationHoursDiv.style.display = "block";
-      } else {
-        preparationHoursDiv.style.display = "none";
-      }
-    });
-  }
+    // Code for when "Vikar" is selected
+    if (substituteEmployee && endDateGroup) {
+      substituteEmployee.addEventListener("change", () => {
+        substituteGroup.style.display = "block";
+        additionalDutyGroup.style.display = "none";
+        endDateGroup.style.display = "none";
+        termOptionsGroup.style.display = "none";
+        norwegianCompetence.style.display = "none";
+        substituteTypeGroupValue = radioButtonUtils.getSelectedRadioButtonValue(substituteTypeGroup, "substitute");
+        if (substituteTypeGroupValue === "person" || substituteTypeGroupValue === "many") {
+          substituteForGroup.style.display = "block";
+        } else {
+          substituteForGroup.style.display = "none";
+          substituteFor.value = "";
+          substituteAdvertised.checked = false;
+        }
+      });
+    }
 
-  // Code for when "Fast ansatt" is selected
-  if (employee && endDateGroup) {
-    employee.addEventListener("change", () => {
-      endDateGroup.style.display = "none";
-      additionalDutyGroup.style.display = "none";
-      substituteGroup.style.display = "none";
-      termOptionsGroup.style.display = "none";
-    });
-  }
+    // Code for when "Åremål" is selected
+    if (termEmployee && endDateGroup) {
+      termEmployee.addEventListener("change", () => {
 
-  // Code for when "Midlertidig" is selected
-  if (tempEmployee && endDateGroup) {
-    tempEmployee.addEventListener("change", () => {
-      endDateGroup.style.display = "block";
-      workDescriptionElement.style.display = "block";
-      norwegianCompetence.style.display = "none";
-      additionalDutyGroup.style.display = "none";
-      substituteGroup.style.display = "none";
-      termOptionsGroup.style.display = "none";
-      norwegianCompetence.style.display = "none";
-      if (teachingPosBox.checked) { educationalCompetence.style.display = "none"; }
-    });
-  }
+        termOptionsGroup.style.display = "block";
+        norwegianCompetence.style.display = "none";
+        endDateGroup.style.display = "block";
+        substituteGroup.style.display = "none";
 
-  // Code for when "Vikar" is selected
-  if (substituteEmployee && endDateGroup) {
-    substituteEmployee.addEventListener("change", () => {
-      substituteGroup.style.display = "block";
-      additionalDutyGroup.style.display = "none";
-      endDateGroup.style.display = "none";
-      termOptionsGroup.style.display = "none";
-      norwegianCompetence.style.display = "none";
-      substituteTypeGroupValue = radioButtonUtils.getSelectedRadioButtonValue(substituteTypeGroup, "substitute");
-      if (substituteTypeGroupValue === "person" || substituteTypeGroupValue === "many") {
-        substituteForGroup.style.display = "block";
-      } else {
-        substituteForGroup.style.display = "none";
-        substituteFor.value = "";
-        substituteAdvertised.checked = false;
-      }
-    });
-  }
+      });
+    }
 
-  // Code for when "Åremål" is selected
-  if (termEmployee && endDateGroup) {
-    termEmployee.addEventListener("change", () => {
+    //Event listner for karrierefremmende arbeid
+    if (mandatoryWork) {
+      mandatoryWork.addEventListener("change", () => {
+        if (mandatoryWorkAmount) {
+          mandatoryWorkAmount.style.display = mandatoryWork.checked ? "block" : "none";
+        }
+      });
+    }
 
-      termOptionsGroup.style.display = "block";
-      norwegianCompetence.style.display = "none";
-      endDateGroup.style.display = "block";
-      substituteGroup.style.display = "none";
+    //Event listener for the substituteTypeGroup (vikar)
+    if (substituteTypeGroup && substituteForGroup) {
+      substituteTypeGroup.addEventListener("change", () => {
+        substituteTypeGroupValue = radioButtonUtils.getSelectedRadioButtonValue(substituteTypeGroup, "substitute");
+        if (substituteTypeGroupValue === "person" || substituteTypeGroupValue === "many") {
+          substituteForGroup.style.display = "block";
+        } else {
+          substituteForGroup.style.display = "none";
+          substituteFor.value = "";
+          substituteAdvertised.checked = false;
+        }
+      });
+    }
 
-    });
-  }
+    // Event listner for Research Fellow
+    if (researchFellow) {
+      researchFellow.addEventListener('click', () => {
+        positionCodeSelect.value = "1017 - Stipendiat";
+        jobTitle = getPositionDetail(AllPositionCodes, positionCodeSelect.value, 1, engelsk.checked);
+        category = getPositionDetail(AllPositionCodes, positionCodeSelect.value, 2, engelsk.checked);
+      });
+    }
 
-  //Event listner for karrierefremmende arbeid
-  if (mandatoryWork) {
-    mandatoryWork.addEventListener("change", () => {
-      if (mandatoryWorkAmount) {
-        mandatoryWorkAmount.style.display = mandatoryWork.checked ? "block" : "none";
-      }
-    });
-  }
+    // Event listner for artisticFellow
+    if (artisticFellow) {
+      artisticFellow.addEventListener('click', () => {
+        positionCodeSelect.value = "1017 - Stipendiat";
+        jobTitle = getPositionDetail(AllPositionCodes, positionCodeSelect.value, 1, engelsk.checked);
+        category = getPositionDetail(AllPositionCodes, positionCodeSelect.value, 2, engelsk.checked);
+      });
+    }
+    // Event listner for postdoktor
+    if (postdoktor) {
+      postdoktor.addEventListener('click', () => {
+        positionCodeSelect.value = "1352 - Postdoktor";
+        jobTitle = getPositionDetail(AllPositionCodes, positionCodeSelect.value, 1, engelsk.checked);
+        category = getPositionDetail(AllPositionCodes, positionCodeSelect.value, 2, engelsk.checked);
+      });
+    }
 
-  //Event listener for the substituteTypeGroup (vikar)
-  if (substituteTypeGroup && substituteForGroup) {
-    substituteTypeGroup.addEventListener("change", () => {
-      substituteTypeGroupValue = radioButtonUtils.getSelectedRadioButtonValue(substituteTypeGroup, "substitute");
-      if (substituteTypeGroupValue === "person" || substituteTypeGroupValue === "many") {
-        substituteForGroup.style.display = "block";
-      } else {
-        substituteForGroup.style.display = "none";
-        substituteFor.value = "";
-        substituteAdvertised.checked = false;
-      }
-    });
-  }
+    // Event listeners for the familyAllowanceBox
+    if (familyAllowanceBox) {
+      familyAllowanceBox.addEventListener("change", () => {
+        if (familyAllowanceGroup) {
+          familyAllowanceGroup.style.display = familyAllowanceBox.checked ? "block" : "none";
+        }
+      });
+    }
+    // Event listeners for the mobilityAllowanceBox
+    if (mobilityAllowanceBox) {
+      mobilityAllowanceBox.addEventListener("change", () => {
+        if (mobilityAllowanceGroup) {
+          mobilityAllowanceGroup.style.display = mobilityAllowanceBox.checked ? "block" : "none";
+        }
+      });
+    }
 
-  // Event listner for Research Fellow
-  if (researchFellow) {
-    researchFellow.addEventListener('click', () => {
-      positionCodeSelect.value = "1017 - Stipendiat";
-      jobTitle = getPositionDetail(AllPositionCodes, positionCodeSelect.value, 1, engelsk.checked);
-      category = getPositionDetail(AllPositionCodes, positionCodeSelect.value, 2, engelsk.checked);
-    });
-  }
-
-  // Event listner for artisticFellow
-  if (artisticFellow) {
-    artisticFellow.addEventListener('click', () => {
-      positionCodeSelect.value = "1017 - Stipendiat";
-      jobTitle = getPositionDetail(AllPositionCodes, positionCodeSelect.value, 1, engelsk.checked);
-      category = getPositionDetail(AllPositionCodes, positionCodeSelect.value, 2, engelsk.checked);
-    });
-  }
-  // Event listner for postdoktor
-  if (postdoktor) {
-    postdoktor.addEventListener('click', () => {
-      positionCodeSelect.value = "1352 - Postdoktor";
-      jobTitle = getPositionDetail(AllPositionCodes, positionCodeSelect.value, 1, engelsk.checked);
-      category = getPositionDetail(AllPositionCodes, positionCodeSelect.value, 2, engelsk.checked);
-    });
-  }
-
-  // Event listeners for the familyAllowanceBox
-  if (familyAllowanceBox) {
-    familyAllowanceBox.addEventListener("change", () => {
-      if (familyAllowanceGroup) {
-        familyAllowanceGroup.style.display = familyAllowanceBox.checked ? "block" : "none";
-      }
-    });
-  }
-  // Event listeners for the mobilityAllowanceBox
-  if (mobilityAllowanceBox) {
-    mobilityAllowanceBox.addEventListener("change", () => {
-      if (mobilityAllowanceGroup) {
-        mobilityAllowanceGroup.style.display = mobilityAllowanceBox.checked ? "block" : "none";
-      }
-    });
-  }
-
-  // Button logic
-  if (button) {
-    button.addEventListener("click", () => {
-      if (
-        nameElement &&
-        personalIdElement &&
-        placeOfWorkElement &&
-        positionCodeSelect &&
-        percentageFullTimeElement &&
-        preparationHoursElement &&
-        seniorityElement &&
-        annualSalaryElement &&
-        mobilityAllowanceElement &&
-        familyAllowanceElement &&
-        startingDateElement &&
-        endDateElement
-      ) {
-        headerData = {
-          name: nameElement.value,
-          personalId: personalIdElement.value,
-          placeOfWork: placeOfWorkElement.value,
-          positionCode: positionCodeSelect.value,
-          percentageFullTime: percentageFullTimeElement.value,
-          preparationHours: preparationHoursElement.value,
-          seniority: seniorityElement.value,
-          annualSalary: annualSalaryElement.value,
-          mobilityAllowance: mobilityAllowanceElement.value,
-          familyAllowance: familyAllowanceElement.value,
-          startingDate: startingDateElement.value,
-          endDate: endDateElement.value,
-          mobility: mobilityAllowanceBox.checked,
-          family: familyAllowanceBox.checked,
-
-        };
-
-
+    // Button logic
+    if (button) {
+      button.addEventListener("click", () => {
         if (
-          !tempEmployee.checked &&
-          externallyFundedBox.checked &&
-          (jobTitle === "forsker" || jobTitle === "researcher")
+          nameElement &&
+          personalIdElement &&
+          placeOfWorkElement &&
+          positionCodeSelect &&
+          percentageFullTimeElement &&
+          preparationHoursElement &&
+          seniorityElement &&
+          annualSalaryElement &&
+          mobilityAllowanceElement &&
+          familyAllowanceElement &&
+          startingDateElement &&
+          endDateElement
         ) {
-          externallyFoundedResearcher = true;
+          headerData = {
+            name: nameElement.value,
+            personalId: personalIdElement.value,
+            placeOfWork: placeOfWorkElement.value,
+            positionCode: positionCodeSelect.value,
+            percentageFullTime: percentageFullTimeElement.value,
+            seniority: seniorityElement.value,
+            annualSalary: annualSalaryElement.value,
+            mobilityAllowance: mobilityAllowanceElement.value,
+            familyAllowance: familyAllowanceElement.value,
+            startingDate: startingDateElement.value,
+            endDate: endDateElement.value,
+            mobility: mobilityAllowanceBox.checked,
+            family: familyAllowanceBox.checked,
+
+          };
+
+
+          if (
+            !tempEmployee.checked &&
+            externallyFundedBox.checked &&
+            (jobTitle === "forsker" || jobTitle === "researcher")
+          ) {
+            externallyFoundedResearcher = true;
+          }
+          else {
+            externallyFoundedResearcher = false;
+          }
+
+          let htmlHeaderText: string | null = null;
+          let htmlBodyText: string | null = null;
+
+          htmlHeaderText = getArbeidsavtaleHeading(engelsk.checked, headerData);
+
+          htmlBodyText = getArbeidsavtale(
+            engelsk.checked,
+            tempEmployee.checked,
+            substituteEmployee.checked,
+            teachingPos,
+            jobTitle,
+            radioButtonUtils.checkSelectedRadioButtonValue(educationalCompetence, "educationalCompetence", "no"),
+            radioButtonUtils.checkSelectedRadioButtonValue(norwegianCompetence, "norwegianCompetence", "no"),
+            externallyFundedBox.checked,
+            externallyFundedProjectName.value,
+            externallyFundedEndDate.value,
+            externallyFundedTasks.value,
+            externallyFoundedResearcher,
+            substituteAdvertised.checked,
+            substituteTypeGroupValue,
+            substituteFor.value,
+            workDescriptionText.value,
+            additionalDutyText.value,
+            radioButtonUtils.getSelectedRadioButtonValue(termOptionsGroup, "termType"),
+            mandatoryWork.checked,
+            mandatoryWorkAmountText.value,
+          );
+
+          let htmlText = combineHtmlStrings([htmlHeaderText, htmlBodyText]);
+
+          insertText(htmlText);
         }
-        else {
-          externallyFoundedResearcher = false;
-        }
-
-        let htmlHeaderText: string | null = null;
-        let htmlBodyText: string | null = null;
-
-        htmlHeaderText = getArbeidsavtaleHeading(engelsk.checked, headerData);
-
-        htmlBodyText = getArbeidsavtale(
-          engelsk.checked,
-          tempEmployee.checked,
-          substituteEmployee.checked,
-          teachingPosBox.checked,
-          jobTitle,
-          radioButtonUtils.checkSelectedRadioButtonValue(educationalCompetence, "educationalCompetence", "no"),
-          radioButtonUtils.checkSelectedRadioButtonValue(norwegianCompetence, "norwegianCompetence", "no"),
-          externallyFundedBox.checked,
-          externallyFundedProjectName.value,
-          externallyFundedEndDate.value,
-          externallyFundedTasks.value,
-          externallyFoundedResearcher,
-          substituteAdvertised.checked,
-          substituteTypeGroupValue,
-          substituteFor.value,
-          workDescriptionText.value,
-          additionalDutyText.value,
-          radioButtonUtils.getSelectedRadioButtonValue(termOptionsGroup, "termType"),
-          mandatoryWork.checked,
-          mandatoryWorkAmountText.value,
-        );
-
-        let htmlText = combineHtmlStrings([htmlHeaderText, htmlBodyText]);
-
-        insertText(htmlText);
-      }
-    });
+      });
+    }
   }
-}
 
