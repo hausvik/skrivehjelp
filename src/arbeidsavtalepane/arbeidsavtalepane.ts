@@ -65,8 +65,7 @@ export async function initializeArbeidsavtalepane() {
 
   // Input elements
   let engelsk: HTMLInputElement | null = document.getElementById("engelsk") as HTMLInputElement;
-  let mobilityAllowanceBox: HTMLInputElement | null = document.getElementById("mobilityAllowanceBox") as HTMLInputElement;
-  let familyAllowanceBox: HTMLInputElement | null = document.getElementById("familyAllowanceBox") as HTMLInputElement;
+  let mobilityAndFamilyAllowanceBox: HTMLInputElement | null = document.getElementById("mobilityFamilyAllowanceBox") as HTMLInputElement;
   let additionalDutyBox: HTMLInputElement | null = document.getElementById("additionalDuty") as HTMLInputElement;
   let additionalDutyText: HTMLInputElement | null = document.getElementById("additionalDutyText") as HTMLInputElement;
   let externallyFundedBox: HTMLInputElement | null = document.getElementById("externallyFunded") as HTMLInputElement;
@@ -282,22 +281,21 @@ export async function initializeArbeidsavtalepane() {
       });
     }
 
-    // Event listeners for the familyAllowanceBox
-    if (familyAllowanceBox) {
-      familyAllowanceBox.addEventListener("change", () => {
-        if (familyAllowanceGroup) {
-          familyAllowanceGroup.style.display = familyAllowanceBox.checked ? "block" : "none";
+    // Event listeners for the mobilityAndFamilyAllowanceBox
+    if (mobilityAndFamilyAllowanceBox) {
+      mobilityAndFamilyAllowanceBox.addEventListener("change", () => {
+        if (familyAllowanceGroup && mobilityAllowanceGroup) {
+          familyAllowanceGroup.style.display = mobilityAndFamilyAllowanceBox.checked ? "block" : "none";
+          mobilityAllowanceGroup.style.display = mobilityAndFamilyAllowanceBox.checked ? "block" : "none";
+          mobilityAllowanceElement.value = "";
+          familyAllowanceElement.value = "";
+
+
+
         }
       });
     }
-    // Event listeners for the mobilityAllowanceBox
-    if (mobilityAllowanceBox) {
-      mobilityAllowanceBox.addEventListener("change", () => {
-        if (mobilityAllowanceGroup) {
-          mobilityAllowanceGroup.style.display = mobilityAllowanceBox.checked ? "block" : "none";
-        }
-      });
-    }
+
 
     // Button logic
     if (button) {
@@ -328,9 +326,6 @@ export async function initializeArbeidsavtalepane() {
             familyAllowance: familyAllowanceElement.value,
             startingDate: startingDateElement.value,
             endDate: endDateElement.value,
-            mobility: mobilityAllowanceBox.checked,
-            family: familyAllowanceBox.checked,
-
           };
 
 

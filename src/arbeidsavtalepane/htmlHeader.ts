@@ -25,13 +25,11 @@ function getArbeidsavtaleHeadingEngelsk(
     familyAllowance,
     startingDate,
     endDate,
-    mobility,
-    family
   } = data;
-  let mobilityRow1 = mobility ? "Mobilitetstillegg" : "";
-  let mobilityRow2 = mobility ? `${mobilityAllowance}` : "";
-  let familyRow1 = family ? "Familietillegg" : "";
-  let familyRow2 = family ? `${familyAllowance}` : "";
+  let mobilityRow1 = mobilityAllowance!="" && mobilityAllowance!=null ? "Mobilitetstillegg" : "";
+  let mobilityRow2 = mobilityAllowance!="" && mobilityAllowance!=null ? `${mobilityAllowance}` : "";
+  let familyRow1 = familyAllowance!="" && familyAllowance!=null ? "Familietillegg" : "";
+  let familyRow2 = familyAllowance!="" && familyAllowance!=null ? `${familyAllowance}` : "";
   let mobFamAllowance = (mobilityRow2 !== "" || familyRow2 !== "") ?
     `<tr>
           <td>${mobilityRow1}</td>
