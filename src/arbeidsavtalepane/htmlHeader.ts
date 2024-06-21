@@ -19,25 +19,17 @@ function getArbeidsavtaleHeadingEngelsk(
     placeOfWork,
     positionCode,
     percentageFullTime,
-    preparationHours,
     seniority,
     annualSalary,
     mobilityAllowance,
     familyAllowance,
     startingDate,
     endDate,
-    mobility,
-    family
   } = data;
-  let mobilityRow1 = mobility ? "Mobilitetstillegg" : "";
-  let mobilityRow2 = mobility ? `${mobilityAllowance}` : "";
-  let familyRow1 = family ? "Familietillegg" : "";
-  let familyRow2 = family ? `${familyAllowance}` : "";
-  let preparationHoursRow = preparationHours !== "" ?
-    `<tr>
-          <td>Antall forberedelsestimer</td>
-          <td>${preparationHours}</td>
-      </tr>` : '';
+  let mobilityRow1 = mobilityAllowance!="" && mobilityAllowance!=null ? "Mobilitetstillegg" : "";
+  let mobilityRow2 = mobilityAllowance!="" && mobilityAllowance!=null ? `${mobilityAllowance}` : "";
+  let familyRow1 = familyAllowance!="" && familyAllowance!=null ? "Familietillegg" : "";
+  let familyRow2 = familyAllowance!="" && familyAllowance!=null ? `${familyAllowance}` : "";
   let mobFamAllowance = (mobilityRow2 !== "" || familyRow2 !== "") ?
     `<tr>
           <td>${mobilityRow1}</td>
@@ -65,6 +57,7 @@ function getArbeidsavtaleHeadingEngelsk(
               background-color: #f8f8f8; /* Lighter grey for every other row */
           }
       </style>
+                  <br style='mso-special-character:line-break;page-break-before:always'>
                   <h1>ARBEIDSAVTALE</h1>
       
       
@@ -93,7 +86,6 @@ function getArbeidsavtaleHeadingEngelsk(
                                   <td>${percentageFullTime}</td>
                                   
                           </tr>
-                          ${preparationHoursRow}
                           <tr>
                                   <td>Offentlig tjenesteansiennitet</td>
                                   <td>${seniority}</td>
