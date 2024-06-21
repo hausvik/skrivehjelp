@@ -33,15 +33,18 @@ default:
 
 build:
   stage: build
-  script:
-    - echo "Bygg filene som skal kopieres til webserveren."
-    - npm --version
-    - npm run build
   # Så lenge det ikke gjennomføres noen automatiske tester, er det ikke
   # nødvendig å kjøre skriptet ved hver commit.
-  only:
-    variables:
-      - $CI_COMMIT_REF_PROTECTED
+  rules:
+    - if: $CI_COMMIT_REF_PROTECTED == "true"
+  script:
+    - echo "Bygg filene som skal kopieres til webserveren."
+    - echo "CI_COMMIT_REF_PROTECTED?"
+    - echo "$CI_COMMIT_REF_PROTECTED"
+    - npm --version
+    - npm run build
+    - ls -la
+    - ls -la dist
 
 # test-job{1,2} vil kjøre parallelt.
 #test-job1:
@@ -56,16 +59,16 @@ build:
 
 deploy:
   stage: deploy
+  rules:
+    - if: $CI_COMMIT_REF_PROTECTED == "true"
   script:
     - echo "Kopier filene til webserveren $CI_COMMIT_BRANCH"
+    - ls -la
     - ls -la dist
     - ssh -V
     - ssh ds@radisson7.uib.no rm -rf "/var/www/org/ds/add-in/$CI_COMMIT_BRANCH/*"
     - scp -r dist/* "ds@radisson7.uib.no:/var/www/org/ds/add-in/$CI_COMMIT_BRANCH/"
     - ssh ds@radisson7.uib.no chmod 755 "/var/www/org/ds/add-in/$CI_COMMIT_BRANCH"
-  only:
-    variables:
-      - $CI_COMMIT_REF_PROTECTED
 
 # bruk scp, men hvis det hadde vært rsync ...
 #rsync -acv --copy-links --progress --delete --chmod=u=rwX,g=rX,o=rx \

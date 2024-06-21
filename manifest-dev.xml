@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0" xmlns:ov="http://schemas.microsoft.com/office/taskpaneappversionoverrides" xsi:type="TaskPaneApp">
-  <Id>6e848c44-a055-4344-8c35-3a4eb05de075</Id>
+  <Id>4241b5fb-aa66-4395-ae19-cb10a6214573</Id>
   <Version>1.0.0.0</Version>
   <ProviderName>Universitetet i Bergen</ProviderName>
   <DefaultLocale>nb-NO</DefaultLocale>
-  <DisplayName DefaultValue="Assistent"/>
+  <DisplayName DefaultValue="Assistent dev"/>
   <Description DefaultValue= "Inneholder standardtekster fra UiB f.eks. til å generere arbeidsavtaler."/>
   <IconUrl DefaultValue="https://org.uib.no/ds/add-in/dev/assets/icon-32-dev.png"/>
   <HighResolutionIconUrl DefaultValue="https://org.uib.no/ds/add-in/dev/assets/icon-64-dev.png"/>
@@ -72,12 +72,12 @@
         <bt:Url id="Taskpane.Url" DefaultValue="https://org.uib.no/ds/add-in/dev/taskpane.html"/>
       </bt:Urls>
       <bt:ShortStrings>
-        <bt:String id="GetStarted.Title" DefaultValue="Skrivehjelp" />
-        <bt:String id="CommandsGroup.Label" DefaultValue="Assistent"/>
-        <bt:String id="TaskpaneButton.Label" DefaultValue="Skrivehjelp"/>
+        <bt:String id="GetStarted.Title" DefaultValue="Skrivehjelp dev" />
+        <bt:String id="CommandsGroup.Label" DefaultValue="Assistent dev"/>
+        <bt:String id="TaskpaneButton.Label" DefaultValue="Skrivehjelp dev"/>
       </bt:ShortStrings>
       <bt:LongStrings>
-        <bt:String id="GetStarted.Description" DefaultValue="Assistenten din ble installert som den skulle, klikk her for å komme i gang!"/>
+        <bt:String id="GetStarted.Description" DefaultValue="Assistent deven din ble installert som den skulle, klikk her for å komme i gang!"/>
         <bt:String id="TaskpaneButton.Tooltip" DefaultValue="Klikk for å starte appen."/>
       </bt:LongStrings>
     </Resources>
