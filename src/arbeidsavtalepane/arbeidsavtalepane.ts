@@ -183,6 +183,7 @@ export async function initializeArbeidsavtalepane() {
         additionalDutyGroup.style.display = "none";
         substituteGroup.style.display = "none";
         termOptionsGroup.style.display = "none";
+        workDescriptionElement.style.display = "none";
       });
     }
 
@@ -206,7 +207,7 @@ export async function initializeArbeidsavtalepane() {
       substituteEmployee.addEventListener("change", () => {
         substituteGroup.style.display = "block";
         additionalDutyGroup.style.display = "none";
-        endDateGroup.style.display = "none";
+        endDateGroup.style.display = "block";
         termOptionsGroup.style.display = "none";
         norwegianCompetence.style.display = "none";
         substituteTypeGroupValue = radioButtonUtils.getSelectedRadioButtonValue(substituteTypeGroup, "substitute");
