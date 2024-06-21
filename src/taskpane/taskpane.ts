@@ -63,7 +63,7 @@ export async function insertText(textToInsert: string, bookmarkName?: string) {
     }
 
     // Insert the page break and the text
-    range.insertHtml("<br style='mso-special-character:line-break;page-break-before:always'>" + textToInsert, Word.InsertLocation.replace);
+    range.insertHtml(textToInsert, Word.InsertLocation.replace);
 
     await context.sync();
   });

@@ -65,6 +65,7 @@ function getArbeidsavtaleHeadingEngelsk(
               background-color: #f8f8f8; /* Lighter grey for every other row */
           }
       </style>
+                  <br style='mso-special-character:line-break;page-break-before:always'>
                   <h1>ARBEIDSAVTALE</h1>
       
       
