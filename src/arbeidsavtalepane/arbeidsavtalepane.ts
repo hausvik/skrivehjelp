@@ -66,6 +66,7 @@ export async function initializeArbeidsavtalepane() {
   // Input elements
   let engelsk: HTMLInputElement | null = document.getElementById("engelsk") as HTMLInputElement;
   let mobilityAndFamilyAllowanceBox: HTMLInputElement | null = document.getElementById("mobilityFamilyAllowanceBox") as HTMLInputElement;
+  let abroadEmployee: HTMLInputElement | null = document.getElementById("abroadEmployee") as HTMLInputElement;
   let additionalDutyBox: HTMLInputElement | null = document.getElementById("additionalDuty") as HTMLInputElement;
   let additionalDutyText: HTMLInputElement | null = document.getElementById("additionalDutyText") as HTMLInputElement;
   let externallyFundedBox: HTMLInputElement | null = document.getElementById("externallyFunded") as HTMLInputElement;
@@ -98,6 +99,7 @@ export async function initializeArbeidsavtalepane() {
   let substituteAdvertised: HTMLInputElement | null = document.getElementById("substituteAdvertised") as HTMLInputElement;
   let substituteForGroup: HTMLInputElement | null = document.getElementById("substiuteForGroup") as HTMLInputElement;
   let substituteFor: HTMLInputElement | null = document.getElementById("substituteFor") as HTMLInputElement;
+  let abroardEmployeeText: HTMLInputElement | null = document.getElementById("abroardEmployeeText") as HTMLInputElement;
 
   // Select elements
   let positionCodeSelect: HTMLSelectElement | null = document.getElementById("positionCode") as HTMLSelectElement;
@@ -117,6 +119,7 @@ export async function initializeArbeidsavtalepane() {
   let substituteGroup: HTMLElement | null = document.getElementById("substituteGroup") as HTMLElement;
   let substituteTypeGroup: HTMLElement | null = document.getElementById("substituteTypeGroup") as HTMLElement;
   let employeeTypeRadio: HTMLElement | null = document.getElementById("employeeTypeRadio") as HTMLElement;
+  let abroardEmployeeTextGroup: HTMLElement | null = document.getElementById("abroardEmployeeTextGroup") as HTMLElement;
 
   // Button
   let button: HTMLButtonElement | null = document.getElementById("generateDocument") as HTMLButtonElement;
@@ -171,6 +174,19 @@ export async function initializeArbeidsavtalepane() {
       externallyFundedBox.addEventListener("change", () => {
         if (externallyFundedGroup) {
           externallyFundedGroup.style.display = externallyFundedBox.checked ? "block" : "none";
+        }
+      });
+    }
+
+
+    // Event listner for abroardEmployee
+    if (abroadEmployee && abroardEmployeeTextGroup && abroardEmployeeText) {
+      abroadEmployee.addEventListener("change", () => {
+        if (abroadEmployee.checked) {
+          abroardEmployeeTextGroup.style.display = "block";
+        }
+        else {abroardEmployeeTextGroup.style.display = "none";
+          abroardEmployeeText.value = "";
         }
       });
     }
@@ -263,6 +279,7 @@ export async function initializeArbeidsavtalepane() {
         category = getPositionDetail(AllPositionCodes, positionCodeSelect.value, 2, engelsk.checked);
       });
     }
+
 
     // Event listner for artisticFellow
     if (artisticFellow) {
@@ -366,6 +383,7 @@ export async function initializeArbeidsavtalepane() {
             radioButtonUtils.getSelectedRadioButtonValue(termOptionsGroup, "termType"),
             mandatoryWork.checked,
             mandatoryWorkAmountText.value,
+            abroardEmployeeText.value,
           );
 
           let htmlText = combineHtmlStrings([htmlHeaderText, htmlBodyText]);

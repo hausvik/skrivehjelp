@@ -44,6 +44,7 @@ export function getArbeidsavtale(
   termEmployee: string,
   karrierefremmendeArbeid: boolean,
   termAmount: string,
+  abroardEmployeeText: string,
 ): string {
   if(engelsk){
   return getArbeidsavtaleBodyEngelsk(
@@ -65,7 +66,8 @@ export function getArbeidsavtale(
     additionalDuty,
     termEmployee,
     karrierefremmendeArbeid,
-    termAmount);
+    termAmount, 
+    abroardEmployeeText);
   }
   else{
     return getArbeidsavtaleBodyNorsk(
@@ -87,7 +89,8 @@ export function getArbeidsavtale(
       additionalDuty,
       termEmployee,
       karrierefremmendeArbeid,
-      termAmount);
+      termAmount,
+      abroardEmployeeText);
   }
 }
 
@@ -112,6 +115,7 @@ function getArbeidsavtaleBodyEngelsk(
   termEmployee: string,
   karrierefremmendeArbeid: boolean,
   termAmount: string,
+  abroardEmployeeText: string,
 ): string {
   return getArbeidsavtaleBodyNorsk(
     fastAnsatt,
@@ -132,7 +136,8 @@ function getArbeidsavtaleBodyEngelsk(
     additionalDuty,
     termEmployee,
     karrierefremmendeArbeid,
-    termAmount
+    termAmount,
+    abroardEmployeeText
 
   );
 }
@@ -157,6 +162,7 @@ function getArbeidsavtaleBodyNorsk(
   termEmployee: string,
   karrierefremmendeArbeid: boolean,
   karrierefremmendeArbeidMengde: string,
+  abroardEmployeeText: string,
 ): string {
   let educationalCompetenceNeeded = "";
   let norwegianCompetenceNeeded = "";
@@ -282,6 +288,7 @@ externallyFundedText = `Ansettelsesforholdet er knyttet til eksternt finansiert 
     externallyFoundedResearcherText +
     substituteText +
     substituteNotAdvertisedText +
+    abroardEmployeeText +
     "</p>";
 
   return `
