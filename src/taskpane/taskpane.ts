@@ -32,31 +32,39 @@ export async function arbeidsavtalePane() {
 /**
  * Inserts the given text into the document.
  * @param textToInsert The text to insert into the document
+ * @param bookmarkName Optional parameter: The name of the bookmark where the text will be inserted
  */
-export async function insertText(textToInsert: string) {
+export async function insertText(textToInsert: string, bookmarkName?: string) {
   return Word.run(async (context) => {
 
     let range;
-    try {
-      // Try to get the range of the bookmark named "START"
-      range = context.document.getBookmarkRange("START");
-      context.load(range);
-      await context.sync();
+    if (bookmarkName) {
+      try {
+        // Try to get the range of the bookmark
+        range = context.document.getBookmarkRange(bookmarkName);
+        context.load(range);
+        await context.sync();
 
-    } catch (error) {
-      // If the bookmark does not exist, use the range at the end of the document
-      // Should probably be removed in production code, and instead throw an error
+      } catch (error) {
+        // If the bookmark does not exist, use the range at the end of the document
+        // Should probably be removed in production code, and instead throw an error
 
+        const body = context.document.body;
+        range = body.getRange('End');
+        context.load(range);
+        await context.sync();
+      }
+    } else {
+      // If no bookmarkName is provided, use the range at the end of the document
       const body = context.document.body;
       range = body.getRange('End');
       context.load(range);
       await context.sync();
     }
 
-// Insert the page break and the text
-range.insertHtml("<br style='mso-special-character:line-break;page-break-before:always'>" + textToInsert, Word.InsertLocation.replace);
+    // Insert the page break and the text
+    range.insertHtml("<br style='mso-special-character:line-break;page-break-before:always'>" + textToInsert, Word.InsertLocation.replace);
 
-await context.sync();
+    await context.sync();
   });
 }
-
