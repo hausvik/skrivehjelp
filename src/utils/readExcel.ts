@@ -40,25 +40,30 @@ export async function readExcel(url: string): Promise<any[]> {
  * @param {string} elementId - The id of the dropdown element.
  * @returns {Promise<T[]>} - A promise that resolves to an array of data.
  */
-export async function addToDropDown<T extends { Norsk: string, Undervisning: string }>(filePath: string, elementId: string): Promise<T[]> {
+export async function addToDropDown<T extends { Norsk: string, SKO: string}>(filePath: string, elementId: string): Promise<T[]> {
   let data: T[] = await readExcel(filePath);
 
   let selectElement: HTMLSelectElement | null = document.getElementById(elementId) as HTMLSelectElement;
 
-  // Populate the select element with the data
-  data.forEach((item: T, index: number) => {
-    // Ignore the first element
-    if (index === 0) return;
-    // Create a new option element
-    let option = document.createElement("option");
+// Modified code to add a 0 to the start of the SKO string if its length is 3
+data.forEach((item: T, index: number) => {
+  console.log(item);
+  // Ignore the first element
+  if (index === 0) return;
+  // Check if SKO length is 3 and prepend 0 if true
+  if (item.SKO.length === 3) {
+    item.SKO = '0' + item.SKO;
+  }
+  // Create a new option element
+  let option = document.createElement("option");
 
-    // Set the value and text of the option element
-    option.value = item.Norsk;
-    option.text = item.Norsk;
+  // Set the value and text of the option element
+  option.value = item.Norsk;
+  option.text = item.Norsk;
 
-    // Add the option element to the select element
-    selectElement.add(option);
-  });
+  // Add the option element to the select element
+  selectElement.add(option);
+});
 
   return data;
 }
@@ -71,6 +76,7 @@ type PositionCode = {
   engJobTitle: string;
   Kategori: string;
   Undervisning: string;
+  InUse: number;
 };
 
 export function updateDropDown(selectElement: HTMLSelectElement, positionCodes: PositionCode[]): void {
