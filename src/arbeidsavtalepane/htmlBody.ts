@@ -311,7 +311,7 @@ externallyFundedText = `Ansettelsesforholdet er knyttet til eksternt finansiert 
             Lønn utbetales den 12. hver måned via bank, med mindre annet er avtalt særskilt. 
             Det trekkes 2% pensjonsinnskudd til medlemskap i Statens pensjonskasse for stillinger med minimum 20 prosent av full stilling. 
             Staten og hovedsammenslutningene har gjennom særavtale fastsatt at arbeidstakere i 100 % stilling skal trekkes kr 400,- i bruttolønn pr år, 
-            som inngår i delfinansiering av opplærings- og utviklingstiltak, 
+            som inngår i delfinansiering av opplærings- og utviklingstiltak.
         </p>
         <p class="MsoNormal">
             Reglene i statsansatteloven § 15 om prøvetid gjelder. Prøvetiden er 6 måneder fra tiltredelse.

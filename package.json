@@ -30,6 +30,7 @@
     "watch": "webpack --mode development --watch"
   },
   "dependencies": {
+    "@microsoft/teamsapp-cli": "^3.0.2",
     "core-js": "^3.37.1",
     "exceljs": "^4.4.0",
     "node-fetch": "^2.6.6"
