@@ -97,18 +97,18 @@ h1
 
 
   return `
+  ${htmlStyle}
           <br style='mso-special-character:line-break;page-break-before:always'>
                   <h1 class="h1">ARBEIDSAVTALE</h1>
       
       
-                  <td>${name} har inngått følgende arbeidsavtale med Universitetet i Bergen, Postboks 7800, 5020 Bergen.</td>
-                          
-      
+                  <p>${name} har inngått følgende arbeidsavtale med Universitetet i Bergen, Postboks 7800, 5020 Bergen.</p>
+
                   <table>
                           <tr>
                                   <td>Navn</td>
                                   <td>${name}</td>
-                                  <td>Fødselsnr.</td>
+                                  <td>Fødselsnummer.</td>
                                   <td>${personalId}</td>
                           </tr>
                           
@@ -140,6 +140,7 @@ h1
                                   <td>${endDate !== "" ? endDate : ""}</td>
                           </tr>
                   </table>
+                  <br>
       `;
 }
 
