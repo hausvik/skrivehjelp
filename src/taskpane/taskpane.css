@@ -75,7 +75,7 @@ b {
     font-weight: bold;
 }
 
-.form-group {
+.form-checkbox-group {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
