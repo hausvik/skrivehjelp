@@ -18,6 +18,7 @@ type PositionCode = {
   engJobTitle: string;
   Kategori: string;
   Undervisning: string;
+  InUse: number;
 };
 
 /**
@@ -47,9 +48,9 @@ function getPositionDetail(positionCodesElement: any, checkString: string, retur
   return null;
 }
 
-// Function to filter and update the dropdown
-function filterAndUpdateDropdown(AllPositionCodes: PositionCode[], searchTerm: string, selectElement: HTMLSelectElement): void {
-  let filteredPositionCodes = AllPositionCodes.filter(code => code.Norsk.includes(searchTerm));
+// Modified function to filter and update the dropdown based on a specified column to search
+function filterAndUpdateDropdown(AllPositionCodes: PositionCode[], searchTerm: string, selectElement: HTMLSelectElement, searchColumn: keyof PositionCode): void {
+  let filteredPositionCodes = AllPositionCodes.filter(code => code[searchColumn].toString().includes(searchTerm));
   updateDropDown(selectElement, filteredPositionCodes);
 }
 
@@ -100,6 +101,7 @@ export async function initializeArbeidsavtalepane() {
   let substituteForGroup: HTMLInputElement | null = document.getElementById("substiuteForGroup") as HTMLInputElement;
   let substituteFor: HTMLInputElement | null = document.getElementById("substituteFor") as HTMLInputElement;
   let abroardEmployeeText: HTMLInputElement | null = document.getElementById("abroardEmployeeText") as HTMLInputElement;
+  let allCodes: HTMLInputElement | null = document.getElementById("allCodes") as HTMLInputElement;
 
   // Select elements
   let positionCodeSelect: HTMLSelectElement | null = document.getElementById("positionCode") as HTMLSelectElement;
@@ -120,6 +122,7 @@ export async function initializeArbeidsavtalepane() {
   let substituteTypeGroup: HTMLElement | null = document.getElementById("substituteTypeGroup") as HTMLElement;
   let employeeTypeRadio: HTMLElement | null = document.getElementById("employeeTypeRadio") as HTMLElement;
   let abroardEmployeeTextGroup: HTMLElement | null = document.getElementById("abroardEmployeeTextGroup") as HTMLElement;
+  
 
   // Button
   let button: HTMLButtonElement | null = document.getElementById("generateDocument") as HTMLButtonElement;
@@ -134,20 +137,23 @@ export async function initializeArbeidsavtalepane() {
 
   positionCodeSelect?.addEventListener("mousedown", () => {
     if (scientificAssistant.checked) {
-      filterAndUpdateDropdown(AllPositionCodes, "Vitenskapelig", positionCodeSelect);
+      filterAndUpdateDropdown(AllPositionCodes, "Vitenskapelig", positionCodeSelect, "Norsk");
+    }
+    else if (allCodes.checked) {
+      resetDropdown(AllPositionCodes, positionCodeSelect);
     }
     else {
-      resetDropdown(AllPositionCodes, positionCodeSelect);
+      filterAndUpdateDropdown(AllPositionCodes, "1", positionCodeSelect, "InUse");
     }
   });
 
   positionCodeSelect?.addEventListener("change", async () => {
-    console.log("positionCodeSelect changed")
     // Get the selected position code and corresponding data
     const selectedPositionCode = positionCodeSelect.value;
     jobTitle = getPositionDetail(AllPositionCodes, selectedPositionCode, 1, engelsk.checked);
     category = getPositionDetail(AllPositionCodes, selectedPositionCode, 2, engelsk.checked);
     teachingPos = getPositionDetail(AllPositionCodes, selectedPositionCode, 3, engelsk.checked) === '1' ? true : false;
+
 
 
     if (employee.checked && category === "V") {

@@ -40,36 +40,36 @@ export function getArbeidsavtale(
   substituteTypeGroupValue: string,
   substituteFor: string,
   workDescription: string,
-  additionalDuty:string,
+  additionalDuty: string,
   termEmployee: string,
   karrierefremmendeArbeid: boolean,
   termAmount: string,
   abroardEmployeeText: string,
 ): string {
-  if(engelsk){
-  return getArbeidsavtaleBodyEngelsk(
-    fastAnsatt,
-    vikar,
-    underviser,
-    jobTitle,
-    educationalCompetenceValue,
-    norwegianCompetenceParam,
-    externallyFunded,
-    projectName,
-    projectEndDate,
-    projectTasks,
-    externallyFoundedResearcher,
-    substituteAdvertised,
-    substituteTypeGroupValue,
-    substituteFor,
-    workDescription,
-    additionalDuty,
-    termEmployee,
-    karrierefremmendeArbeid,
-    termAmount, 
-    abroardEmployeeText);
+  if (engelsk) {
+    return getArbeidsavtaleBodyEngelsk(
+      fastAnsatt,
+      vikar,
+      underviser,
+      jobTitle,
+      educationalCompetenceValue,
+      norwegianCompetenceParam,
+      externallyFunded,
+      projectName,
+      projectEndDate,
+      projectTasks,
+      externallyFoundedResearcher,
+      substituteAdvertised,
+      substituteTypeGroupValue,
+      substituteFor,
+      workDescription,
+      additionalDuty,
+      termEmployee,
+      karrierefremmendeArbeid,
+      termAmount,
+      abroardEmployeeText);
   }
-  else{
+  else {
     return getArbeidsavtaleBodyNorsk(
       fastAnsatt,
       vikar,
@@ -96,11 +96,11 @@ export function getArbeidsavtale(
 
 
 function getArbeidsavtaleBodyEngelsk(
-  fastAnsatt: boolean,
+  midlertidigAnsatt: boolean,
   vikar: boolean,
   underviser: boolean,
   jobTitle: string,
-  educationalCompetenceValue: boolean,
+  educationalCompetenceParam: boolean,
   norwegianCompetenceParam: boolean,
   externallyFunded: boolean,
   projectName: string,
@@ -111,35 +111,201 @@ function getArbeidsavtaleBodyEngelsk(
   substituteTypeGroupValue: string,
   substituteFor: string,
   workDescription: string,
-  additionalDuty:string,
+  additionalDuty: string,
   termEmployee: string,
   karrierefremmendeArbeid: boolean,
-  termAmount: string,
+  karrierefremmendeArbeidMengde: string,
   abroardEmployeeText: string,
 ): string {
-  return getArbeidsavtaleBodyNorsk(
-    fastAnsatt,
-    vikar,
-    underviser,
-    jobTitle,
-    educationalCompetenceValue,
-    norwegianCompetenceParam,
-    externallyFunded,
-    projectName,
-    projectEndDate,
-    projectTasks,
-    externallyFoundedResearcher,
-    substituteAdvertised,
-    substituteTypeGroupValue,
-    substituteFor,
-    workDescription,
-    additionalDuty,
-    termEmployee,
-    karrierefremmendeArbeid,
-    termAmount,
-    abroardEmployeeText
+  let educationalCompetenceNeeded = "";
+  let norwegianCompetenceNeeded = "";
+  let externallyFundedText = "";
+  let externallyFoundedResearcherText = "";
+  let substituteNotAdvertisedText = "";
+  let substituteText = "";
+  let tempEmployeeText = "";
+  let aremalText = '';
 
-  );
+
+  if (termEmployee != null) {
+    switch (termEmployee) {
+      case 'ekstraverv':
+        aremalText = `The extra duty is in addition to the main position at: ${additionalDuty}. 
+    The employment is for a fixed term, cf. University and University Colleges Act § 7-7. The employment relationship ends without notice at the expiration of the fixed term, cf. Civil Servants Act § 17 (2). `;
+        break;
+      case 'leader':
+        aremalText = `The employment is for a fixed term, cf. University and University Colleges Act § 7-6 (1) c. The employment relationship ends without notice at the expiration of the fixed term, 
+            cf. Civil Servants Act § 17 (2). Any renewal of the fixed-term period occurs after a regular public announcement and employment procedure.  `
+        break;
+      case 'dobbelkompetanseutdanning':
+        aremalText = `The employment is for a fixed term, cf. University and University Colleges Act § 7-4 (1) h). The employment relationship ends without notice at the expiration of the fixed term 
+            cf. Civil Servants Act § 17 (2). A plan for the implementation of the dual competence education is included as an annex to the employment contract
+            , including the distribution of working hours between doctoral education, specialist training, and career-promoting work.  
+            ${karrierefremmendeArbeid ? `Career-promoting work constitutes ${karrierefremmendeArbeidMengde} of the fixed-term period. ` : ''}`
+        break;
+      case 'spesialistkandidat':
+        aremalText = `The employment is for a fixed term, cf. University and University Colleges Act § 7-4 (1) h). The employment relationship ends without notice at the expiration of the fixed term,
+             cf. Civil Servants Act § 17 (2). A plan for the implementation of the specialist training is included as an annex to the employment contract. ${karrierefremmendeArbeid ?
+            `Career-promoting work constitutes ${karrierefremmendeArbeidMengde} of the fixed-term period. For appointments beyond
+               two years, the institution may include other career-promoting work in the position` : ''}`
+        break;
+      case 'innstegsstilling':
+        aremalText = `The employment is for a fixed term, cf. University and University Colleges Act § 7-6 (1) e. cf. regulation on employment on entry terms. To obtain permanent employment, the
+             requirements in the guidelines for the use of entry positions at UiB sec. 5.1 must be met. The faculty board decides based on the final evaluation
+              whether permanent employment will be granted. If permanent employment is not granted, the employment relationship ends without notice at the expiration of the fixed term, cf.
+               Civil Servants Act § 17 (2).  `
+        break;
+      case 'skapende':
+        aremalText = `The employment is for a fixed term, cf. University and University Colleges Act § 7-6 (1) d. The employment relationship ends without notice at the expiration of the fixed term,
+             cf. Civil Servants Act § 17 (2). `
+        break;
+      case 'postdoktor':
+        aremalText = `The employment is for a fixed term, cf. University and University Colleges Act § 7-6 (1) f. The employment relationship ends without notice at the expiration of the fixed term,
+             cf. Civil Servants Act § 17 (2). ${karrierefremmendeArbeid ? `Career-promoting work constitutes ${karrierefremmendeArbeidMengde} of the fixed-term period.` : ''} `
+        break;
+      case 'stipendiat':
+        aremalText = `The employment is for a fixed term, cf. University and University Colleges Act § 7-6 (1) g. The employment relationship ends without notice at the expiration of the fixed term, cf. Civil Servants Act
+             § 17 (2). Admission to a doctoral program is a condition for taking up the position.  To be employed as a research fellow, admission to a doctoral program,
+              or a binding agreement on admission must be in place. ${karrierefremmendeArbeid ? `Career-promoting work constitutes ${karrierefremmendeArbeidMengde}
+                 of the fixed-term period. Refer to the career plan specifying the competence that the postdoctoral fellow is to acquire.` : ''}`
+        break;
+      case 'kunstnerisk':
+        aremalText = `The employment is for a fixed term, cf. University and University Colleges Act § 7-6 (1) g. The employment relationship ends without notice at the expiration of the fixed term, cf.
+             Civil Servants Act § 17 (2).  The employment is associated with the Scholarship Program for Artistic Development Work. ${karrierefremmendeArbeid ?
+            `Career-promoting work constitutes ${karrierefremmendeArbeidMengde} of the fixed-term period. Refer to the career plan specifying the competence
+               that the postdoctoral fellow is to acquire.` : ''}`
+        break;
+      case 'vitenskapelig':
+        aremalText = `The employment is for a fixed term, cf. University and University Colleges Act § 7-4 (1) i. The employment relationship ends without notice at the expiration of the fixed term,
+             cf. Civil Servants Act § 17 (2). `
+        break;
+      default:
+        console.log('This should not happen! Please check the termType value.');
+        break;
+    }
+  }
+
+  if (midlertidigAnsatt && !underviser) {
+    tempEmployeeText = `The work to be performed is of a temporary nature, cf. the Civil Servants Act § 9 (1) a.  
+    Description of the work: ${workDescription}. The employment relationship terminates at the end of the agreed period in accordance with the Civil Servants Act § 17 (1). `;
+  }
+  else if (midlertidigAnsatt && underviser) {
+    tempEmployeeText = `The employment is temporary to cover teaching needs in the advertised position as ${jobTitle} pursuant to the University and University Colleges Act § 7-3.  
+    The employment relationship ends without notice upon the expiration of the employment period.  `;
+  }
+
+  if (educationalCompetenceParam) {
+    educationalCompetenceNeeded =
+      "It is a prerequisite for employment that educational competence is achieved within two years of commencement. ";
+  }
+  if (norwegianCompetenceParam) {
+    norwegianCompetenceNeeded =
+      "It is a prerequisite for employment that Norwegian language skills at a minimum level of B2 are documented within three years of commencement. ";
+  }
+  if (externallyFunded) {
+    externallyFundedText = `The employment is associated with an externally funded project: ${projectName},
+ with an expected conclusion ${projectEndDate}. Description of the employee's tasks: ${projectTasks}. `;
+  }
+  if (externallyFoundedResearcher) {
+    externallyFoundedResearcherText = `Upon completion of the project, continued employment is contingent upon 
+  further external funding of the position. The employee is encouraged to actively participate in the application 
+  process for new project funds to finance the position. `;
+  }
+
+  if (!substituteAdvertised && vikar) {
+    substituteNotAdvertisedText =
+      `The employment is made without advertisement and is temporary until the date of the last working day. 
+      If after employment it turns out that there is a need for a substitute beyond 6 months, it is reserved that the position will be advertised. `;
+  }
+  if (substituteTypeGroupValue === "pending" && vikar) {
+    substituteText = `The employment relationship concerns a substitute in a vacant position pending the ordinary employment procedure, 
+  cf. the Civil Servants Act § 9 (1) b.  The employment relationship is temporary and terminates without notice when the time is up, 
+  or when the position holder assumes the position at an earlier date, cf. the Civil Servants Act § 17 (1). `;
+  } else if (substituteTypeGroupValue === "person" && vikar) {
+    substituteText = `The employment occurs in accordance with the Civil Servants Act § 9 (1) b as a substitute for: ${substituteFor}.
+         The employment relationship terminates without written notice when the time is up, or when the permanent holder of the position resumes their position,
+          cf. the Civil Servants Act § 17 (1). `;
+  } else if (substituteTypeGroupValue === "many" && vikar) {
+    substituteText = `The employment occurs in accordance with the Civil Servants Act § 9 (1) b in the substitute position concerning: ${substituteFor}.
+         The employment relationship terminates without written notice when the time is up, or when the permanent holder of the position resumes their position,
+          cf. the Civil Servants Act § 17 (1). `;
+  }
+
+  let bodyIntro =
+    `<p class="MsoNormal">` +
+    tempEmployeeText +
+    educationalCompetenceNeeded +
+    aremalText +
+    norwegianCompetenceNeeded +
+    externallyFundedText +
+    externallyFoundedResearcherText +
+    substituteText +
+    substituteNotAdvertisedText +
+    abroardEmployeeText +
+    "</p>";
+
+
+
+
+  return `
+    ${bodyIntro}
+        <p class="MsoNormal">
+The employment contract, along with any job advertisement text, 
+            constitutes the terms of employment at the time of commencement. The employment is subject to 
+            compliance with the regulations that apply to the position at any given time.  
+            General salary and working conditions are governed by the Main Collective Agreement in the state (HTA). 
+            Furthermore, the employment relationship is regulated by the Civil Servants Act, 
+            the Working Environment Act (WEA), the Universities and Colleges Act (UCA), the National Insurance Act, 
+            the Act on the Government Pension Fund, the Act on Age Limits for Public Servants, 
+            the Dispute Act, the Main Agreement in the state (HA) with Adaptation Agreement at UiB, 
+            personnel regulations, and any special agreements and guidelines applicable to the position.
+        </p>
+        <p class="MsoNormal">
+Salary is paid on the 12th of each month via bank transfer, unless otherwise specifically agreed. 
+            A 2% pension contribution is deducted for membership in the Government Pension Fund for positions with a minimum of 20 percent of a full position. 
+            The state and the main unions have through a special agreement stipulated that employees in a 100% position shall be deducted NOK 400,- in gross salary per year, 
+            which is part of the co-financing of training and development measures.
+        </p>
+        <p class="MsoNormal">
+            The rules in the Civil Servants Act § 15 regarding probationary period apply. The probationary period is 6 months from the date of commencement. 
+            If the employee has been absent from work during the probationary period, the employer may extend the probationary period by a period corresponding to the length of the absence.
+            </p>
+        <p class="MsoNormal">
+            Working hours and the length of breaks follow the rules in the Working Environment Act (WEA), the Main Collective Agreement in the state (HTA), and special agreements. 
+            The ordinary working hours shall on average not exceed 37.5 hours per week in a 100% position. 
+            Working hours should, as far as possible, be placed between 07:00 and 17:00 and distributed over 5 days per week.
+        </p>
+        <p class="MsoNormal">
+            Right to vacation and vacation pay is regulated in accordance with the Holiday Act, the Main Collective Agreement in the state (HTA), and special agreements. 
+            The rules for determining the vacation period follow from the Holiday Act § 6. The employee may demand that the main vacation, which includes three weeks, 
+            is given during the main vacation period from June 1 to September 30. 
+            However, this does not apply to employees who join after August 15 in the vacation year. 
+            Employees are obliged to take vacation and must apply for the desired vacation period according to UiB's routines. 
+            To motivate older employees to stay longer in employment, according to the HTA, currently 
+            leave with pay equivalent to 10 days per year is given from the calendar year one turns 62 years old.
+        </p>
+        <p class="MsoNormal">
+            Employees are entitled to full pay during illness for up to one year, leave for pregnancy, childbirth, adoption, and breastfeeding, and for a child's illness in accordance with HTA §§ 18.- 20. 
+            When important welfare and care reasons exist, an employee may be granted welfare leave with pay for up to 12 working days. 
+            Employees are allowed necessary short-term absence during working hours, e.g., 
+            short visits to the doctor or dentist. The short-term absence must be clarified with the immediate superior.
+        </p>
+        <p class="MsoNormal">
+            UiB offers competence development in accordance with the Main Agreement (HA) with adaptation agreement, special agreement, and internal guidelines.
+        </p>
+        <p class="MsoNormal">
+            For the employment relationship, the notice periods in the Civil Servants Act § 22 apply. 
+            Employees must submit their resignation in writing. In case of termination by the employer, reference is made to the procedural rules in the Civil Servants Act § 32.
+        </p>
+        <p class="MsoNormal">
+            Employees must not hold additional positions and other employment in conflict with the state. Some employees must register their additional positions in accordance with guidelines at UiB. 
+            Rights to research and work results are regulated in the Regulations on the management of employees' rights to research and work results at the University of Bergen.
+        </p>
+        <p class="MsoNormal">
+            Employees at UiB are subject to confidentiality according to the Public Administration Act, and any special confidentiality rules that apply to the position. 
+            By signing the employment contract, the employee declares to be aware of and respect the rules on confidentiality.
+        </p>
+    `;
 }
 
 function getArbeidsavtaleBodyNorsk(
@@ -158,7 +324,7 @@ function getArbeidsavtaleBodyNorsk(
   substituteTypeGroupValue: string,
   substituteFor: string,
   workDescription: string,
-  additionalDuty:string,
+  additionalDuty: string,
   termEmployee: string,
   karrierefremmendeArbeid: boolean,
   karrierefremmendeArbeidMengde: string,
@@ -174,63 +340,63 @@ function getArbeidsavtaleBodyNorsk(
   let aremalText = '';
 
 
-if (termEmployee != null) {
+  if (termEmployee != null) {
     switch (termEmployee) {
-        case 'ekstraverv':
-            aremalText = `Ekstraervervet kommer i tillegg til hovedstilling ved: ${additionalDuty}. 
+      case 'ekstraverv':
+        aremalText = `Ekstraervervet kommer i tillegg til hovedstilling ved: ${additionalDuty}. 
     Ansettelsen er på åremål, jf. uhl. § 7-7. Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp, jf. statsansatteloven § 17 (2). `;
-            break;
-        case 'leader':
-            aremalText = `Ansettelsen er på åremål, jf. uhl. § 7-6 (1) c. Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp, 
+        break;
+      case 'leader':
+        aremalText = `Ansettelsen er på åremål, jf. uhl. § 7-6 (1) c. Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp, 
             jf. statsansattelovens § 17 (2).  Eventuell fornyelse av åremålsperiode skjer etter vanlig offentlig kunngjøring og ansettelsesprosedyre.  `
-            break;
-        case 'dobbelkompetanseutdanning':
-            aremalText = `Ansettelsen er på åremål, jf. uhl. § 7-4 (1) h). Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp 
+        break;
+      case 'dobbelkompetanseutdanning':
+        aremalText = `Ansettelsen er på åremål, jf. uhl. § 7-4 (1) h). Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp 
             jf. statsansatteloven § 17 (2).  Plan for gjennomføring av dobbelkompetanseutdanningen inngår som vedlegg til arbeidskontrakten
             , herunder fordeling av arbeidstiden mellom doktorgradsutdanning, spesialistutdanning og karrierefremmende arbeid.  
             ${karrierefremmendeArbeid ? `Karrierefremmende arbeid utgjør ${karrierefremmendeArbeidMengde} av åremålsperioden. ` : ''}`
-            break;
-        case 'spesialistkandidat':
-            aremalText = `Ansettelsen er på åremål, jf. uhl. § 7-4 (1) h). Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp,
+        break;
+      case 'spesialistkandidat':
+        aremalText = `Ansettelsen er på åremål, jf. uhl. § 7-4 (1) h). Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp,
              jf. statsansatteloven § 17 (2).  Plan for gjennomføring av spesialistutdanningen inngår som vedlegg til arbeidskontrakten. ${karrierefremmendeArbeid ?
-              `Karrierefremmende arbeid utgjør ${karrierefremmendeArbeidMengde} av åremålsperioden. Ved ansettelse utover
+            `Karrierefremmende arbeid utgjør ${karrierefremmendeArbeidMengde} av åremålsperioden. Ved ansettelse utover
                to år kan institusjonen inkludere annet karrierefremmende arbeid i stillingen` : ''}`
-            break;
-        case 'innstegsstilling':
-            aremalText = `Ansettelsen er på åremål, jf. uhl. § 7-6 (1) e.  jf. forskrift om ansettelse på innstegsvilkår. For å få fast ansettelse må
+        break;
+      case 'innstegsstilling':
+        aremalText = `Ansettelsen er på åremål, jf. uhl. § 7-6 (1) e.  jf. forskrift om ansettelse på innstegsvilkår. For å få fast ansettelse må
              kravene i retningslinjer for bruk av innstegsstillinger ved UiB pkt. 5.1 være oppfylt. Fakultetsstyret avgjør med utgangspunkt i sluttevalueringen
               om fast ansettelse skal gis. Gis ikke fast ansettelse, opphører ansettelsesforholdet uten oppsigelse ved åremålsperiodens utløp, jf.
                statsansatteloven § 17 (2).  `
-            break;
-        case 'skapende':
-            aremalText = `Ansettelsen er på åremål, jf. uhl. § 7-6 (1) d. Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp,
+        break;
+      case 'skapende':
+        aremalText = `Ansettelsen er på åremål, jf. uhl. § 7-6 (1) d. Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp,
              jf. statsansatteloven § 17 (2). `
-            break;
-        case 'postdoktor':
-            aremalText = `Ansettelsen er på åremål, jf. uhl § 7-6 (1) f. Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp,
+        break;
+      case 'postdoktor':
+        aremalText = `Ansettelsen er på åremål, jf. uhl § 7-6 (1) f. Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp,
              jf. statsansatteloven § 17 (2). ${karrierefremmendeArbeid ? `Karrierefremmende arbeid utgjør ${karrierefremmendeArbeidMengde} av åremålsperioden.` : ''} `
-            break;
-        case 'stipendiat':
-            aremalText = `Ansettelsen er på åremål, jf. uhl § 7-6 (1) g. Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp, jf. statsansatteloven
+        break;
+      case 'stipendiat':
+        aremalText = `Ansettelsen er på åremål, jf. uhl § 7-6 (1) g. Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp, jf. statsansatteloven
              § 17 (2). Opptak til doktorgradsprogram er et vilkår for tiltredelse i stillingen.  For å bli ansatt som stipendiat kreves opptak i et doktorgradsprogram,
               eller at det foreligger en forpliktende avtale om opptak. ${karrierefremmendeArbeid ? `Karrierefremmende arbeid utgjør ${karrierefremmendeArbeidMengde}
                  av åremålsperioden. Vise til karriereplan som spesifiserer den kompetansen som postdoktoren skal opparbeide seg.` : ''}`
-            break;
-        case 'kunstnerisk':
-            aremalText = `Ansettelsen er på åremål, jf. uhl § 7-6 (1) g. Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp, jf.
-             statsansatteloven § 17 (2).  Ansettelsen er knyttet til Stipendprogram for kunstnerisk utviklingsarbeid. ${karrierefremmendeArbeid ? 
-              `Karrierefremmende arbeid utgjør ${karrierefremmendeArbeidMengde} av åremålsperioden. Vise til karriereplan som spesifiserer den kompetansen
+        break;
+      case 'kunstnerisk':
+        aremalText = `Ansettelsen er på åremål, jf. uhl § 7-6 (1) g. Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp, jf.
+             statsansatteloven § 17 (2).  Ansettelsen er knyttet til Stipendprogram for kunstnerisk utviklingsarbeid. ${karrierefremmendeArbeid ?
+            `Karrierefremmende arbeid utgjør ${karrierefremmendeArbeidMengde} av åremålsperioden. Vise til karriereplan som spesifiserer den kompetansen
                som postdoktoren skal opparbeide seg.` : ''}`
-            break;
-        case 'vitenskapelig':
-            aremalText = `Ansettelsen er på åremål, jf. uhl. § 7-4 (1) i. Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp,
+        break;
+      case 'vitenskapelig':
+        aremalText = `Ansettelsen er på åremål, jf. uhl. § 7-4 (1) i. Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp,
              jf. statsansatteloven § 17 (2). `
-            break;
-        default:
-            console.log('This should not happen! Please check the termType value.');
-            break;
+        break;
+      default:
+        console.log('This should not happen! Please check the termType value.');
+        break;
     }
-}
+  }
 
   if (midlertidigAnsatt && !underviser) {
     tempEmployeeText = `Arbeidet som skal utføres er av midlertidig karakter, jf. statsansatteloven § 9 (1) a.  
@@ -250,7 +416,7 @@ if (termEmployee != null) {
       "Det er en forutsetning for ansettelsen at det dokumenteres norskferdigheter på minimum nivå B2 innen tre år etter tiltredelsen. ";
   }
   if (externallyFunded) {
-externallyFundedText = `Ansettelsesforholdet er knyttet til eksternt finansiert oppdrag i prosjektet:  ${projectName},
+    externallyFundedText = `Ansettelsesforholdet er knyttet til eksternt finansiert oppdrag i prosjektet:  ${projectName},
  med antatt avslutning ${projectEndDate}. Beskrivelse av arbeidstakers oppgaver: ${projectTasks}. `;
   }
   if (externallyFoundedResearcher) {
