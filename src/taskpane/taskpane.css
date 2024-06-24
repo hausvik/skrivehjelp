@@ -74,3 +74,9 @@ ul {
 b {
     font-weight: bold;
 }
+
+.form-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}

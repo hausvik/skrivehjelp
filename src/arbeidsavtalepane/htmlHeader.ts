@@ -126,7 +126,7 @@ function getArbeidsavtaleHeadingEngelsk(
                                   
                           </tr>
                           <tr>
-                                  <td>Public service seniority</td>
+                                  <td>Seniority</td>
                                   <td>${seniority}</td>
                                   <td>Annual salary/salary grade</td>
                                   <td>${annualSalary}</td>
@@ -212,7 +212,7 @@ function getArbeidsavtaleHeadingNorsk(
                                   
                           </tr>
                           <tr>
-                                  <td>Offentlig tjenesteansiennitet</td>
+                                  <td>Stillingsansiennitet</td>
                                   <td>${seniority}</td>
                                   <td>Årslønn/lønnstrinn</td>
                                   <td>${annualSalary}</td>
