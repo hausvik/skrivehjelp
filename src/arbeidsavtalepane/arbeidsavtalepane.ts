@@ -112,6 +112,7 @@ export async function initializeArbeidsavtalepane() {
   let abroardEmployeeText: HTMLInputElement | null = document.getElementById("abroardEmployeeText") as HTMLInputElement;
   let allCodes: HTMLInputElement | null = document.getElementById("allCodes") as HTMLInputElement;
   let tempTeachNeed: HTMLInputElement | null = document.getElementById("tempTeachNeed") as HTMLInputElement;
+  let doubleCompetence: HTMLInputElement | null = document.getElementById("doubleCompetence") as HTMLInputElement;
 
 
   // Select elements
@@ -121,10 +122,8 @@ export async function initializeArbeidsavtalepane() {
   let tempTeachNeedGroup: HTMLElement | null = document.getElementById("tempTeachNeedGroup") as HTMLElement;
   let additionalDutyGroup: HTMLElement | null = document.getElementById("additionalDutyGroup") as HTMLElement;
   let additionalDutyRadio: HTMLElement | null = document.getElementById("additionalDuty") as HTMLElement;
-  let teachingPrepDiv: HTMLElement | null = document.getElementById("teachingPrepDiv") as HTMLElement;
   let externallyFundedGroup: HTMLElement | null = document.getElementById("externallyFundedGroup") as HTMLElement;
-  let termOptionsGroup: HTMLElement | null = document.getElementById("termOptionsGroup") as HTMLElement;
-  let preparationHoursDiv: HTMLElement | null = document.getElementById("preparationHoursDiv") as HTMLElement;
+  let termOptionsGroup: HTMLElement | null = document.getElementById("termType") as HTMLElement;
   let familyAllowanceGroup: HTMLElement | null = document.getElementById("familyAllowanceGroup") as HTMLElement;
   let mobilityAllowanceGroup: HTMLElement | null = document.getElementById("mobilityAllowanceGroup") as HTMLElement;
   let endDateGroup: HTMLElement | null = document.getElementById("endDateGroup") as HTMLElement;
@@ -276,7 +275,7 @@ export async function initializeArbeidsavtalepane() {
       norwegianCompetence.style.display = "none";
       endDateGroup.style.display = "block";
       substituteGroup.style.display = "none";
-
+      workDescriptionElement.style.display = "none";
     });
   }
 
@@ -284,6 +283,7 @@ export async function initializeArbeidsavtalepane() {
   if (mandatoryWork) {
     mandatoryWork.addEventListener("change", () => {
       if (mandatoryWorkAmount) {
+        nameElement.value = radioButtonUtils.getSelectedRadioButtonValue(termOptionsGroup, "termType");
         mandatoryWorkAmount.style.display = mandatoryWork.checked ? "block" : "none";
       }
     });
@@ -301,6 +301,7 @@ export async function initializeArbeidsavtalepane() {
       }
     });
   }
+
 
   // Event listner for Research Fellow
   if (researchFellow) {
@@ -354,6 +355,7 @@ export async function initializeArbeidsavtalepane() {
   // Button logic
   if (button) {
     button.addEventListener("click", () => {
+
       if (
         nameElement &&
         personalIdElement &&
