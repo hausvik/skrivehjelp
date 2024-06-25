@@ -283,7 +283,6 @@ export async function initializeArbeidsavtalepane() {
   if (mandatoryWork) {
     mandatoryWork.addEventListener("change", () => {
       if (mandatoryWorkAmount) {
-        nameElement.value = radioButtonUtils.getSelectedRadioButtonValue(termOptionsGroup, "termType");
         mandatoryWorkAmount.style.display = mandatoryWork.checked ? "block" : "none";
       }
     });
