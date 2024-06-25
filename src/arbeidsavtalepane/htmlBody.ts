@@ -403,7 +403,7 @@ function getArbeidsavtaleBodyNorsk(
     Beskrivelse av arbeidet: ${workDescription}. Ansettelsesforholdet opphører ved det avtalte tidsrommets utløp iht. statsansatteloven § 17 (1). `;
   }
   else if (midlertidigAnsatt && underviser) {
-    tempEmployeeText = `Ansettelsen er midlertidig for å dekke undervisningsbehov i den utlyste stillingen i henhold til. til uhl. § 7-3.  
+    tempEmployeeText = `Ansettelsen er midlertidig for å dekke undervisningsbehov i den utlyste stillingen i henhold til uhl. § 7-3.  
     Ansettelsesforholdet opphører uten oppsigelse når ansettelsesperioden er utløpt.  `;
   }
 
