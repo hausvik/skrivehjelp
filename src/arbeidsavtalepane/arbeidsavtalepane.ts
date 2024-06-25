@@ -34,17 +34,16 @@ function getPositionDetail(positionCodesElement: any, checkString: string, retur
 
   if (positionDetails) {
     if (returnType === 0) {
-      return isEnglish
-        ? positionDetails['Engelsk']
+      return (isEnglish && positionDetails['Engelsk'] !== undefined)
+        ? positionDetails['Norsk'] + ` (${positionDetails['Engelsk stillingsbetegnelse']})`
         : positionDetails['Norsk'];
     }
     else if (returnType === 1) {
-      // Handles no english translation of jobTitle
-      if(positionDetails['Engelsk stillingsbetegnelse'] === undefined && isEnglish) {
+      if (positionDetails['Engelsk stillingsbetegnelse'] === undefined && isEnglish) {
         return "";
       }
-      return isEnglish
-        ? positionDetails['Engelsk stillingsbetegnelse'].toLowerCase()
+      return (isEnglish && positionDetails['Engelsk'] !== undefined)
+        ? positionDetails['Norsk stillingsbetegnelse'].toLowerCase() + ` (${positionDetails['Engelsk stillingsbetegnelse'].toLowerCase()})`
         : positionDetails['Norsk stillingsbetegnelse'].toLowerCase();
 
     } else if (returnType === 2) {
@@ -112,12 +111,16 @@ export async function initializeArbeidsavtalepane() {
   let substituteFor: HTMLInputElement | null = document.getElementById("substituteFor") as HTMLInputElement;
   let abroardEmployeeText: HTMLInputElement | null = document.getElementById("abroardEmployeeText") as HTMLInputElement;
   let allCodes: HTMLInputElement | null = document.getElementById("allCodes") as HTMLInputElement;
+  let tempTeachNeed: HTMLInputElement | null = document.getElementById("tempTeachNeed") as HTMLInputElement;
+
 
   // Select elements
   let positionCodeSelect: HTMLSelectElement | null = document.getElementById("positionCode") as HTMLSelectElement;
 
   // Elements
+  let tempTeachNeedGroup: HTMLElement | null = document.getElementById("tempTeachNeedGroup") as HTMLElement;
   let additionalDutyGroup: HTMLElement | null = document.getElementById("additionalDutyGroup") as HTMLElement;
+  let additionalDutyRadio: HTMLElement | null = document.getElementById("additionalDuty") as HTMLElement;
   let teachingPrepDiv: HTMLElement | null = document.getElementById("teachingPrepDiv") as HTMLElement;
   let externallyFundedGroup: HTMLElement | null = document.getElementById("externallyFundedGroup") as HTMLElement;
   let termOptionsGroup: HTMLElement | null = document.getElementById("termOptionsGroup") as HTMLElement;
@@ -165,6 +168,13 @@ export async function initializeArbeidsavtalepane() {
     jobTitle = getPositionDetail(AllPositionCodes, selectedPositionCode, 1, engelsk.checked);
     category = getPositionDetail(AllPositionCodes, selectedPositionCode, 2, engelsk.checked);
     teachingPos = getPositionDetail(AllPositionCodes, selectedPositionCode, 3, engelsk.checked) === '1' ? true : false;
+
+    if (teachingPos && tempEmployee.checked) {
+      tempTeachNeedGroup.style.display = "block";
+    } else {
+      tempTeachNeedGroup.style.display = "none";
+      tempTeachNeed.checked = false;
+    }
 
     // Handles no english translation of jobTitle
     if (jobTitle === "" && engelsk.checked) {
@@ -305,6 +315,15 @@ export async function initializeArbeidsavtalepane() {
     });
   }
 
+  if (additionalDutyRadio) {
+    additionalDutyRadio.addEventListener('click', () => {
+      if (additionalDutyText) {
+        additionalDutyGroup.style.display = additionalDutyBox.checked ? "block" : "none";
+      }
+    }
+    );
+  }
+
 
   // Event listner for artisticFellow
   if (artisticFellow) {
@@ -378,7 +397,7 @@ export async function initializeArbeidsavtalepane() {
         else {
           externallyFoundedResearcher = false;
         }
-        
+
         let htmlHeaderText: string | null = null;
         let htmlBodyText: string | null = null;
 
@@ -387,7 +406,7 @@ export async function initializeArbeidsavtalepane() {
           engelsk.checked,
           tempEmployee.checked,
           substituteEmployee.checked,
-          teachingPos,
+          tempTeachNeed.checked,
           jobTitle,
           radioButtonUtils.checkSelectedRadioButtonValue(educationalCompetence, "educationalCompetence", "no"),
           radioButtonUtils.checkSelectedRadioButtonValue(norwegianCompetence, "norwegianCompetence", "no"),
