@@ -143,8 +143,8 @@ export async function initializeArbeidsavtalepane() {
   // Variables
   let externallyFoundedResearcher = false as boolean;
   let skoTitle = "" as string;
-  let jobTitle = "" as string;
-  let category = "" as string; // might be usefull?
+  let jobTitle = "" as string; // Not in use, but might be usefull?
+  let category = "" as string; // Not in use, but might be usefull?
   let teachingPos = false as boolean;
   let substituteTypeGroupValue = "" as string;
   const AllPositionCodes: PositionCode[] = await addToDropDown('assets\\stillingskoder.xlsx', 'positionCode');
@@ -181,9 +181,6 @@ export async function initializeArbeidsavtalepane() {
       skoTitle = getPositionDetail(AllPositionCodes, selectedPositionCode, 0, !engelsk.checked);
       jobTitle = getPositionDetail(AllPositionCodes, selectedPositionCode, 1, !engelsk.checked);
     }
-
-
-
     if (employee.checked && category === "V") {
       norwegianCompetence.style.display = "block";
     }
