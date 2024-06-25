@@ -165,8 +165,8 @@ function getArbeidsavtaleBodyEngelsk(
         break;
       case 'stipendiat':
         aremalText = `The employment is for a fixed term, cf. University and University Colleges Act § 7-6 (1) g. The employment relationship ends without notice at the expiration of the fixed term, cf. Civil Servants Act
-             § 17 (2). Admission to a doctoral program is a condition for taking up the position.  To be employed as a research fellow, admission to a doctoral program,
-              or a binding agreement on admission must be in place. ${karrierefremmendeArbeid ? `Career-promoting work constitutes ${karrierefremmendeArbeidMengde}
+             § 17 (2). Admission to a doctoral program is a condition for taking up the position.  To become employed as a research fellow, admission to a doctoral 
+             program or a binding agreement for such admission, is required. ${karrierefremmendeArbeid ? `Career-promoting work constitutes ${karrierefremmendeArbeidMengde}
                  of the fixed-term period. Refer to the career plan specifying the competence that the postdoctoral fellow is to acquire.` : ''}`
         break;
       case 'kunstnerisk':
@@ -215,7 +215,7 @@ function getArbeidsavtaleBodyEngelsk(
   if (!substituteAdvertised && vikar) {
     substituteNotAdvertisedText =
       `The employment is made without advertisement and is temporary until the date of the last working day. 
-      If after employment it turns out that there is a need for a substitute beyond 6 months, it is reserved that the position will be advertised. `;
+      UiB reserves the right to advertise the position, should it, after employment, become evident that a substitute is required beyond (the initial) 6 months. `;
   }
   if (substituteTypeGroupValue === "pending" && vikar) {
     substituteText = `The employment relationship concerns a substitute in a vacant position pending the ordinary employment procedure, 
