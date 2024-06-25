@@ -137,7 +137,7 @@ function getArbeidsavtaleBodyEngelsk(
         aremalText = `The employment is for a fixed term, cf. University and University Colleges Act § 7-6 (1) c. The employment relationship ends without notice at the expiration of the fixed term, 
             cf. Civil Servants Act § 17 (2). Any renewal of the fixed-term period occurs after a regular public announcement and employment procedure.  `
         break;
-      case 'dobbelkompetanseutdanning':
+      case 'double':
         aremalText = `The employment is for a fixed term, cf. University and University Colleges Act § 7-4 (1) h). The employment relationship ends without notice at the expiration of the fixed term 
             cf. Civil Servants Act § 17 (2). A plan for the implementation of the dual competence education is included as an annex to the employment contract
             , including the distribution of working hours between doctoral education, specialist training, and career-promoting work.  
@@ -165,8 +165,8 @@ function getArbeidsavtaleBodyEngelsk(
         break;
       case 'stipendiat':
         aremalText = `The employment is for a fixed term, cf. University and University Colleges Act § 7-6 (1) g. The employment relationship ends without notice at the expiration of the fixed term, cf. Civil Servants Act
-             § 17 (2). Admission to a doctoral program is a condition for taking up the position.  To be employed as a research fellow, admission to a doctoral program,
-              or a binding agreement on admission must be in place. ${karrierefremmendeArbeid ? `Career-promoting work constitutes ${karrierefremmendeArbeidMengde}
+             § 17 (2). Admission to a doctoral program is a condition for taking up the position.  To become employed as a research fellow, admission to a doctoral 
+             program or a binding agreement for such admission, is required. ${karrierefremmendeArbeid ? `Career-promoting work constitutes ${karrierefremmendeArbeidMengde}
                  of the fixed-term period. Refer to the career plan specifying the competence that the postdoctoral fellow is to acquire.` : ''}`
         break;
       case 'kunstnerisk':
@@ -215,7 +215,7 @@ function getArbeidsavtaleBodyEngelsk(
   if (!substituteAdvertised && vikar) {
     substituteNotAdvertisedText =
       `The employment is made without advertisement and is temporary until the date of the last working day. 
-      If after employment it turns out that there is a need for a substitute beyond 6 months, it is reserved that the position will be advertised. `;
+      UiB reserves the right to advertise the position, should it, after employment, become evident that a substitute is required beyond (the initial) 6 months. `;
   }
   if (substituteTypeGroupValue === "pending" && vikar) {
     substituteText = `The employment relationship concerns a substitute in a vacant position pending the ordinary employment procedure, 
@@ -350,10 +350,10 @@ function getArbeidsavtaleBodyNorsk(
         aremalText = `Ansettelsen er på åremål, jf. uhl. § 7-6 (1) c. Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp, 
             jf. statsansattelovens § 17 (2).  Eventuell fornyelse av åremålsperiode skjer etter vanlig offentlig kunngjøring og ansettelsesprosedyre.  `
         break;
-      case 'dobbelkompetanseutdanning':
+      case 'double':
         aremalText = `Ansettelsen er på åremål, jf. uhl. § 7-4 (1) h). Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp 
-            jf. statsansatteloven § 17 (2).  Plan for gjennomføring av dobbelkompetanseutdanningen inngår som vedlegg til arbeidskontrakten
-            , herunder fordeling av arbeidstiden mellom doktorgradsutdanning, spesialistutdanning og karrierefremmende arbeid.  
+            jf. statsansatteloven § 17 (2).  Plan for gjennomføring av dobbelkompetanseutdanningen inngår som vedlegg til arbeidskontrakten,
+             herunder fordeling av arbeidstiden mellom doktorgradsutdanning, spesialistutdanning og karrierefremmende arbeid.  
             ${karrierefremmendeArbeid ? `Karrierefremmende arbeid utgjør ${karrierefremmendeArbeidMengde} av åremålsperioden. ` : ''}`
         break;
       case 'spesialistkandidat':
