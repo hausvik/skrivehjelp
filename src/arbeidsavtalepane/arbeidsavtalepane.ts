@@ -176,9 +176,6 @@ export async function initializeArbeidsavtalepane() {
       tempTeachNeed.checked = false;
     }
 
-
-    console.log(jobTitle)
-
     // Handles no english translation of jobTitle
     if (jobTitle === "" && engelsk.checked) {
       skoTitle = getPositionDetail(AllPositionCodes, selectedPositionCode, 0, !engelsk.checked);
