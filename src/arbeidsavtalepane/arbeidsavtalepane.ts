@@ -117,6 +117,7 @@ export async function initializeArbeidsavtalepane() {
 
   // Elements
   let additionalDutyGroup: HTMLElement | null = document.getElementById("additionalDutyGroup") as HTMLElement;
+  let additionalDutyRadio: HTMLElement | null = document.getElementById("additionalDuty") as HTMLElement;
   let teachingPrepDiv: HTMLElement | null = document.getElementById("teachingPrepDiv") as HTMLElement;
   let externallyFundedGroup: HTMLElement | null = document.getElementById("externallyFundedGroup") as HTMLElement;
   let termOptionsGroup: HTMLElement | null = document.getElementById("termOptionsGroup") as HTMLElement;
@@ -305,6 +306,14 @@ export async function initializeArbeidsavtalepane() {
       category = getPositionDetail(AllPositionCodes, positionCodeSelect.value, 2, engelsk.checked);
     });
   }
+
+  if(additionalDutyRadio){
+    additionalDutyRadio.addEventListener('click', () => {
+      if (additionalDutyText) {
+        additionalDutyGroup.style.display = additionalDutyBox.checked ? "block" : "none";
+      }
+    }
+  );}
 
 
   // Event listner for artisticFellow
