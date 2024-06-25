@@ -9,7 +9,6 @@ import * as radioButtonUtils from "../utils/radioButton";
 
 let headerData: Arbeidsavtaleheader | null = null;
 
-
 type PositionCode = {
   SKO: string;
   Norsk: string;
@@ -332,9 +331,6 @@ export async function initializeArbeidsavtalepane() {
         mobilityAllowanceGroup.style.display = mobilityAndFamilyAllowanceBox.checked ? "block" : "none";
         mobilityAllowanceElement.value = "";
         familyAllowanceElement.value = "";
-
-
-
       }
     });
   }
@@ -382,12 +378,11 @@ export async function initializeArbeidsavtalepane() {
         else {
           externallyFoundedResearcher = false;
         }
-
+        
         let htmlHeaderText: string | null = null;
         let htmlBodyText: string | null = null;
 
         htmlHeaderText = getArbeidsavtaleHeading(engelsk.checked, headerData);
-
         htmlBodyText = getArbeidsavtale(
           engelsk.checked,
           tempEmployee.checked,
@@ -413,7 +408,6 @@ export async function initializeArbeidsavtalepane() {
         );
 
         let htmlText = combineHtmlStrings([htmlHeaderText, htmlBodyText]);
-
         insertText(htmlText);
       }
     });
