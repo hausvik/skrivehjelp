@@ -190,7 +190,7 @@ function getArbeidsavtaleBodyEngelsk(
     Description of the work: ${workDescription}. The employment relationship terminates at the end of the agreed period in accordance with the Civil Servants Act § 17 (1). `;
   }
   else if (midlertidigAnsatt && underviser) {
-    tempEmployeeText = `The employment is temporary to cover teaching needs in the advertised position as ${jobTitle} pursuant to the University and University Colleges Act § 7-3.  
+    tempEmployeeText = `The employment is temporary to cover teaching needs in the advertised position pursuant to the University and University Colleges Act § 7-3.  
     The employment relationship ends without notice upon the expiration of the employment period.  `;
   }
 
@@ -403,7 +403,7 @@ function getArbeidsavtaleBodyNorsk(
     Beskrivelse av arbeidet: ${workDescription}. Ansettelsesforholdet opphører ved det avtalte tidsrommets utløp iht. statsansatteloven § 17 (1). `;
   }
   else if (midlertidigAnsatt && underviser) {
-    tempEmployeeText = `Ansettelsen er midlertidig for å dekke undervisningsbehov i den utlyste stillingen som ${jobTitle} i henhold til. til uhl. § 7-3.  
+    tempEmployeeText = `Ansettelsen er midlertidig for å dekke undervisningsbehov i den utlyste stillingen i henhold til. til uhl. § 7-3.  
     Ansettelsesforholdet opphører uten oppsigelse når ansettelsesperioden er utløpt.  `;
   }
 

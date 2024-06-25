@@ -47,7 +47,6 @@ export async function addToDropDown<T extends { Norsk: string, SKO: string}>(fil
 
 // Modified code to add a 0 to the start of the SKO string if its length is 3
 data.forEach((item: T, index: number) => {
-  console.log(item);
   // Ignore the first element
   if (index === 0) return;
   // Check if SKO length is 3 and prepend 0 if true

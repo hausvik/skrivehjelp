@@ -34,17 +34,16 @@ function getPositionDetail(positionCodesElement: any, checkString: string, retur
 
   if (positionDetails) {
     if (returnType === 0) {
-      return isEnglish
-        ? positionDetails['Engelsk']
+      return (isEnglish && positionDetails['Engelsk'] !== undefined)
+        ? positionDetails['Norsk'] + ` (${positionDetails['Engelsk stillingsbetegnelse']})`
         : positionDetails['Norsk'];
     }
     else if (returnType === 1) {
-      // Handles no english translation of jobTitle
       if(positionDetails['Engelsk stillingsbetegnelse'] === undefined && isEnglish) {
         return "";
       }
-      return isEnglish
-        ? positionDetails['Engelsk stillingsbetegnelse'].toLowerCase()
+      return (isEnglish && positionDetails['Engelsk'] !== undefined)
+        ? positionDetails['Norsk stillingsbetegnelse'].toLowerCase() + ` (${positionDetails['Engelsk stillingsbetegnelse'].toLowerCase()})`
         : positionDetails['Norsk stillingsbetegnelse'].toLowerCase();
 
     } else if (returnType === 2) {
@@ -165,6 +164,8 @@ export async function initializeArbeidsavtalepane() {
     jobTitle = getPositionDetail(AllPositionCodes, selectedPositionCode, 1, engelsk.checked);
     category = getPositionDetail(AllPositionCodes, selectedPositionCode, 2, engelsk.checked);
     teachingPos = getPositionDetail(AllPositionCodes, selectedPositionCode, 3, engelsk.checked) === '1' ? true : false;
+    
+    console.log(jobTitle)
 
     // Handles no english translation of jobTitle
     if (jobTitle === "" && engelsk.checked) {
