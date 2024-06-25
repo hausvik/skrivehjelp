@@ -298,7 +298,6 @@ export async function initializeArbeidsavtalepane() {
       } else {
         substituteForGroup.style.display = "none";
         substituteFor.value = "";
-        substituteAdvertised.checked = false;
       }
     });
   }
