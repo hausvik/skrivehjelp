@@ -80,3 +80,20 @@ b {
     flex-wrap: wrap;
     justify-content: space-between;
 }
+
+.hidden-form-group {
+    display: none;
+}
+
+.hidden-form-group input[type="radio"] {
+    margin-left: 0px;
+}
+
+.hidden-form-group input[type="radio"] + label {
+    margin-left: 20px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between; /* Aligns first button to left, second to right */
+}

@@ -138,6 +138,7 @@ export async function initializeArbeidsavtalepane() {
 
   // Button
   let button: HTMLButtonElement | null = document.getElementById("generateDocument") as HTMLButtonElement;
+  let resetButton: HTMLButtonElement | null = document.getElementById("resetButton") as HTMLButtonElement;
 
   // Variables
   let externallyFoundedResearcher = false as boolean;
@@ -350,6 +351,15 @@ export async function initializeArbeidsavtalepane() {
     });
   }
 
+// Reset button
+if (resetButton) {
+  resetButton.addEventListener('click', () => {
+    const hiddenFormGroups = document.querySelectorAll('.hidden-form-group') as NodeListOf<HTMLElement>;
+    hiddenFormGroups.forEach(group => {
+      group.style.display = 'none';
+    });
+  });
+}
 
   // Button logic
   if (button) {

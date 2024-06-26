@@ -62,14 +62,14 @@
                 </div>
             </div>
 
-            <div class="form-group" id="abroardEmployeeTextGroup" style="display: none">
-                <label for="multiLineInput">Tekst som beskriver utenlandsoppholdet</label>
+            <div class="hidden-form-group" id="abroardEmployeeTextGroup" >
+                <label for="abroardEmployeeText">Tekst som beskriver utenlandsoppholdet</label>
                 <textarea class="form-control" id="abroardEmployeeText" rows="3"></textarea>
             </div>
             <!-- Åremål gruppe av knapper, must be named termType-->
-            <div class="form-group" id="termType" style="display: none;">
+            <div class="hidden-form-group" id="termType">
                 <label>Åremål</label>
-                <div style="padding-left: 20px;">
+                <div>
                     <div>
                         <input type="radio" class="form-check-input" name="termType" id="additionalDuty"
                             value="ekstraverv">
@@ -127,12 +127,12 @@
                     <input type="checkbox" id="mandatoryWork">
                     <label for="mandatoryWork">Karrierefremmende arbeid</label>
                 </div>
-                <div class="form-group" id="mandatoryWorkAmount" style="display: none;">
-                    <label for="mandatoryWorkAmount">Mengde karrierefremmende arbeid</label>
+                <div class="hidden-form-group" id="mandatoryWorkAmount">
+                    <label for="mandatoryWorkAmountText">Mengde karrierefremmende arbeid</label>
                     <input type="text" class="form-control" id="mandatoryWorkAmountText">
                 </div>
             </div>
-            <div class="form-group" id="substituteGroup" style="display: none;">
+            <div class="hidden-form-group" id="substituteGroup">
                 <label>Om vikariatet</label>
                 <div class="form-check">
                     <input type="checkbox" class="form-check-input" id="substituteAdvertised">
@@ -158,8 +158,8 @@
                         <label class="form-check-label" for="substituteForMany">Vikar for flere</label>
                     </div>
                 </div>
-                <div class="form-group" id="substiuteForGroup" class="form-check-input" style="display: none;">
-                    <label for="substiuteForGroup">Vikar for</label>
+                <div class="hidden-form-group" id="substiuteForGroup" class="form-check-input">
+                    <label for="substituteFor">Vikar for</label>
                     <input type="text" class="form-control" id="substituteFor">
                 </div>
             </div>
@@ -185,11 +185,11 @@
                         <option value=""></option>
                     </select>
                 </div>
-                <div class="form-group" id="tempTeachNeedGroup" style="display: none;">
+                <div class="hidden-form-group" id="tempTeachNeedGroup">
                     <input type="checkbox" id="tempTeachNeed" >
                     <label for="tempTeachNeed">Midlertidig for å dekke undervisningsbehov</label>
                 </div>
-                <div class="form-group" id="norwegianCompetence" style="display: none">
+                <div class="hidden-form-group" id="norwegianCompetence" >
                     <div>
                         <label>Innfrir den ansatte kravet om norskferdigheter ved ansettelse?</label>
                         <div class="form-check">
@@ -204,7 +204,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group" id="educationalCompetence" style="display: none;">
+                <div class="hidden-form-group" id="educationalCompetence">
                     <div>
                         <label>Innfrir den ansatte kravet om utdanningsfaglig kompetanse ved ansettelse?</label>
                         <div class="form-check">
@@ -225,11 +225,11 @@
                     <input type="text" class="form-control" id="percentageWork">
                 </div>
 
-                <div class="form-check" id="teachingPrepDiv" style="display: none;">
+                <div class="hidden-form-group" id="teachingPrepDiv">
                     <input type="checkbox" class="form-check-input" id="teachingPrep">
                     <label class="form-check-label" for="teachingPrep">Stilling med forberedelsestid</label>
                 </div>
-                <div class="form-group" id="preparationHoursDiv" style="display: none;">
+                <div class="form-group" id="preparationHoursDiv">
                     <label for="preparationHours">Antall timer forberedelse</label>
                     <input type="text" class="form-control" id="preparationHours">
                 </div>
@@ -249,33 +249,33 @@
                     <input type="text" class="form-control" id="startingDate">
                 </div>
 
-                <div class="form-group" id="endDateGroup" style="display: none;">
+                <div class="hidden-form-group" id="endDateGroup">
                     <label for="endDate">Sluttdato</label>
                     <input type="text" class="form-control" id="endDate">
                 </div>
 
 
-                <div class="form-group" id="mobilityAllowanceGroup" style="display: none;">
+                <div class="hidden-form-group" id="mobilityAllowanceGroup">
                     <label for="mobilityAllowance">Mobilitetstillegg</label>
                     <input type="text" class="form-control" id="mobilityAllowance">
                 </div>
 
-                <div class="form-group" id="familyAllowanceGroup" style="display: none;">
+                <div class="hidden-form-group" id="familyAllowanceGroup">
                     <label for="familyAllowance">Familietillegg</label>
                     <input type="text" class="form-control" id="familyAllowance">
                 </div>
 
-                <div class="form-group" id="workDescription" style="display: none;">
-                    <label for="workDescription">Beskrivelse av arbeidet</label>
+                <div class="hidden-form-group" id="workDescription">
+                    <label for="workDescriptionText">Beskrivelse av arbeidet</label>
                     <textarea  class="form-control" id="workDescriptionText" rows="3"></textarea>
                 </div>
 
-                <div class="form-group" id="additionalDutyGroup" style="display: none;">
-                    <label for="workDescription">Hovedstilling ved</label>
+                <div class="hidden-form-group" id="additionalDutyGroup">
+                    <label for="additionalDutyText">Hovedstilling ved</label>
                     <input type="text" class="form-control" id="additionalDutyText">
                 </div>
 
-                <div class="form-group" id="externallyFundedGroup" style="display: none;">
+                <div class="hidden-form-group" id="externallyFundedGroup">
                     <label for="externallyFundedProjectName">Navn på eksternt finansiert prosjekt</label>
                     <input type="text" class="form-control" id="externallyFundedProjectName">
 
@@ -288,8 +288,11 @@
                 </div>
             </div>
 
-            <!-- Button -->
-            <button id="generateDocument" type="button" class="btn btn-primary">Generer dokument</button>
+            <!-- Buttons -->
+            <div class="button-container">
+                <button id="resetButton" type="reset" class="btn btn-secondary">Tilbakestill skjema</button>
+                <button id="generateDocument" type="button" class="btn btn-primary">Generer dokument</button>
+            </div>
     </div>
     </form>
 </body>
