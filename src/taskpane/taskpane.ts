@@ -36,35 +36,29 @@ export async function arbeidsavtalePane() {
  */
 export async function insertText(textToInsert: string, bookmarkName?: string) {
   return Word.run(async (context) => {
-
     let range;
+
     if (bookmarkName) {
       try {
-        // Try to get the range of the bookmark
+        // Attempt to get the bookmark range, fallback to document end if not found
         range = context.document.getBookmarkRange(bookmarkName);
-        context.load(range);
-        await context.sync();
-
       } catch (error) {
-        // If the bookmark does not exist, use the range at the end of the document
-        // Should probably be removed in production code, and instead throw an error
-
-        const body = context.document.body;
-        range = body.getRange('End');
-        context.load(range);
-        await context.sync();
+        console.error("Bookmark not found, using document's end.", error);
       }
-    } else {
-      // If no bookmarkName is provided, use the range at the end of the document
-      const body = context.document.body;
-      range = body.getRange('End');
-      context.load(range);
-      await context.sync();
     }
 
-    // Insert the page break and the text
-    range.insertHtml(textToInsert, Word.InsertLocation.replace);
+    // If range is not set (either bookmarkName was not provided or bookmark was not found),
+    // use the range at the end of the document
+    if (!range) {
+      const body = context.document.body;
+      range = body.getRange('End');
+    }
 
+    context.load(range);
+    await context.sync();
+
+    // Insert the text
+    range.insertHtml(textToInsert, Word.InsertLocation.replace);
     await context.sync();
   });
 }

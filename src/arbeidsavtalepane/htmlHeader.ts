@@ -1,5 +1,3 @@
-import { Arbeidsavtaleheader } from "./headerInterface";
-
 const htmlStyle = `
 <style>
           table {
@@ -56,33 +54,72 @@ color:black;
 mso-font-kerning:16.0pt;}
 </style>`
 
-export function getArbeidsavtaleHeading(engelsk: boolean, data: Arbeidsavtaleheader): string {
-
-
-  return engelsk ? getArbeidsavtaleHeadingEngelsk(data) : getArbeidsavtaleHeadingNorsk(data);
+/**
+ * Generates an HTML string representing the header of an employment contract.
+ * @function
+ * @param {boolean} engelsk - True fir english, false for norwegian.
+ * @param {string} name - The name of the employee.
+ * @param {string} personalId - The personal ID of the employee.
+ * @param {string} placeOfWork - The place of work.
+ * @param {string} positionCode - The position code.
+ * @param {string} percentageFullTime - The percentage of full-time employment.
+ * @param {string} seniority - The seniority level.
+ * @param {string} annualSalary - The annual salary.
+ * @param {string} mobilityAllowance - The mobility allowance.
+ * @param {string} familyAllowance - The family allowance.
+ * @param {string} startingDate - The starting date of the employment.
+ * @param {string} endDate - The end date of the employment, if any.
+ * @returns {string} An HTML string representing the employment contract header.
+ */
+export function getArbeidsavtaleHeading(
+  engelsk: boolean,
+  name: string,
+  personalId: string,
+  placeOfWork: string,
+  positionCode: string,
+  percentageFullTime: string,
+  seniority: string,
+  annualSalary: string,
+  mobilityAllowance: string,
+  familyAllowance: string,
+  startingDate: string,
+  endDate: string
+): string {
+  // Assuming getArbeidsavtaleHeadingEngelsk and getArbeidsavtaleHeadingNorsk have been updated
+  // to accept individual parameters as well.
+  return engelsk
+    ? getArbeidsavtaleHeadingEngelsk(name, personalId, placeOfWork, positionCode, percentageFullTime, seniority, annualSalary, mobilityAllowance, familyAllowance, startingDate, endDate)
+    : getArbeidsavtaleHeadingNorsk(name, personalId, placeOfWork, positionCode, percentageFullTime, seniority, annualSalary, mobilityAllowance, familyAllowance, startingDate, endDate);
 }
 /**
  * Generates an HTML string representing the header of an employment contract, in English.
  * @function
- * @param {Arbeidsavtale} data - An object representing an employment contract.
+ * @param {string} name - The name of the employee.
+ * @param {string} personalId - The personal ID of the employee.
+ * @param {string} placeOfWork - The place of work.
+ * @param {string} positionCode - The position code.
+ * @param {string} percentageFullTime - The percentage of full-time employment.
+ * @param {string} seniority - The seniority level.
+ * @param {string} annualSalary - The annual salary.
+ * @param {string} mobilityAllowance - The mobility allowance.
+ * @param {string} familyAllowance - The family allowance.
+ * @param {string} startingDate - The starting date of the employment.
+ * @param {string} endDate - The end date of the employment, if any.
  * @returns {string} An HTML string representing the employment contract header.
  */
 function getArbeidsavtaleHeadingEngelsk(
-  data: Arbeidsavtaleheader
-): string {
-  const {
-    name,
-    personalId,
-    placeOfWork,
-    positionCode,
-    percentageFullTime,
-    seniority,
-    annualSalary,
-    mobilityAllowance,
-    familyAllowance,
-    startingDate,
-    endDate,
-  } = data;
+        name: string,
+        personalId: string,
+        placeOfWork: string,
+        positionCode: string,
+        percentageFullTime: string,
+        seniority: string,
+        annualSalary: string,
+        mobilityAllowance: string,
+        familyAllowance: string,
+        startingDate: string,
+        endDate: string
+      ): string {
   let mobilityRow1 = mobilityAllowance != "" && mobilityAllowance != null ? "Mobilitetstillegg" : "";
   let mobilityRow2 = mobilityAllowance != "" && mobilityAllowance != null ? `${mobilityAllowance}` : "";
   let familyRow1 = familyAllowance != "" && familyAllowance != null ? "Familietillegg" : "";
@@ -144,27 +181,34 @@ function getArbeidsavtaleHeadingEngelsk(
 }
 
 /**
- * Generates an HTML string representing the header of an employment contract, in Norwegian.
+ * Generates an HTML string representing the header of an employment contract, in English.
  * @function
- * @param {Arbeidsavtale} data - An object representing an employment contract.
+ * @param {string} name - The name of the employee.
+ * @param {string} personalId - The personal ID of the employee.
+ * @param {string} placeOfWork - The place of work.
+ * @param {string} positionCode - The position code.
+ * @param {string} percentageFullTime - The percentage of full-time employment.
+ * @param {string} seniority - The seniority level.
+ * @param {string} annualSalary - The annual salary.
+ * @param {string} mobilityAllowance - The mobility allowance.
+ * @param {string} familyAllowance - The family allowance.
+ * @param {string} startingDate - The starting date of the employment.
+ * @param {string} endDate - The end date of the employment, if any.
  * @returns {string} An HTML string representing the employment contract header.
  */
 function getArbeidsavtaleHeadingNorsk(
-  data: Arbeidsavtaleheader
-): string {
-  const {
-    name,
-    personalId,
-    placeOfWork,
-    positionCode,
-    percentageFullTime,
-    seniority,
-    annualSalary,
-    mobilityAllowance,
-    familyAllowance,
-    startingDate,
-    endDate,
-  } = data;
+        name: string,
+        personalId: string,
+        placeOfWork: string,
+        positionCode: string,
+        percentageFullTime: string,
+        seniority: string,
+        annualSalary: string,
+        mobilityAllowance: string,
+        familyAllowance: string,
+        startingDate: string,
+        endDate: string
+      ): string {
   let mobilityRow1 = mobilityAllowance != "" && mobilityAllowance != null ? "Mobilitetstillegg" : "";
   let mobilityRow2 = mobilityAllowance != "" && mobilityAllowance != null ? `${mobilityAllowance}` : "";
   let familyRow1 = familyAllowance != "" && familyAllowance != null ? "Familietillegg" : "";
@@ -176,11 +220,6 @@ function getArbeidsavtaleHeadingNorsk(
           <td>${familyRow1}</td>
           <td>${familyRow2}</td>
       </tr>` : '';
-
-
-
-
-
   return `
   ${htmlStyle}
           <br style='mso-special-character:line-break;page-break-before:always'>
