@@ -2,12 +2,9 @@
 import { insertText } from "../taskpane/taskpane";
 import { getArbeidsavtaleHeading } from "./htmlHeader";
 import { getArbeidsavtale } from "./htmlBody";
-import { Arbeidsavtaleheader } from "./headerInterface";
 import { addToDropDown, updateDropDown } from "../utils/readExcel";
 import { combineHtmlStrings } from "../utils/combineHTML";
 import * as radioButtonUtils from "../utils/radioButton";
-
-let headerData: Arbeidsavtaleheader | null = null;
 
 type PositionCode = {
   SKO: string;
@@ -351,92 +348,74 @@ export async function initializeArbeidsavtalepane() {
     });
   }
 
-// Reset button
-if (resetButton) {
-  resetButton.addEventListener('click', () => {
-    const hiddenFormGroups = document.querySelectorAll('.hidden-form-group') as NodeListOf<HTMLElement>;
-    hiddenFormGroups.forEach(group => {
-      group.style.display = 'none';
-    });
-  });
-}
-
-  // Button logic
-  if (button) {
-    button.addEventListener("click", () => {
-
-      if (
-        nameElement &&
-        personalIdElement &&
-        placeOfWorkElement &&
-        positionCodeSelect &&
-        percentageFullTimeElement &&
-        preparationHoursElement &&
-        seniorityElement &&
-        annualSalaryElement &&
-        mobilityAllowanceElement &&
-        familyAllowanceElement &&
-        startingDateElement &&
-        endDateElement
-      ) {
-        headerData = {
-          name: nameElement.value,
-          personalId: personalIdElement.value,
-          placeOfWork: placeOfWorkElement.value,
-          positionCode: skoTitle,
-          percentageFullTime: percentageFullTimeElement.value,
-          seniority: seniorityElement.value,
-          annualSalary: annualSalaryElement.value,
-          mobilityAllowance: mobilityAllowanceElement.value,
-          familyAllowance: familyAllowanceElement.value,
-          startingDate: startingDateElement.value,
-          endDate: endDateElement.value,
-        };
-
-
-        if (
-          !tempEmployee.checked &&
-          externallyFundedBox.checked &&
-          (jobTitle === "forsker" || jobTitle === "researcher")
-        ) {
-          externallyFoundedResearcher = true;
-        }
-        else {
-          externallyFoundedResearcher = false;
-        }
-
-        let htmlHeaderText: string | null = null;
-        let htmlBodyText: string | null = null;
-
-        htmlHeaderText = getArbeidsavtaleHeading(engelsk.checked, headerData);
-        htmlBodyText = getArbeidsavtale(
-          engelsk.checked,
-          tempEmployee.checked,
-          substituteEmployee.checked,
-          tempTeachNeed.checked,
-          jobTitle,
-          radioButtonUtils.checkSelectedRadioButtonValue(educationalCompetence, "educationalCompetence", "no"),
-          radioButtonUtils.checkSelectedRadioButtonValue(norwegianCompetence, "norwegianCompetence", "no"),
-          externallyFundedBox.checked,
-          externallyFundedProjectName.value,
-          externallyFundedEndDate.value,
-          externallyFundedTasks.value,
-          externallyFoundedResearcher,
-          substituteAdvertised.checked,
-          substituteTypeGroupValue,
-          substituteFor.value,
-          workDescriptionText.value,
-          additionalDutyText.value,
-          radioButtonUtils.getSelectedRadioButtonValue(termOptionsGroup, "termType"),
-          mandatoryWork.checked,
-          mandatoryWorkAmountText.value,
-          abroardEmployeeText.value,
-        );
-
-        let htmlText = combineHtmlStrings([htmlHeaderText, htmlBodyText]);
-        insertText(htmlText);
-      }
+  // Reset button
+  if (resetButton) {
+    resetButton.addEventListener('click', () => {
+      const hiddenFormGroups = document.querySelectorAll('.hidden-form-group') as NodeListOf<HTMLElement>;
+      hiddenFormGroups.forEach(group => {
+        group.style.display = 'none';
+      });
     });
   }
+
+  // Button logic
+if (button) {
+  button.addEventListener("click", () => {
+    if (
+      !tempEmployee.checked &&
+      externallyFundedBox.checked &&
+      (jobTitle === "forsker" || jobTitle === "researcher")
+    ) {
+      externallyFoundedResearcher = true;
+    } else {
+      externallyFoundedResearcher = false;
+    }
+
+    let htmlHeaderText: string | null = null;
+    let htmlBodyText: string | null = null;
+
+    htmlHeaderText = getArbeidsavtaleHeading(
+      engelsk.checked,
+      nameElement.value,
+      personalIdElement.value,
+      placeOfWorkElement.value,
+      skoTitle,
+      percentageFullTimeElement.value,
+      seniorityElement.value,
+      annualSalaryElement.value,
+      mobilityAllowanceElement.value,
+      familyAllowanceElement.value,
+      startingDateElement.value,
+      endDateElement.value
+    );
+
+    htmlBodyText = getArbeidsavtale(
+      engelsk.checked,
+      tempEmployee.checked,
+      substituteEmployee.checked,
+      tempTeachNeed.checked,
+      jobTitle,
+      radioButtonUtils.checkSelectedRadioButtonValue(educationalCompetence, "educationalCompetence", "no"),
+      radioButtonUtils.checkSelectedRadioButtonValue(norwegianCompetence, "norwegianCompetence", "no"),
+      externallyFundedBox.checked,
+      externallyFundedProjectName.value,
+      externallyFundedEndDate.value,
+      externallyFundedTasks.value,
+      externallyFoundedResearcher,
+      substituteAdvertised.checked,
+      substituteTypeGroupValue,
+      substituteFor.value,
+      workDescriptionText.value,
+      additionalDutyText.value,
+      radioButtonUtils.getSelectedRadioButtonValue(termOptionsGroup, "termType"),
+      mandatoryWork.checked,
+      mandatoryWorkAmountText.value,
+      abroardEmployeeText.value
+    );
+
+    let htmlText = combineHtmlStrings([htmlHeaderText, htmlBodyText]);
+    insertText(htmlText);
+  });
+}
 }
 
