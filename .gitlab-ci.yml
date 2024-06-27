@@ -75,6 +75,6 @@ deploy:
     - scp -r dist/* "ds@radisson7.uib.no:/var/www/org/ds/add-in/$CI_COMMIT_BRANCH/"
     - ssh ds@radisson7.uib.no chmod 755 "/var/www/org/ds/add-in/$CI_COMMIT_BRANCH"
 
-# bruk scp, men hvis det hadde vært rsync ...
+# Bruk scp, men hvis det hadde vært rsync ...
 #rsync -acv --copy-links --progress --delete --chmod=u=rwX,g=rX,o=rx \
 #  dist radisson7.uib.no:/var/www/org/ds/$CI_COMMIT_BRANCH"
