@@ -18,9 +18,9 @@ Follow the steps below to run the Add-in:
 
 # CI
 
-Whenever something is commited to a protected branch, the application is built and uploaded to `https://org.uib.no/ds/add-in/$CI_COMMIT_BRANCH`:
+Whenever something is commited to a protected branch, the application is built and uploaded to `https://ds.app.uib.no/add-in/$CI_COMMIT_BRANCH`:
 
-* `dev` branch: https://org.uib.no/ds/add-in/dev/
-* `prod` branch: https://org.uib.no/ds/add-in/prod/
+* `dev` branch: https://ds.app.uib.no/add-in/dev/
+* `prod` branch: https://ds.app.uib.no/add-in/prod/
 
 Only maintainers can modify the protected branches.

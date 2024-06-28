@@ -4,8 +4,8 @@ const devCerts = require("office-addin-dev-certs");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
-const urlDev = "https://org.uib.no/ds/add-in/dev/";
-const urlProd = "https://org.uib.no/ds/add-in/prod/";
+const urlDev = "https://ds.app.uib.no/add-in/dev/";
+const urlProd = "https://ds.app.uib.no/add-in/prod/";
 
 async function getHttpsOptions() {
   const httpsOptions = await devCerts.getHttpsServerOptions();
