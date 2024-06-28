@@ -1,7 +1,7 @@
 
 
 
-export function getArbeidsavtaleFooter(engelsk: boolean) {
+export function getArbeidsavtaleFooter(engelsk: boolean, signName: string, signPos: string) {
     return `
         <br>
     <table style="border-collapse: collapse; width: 100%;">
@@ -23,7 +23,7 @@ export function getArbeidsavtaleFooter(engelsk: boolean) {
         <tr>
             <td style="padding: 20px 0; text-align: center; vertical-align: top;">${engelsk ? "Employee's signature" : "Arbeidstakers underskrift"}</td>
             <td vertical-align: top;"></td>
-            <td style="padding: 20px 0; text-align: center; vertical-align: top;">${engelsk ? "Employer's signature" : "Arbeidsgivers underskrift"}</td>
+            <td style="padding: 20px 0; text-align: center; vertical-align: top;">${signName}<br>${signPos}</td>
         </tr>
     </table>
 <br>
