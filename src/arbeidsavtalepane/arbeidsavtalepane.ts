@@ -5,6 +5,7 @@ import { getArbeidsavtale } from "./htmlBody";
 import { addToDropDown, updateDropDown } from "../utils/readExcel";
 import { combineHtmlStrings } from "../utils/combineHTML";
 import * as radioButtonUtils from "../utils/radioButton";
+import {getArbeidsavtaleFooter} from "./htmlFooter";
 
 type PositionCode = {
   SKO: string;
@@ -413,7 +414,7 @@ if (button) {
       abroardEmployeeText.value
     );
 
-    let htmlText = combineHtmlStrings([htmlHeaderText, htmlBodyText]);
+    let htmlText = combineHtmlStrings([htmlHeaderText, htmlBodyText, getArbeidsavtaleFooter(engelsk.checked)]);
     insertText(htmlText);
   });
 }
