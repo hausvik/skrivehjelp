@@ -111,6 +111,8 @@ export async function initializeArbeidsavtalepane() {
   let allCodes: HTMLInputElement | null = document.getElementById("allCodes") as HTMLInputElement;
   let tempTeachNeed: HTMLInputElement | null = document.getElementById("tempTeachNeed") as HTMLInputElement;
   let doubleCompetence: HTMLInputElement | null = document.getElementById("doubleCompetence") as HTMLInputElement;
+  let namePos: HTMLInputElement | null = document.getElementById("namePos") as HTMLInputElement;
+  let nameSign: HTMLInputElement | null = document.getElementById("nameSign") as HTMLInputElement;
 
 
   // Select elements
@@ -414,7 +416,7 @@ if (button) {
       abroardEmployeeText.value
     );
 
-    let htmlText = combineHtmlStrings([htmlHeaderText, htmlBodyText, getArbeidsavtaleFooter(engelsk.checked)]);
+    let htmlText = combineHtmlStrings([htmlHeaderText, htmlBodyText, getArbeidsavtaleFooter(engelsk.checked, nameSign.value, namePos.value)]);
     insertText(htmlText);
   });
 }
