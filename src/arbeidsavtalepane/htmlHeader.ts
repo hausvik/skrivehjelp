@@ -135,6 +135,7 @@ function getArbeidsavtaleHeadingEngelsk(
   return `
   ${htmlStyle}
 <br style='mso-special-character:line-break;page-break-before:always'>
+<br>
                   <h1 class="h1">EMPLOYMENT AGREEMENT</h1>
       
       
@@ -223,6 +224,7 @@ function getArbeidsavtaleHeadingNorsk(
   return `
   ${htmlStyle}
           <br style='mso-special-character:line-break;page-break-before:always'>
+          <br>
                   <h1 class="h1">ARBEIDSAVTALE</h1>
       
       
