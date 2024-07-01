@@ -20,10 +20,8 @@ Office.onReady((info) => {
  * Serves as a template for later HTMLtext insertions.
  */
 export async function arbeidsavtalePane() {
-  // Get a reference to the task pane's body
   const taskPaneBody = document.getElementById("app-body");
 
-  // Load the content of arbeidsavtalepane.html into the taskpane
   if (taskPaneBody) {
     taskPaneBody.innerHTML = arbeidsavtalepaneHtml;
     initializeArbeidsavtalepane();
@@ -34,13 +32,12 @@ export async function arbeidsavtalePane() {
  * @param textToInsert The text to insert into the document
  * @param bookmarkName Optional parameter: The name of the bookmark where the text will be inserted
  */
-export async function insertText(textToInsert: string, bookmarkName?: string) {
+export async function insertText(textToInsert: string, bookmarkName?: string, copyHeader?: boolean) {
   return Word.run(async (context) => {
     let range;
 
     if (bookmarkName) {
       try {
-        // Attempt to get the bookmark range, fallback to document end if not found
         range = context.document.getBookmarkRange(bookmarkName);
       } catch (error) {
         console.error("Bookmark not found, using document's end.", error);
@@ -57,8 +54,38 @@ export async function insertText(textToInsert: string, bookmarkName?: string) {
     context.load(range);
     await context.sync();
 
-    // Insert the text
     range.insertHtml(textToInsert, Word.InsertLocation.replace);
+    await context.sync();
+
+    if (copyHeader) {
+      await copyFirstPageHeaderToPrimaryHeader();
+    }
+  });
+}
+
+/**
+ * Copies the content of the first page header to the primary header after removing <p> tags with only non-breaking spaces.
+ */
+async function copyFirstPageHeaderToPrimaryHeader() {
+  await Word.run(async (context) => {
+    const firstPageHeaderHTMLPromise = context.document.sections.getFirst().getHeader(Word.HeaderFooterType.firstPage).getRange().getHtml();
+    const primaryHeaderRange = context.document.sections.getFirst().getHeader(Word.HeaderFooterType.primary).getRange();
+    const primaryHeaderHTMLPromise = primaryHeaderRange.getHtml();
+
+    await context.sync();
+
+    const firstPageHeaderHTML = firstPageHeaderHTMLPromise.value;
+    let primaryHeaderHTML = primaryHeaderHTMLPromise.value;
+
+    primaryHeaderHTML = primaryHeaderHTML.replace(/<p[^>]*>\s*((<span[^>]*>\s*(&nbsp;|\s)*\s*<\/span>)\s*)+<\/p>/g, '');
+
+    // Update the header
+    primaryHeaderRange.clear();
+    primaryHeaderRange.insertHtml(primaryHeaderHTML, Word.InsertLocation.replace);
+    primaryHeaderRange.insertHtml(firstPageHeaderHTML, Word.InsertLocation.end);
+
     await context.sync();
   });
 }
+
+
