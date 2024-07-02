@@ -77,16 +77,22 @@ async function copyFirstPageHeaderToPrimaryHeader() {
 
     const firstPageHeaderHTML = firstPageHeaderHTMLPromise.value;
     let primaryHeaderHTML = primaryHeaderHTMLPromise.value;
-
     primaryHeaderHTML = primaryHeaderHTML.replace(/<p[^>]*>\s*((<span[^>]*>\s*(&nbsp;|\s)*\s*<\/span>)\s*)+<\/p>/g, '');
-
-    // Update the header
     primaryHeaderRange.clear();
-    primaryHeaderRange.insertHtml(primaryHeaderHTML, Word.InsertLocation.replace);
+
+    await context.sync(); 
+
+    // Conditionally insert the cleaned primary header HTML if it's not empty
+    if (primaryHeaderHTML.trim()) {
+      primaryHeaderRange.insertHtml(primaryHeaderHTML, Word.InsertLocation.start);
+      await context.sync(); 
+    }
+
+    // Insert the first page header HTML at the end of the primary header
     primaryHeaderRange.insertHtml(firstPageHeaderHTML, Word.InsertLocation.end);
 
     await context.sync();
+  }).catch(error => {
+    console.error("Error in copyFirstPageHeaderToPrimaryHeader:", error);
   });
 }
-
-
