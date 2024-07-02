@@ -67,6 +67,7 @@ export async function insertText(textToInsert: string, bookmarkName?: string, co
  * Copies the content of the first page header to the primary header after removing <p> tags with only non-breaking spaces.
  */
 async function copyFirstPageHeaderToPrimaryHeader() {
+  console.log("Kopi av header metode kjøres");
   await Word.run(async (context) => {
     const firstPageHeaderHTMLPromise = context.document.sections.getFirst().getHeader(Word.HeaderFooterType.firstPage).getRange().getHtml();
     const primaryHeaderRange = context.document.sections.getFirst().getHeader(Word.HeaderFooterType.primary).getRange();
