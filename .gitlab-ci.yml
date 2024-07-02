@@ -66,14 +66,10 @@ deploy:
     - ls -la
     - ls -la dist
     - ssh -V
-    # Use new server
+    # Update server
     - ssh ds@p1kro01.uib.no rm -rf "/var/www/sites/ds.app.uib.no/add-in/$CI_COMMIT_BRANCH/*"
     - scp -r dist/* "ds@p1kro01.uib.no:/var/www/sites/ds.app.uib.no/add-in/$CI_COMMIT_BRANCH/"
     - ssh ds@p1kro01.uib.no chmod 755 "/var/www/sites/ds.app.uib.no/add-in/$CI_COMMIT_BRANCH"
-    # To be removed
-    - ssh ds@radisson7.uib.no rm -rf "/var/www/org/ds/add-in/$CI_COMMIT_BRANCH/*"
-    - scp -r dist/* "ds@radisson7.uib.no:/var/www/org/ds/add-in/$CI_COMMIT_BRANCH/"
-    - ssh ds@radisson7.uib.no chmod 755 "/var/www/org/ds/add-in/$CI_COMMIT_BRANCH"
 
 # Bruk scp, men hvis det hadde vært rsync ...
 #rsync -acv --copy-links --progress --delete --chmod=u=rwX,g=rX,o=rx \
