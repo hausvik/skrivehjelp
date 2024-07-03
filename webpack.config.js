@@ -68,19 +68,19 @@ module.exports = async (env, options) => {
       new CopyWebpackPlugin({
         patterns: [
           {
+            from: "assets/*",
+            to: "assets/[name][ext][query]",
+          },
+          {
             from: "manifest*.xml",
-            to: "[name][ext]",
-            transform(content, path) {
-              // Check if the file is the production manifest
-              if (path.includes('manifest-prod.xml')) {
-                // Replace with production URL
-                return content.toString().replace(new RegExp(urlDev, "g"), urlProd);
-              } else if (path.includes('manifest-dev.xml')) {
-                // Replace with development URL (if needed)
-                return content.toString().replace(new RegExp(urlProd, "g"), urlDev);
+            to: "[name]" + "[ext]",
+            transform(content) {
+              if (dev) {
+                return content;
+              } else {
+                return content;
               }
-              return content; // Return the content unmodified if it doesn't match
-            }
+            },
           },
         ],
       }),
