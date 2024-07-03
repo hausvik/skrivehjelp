@@ -45,6 +45,11 @@ export function getArbeidsavtale(
   karrierefremmendeArbeid: boolean,
   termAmount: string,
   abroardEmployeeText: string,
+  mscaBox: boolean,
+  mobility: boolean,
+  family: boolean,
+  frameProgram: string,
+  grantNumber: string,
 ): string {
   if (engelsk) {
     return getArbeidsavtaleBodyEngelsk(
@@ -67,7 +72,12 @@ export function getArbeidsavtale(
       termEmployee,
       karrierefremmendeArbeid,
       termAmount,
-      abroardEmployeeText);
+      abroardEmployeeText,
+      mscaBox,
+      mobility,
+      family,
+      frameProgram,
+      grantNumber);
   }
   else {
     return getArbeidsavtaleBodyNorsk(
@@ -90,7 +100,12 @@ export function getArbeidsavtale(
       termEmployee,
       karrierefremmendeArbeid,
       termAmount,
-      abroardEmployeeText);
+      abroardEmployeeText,
+      mscaBox,
+      mobility,
+      family,
+      frameProgram,
+      grantNumber);
   }
 }
 
@@ -116,6 +131,11 @@ function getArbeidsavtaleBodyEngelsk(
   karrierefremmendeArbeid: boolean,
   karrierefremmendeArbeidMengde: string,
   abroardEmployeeText: string,
+  mscaBox: boolean,
+  mobility: boolean,
+  family: boolean,
+  frameProgram: string,
+  grantNumber: string,
 ): string {
   let educationalCompetenceNeeded = "";
   let norwegianCompetenceNeeded = "";
@@ -125,7 +145,20 @@ function getArbeidsavtaleBodyEngelsk(
   let substituteText = "";
   let tempEmployeeText = "";
   let aremalText = '';
+  let mscaText = '';
+  let mobFamAllowanceText = '';
 
+  if (mscaBox) {
+    mscaText = `The position is connected to the ${frameProgram} action, under the Marie Sklodowska-Curie, regulated by EC 
+    Grant Agreement No: ${grantNumber}. The Personal Career Development Plan (PCDP) specifies the training under the Action. 
+    The University of Bergen will ensure payment of allowances in accordance with the EC Grant Agreement. Payments will be made in 
+    NOK according to the valuta course at payment day. If needed, compliance with the EU funding rates will be ensured by corrective 
+    payments following the end of the project period.`;
+  }
+  if (mobility || family) {
+    mobFamAllowanceText = `The amounts of ${mobility ? `mobility allowance ` : ``}${mobility && family ? `and ` : ``}${family ? `family allowance ` : ``}
+     specified above will be paid in addition to the monthly salary. `;
+  }
 
   if (termEmployee != null) {
     switch (termEmployee) {
@@ -233,6 +266,8 @@ function getArbeidsavtaleBodyEngelsk(
 
   let bodyIntro =
     `<p class="MsoNormal">` +
+    mscaText +
+    mobFamAllowanceText +
     tempEmployeeText +
     educationalCompetenceNeeded +
     aremalText +
@@ -329,6 +364,11 @@ function getArbeidsavtaleBodyNorsk(
   karrierefremmendeArbeid: boolean,
   karrierefremmendeArbeidMengde: string,
   abroardEmployeeText: string,
+  mscaBox: boolean,
+  mobility: boolean,
+  family: boolean,
+  frameProgram: string,
+  grantNumber: string,
 ): string {
   let educationalCompetenceNeeded = "";
   let norwegianCompetenceNeeded = "";
@@ -338,7 +378,20 @@ function getArbeidsavtaleBodyNorsk(
   let substituteText = "";
   let tempEmployeeText = "";
   let aremalText = '';
+  let mscaText = '';
+  let mobFamAllowanceText = '';
 
+  if (mscaBox) {
+    mscaText = `Stillingen er knyttet til ${frameProgram}-aksjonen, under Marie Sklodowska-Curie, regulert av EFs tilskuddsavtale 
+    nr. ${grantNumber}. Den personlige karriereutviklingsplanen spesifiserer opplæringen under action. 
+    Universitetet i Bergen vil sørge for utbetaling av tillegg i samsvar med EUs tilskuddsavtale. Utbetalinger vil bli gjort i 
+    NOK i henhold til valutakursen på betalingsdagen. Om nødvendig, vil overensstemmelse med EUs finansieringssatser sikres ved 
+    korrektive betalinger etter prosjektperiodens slutt.`;
+  }
+  if (mobility || family) {
+    mobFamAllowanceText = `Beløpene for ${mobility ? `mobilitetstillegg ` : ``}${mobility && family ? `og ` : ``}${family ? `familiestønad ` : ``}
+     som er spesifisert ovenfor, vil bli utbetalt i tillegg til månedslønnen. `;
+  }
 
   if (termEmployee != null) {
     switch (termEmployee) {
@@ -446,6 +499,8 @@ function getArbeidsavtaleBodyNorsk(
 
   let bodyIntro =
     `<p class="MsoNormal">` +
+    mscaText +
+    mobFamAllowanceText +
     tempEmployeeText +
     educationalCompetenceNeeded +
     aremalText +
