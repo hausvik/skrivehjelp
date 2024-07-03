@@ -417,7 +417,7 @@ if (button) {
     );
 
     let htmlText = combineHtmlStrings([htmlHeaderText, htmlBodyText, getArbeidsavtaleFooter(engelsk.checked, nameSign.value, namePos.value)]);
-    insertText(htmlText);
+    insertText(htmlText, undefined, true);
   });
 }
 }

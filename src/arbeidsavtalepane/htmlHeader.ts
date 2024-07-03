@@ -17,41 +17,7 @@ const htmlStyle = `
         background-color: #f8f8f8; /* Lighter grey for every other row */
     }
 
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-{mso-style-unhide:no;
-mso-style-qformat:yes;
-mso-style-parent:"";
-margin-top:0mm;
-margin-right:0mm;
-margin-bottom:2.0pt;
-margin-left:0mm;
-line-height:13.0pt;
-mso-line-height-rule:exactly;
-mso-pagination:widow-orphan;
-font-size:11.0pt;
-font-family:"Arial",sans-serif;
-mso-fareast-font-family:"Times New Roman";
-mso-bidi-font-family:"Times New Roman";
-color:black;}
-h1
-{mso-style-unhide:no;
-mso-style-qformat:yes;
-mso-style-link:"Heading 1 Char";
-mso-style-next:Normal;
-margin-top:12.0pt;
-margin-right:0mm;
-margin-bottom:5.0pt;
-margin-left:0mm;
-line-height:15.0pt;
-mso-line-height-rule:exactly;
-mso-pagination:widow-orphan;
-page-break-after:avoid;
-mso-outline-level:1;
-font-size:13.0pt;
-mso-bidi-font-size:16.0pt;
-font-family:"Arial",sans-serif;
-color:black;
-mso-font-kerning:16.0pt;}
+
 </style>`
 
 /**
@@ -135,6 +101,7 @@ function getArbeidsavtaleHeadingEngelsk(
   return `
   ${htmlStyle}
 <br style='mso-special-character:line-break;page-break-before:always'>
+<br>
                   <h1 class="h1">EMPLOYMENT AGREEMENT</h1>
       
       
@@ -223,9 +190,8 @@ function getArbeidsavtaleHeadingNorsk(
   return `
   ${htmlStyle}
           <br style='mso-special-character:line-break;page-break-before:always'>
-                  <h1 class="h1">ARBEIDSAVTALE</h1>
-      
-      
+          <br>
+                  <h1 class="h1">ARBEIDSAVTALE</h1>      
                   <p>${name} har inngått følgende arbeidsavtale med Universitetet i Bergen, Postboks 7800, 5020 Bergen.</p>
 
                   <table>
@@ -264,6 +230,5 @@ function getArbeidsavtaleHeadingNorsk(
                                   <td>${endDate !== "" ? endDate : ""}</td>
                           </tr>
                   </table>
-                  <br>
       `;
 }
