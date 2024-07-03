@@ -191,9 +191,7 @@ function getArbeidsavtaleHeadingNorsk(
   ${htmlStyle}
           <br style='mso-special-character:line-break;page-break-before:always'>
           <br>
-                  <h1 class="h1">ARBEIDSAVTALE</h1>
-      
-      
+                  <h1 class="h1">ARBEIDSAVTALE</h1>      
                   <p>${name} har inngått følgende arbeidsavtale med Universitetet i Bergen, Postboks 7800, 5020 Bergen.</p>
 
                   <table>
@@ -232,6 +230,5 @@ function getArbeidsavtaleHeadingNorsk(
                                   <td>${endDate !== "" ? endDate : ""}</td>
                           </tr>
                   </table>
-                  <br>
       `;
 }
