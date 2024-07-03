@@ -41,8 +41,12 @@
                         <label class="form-check-label" for="externallyFunded">Eksternfinansiert</label>
                     </div>
                     <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="MSCA">
+                        <label class="form-check-label" for="MSCA">MSCA</label>
+                    </div>
+                    <div class="form-check">
                         <input type="checkbox" class="form-check-input" id="mobilityFamilyAllowanceBox">
-                        <label class="form-check-label" for="mobilityFamilyAllowanceBox">Mob/fam-tillegg (MSCA)</label>
+                        <label class="form-check-label" for="mobilityFamilyAllowanceBox">Mob/fam-tillegg</label>
                     </div>
                     <div class="form-check">
                         <input type="checkbox" class="form-check-input" id="abroadEmployee">
@@ -237,25 +241,38 @@
 
                 <div class="form-group">
                     <label for="startingDate">Tiltredelsesdato</label>
-                    <input type="text" class="form-control" id="startingDate">
+                    <input type="date" class="form-control" id="startingDate">
                 </div>
 
                 <div class="hidden-form-group" id="endDateGroup">
                     <label for="endDate">Sluttdato</label>
-                    <input type="text" class="form-control" id="endDate">
+                    <input type="date" class="form-control" id="endDate">
                 </div>
 
+                <div class="hidden-form-group" id="mscaInput">
+                    <label for="frameProgram">Navn på rammeprogram</label>
+                    <input type="text" class="form-control" id="frameProgram">
+
+                    <label for="grantNumb">Avtalenummer for tilskudd</label>
+                    <input type="text" class="form-control" id="grantNumb">
+                </div>
 
                 <div class="hidden-form-group" id="mobilityAllowanceGroup">
                     <label for="mobilityAllowance">Mobilitetstillegg per måned</label>
-                    <input type="text" class="form-control" id="mobilityAllowance">
-                </div>
+                    <input type="number" class="form-control" id="mobilityAllowance" placeholder="NOK">
 
+                    <label for="mobilityAllowanceMonths">Antall måneder med mobilitetstillegg</label>
+                    <input type="number" class="form-control" id="mobilityAllowanceMonths">
+                </div>
+                
                 <div class="hidden-form-group" id="familyAllowanceGroup">
                     <label for="familyAllowance">Familietillegg per måned</label>
-                    <input type="text" class="form-control" id="familyAllowance">
-                </div>
+                    <input type="number" class="form-control" id="familyAllowance" placeholder="NOK">
 
+                    <label for="familyAllowanceMonths">Antall måneder med familietillegg</label>
+                    <input type="number" class="form-control" id="familyAllowanceMonths">
+                </div>
+            
                 <div class="hidden-form-group" id="workDescription">
                     <label for="workDescriptionText">Beskrivelse av arbeidet</label>
                     <textarea  class="form-control" id="workDescriptionText" rows="3"></textarea>
@@ -271,7 +288,7 @@
                     <input type="text" class="form-control" id="externallyFundedProjectName">
 
                     <label for="externallyFundedEndDate">Antatt sluttdato for eksternt finansiert prosjekt</label>
-                    <input type="text" class="form-control" id="externallyFundedEndDate">
+                    <input type="date" class="form-control" id="externallyFundedEndDate">
 
                     <label for="externallyFundedTasks">Beskrivelse av arbeidstakers oppgaver i eksternt finansiert
                         prosjekt</label>
