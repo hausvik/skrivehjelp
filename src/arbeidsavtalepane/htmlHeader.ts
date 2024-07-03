@@ -31,31 +31,39 @@ const htmlStyle = `
  * @param {string} percentageFullTime - The percentage of full-time employment.
  * @param {string} seniority - The seniority level.
  * @param {string} annualSalary - The annual salary.
- * @param {string} mobilityAllowance - The mobility allowance.
- * @param {string} familyAllowance - The family allowance.
+ * @param {number} mobilityAllowance - The mobility allowance.
+ * @param {number} familyAllowance - The family allowance.
+ * @param {number} mobilityMonths - The number of months the mobility allowance is paid.
+ * @param {number} familyMonths - The number of months the family allowance is paid.
  * @param {string} startingDate - The starting date of the employment.
  * @param {string} endDate - The end date of the employment, if any.
  * @returns {string} An HTML string representing the employment contract header.
  */
 export function getArbeidsavtaleHeading(
-  engelsk: boolean,
-  name: string,
-  personalId: string,
-  placeOfWork: string,
-  positionCode: string,
-  percentageFullTime: string,
-  seniority: string,
-  annualSalary: string,
-  mobilityAllowance: string,
-  familyAllowance: string,
-  startingDate: string,
-  endDate: string
+        engelsk: boolean,
+        name: string,
+        personalId: string,
+        placeOfWork: string,
+        positionCode: string,
+        percentageFullTime: string,
+        seniority: string,
+        annualSalary: string,
+        mobilityAllowance: number,
+        familyAllowance: number,
+        mobilityMonths: number,
+        familyMonths: number,
+        startingDate: string,
+        endDate: string
 ): string {
-  // Assuming getArbeidsavtaleHeadingEngelsk and getArbeidsavtaleHeadingNorsk have been updated
-  // to accept individual parameters as well.
-  return engelsk
-    ? getArbeidsavtaleHeadingEngelsk(name, personalId, placeOfWork, positionCode, percentageFullTime, seniority, annualSalary, mobilityAllowance, familyAllowance, startingDate, endDate)
-    : getArbeidsavtaleHeadingNorsk(name, personalId, placeOfWork, positionCode, percentageFullTime, seniority, annualSalary, mobilityAllowance, familyAllowance, startingDate, endDate);
+        // Assuming getArbeidsavtaleHeadingEngelsk and getArbeidsavtaleHeadingNorsk have been updated
+        // to accept individual parameters as well.
+        return engelsk
+                ? getArbeidsavtaleHeadingEngelsk(name, personalId, placeOfWork, positionCode,
+                        percentageFullTime, seniority, annualSalary, mobilityAllowance, familyAllowance,
+                        mobilityMonths, familyMonths, startingDate, endDate)
+                : getArbeidsavtaleHeadingNorsk(name, personalId, placeOfWork, positionCode,
+                        percentageFullTime, seniority, annualSalary, mobilityAllowance, familyAllowance,
+                        mobilityMonths, familyMonths, startingDate, endDate);
 }
 /**
  * Generates an HTML string representing the header of an employment contract, in English.
@@ -67,8 +75,10 @@ export function getArbeidsavtaleHeading(
  * @param {string} percentageFullTime - The percentage of full-time employment.
  * @param {string} seniority - The seniority level.
  * @param {string} annualSalary - The annual salary.
- * @param {string} mobilityAllowance - The mobility allowance.
- * @param {string} familyAllowance - The family allowance.
+ * @param {number} mobilityAllowance - The mobility allowance.
+ * @param {number} familyAllowance - The family allowance.
+ * @param {number} mobilityMonths - The number of months the mobility allowance is paid.
+ * @param {number} familyMonths - The number of months the family allowance is paid.
  * @param {string} startingDate - The starting date of the employment.
  * @param {string} endDate - The end date of the employment, if any.
  * @returns {string} An HTML string representing the employment contract header.
@@ -81,24 +91,26 @@ function getArbeidsavtaleHeadingEngelsk(
         percentageFullTime: string,
         seniority: string,
         annualSalary: string,
-        mobilityAllowance: string,
-        familyAllowance: string,
+        mobilityAllowance: number,
+        familyAllowance: number,
+        mobilityMonths: number,
+        familyMonths: number,
         startingDate: string,
         endDate: string
-      ): string {
-  let mobilityRow1 = mobilityAllowance != "" && mobilityAllowance != null ? "Mobilitetstillegg" : "";
-  let mobilityRow2 = mobilityAllowance != "" && mobilityAllowance != null ? `${mobilityAllowance}` : "";
-  let familyRow1 = familyAllowance != "" && familyAllowance != null ? "Familietillegg" : "";
-  let familyRow2 = familyAllowance != "" && familyAllowance != null ? `${familyAllowance}` : "";
-  let mobFamAllowance = (mobilityRow2 !== "" || familyRow2 !== "") ?
-    `<tr>
+): string {
+        let mobilityRow1 = mobilityAllowance != 0 && mobilityAllowance != null ? "Mobility allowance" : "";
+        let mobilityRow2 = mobilityAllowance != 0 && mobilityAllowance != null ? `NOK ${mobilityAllowance} for ${mobilityMonths} months` : "";
+        let familyRow1 = familyAllowance != 0 && familyAllowance != null ? "Family allowance" : "";
+        let familyRow2 = familyAllowance != 0 && familyAllowance != null ? `NOK ${familyAllowance} for ${familyMonths} months` : "";
+        let mobFamAllowance = (mobilityRow2 !== "" || familyRow2 !== "") ?
+                `<tr>
           <td>${mobilityRow1}</td>
           <td>${mobilityRow2}</td>
           <td>${familyRow1}</td>
           <td>${familyRow2}</td>
       </tr>` : '';
 
-  return `
+        return `
   ${htmlStyle}
 <br style='mso-special-character:line-break;page-break-before:always'>
 <br>
@@ -157,8 +169,10 @@ function getArbeidsavtaleHeadingEngelsk(
  * @param {string} percentageFullTime - The percentage of full-time employment.
  * @param {string} seniority - The seniority level.
  * @param {string} annualSalary - The annual salary.
- * @param {string} mobilityAllowance - The mobility allowance.
- * @param {string} familyAllowance - The family allowance.
+ * @param {number} mobilityAllowance - The mobility allowance.
+ * @param {number} mobilityMonths - The number of months the mobility allowance is paid.
+ * @param {number} familyMonths - The number of months the family allowance is paid.
+ * @param {number} familyAllowance - The family allowance.
  * @param {string} startingDate - The starting date of the employment.
  * @param {string} endDate - The end date of the employment, if any.
  * @returns {string} An HTML string representing the employment contract header.
@@ -171,23 +185,25 @@ function getArbeidsavtaleHeadingNorsk(
         percentageFullTime: string,
         seniority: string,
         annualSalary: string,
-        mobilityAllowance: string,
-        familyAllowance: string,
+        mobilityAllowance: number,
+        familyAllowance: number,
+        mobilityMonths: number,
+        familyMonths: number,
         startingDate: string,
         endDate: string
-      ): string {
-  let mobilityRow1 = mobilityAllowance != "" && mobilityAllowance != null ? "Mobilitetstillegg" : "";
-  let mobilityRow2 = mobilityAllowance != "" && mobilityAllowance != null ? `${mobilityAllowance}` : "";
-  let familyRow1 = familyAllowance != "" && familyAllowance != null ? "Familietillegg" : "";
-  let familyRow2 = familyAllowance != "" && familyAllowance != null ? `${familyAllowance}` : "";
-  let mobFamAllowance = (mobilityRow2 !== "" || familyRow2 !== "") ?
-    `<tr>
+): string {
+        let mobilityRow1 = mobilityAllowance != 0 && mobilityAllowance != null ? "Mobilitetstillegg" : "";
+        let mobilityRow2 = mobilityAllowance != 0 && mobilityAllowance != null ? `NOK ${mobilityAllowance} i ${mobilityMonths} måneder` : "";
+        let familyRow1 = familyAllowance != 0 && familyAllowance != null ? "Familietillegg" : "";
+        let familyRow2 = familyAllowance != 0 && familyAllowance != null ? `NOK ${familyAllowance} i ${familyMonths} måneder` : "";
+        let mobFamAllowance = (mobilityRow2 !== "" || familyRow2 !== "") ?
+                `<tr>
           <td>${mobilityRow1}</td>
           <td>${mobilityRow2}</td>
           <td>${familyRow1}</td>
           <td>${familyRow2}</td>
       </tr>` : '';
-  return `
+        return `
   ${htmlStyle}
           <br style='mso-special-character:line-break;page-break-before:always'>
           <br>
