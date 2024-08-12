@@ -194,19 +194,18 @@ function getArbeidsavtaleBodyEngelsk(
         break;
       case 'postdoktor':
         aremalText = `The employment is for a fixed term, cf. University and University Colleges Act § 7-6 (1) f. The employment relationship ends without notice at the expiration of the fixed term,
-             cf. Civil Servants Act § 17 (2). ${karrierefremmendeArbeid ? `Career-promoting work constitutes ${karrierefremmendeArbeidMengde} of the fixed-term period.` : ''} `
+             cf. Civil Servants Act § 17 (2). ${karrierefremmendeArbeid ? `Career-promoting work constitutes ${karrierefremmendeArbeidMengde} of the fixed-term period. Refer to your specific career plan.` : ''} `
         break;
       case 'stipendiat':
         aremalText = `The employment is for a fixed term, cf. University and University Colleges Act § 7-6 (1) g. The employment relationship ends without notice at the expiration of the fixed term, cf. Civil Servants Act
              § 17 (2). Admission to a doctoral program is a condition for taking up the position.  To become employed as a research fellow, admission to a doctoral 
              program or a binding agreement for such admission, is required. ${karrierefremmendeArbeid ? `Career-promoting work constitutes ${karrierefremmendeArbeidMengde}
-                 of the fixed-term period. Refer to the career plan specifying the competence that the postdoctoral fellow is to acquire.` : ''}`
+                 of the fixed-term period.  Refer to your specific career plan.` : ''}`
         break;
       case 'kunstnerisk':
         aremalText = `The employment is for a fixed term, cf. University and University Colleges Act § 7-6 (1) g. The employment relationship ends without notice at the expiration of the fixed term, cf.
              Civil Servants Act § 17 (2).  The employment is associated with the Scholarship Program for Artistic Development Work. ${karrierefremmendeArbeid ?
-            `Career-promoting work constitutes ${karrierefremmendeArbeidMengde} of the fixed-term period. Refer to the career plan specifying the competence
-               that the postdoctoral fellow is to acquire.` : ''}`
+            `Career-promoting work constitutes ${karrierefremmendeArbeidMengde} of the fixed-term period. Refer to your specific career plan.` : ''}`
         break;
       case 'vitenskapelig':
         aremalText = `The employment is for a fixed term, cf. University and University Colleges Act § 7-4 (1) i. The employment relationship ends without notice at the expiration of the fixed term,
@@ -302,7 +301,7 @@ Salary is paid on the 12th of each month via bank transfer, unless otherwise spe
             which is part of the co-financing of training and development measures.
         </p>
         <p class="MsoNormal">
-            The rules in the Civil Servants Act § 15 regarding probationary period apply. The probationary period is 6 months from the date of commencement. 
+            The rules in the Civil Servants Act § 15 regarding probationary period apply. The probationary period is 6 months from the date of commencement. Except for positions with a duration of less than 1 year, where the probationary period will be half of the employment period.
             If the employee has been absent from work during the probationary period, the employer may extend the probationary period by a period corresponding to the length of the absence.
             </p>
         <p class="MsoNormal">
@@ -427,19 +426,18 @@ function getArbeidsavtaleBodyNorsk(
         break;
       case 'postdoktor':
         aremalText = `Ansettelsen er på åremål, jf. uhl § 7-6 (1) f. Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp,
-             jf. statsansatteloven § 17 (2). ${karrierefremmendeArbeid ? `Karrierefremmende arbeid utgjør ${karrierefremmendeArbeidMengde} av åremålsperioden.` : ''} `
+             jf. statsansatteloven § 17 (2). ${karrierefremmendeArbeid ? `Karrierefremmende arbeid utgjør ${karrierefremmendeArbeidMengde} av åremålsperioden, hendvis til din karriereplan.` : ''} `
         break;
       case 'stipendiat':
         aremalText = `Ansettelsen er på åremål, jf. uhl § 7-6 (1) g. Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp, jf. statsansatteloven
              § 17 (2). Opptak til doktorgradsprogram er et vilkår for tiltredelse i stillingen.  For å bli ansatt som stipendiat kreves opptak i et doktorgradsprogram,
               eller at det foreligger en forpliktende avtale om opptak. ${karrierefremmendeArbeid ? `Karrierefremmende arbeid utgjør ${karrierefremmendeArbeidMengde}
-                 av åremålsperioden. Vise til karriereplan som spesifiserer den kompetansen som postdoktoren skal opparbeide seg.` : ''}`
+                 av åremålsperioden, hendvis til din karriereplan.` : ''}`
         break;
       case 'kunstnerisk':
         aremalText = `Ansettelsen er på åremål, jf. uhl § 7-6 (1) g. Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp, jf.
              statsansatteloven § 17 (2).  Ansettelsen er knyttet til Stipendprogram for kunstnerisk utviklingsarbeid. ${karrierefremmendeArbeid ?
-            `Karrierefremmende arbeid utgjør ${karrierefremmendeArbeidMengde} av åremålsperioden. Vise til karriereplan som spesifiserer den kompetansen
-               som postdoktoren skal opparbeide seg.` : ''}`
+            `Karrierefremmende arbeid utgjør ${karrierefremmendeArbeidMengde} av åremålsperioden, hendvis til din karriereplan.` : ''}`
         break;
       case 'vitenskapelig':
         aremalText = `Ansettelsen er på åremål, jf. uhl. § 7-4 (1) i. Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp,
@@ -535,7 +533,7 @@ function getArbeidsavtaleBodyNorsk(
             som inngår i delfinansiering av opplærings- og utviklingstiltak.
         </p>
         <p class="MsoNormal">
-            Reglene i statsansatteloven § 15 om prøvetid gjelder. Prøvetiden er 6 måneder fra tiltredelse.
+            Reglene i statsansatteloven § 15 om prøvetid gjelder. Prøvetiden er 6 måneder fra tiltredelse. Med unntak av stillinger ved varighet under 1 år, hvor prøvetiden vil være halvparten av ansettelsesforholdets varighet.
             Dersom den ansatte har vært fraværende fra arbeidet i prøvetiden, kan arbeidsgiver forlenge prøvetiden med en periode som tilsvarer lengden av fraværet.  
         </p>
         <p class="MsoNormal">
