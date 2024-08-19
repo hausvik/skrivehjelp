@@ -24,3 +24,9 @@ Whenever something is commited to a protected branch, the application is built a
 * `prod` branch: https://ds.app.uib.no/add-in/prod/
 
 Only maintainers can modify the protected branches.
+
+# License
+
+This project is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
+
+To view a copy of this license, visit [Creative Commons BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en).
