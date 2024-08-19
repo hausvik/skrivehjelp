@@ -1,0 +1,99 @@
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4; /* Lighter background color for less contrast */
+    font-family: Arial, sans-serif; /* Use a standard, easy-to-read font */
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+.ms-welcome__header {
+    padding-top: 10px; /* Increase padding for more space */
+    padding-bottom: 10px; /* Increase padding for more space */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #3d3d3d;
+    color: #ffffff; /* Add white text color for contrast */
+}
+
+.ms-welcome__main {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+    flex: 1 0 0;
+    padding: 20px 40px; /* Increase padding for more space */
+}
+
+.ms-welcome__main > h2 {
+    width: 100%;
+    text-align: center;
+    color: #2b3588; /* Dark blue color for headings */
+}
+
+.ms-welcome__features {
+    list-style-type: none;
+    margin-top: 20px;
+}
+
+.ms-welcome__features.ms-List .ms-ListItem {
+    padding-bottom: 20px;
+    display: flex;
+}
+
+.ms-welcome__features.ms-List .ms-ListItem > .ms-Icon {
+    margin-right: 10px;
+}
+
+.ms-Button.ms-Button--hero {
+    margin-top: 30px;
+    background-color: #2b3588;
+    border-radius: 4px;
+    color: #ffffff; /* White text color for contrast */
+}
+
+.ms-Button.ms-Button--hero .ms-Button-label {
+    color: #fff;
+    padding: 10px 20px; /* Increase padding for larger click area */
+}
+
+.ms-Button.ms-Button--hero:hover .ms-Button-label,
+.ms-Button.ms-Button--hero:focus .ms-Button-label {
+    color: #fff;
+    background-color: #005a9e;
+    cursor: pointer;
+}
+
+b {
+    font-weight: bold;
+}
+
+.form-checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.hidden-form-group {
+    display: none;
+}
+
+.hidden-form-group input[type="radio"] {
+    margin-left: 0px;
+}
+
+.hidden-form-group input[type="radio"] + label {
+    margin-left: 20px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between; /* Aligns first button to left, second to right */
+}

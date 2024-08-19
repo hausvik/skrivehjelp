@@ -1,0 +1,316 @@
+<!-- Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License. -->
+<!-- This file shows how to design a first-run page that provides a welcome screen to the user about the features of the add-in. -->
+<!DOCTYPE html>
+<html lang="nb">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arbeidsavtale</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="arbeidsavtalepane.ts" defer></script>
+</head>
+
+<body class="bg-light">
+    <div class="container py-5">
+        <h2 class="mb-5">Arbeidsavtale tekst</h2>
+        <form>
+            <!-- Check box group -->
+            <div class="form-checkbox-group">
+                <div>
+                    <div class="form-check" id="employeeTypeRadio">
+                        <input type="radio" class="form-check-input" id="employee" name="employeeType" checked>
+                        <label class="form-check-label" for="employee">Fast ansatt</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" class="form-check-input" id="tempEmployee" name="employeeType">
+                        <label class="form-check-label" for="tempEmployee">Midlertidig</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" class="form-check-input" id="substituteEmployee" name="employeeType">
+                        <label class="form-check-label" for="substituteEmployee">Vikar</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" class="form-check-input" id="termEmployee" name="employeeType">
+                        <label class="form-check-label" for="termEmployee">Åremål</label>
+                    </div>
+                </div>
+                <div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="externallyFunded">
+                        <label class="form-check-label" for="externallyFunded">Eksternfinansiert</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="MSCA">
+                        <label class="form-check-label" for="MSCA">MSCA</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="mobilityFamilyAllowanceBox">
+                        <label class="form-check-label" for="mobilityFamilyAllowanceBox">Mob/fam-tillegg</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="abroadEmployee">
+                        <label class="form-check-label" for="abroadEmployee">Avtale om utenlandsopphold</label>
+                    </div>
+
+                    <br>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="engelsk">
+                        <label class="form-check-label" for="engelsk">Engelsk avtale</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="allCodes">
+                        <label class="form-check-label" for="allCodes">Vis alle stillingskoder</label>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="hidden-form-group" id="abroardEmployeeTextGroup" >
+                <label for="abroardEmployeeText">Tekst som beskriver utenlandsoppholdet</label>
+                <textarea class="form-control" id="abroardEmployeeText" rows="3"></textarea>
+            </div>
+            <!-- Åremål gruppe av knapper, must be named termType-->
+            <div class="hidden-form-group" id="termType">
+                <label>Åremål</label>
+                <div>
+                    <div>
+                        <input type="radio" class="form-check-input" name="termType" id="additionalDuty"
+                            value="ekstraverv">
+                        <label class="form-check-label" for="additionalDuty">Ekstraverv</label>
+                    </div>
+                    <div>
+                        <input type="radio" class="form-check-input" name="termType" id="leader" value="leader">
+                        <label class="form-check-label" for="leader">Leder for avdeling eller grunnenhet</label>
+                    </div>
+                    <div>
+                        <input type="radio" class="form-check-input" name="termType" id="double"
+                            value="double">
+                        <label class="form-check-label" for="double">Dobbeltkompetanseutdanning</label>
+                    </div>
+                    <div>
+                        <input type="radio" class="form-check-input" name="termType" id="specialistCandidate"
+                            value="spesialistkandidat">
+                        <label class="form-check-label" for="specialistCandidate">Spesialistkandidat</label>
+                    </div>
+                    <div>
+                        <input type="radio" class="form-check-input" name="termType" id="entryPosition"
+                            value="innstegsstilling">
+                        <label class="form-check-label" for="entryPosition">Innstegsstilling</label>
+                    </div>
+                    <div>
+                        <input type="radio" class="form-check-input" name="termType" id="creativeArtist"
+                            value="skapende">
+                        <label class="form-check-label" for="creativeArtist">Skapende eller utøvende kunstnerisk
+                            kompetanse</label>
+                    </div>
+                    <div>
+                        <input type="radio" class="form-check-input" name="termType" id="postdoc" value="postdoktor">
+                        <label class="form-check-label" for="postdoc">Postdoktor</label>
+                    </div>
+                    <div>
+                        <input type="radio" class="form-check-input" name="termType" id="researchFellow"
+                            value="stipendiat">
+                        <label class="form-check-label" for="researchFellow">Stipendiat</label>
+                    </div>
+                    <div>
+                        <input type="radio" class="form-check-input" name="termType" id="artisticFellow"
+                            value="kunstnerisk">
+                        <label class="form-check-label" for="artisticFellow">Stipendiat - utøvende kunstnerisk
+                            utvikling</label>
+                    </div>
+                    <div>
+                        <input type="radio" class="form-check-input" name="termType" id="scientificAssistant"
+                            value="vitenskapelig">
+                        <label class="form-check-label" for="scientificAssistant">Vitenskapelig assistent</label>
+                    </div>
+                </div>
+                <br>
+                <!-- Karrierefremmende checkbox -->
+                <div>
+                    <input type="checkbox" id="mandatoryWork">
+                    <label for="mandatoryWork">Karrierefremmende arbeid</label>
+                </div>
+                <div class="hidden-form-group" id="mandatoryWorkAmount">
+                    <label for="mandatoryWorkAmountText">Mengde karrierefremmende arbeid</label>
+                    <input type="text" class="form-control" id="mandatoryWorkAmountText">
+                </div>
+            </div>
+            <div class="hidden-form-group" id="substituteGroup">
+                <label>Om vikariatet</label>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="substituteAdvertised">
+                    <label class="form-check-label" for="substituteAdvertised">Vikariatet har vært utlyst</label>
+                </div>
+                <br>
+                <label>Type vikariat</label>
+                <div class="form-group" id="substituteTypeGroup">
+                    <div class="form-check">
+                        <input type="radio" class="form-check-input" name="substitute"
+                            id="substitutePendingAdvertisement" value="pending">
+                        <label class="form-check-label" for="substitutePendingAdvertisement">Vikar i påvente av
+                            utlysning</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" class="form-check-input" name="substitute" id="substituteForAPerson"
+                            value="person">
+                        <label class="form-check-label" for="substituteForAPerson">Vikar for en person</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" class="form-check-input" name="substitute" id="substituteForMany"
+                            value="many">
+                        <label class="form-check-label" for="substituteForMany">Vikar for flere</label>
+                    </div>
+                </div>
+                <div class="hidden-form-group" id="substiuteForGroup" class="form-check-input">
+                    <label for="substituteFor">Vikar for</label>
+                    <input type="text" class="form-control" id="substituteFor">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-group">
+                    <label for="name">Navn</label>
+                    <input type="text" class="form-control" id="name">
+                </div>
+
+                <div class="form-group">
+                    <label for="personalId">Fødselsnr.</label>
+                    <input type="text" class="form-control" id="personalId">
+                </div>
+                <div class="form-group">
+                    <label for="placeOfWork">Arbeidssted</label>
+                    <input type="text" class="form-control" id="placeOfWork">
+                </div>
+
+                <!-- Could this be searchable? -->
+                <div class="form-group">
+                    <label for="positionCode">Stillingskode</label>
+                    <select class="form-control" id="positionCode">
+                        <option value=""></option>
+                    </select>
+                </div>
+                <div class="hidden-form-group" id="tempTeachNeedGroup">
+                    <input type="checkbox" id="tempTeachNeed" >
+                    <label for="tempTeachNeed">Midlertidig for å dekke undervisningsbehov</label>
+                </div>
+                <div class="hidden-form-group" id="norwegianCompetence" >
+                    <div>
+                        <label>Innfrir den ansatte kravet om norskferdigheter ved ansettelse?</label>
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input" name="norwegianCompetence"
+                                id="norwegianCompetenceYes" value="yes">
+                            <label class="form-check-label" for="norwegianCompetenceYes">Ja</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input" name="norwegianCompetence"
+                                id="norwegianCompetenceNo" value="no">
+                            <label class="form-check-label" for="norwegianCompetenceNo">Nei</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="hidden-form-group" id="educationalCompetence">
+                    <div>
+                        <label>Innfrir den ansatte kravet om utdanningsfaglig kompetanse ved ansettelse?</label>
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input" name="educationalCompetence"
+                                id="educationalCompetenceYes" value="yes">
+                            <label class="form-check-label" for="educationalCompetenceYes">Ja</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input" name="educationalCompetence"
+                                id="educationalCompetenceNo" value="no">
+                            <label class="form-check-label" for="educationalCompetenceNo">Nei</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="percentageWork">Stillingsprosent</label>
+                    <input type="text" class="form-control" id="percentageWork">
+                </div>
+
+                <div class="form-group">
+                    <label for="seniority">Stillingsansiennitet</label>
+                    <input type="text" class="form-control" id="seniority">
+                </div>
+
+                <div class="form-group">
+                    <label for="annualSalary">Årslønn/ltr</label>
+                    <input type="text" class="form-control" id="annualSalary">
+                </div>
+
+                <div class="form-group">
+                    <label for="startingDate">Tiltredelsesdato</label>
+                    <input type="date" class="form-control" id="startingDate">
+                </div>
+
+                <div class="hidden-form-group" id="endDateGroup">
+                    <label for="endDate">Sluttdato</label>
+                    <input type="date" class="form-control" id="endDate">
+                </div>
+
+                <div class="hidden-form-group" id="mscaInput">
+                    <label for="frameProgram">Navn på rammeprogram</label>
+                    <input type="text" class="form-control" id="frameProgram">
+
+                    <label for="grantNumb">Avtalenummer for tilskudd</label>
+                    <input type="text" class="form-control" id="grantNumb">
+                </div>
+
+                <div class="hidden-form-group" id="mobilityAllowanceGroup">
+                    <label for="mobilityAllowance">Mobilitetstillegg per måned</label>
+                    <input type="number" class="form-control" id="mobilityAllowance" placeholder="NOK">
+
+                    <label for="mobilityAllowanceMonths">Antall måneder med mobilitetstillegg</label>
+                    <input type="number" class="form-control" id="mobilityAllowanceMonths">
+                </div>
+                
+                <div class="hidden-form-group" id="familyAllowanceGroup">
+                    <label for="familyAllowance">Familietillegg per måned</label>
+                    <input type="number" class="form-control" id="familyAllowance" placeholder="NOK">
+
+                    <label for="familyAllowanceMonths">Antall måneder med familietillegg</label>
+                    <input type="number" class="form-control" id="familyAllowanceMonths">
+                </div>
+            
+                <div class="hidden-form-group" id="workDescription">
+                    <label for="workDescriptionText">Beskrivelse av arbeidet</label>
+                    <textarea  class="form-control" id="workDescriptionText" rows="3"></textarea>
+                </div>
+
+                <div class="hidden-form-group" id="additionalDutyGroup">
+                    <label for="additionalDutyText">Hovedstilling ved</label>
+                    <input type="text" class="form-control" id="additionalDutyText">
+                </div>
+
+                <div class="hidden-form-group" id="externallyFundedGroup">
+                    <label for="externallyFundedProjectName">Navn på eksternt finansiert prosjekt</label>
+                    <input type="text" class="form-control" id="externallyFundedProjectName">
+
+                    <label for="externallyFundedEndDate">Antatt sluttdato for eksternt finansiert prosjekt</label>
+                    <input type="date" class="form-control" id="externallyFundedEndDate">
+
+                    <label for="externallyFundedTasks">Beskrivelse av arbeidstakers oppgaver i eksternt finansiert
+                        prosjekt</label>
+                    <textarea class="form-control" id="externallyFundedTasks" rows="3"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="nameSign">Avsender (godkjenner)</label>
+                    <input type="text" class="form-control" id="nameSign">
+
+                    <label for="namePos">Avsenders stilling</label>
+                    <input type="text" class="form-control" id="namePos">
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="button-container">
+                <button id="resetButton" type="reset" class="btn btn-secondary">Tilbakestill skjema</button>
+                <button id="generateDocument" type="button" class="btn btn-primary">Generer dokument</button>
+            </div>
+    </div>
+    </form>
+</body>
+
+</html>
