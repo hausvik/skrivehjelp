@@ -332,8 +332,8 @@ Salary is paid on the 12th of each month via bank transfer, unless otherwise spe
             Employees must submit their resignation in writing. In case of termination by the employer, reference is made to the procedural rules in the Civil Servants Act § 32.
         </p>
         <p class="MsoNormal">
-            Employees must not hold additional positions and other employment in conflict with the rules of the state. Some employee grups must register their additional positions in accordance with guidelines at UiB. 
-            Rights to research and work results are regulated in the Regulations on the management of employees' rights to research and work results at the University of Bergen.
+        Employees must not hold additional positions or other employment in conflict with the rules of the state. Some employee groups must register their additional positions in accordance with guidelines at UiB.
+        Rights to research and work results are regulated in the Regulations for managing employees' rights to research and work results at the University of Bergen.
         </p>
         <p class="MsoNormal">
             Employees at UiB are subject to confidentiality according to the Public Administration Act, and any special confidentiality rules that apply to the position. 
@@ -564,9 +564,8 @@ function getArbeidsavtaleBodyNorsk(
             Ansatte må levere sin oppsigelse skriftlig. Ved oppsigelse fra arbeidsgiver vises det til saksbehandlingsreglene i statsansatteloven § 32.
         </p>
         <p class="MsoNormal">
-            Ansatte må ikke inneha ekstraerverv og annet erverv i strid med reglene i staten. Noen ansattgrupper må registrere sine ekstraerverv i henhold til retningslinjer ved UiB. 
-            Rettigheter til forsknings- og arbeidsresultater er regulert i Reglement om håndtering av ansattes rettigheter 
-            til forsknings- og arbeidsresultater ved Universitetet i Bergen.
+        Ansatte må ikke inneha ekstraerverv eller annet erverv i strid med reglene i staten. Noen ansattgrupper må registrere sine ekstraerverv i henhold til retningslinjer ved UiB. 
+        Rettigheter til forsknings- og arbeidsresultater er regulert i Reglement om håndtering av ansattes rettigheter til forsknings- og arbeidsresultater ved Universitetet i Bergen.
         </p>
         <p class="MsoNormal">
             Ansatte ved UiB har taushetsplikt etter forvaltningsloven, og eventuelt særlige taushetspliktsregler som gjelder for stillingen. 
