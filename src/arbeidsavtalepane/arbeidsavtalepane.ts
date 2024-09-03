@@ -222,6 +222,8 @@ export async function initializeArbeidsavtalepane() {
   if (mscaBox)
     mscaBox.addEventListener("change", () => {
       mscaInput.style.display = mscaBox.checked ? "block" : "none";
+      mobilityAllowanceElement.placeholder = mscaBox.checked ? "EUR" : "NOK";
+      familyAllowanceElement.placeholder = mscaBox.checked ? "EUR" : "NOK";
       frameProgramme.value = "";
       grantNumb.value = "";
     });
