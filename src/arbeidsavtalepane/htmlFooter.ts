@@ -3,6 +3,7 @@
 
 export function getArbeidsavtaleFooter(engelsk: boolean, signName: string, signPos: string) {
     return `
+    <br>
 <table style="border-collapse: collapse; width: 100%;">
     <tr>
         <td style="width: 45%; border-bottom: 1px solid #000; padding: 0 6px; height: 1cm; vertical-align: top;"></td>
