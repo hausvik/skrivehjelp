@@ -53,17 +53,34 @@ export function getArbeidsavtaleHeading(
         mobilityMonths: number,
         familyMonths: number,
         startingDate: string,
-        endDate: string
+        endDate: string,
+        employeeType: string
 ): string {
-        // Assuming getArbeidsavtaleHeadingEngelsk and getArbeidsavtaleHeadingNorsk have been updated
-        // to accept individual parameters as well.
+        switch (employeeType) {
+            case "fast":
+                employeeType = engelsk ? "Permanent employment" : "Fast ansettelse";
+                break;
+            case "temp":
+                employeeType = engelsk ? "Temporary employment" : "Midlertidig ansettelse";
+                break;
+            case "sub":
+                employeeType = engelsk ? "Substitute" : "Vikar";
+                break;
+            case "term":
+                employeeType = engelsk ? "Fixed-term" : "Åremål";
+                break;
+            default:
+                employeeType ="";
+                break;
+        }
+
         return engelsk
                 ? getArbeidsavtaleHeadingEngelsk(name, personalId, placeOfWork, positionCode,
                         percentageFullTime, seniority, annualSalary, mobilityAllowance, familyAllowance,
-                        mobilityMonths, familyMonths, startingDate, endDate)
+                        mobilityMonths, familyMonths, startingDate, endDate, employeeType)
                 : getArbeidsavtaleHeadingNorsk(name, personalId, placeOfWork, positionCode,
                         percentageFullTime, seniority, annualSalary, mobilityAllowance, familyAllowance,
-                        mobilityMonths, familyMonths, startingDate, endDate);
+                        mobilityMonths, familyMonths, startingDate, endDate, employeeType);
 }
 /**
  * Generates an HTML string representing the header of an employment contract, in English.
@@ -81,6 +98,7 @@ export function getArbeidsavtaleHeading(
  * @param {number} familyMonths - The number of months the family allowance is paid.
  * @param {string} startingDate - The starting date of the employment.
  * @param {string} endDate - The end date of the employment, if any.
+ * @param {string} employeeType - The type of employment.
  * @returns {string} An HTML string representing the employment contract header.
  */
 function getArbeidsavtaleHeadingEngelsk(
@@ -96,7 +114,8 @@ function getArbeidsavtaleHeadingEngelsk(
         mobilityMonths: number,
         familyMonths: number,
         startingDate: string,
-        endDate: string
+        endDate: string,
+        employeeType: string
 ): string {
         let mobilityRow1 = mobilityAllowance != 0 && mobilityAllowance != null ? "Mobility allowance" : "";
         let mobilityRow2 = mobilityAllowance != 0 && mobilityAllowance != null ? `NOK ${mobilityAllowance} for ${mobilityMonths} months` : "";
@@ -114,44 +133,45 @@ function getArbeidsavtaleHeadingEngelsk(
   ${htmlStyle}
 <br style='mso-special-character:line-break;page-break-before:always'>
 <br>
-                  <h1 class="h1">EMPLOYMENT AGREEMENT</h1>
+                  <h1 class="h1" style="text-align: center; font-family: Arial, sans-serif;">EMPLOYMENT AGREEMENT</h1>
+                  <h3 class="h2" style="text-align: center; font-family: Arial, sans-serif;">${employeeType}</h3>
       
       
-                  <p>${name} has entered into the following employment agreement with the University of Bergen, P.O. Box 7800, 5020 Bergen.</p>
+                  <p style="font-family: Arial, sans-serif; font-size: 11pt;">${name} has entered into the following employment agreement with the University of Bergen, P.O. Box 7800, 5020 Bergen.</p>
 
                   <table>
                           <tr>
-                                  <td>Name</td>
+                                  <td><b>Name</b></td>
                                   <td>${name}</td>
-                                  <td>Social security number</td>
+                                  <td><b>Social security number</b></td>
                                   <td>${personalId}</td>
                           </tr>
                           
                           <tr>
-                                  <td>Place of work</td>
+                                  <td><b>Place of work</b></td>
                                   <td>${placeOfWork}</td>
                                   <td></td>
                                   <td></td>
                                   
                           </tr>
                           <tr>
-                                  <td>Position code</td>
+                                  <td><b>Position code</b></td>
                                   <td>${positionCode}</td>
-                                  <td>Percentage of full-time position</td>
+                                  <td><b>Percentage of full-time position</b></td>
                                   <td>${percentageFullTime}</td>
                                   
                           </tr>
                           <tr>
                                   <td>Seniority</td>
                                   <td>${seniority}</td>
-                                  <td>Annual salary/salary grade</td>
+                                  <td><b>Annual salary in a 100 % position</b></td>
                                   <td>${annualSalary}</td>
                           </tr>
                           ${mobFamAllowance}
                           <tr>
-                                  <td>Start date</td>
+                                  <td><b>Start date</b></td>
                                   <td>${startingDate}</td>
-                                  <td>${endDate !== "" ? "End date" : ""}</td>
+                                  <td>${endDate !== "" ? "<b>End date</b>" : ""}</td>
                                   <td>${endDate !== "" ? endDate : ""}</td>
                           </tr>
                   </table>
@@ -175,6 +195,7 @@ function getArbeidsavtaleHeadingEngelsk(
  * @param {number} familyAllowance - The family allowance.
  * @param {string} startingDate - The starting date of the employment.
  * @param {string} endDate - The end date of the employment, if any.
+ * @param {string} employeeType - The type of employment.
  * @returns {string} An HTML string representing the employment contract header.
  */
 function getArbeidsavtaleHeadingNorsk(
@@ -190,7 +211,8 @@ function getArbeidsavtaleHeadingNorsk(
         mobilityMonths: number,
         familyMonths: number,
         startingDate: string,
-        endDate: string
+        endDate: string,
+        employeeType: string
 ): string {
         let mobilityRow1 = mobilityAllowance != 0 && mobilityAllowance != null ? "Mobilitetstillegg" : "";
         let mobilityRow2 = mobilityAllowance != 0 && mobilityAllowance != null ? `NOK ${mobilityAllowance} i ${mobilityMonths} måneder` : "";
@@ -207,42 +229,44 @@ function getArbeidsavtaleHeadingNorsk(
   ${htmlStyle}
           <br style='mso-special-character:line-break;page-break-before:always'>
           <br>
-                  <h1 class="h1">ARBEIDSAVTALE</h1>      
-                  <p>${name} har inngått følgende arbeidsavtale med Universitetet i Bergen, Postboks 7800, 5020 Bergen.</p>
+                  <h1 class="h1" style="text-align: center; font-family: Arial, sans-serif;">ARBEIDSAVTALE</h1>
+                  <h3 class="h2" style="text-align: center; font-family: Arial, sans-serif;">${employeeType}</h3>
+
+                  <p style="font-family: Arial, sans-serif; font-size: 11pt;">${name} har inngått følgende arbeidsavtale med Universitetet i Bergen, Postboks 7800, 5020 Bergen.</p>
 
                   <table>
                           <tr>
-                                  <td>Navn</td>
+                                  <td><b>Navn</b></td>
                                   <td>${name}</td>
-                                  <td>Fødselsnummer.</td>
+                                  <td><b>Fødselsnummer</b></td>
                                   <td>${personalId}</td>
                           </tr>
                           
                           <tr>
-                                  <td>Arbeidssted</td>
+                                  <td><b>Arbeidssted</b></td>
                                   <td>${placeOfWork}</td>
                                   <td></td>
                                   <td></td>
                                   
                           </tr>
                           <tr>
-                                  <td>Stilling kode</td>
+                                  <td><b>Stillingskode</b></td>
                                   <td>${positionCode}</td>
-                                  <td>Prosentandel av fulltidsstilling</td>
+                                  <td><b>Stillingsprosent</b></td>
                                   <td>${percentageFullTime}</td>
                                   
                           </tr>
                           <tr>
-                                  <td>Stillingsansiennitet</td>
+                                  <td><b>Stillingsansiennitet</b></td>
                                   <td>${seniority}</td>
-                                  <td>Årslønn/lønnstrinn</td>
+                                  <td><b>Årslønn i 100 % stilling</b></td>
                                   <td>${annualSalary}</td>
                           </tr>
                           ${mobFamAllowance}
                           <tr>
-                                  <td>Startdato</td>
+                                  <td><b>Startdato</b></td>
                                   <td>${startingDate}</td>
-                                  <td>${endDate !== "" ? "Slutt dato" : ""}</td>
+                                  <td>${endDate !== "" ? "<b>Sluttdato</b>" : ""}</td>
                                   <td>${endDate !== "" ? endDate : ""}</td>
                           </tr>
                   </table>

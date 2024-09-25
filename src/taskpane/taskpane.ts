@@ -31,6 +31,7 @@ export async function arbeidsavtalePane() {
  * Inserts the given text into the document.
  * @param textToInsert The text to insert into the document
  * @param bookmarkName Optional parameter: The name of the bookmark where the text will be inserted
+ * @param copyHeader Optional parameter: Whether to copy the first page header to the primary header
  */
 export async function insertText(textToInsert: string, bookmarkName?: string, copyHeader?: boolean) {
   return Word.run(async (context) => {
@@ -67,32 +68,17 @@ export async function insertText(textToInsert: string, bookmarkName?: string, co
  * Copies the content of the first page header to the primary header after removing <p> tags with only non-breaking spaces.
  */
 async function copyFirstPageHeaderToPrimaryHeader() {
-  console.log("Kopi av header metode kjøres");
   await Word.run(async (context) => {
     const firstPageHeaderHTMLPromise = context.document.sections.getFirst().getHeader(Word.HeaderFooterType.firstPage).getRange().getHtml();
     const primaryHeaderRange = context.document.sections.getFirst().getHeader(Word.HeaderFooterType.primary).getRange();
-    const primaryHeaderHTMLPromise = primaryHeaderRange.getHtml();
 
     await context.sync();
-
     const firstPageHeaderHTML = firstPageHeaderHTMLPromise.value;
-    let primaryHeaderHTML = primaryHeaderHTMLPromise.value;
-    primaryHeaderHTML = primaryHeaderHTML.replace(/<p[^>]*>\s*((<span[^>]*>\s*(&nbsp;|\s)*\s*<\/span>)\s*)+<\/p>/g, '');
-    primaryHeaderRange.clear();
 
     await context.sync(); 
-
-    // Conditionally insert the cleaned primary header HTML if it's not empty
-    if (primaryHeaderHTML.trim()) {
-      primaryHeaderRange.insertHtml(primaryHeaderHTML, Word.InsertLocation.start);
-      await context.sync(); 
-    }
-
-    // Insert the first page header HTML at the end of the primary header
-    primaryHeaderRange.insertHtml(firstPageHeaderHTML, Word.InsertLocation.end);
+    primaryHeaderRange.insertHtml(firstPageHeaderHTML, Word.InsertLocation.start);
 
     await context.sync();
   }).catch(error => {
-    console.error("Error in copyFirstPageHeaderToPrimaryHeader:", error);
   });
 }

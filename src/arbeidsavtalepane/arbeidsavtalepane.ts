@@ -70,6 +70,18 @@ function removeTrailingSpacesAndPeriods(input: string): string {
   return input.replace(/[. ]+$/, '');
 }
 
+// Function to convert ISO date to dd.mm.yyyy format
+function formatDate(isoDate: string): string {
+  const date = new Date(isoDate);
+  if (!isNaN(date.getTime())) {
+      const day = String(date.getDate()).padStart(2, '0');
+      const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+      const year = date.getFullYear();
+      return `${day}.${month}.${year}`;
+  }
+  return isoDate; // Return the original value if the date is invalid
+}
+
 /**
  * Initializes the arbeidsavtalepane by adding event listeners to the input fields and checkboxes.
  */
@@ -153,6 +165,7 @@ export async function initializeArbeidsavtalepane() {
   let skoTitle = "" as string;
   let jobTitle = "" as string; // Not in use, but might be usefull?
   let category = "" as string; // Not in use, but might be usefull?
+  let employeeType = "fast" as string; 
   let teachingPos = false as boolean;
   let substituteTypeGroupValue = "" as string;
   let mscaArbeidsgiveravgift = 1.141 as number;
@@ -244,6 +257,7 @@ export async function initializeArbeidsavtalepane() {
   // Code for when "Fast ansatt" is selected
   if (employee && endDateGroup) {
     employee.addEventListener("change", () => {
+      employeeType = "fast";
       endDateGroup.style.display = "none";
       additionalDutyGroup.style.display = "none";
       substituteGroup.style.display = "none";
@@ -255,6 +269,7 @@ export async function initializeArbeidsavtalepane() {
   // Code for when "Midlertidig" is selected
   if (tempEmployee && endDateGroup) {
     tempEmployee.addEventListener("change", () => {
+      employeeType ="temp";
       endDateGroup.style.display = "block";
       workDescriptionElement.style.display = "block";
       norwegianCompetence.style.display = "none";
@@ -270,8 +285,11 @@ export async function initializeArbeidsavtalepane() {
   // Code for when "Vikar" is selected
   if (substituteEmployee && endDateGroup) {
     substituteEmployee.addEventListener("change", () => {
+      employeeType = "sub";
       substituteGroup.style.display = "block";
       additionalDutyGroup.style.display = "none";
+      workDescriptionText.style.display = "none";
+      workDescriptionText.value = "";
       endDateGroup.style.display = "block";
       termOptionsGroup.style.display = "none";
       norwegianCompetence.style.display = "none";
@@ -289,7 +307,7 @@ export async function initializeArbeidsavtalepane() {
   // Code for when "Åremål" is selected
   if (termEmployee && endDateGroup) {
     termEmployee.addEventListener("change", () => {
-
+      employeeType="term";
       termOptionsGroup.style.display = "block";
       norwegianCompetence.style.display = "none";
       endDateGroup.style.display = "block";
@@ -422,8 +440,9 @@ export async function initializeArbeidsavtalepane() {
         famAllowance,
         mobMonths,
         famMonths,
-        startingDateElement.value,
-        endDateElement.value,
+        formatDate(startingDateElement.value),
+        formatDate(endDateElement.value),
+        employeeType,
       );
 
       htmlBodyText = getArbeidsavtale(
