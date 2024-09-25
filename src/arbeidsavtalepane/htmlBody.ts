@@ -144,9 +144,10 @@ function getArbeidsavtaleBodyEngelsk(
   let substituteNotAdvertisedText = "";
   let substituteText = "";
   let tempEmployeeText = "";
-  let aremalText = '';
-  let mscaText = '';
-  let mobFamAllowanceText = '';
+  let aremalText = "";
+  let mscaText = "";
+  let mobFamAllowanceText = "";
+  let workText = "";
 
   if (mscaBox) {
     mscaText = `The position is connected to the ${frameProgram} action, under the Marie Sklodowska-Curie, regulated by EC 
@@ -217,13 +218,16 @@ function getArbeidsavtaleBodyEngelsk(
     }
   }
 
+  if(workDescription != null){
+    workText = `Description of the work: ${workDescription}.`;
+  }
   if (midlertidigAnsatt && !underviser) {
     tempEmployeeText = `The work to be performed is of a temporary nature, cf. the Civil Servants Act § 9 (1) a.  
-    Description of the work: ${workDescription}. The employment relationship terminates at the end of the agreed period in accordance with the Civil Servants Act § 17 (1). `;
+    ${workText} The employment relationship terminates at the end of the agreed period in accordance with the Civil Servants Act § 17 (1). `;
   }
   else if (midlertidigAnsatt && underviser) {
     tempEmployeeText = `The employment is temporary to cover teaching needs in the advertised position pursuant to the University and University Colleges Act § 7-3.  
-    The employment relationship ends without notice upon the expiration of the employment period.  `;
+    ${workText} The employment relationship ends without notice upon the expiration of the employment period.  `;
   }
 
   if (educationalCompetenceParam) {
@@ -376,9 +380,10 @@ function getArbeidsavtaleBodyNorsk(
   let substituteNotAdvertisedText = "";
   let substituteText = "";
   let tempEmployeeText = "";
-  let aremalText = '';
-  let mscaText = '';
-  let mobFamAllowanceText = '';
+  let aremalText = "";
+  let mscaText = "";
+  let mobFamAllowanceText = "";
+  let workText = "";
 
   if (mscaBox) {
     mscaText = `Stillingen er knyttet til ${frameProgram}-aksjonen, under Marie Sklodowska-Curie, regulert av EFs tilskuddsavtale 
@@ -446,16 +451,20 @@ function getArbeidsavtaleBodyNorsk(
       default:
         console.log('This should not happen! Please check the termType value.');
         break;
-    }
+    }}
+  
+
+  if(workDescription != null){
+    workText = `Beskrivelse av arbeidet: ${workDescription}.`;
   }
 
   if (midlertidigAnsatt && !underviser) {
     tempEmployeeText = `Arbeidet som skal utføres er av midlertidig karakter, jf. statsansatteloven § 9 (1) a.  
-    Beskrivelse av arbeidet: ${workDescription}. Ansettelsesforholdet opphører ved det avtalte tidsrommets utløp iht. statsansatteloven § 17 (1). `;
+    ${workText} Ansettelsesforholdet opphører ved det avtalte tidsrommets utløp iht. statsansatteloven § 17 (1). `;
   }
   else if (midlertidigAnsatt && underviser) {
     tempEmployeeText = `Ansettelsen er midlertidig for å dekke undervisningsbehov i den utlyste stillingen i henhold til uhl. § 7-3.  
-    Ansettelsesforholdet opphører uten oppsigelse når ansettelsesperioden er utløpt.  `;
+    ${workText} Ansettelsesforholdet opphører uten oppsigelse når ansettelsesperioden er utløpt.  `;
   }
 
   if (educationalCompetenceParam) {
@@ -509,9 +518,6 @@ function getArbeidsavtaleBodyNorsk(
     substituteNotAdvertisedText +
     abroardEmployeeText +
     "</p>";
-
-
-
 
   return `
     ${bodyIntro}
@@ -572,4 +578,4 @@ function getArbeidsavtaleBodyNorsk(
             Ved å underskrive arbeidskontrakten erklærer den ansatte å kjenne til og respekterer reglene om taushetsplikt.
         </p>
     `;
-}
+  }
