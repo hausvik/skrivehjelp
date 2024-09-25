@@ -144,7 +144,7 @@ function getArbeidsavtaleHeadingEngelsk(
                           <tr>
                                   <td>Seniority</td>
                                   <td>${seniority}</td>
-                                  <td>Annual salary/salary grade</td>
+                                  <td>Annual salary in a 100 % position</td>
                                   <td>${annualSalary}</td>
                           </tr>
                           ${mobFamAllowance}
@@ -235,7 +235,7 @@ function getArbeidsavtaleHeadingNorsk(
                           <tr>
                                   <td>Stillingsansiennitet</td>
                                   <td>${seniority}</td>
-                                  <td>Årslønn</td>
+                                  <td>Årslønn i 100 % stilling</td>
                                   <td>${annualSalary}</td>
                           </tr>
                           ${mobFamAllowance}
