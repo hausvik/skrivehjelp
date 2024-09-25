@@ -25,6 +25,6 @@ export function getArbeidsavtaleFooter(engelsk: boolean, signName: string, signP
         <td style="width: 45%; padding: 10px 0; text-align: center; vertical-align: top;">${signName}<br>${signPos}</td>
     </tr>
 </table>
-    <p style="font-style: italic;">${engelsk ? "The document is electronically approved and therefore has no handwritten signatures." : "Dokumentet er elektronisk godkjent og har derfor ingen håndskrevne signaturer."}</p>
+    <p style="font-family: Arial, sans-serif; font-size: 11pt; font-style: italic;">${engelsk ? "The document is electronically approved and therefore has no handwritten signatures." : "Dokumentet er elektronisk godkjent og har derfor ingen håndskrevne signaturer."}</p>
         `;
 }

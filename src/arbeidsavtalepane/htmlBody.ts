@@ -1,4 +1,3 @@
-
 /**
  *  This function returns the body of the arbeidsavtalepane in Norwegian or English.
  * @param engelsk True if the document should be in English, false if it should be in Norwegian.
@@ -268,7 +267,7 @@ function getArbeidsavtaleBodyEngelsk(
   }
 
   let bodyIntro =
-    `<p class="MsoNormal">` +
+    `<p >` +
     mscaText +
     mobFamAllowanceText +
     tempEmployeeText +
@@ -287,7 +286,7 @@ function getArbeidsavtaleBodyEngelsk(
 
   return `
     ${bodyIntro}
-        <p class="MsoNormal">
+        <p style="font-family: Arial, sans-serif; font-size: 11pt;">
 The employment contract, along with any job advertisement text, 
             constitutes the terms of employment at the time of commencement. The employment is subject to 
             compliance with the regulations that apply to the position at any given time.  
@@ -298,22 +297,22 @@ The employment contract, along with any job advertisement text,
             the Dispute Act, the Main Agreement in the state (HA) with Adaptation Agreement at UiB, 
             personnel regulations, and any special agreements and guidelines applicable to the position.
         </p>
-        <p class="MsoNormal">
+        <p style="font-family: Arial, sans-serif; font-size: 11pt;">
 Salary is paid on the 12th of each month via bank transfer, unless otherwise specifically agreed. 
             A 2% pension contribution is deducted for membership in the Government Pension Fund for positions with a minimum of 20 percent of a full position. 
             The state and the main unions have through a special agreement stipulated that employees in a 100% position shall be deducted NOK 400,- in gross salary per year, 
             which is part of the co-financing of training and development measures.
         </p>
-        <p class="MsoNormal">
+        <p style="font-family: Arial, sans-serif; font-size: 11pt;">
             The rules in the Civil Servants Act § 15 regarding probationary period apply. The probationary period is 6 months from the date of commencement. Except for positions with a duration of less than 1 year, where the probationary period will be half of the employment period.
             If the employee has been absent from work during the probationary period, the employer may extend the probationary period by a period corresponding to the length of the absence.
             </p>
-        <p class="MsoNormal">
+        <p style="font-family: Arial, sans-serif; font-size: 11pt;">
             Working hours and the length of breaks follow the rules in the Working Environment Act (WEA), the Main Collective Agreement in the state (HTA), and special agreements. 
             The ordinary working hours shall on average not exceed 37.5 hours per week in a 100% position. 
             Working hours should, as far as possible, be placed between 07:00 and 17:00 and distributed over 5 days per week.
         </p>
-        <p class="MsoNormal">
+        <p style="font-family: Arial, sans-serif; font-size: 11pt;">
             Right to vacation and vacation pay is regulated in accordance with the Holiday Act, the Main Collective Agreement in the state (HTA), and special agreements. 
             The rules for determining the vacation period follow from the Holiday Act § 6. The employee may demand that the main vacation, which includes three weeks, 
             is given during the main vacation period from June 1 to September 30. 
@@ -322,24 +321,24 @@ Salary is paid on the 12th of each month via bank transfer, unless otherwise spe
             To motivate older employees to stay longer in employment, according to the HTA, currently 
             leave with pay equivalent to 10 days per year is given from the calendar year one turns 62 years old.
         </p>
-        <p class="MsoNormal">
+        <p style="font-family: Arial, sans-serif; font-size: 11pt;">
             Employees are entitled to full pay during illness for up to one year, leave for pregnancy, childbirth, adoption, and breastfeeding, and for a child's illness in accordance with HTA §§ 18.- 20. 
             When important welfare and care reasons exist, an employee may be granted welfare leave with pay for up to 12 working days. 
             Employees are allowed necessary short-term absence during working hours, e.g., 
             short visits to the doctor or dentist. The short-term absence must be clarified with the immediate superior.
         </p>
-        <p class="MsoNormal">
+        <p style="font-family: Arial, sans-serif; font-size: 11pt;">
             UiB offers competence development in accordance with the Main Agreement (HA) with adaptation agreement, special agreement, and internal guidelines.
         </p>
-        <p class="MsoNormal">
+        <p style="font-family: Arial, sans-serif; font-size: 11pt;">
             For the employment relationship, the notice periods in the Civil Servants Act § 22 apply. 
             Employees must submit their resignation in writing. In case of termination by the employer, reference is made to the procedural rules in the Civil Servants Act § 32.
         </p>
-        <p class="MsoNormal">
+        <p style="font-family: Arial, sans-serif; font-size: 11pt;">
         Employees must not hold additional positions or other employment in conflict with the rules of the state. Some employee groups must register their additional positions in accordance with guidelines at UiB.
         Rights to research and work results are regulated in the Regulations for managing employees' rights to research and work results at the University of Bergen.
         </p>
-        <p class="MsoNormal">
+        <p style="font-family: Arial, sans-serif; font-size: 11pt;">
             Employees at UiB are subject to confidentiality according to the Public Administration Act, and any special confidentiality rules that apply to the position. 
             By signing the employment contract, the employee declares to be aware of and respect the rules on confidentiality.
         </p>
@@ -505,7 +504,7 @@ function getArbeidsavtaleBodyNorsk(
   }
 
   let bodyIntro =
-    `<p class="MsoNormal">` +
+    `<p style="font-family: Arial, sans-serif; font-size: 11pt;">` +
     mscaText +
     mobFamAllowanceText +
     tempEmployeeText +
@@ -521,7 +520,7 @@ function getArbeidsavtaleBodyNorsk(
 
   return `
     ${bodyIntro}
-        <p class="MsoNormal">
+        <p style="font-family: Arial, sans-serif; font-size: 11pt;">
             Arbeidsavtalen inneholder, sammen med eventuell utlysningstekst, 
             ansettelsesvilkårene ved tiltredelsen. Ansettelsen skjer med plikt 
             til å rette seg etter de bestemmelser som til enhver tid gjelder for stillingen.  
@@ -532,22 +531,22 @@ function getArbeidsavtaleBodyNorsk(
             tjenestetvistloven, Hovedavtalen i staten (HA) med Tilpasningsavtale ved UiB, 
             personalreglement samt eventuelle særavtaler og retningslinjer som gjelder for stillingen. 
         </p>
-        <p class="MsoNormal">
+        <p style="font-family: Arial, sans-serif; font-size: 11pt;">
             Lønn utbetales den 12. hver måned via bank, med mindre annet er avtalt særskilt. 
             Det trekkes 2% pensjonsinnskudd til medlemskap i Statens pensjonskasse for stillinger med minimum 20 prosent av full stilling. 
             Staten og hovedsammenslutningene har gjennom særavtale fastsatt at arbeidstakere i 100 % stilling skal trekkes kr 400,- i bruttolønn pr år, 
             som inngår i delfinansiering av opplærings- og utviklingstiltak.
         </p>
-        <p class="MsoNormal">
+        <p style="font-family: Arial, sans-serif; font-size: 11pt;">
             Reglene i statsansatteloven § 15 om prøvetid gjelder. Prøvetiden er 6 måneder fra tiltredelse. Med unntak av stillinger ved varighet under 1 år, hvor prøvetiden vil være halvparten av ansettelsesforholdets varighet.
             Dersom den ansatte har vært fraværende fra arbeidet i prøvetiden, kan arbeidsgiver forlenge prøvetiden med en periode som tilsvarer lengden av fraværet.  
         </p>
-        <p class="MsoNormal">
+        <p style="font-family: Arial, sans-serif; font-size: 11pt;">
             Arbeidstiden og lengden av pauser følger reglene i aml, HTA og særavtaler. 
             Den alminnelige arbeidstiden skal i gjennomsnitt ikke overstige 37,5 timer pr. uke i 100 % stilling. 
             Arbeidstiden skal i den utstrekning det er mulig, legges i tidsrommet mellom kl. 07.00 og kl. 17.00 og fordeles på 5 dager pr. uke. 
         </p>
-        <p class="MsoNormal">
+        <p style="font-family: Arial, sans-serif; font-size: 11pt;">
             Rett til ferie og feriepenger reguleres i henhold til ferieloven, HTA og særavtale. 
             Reglene for fastsettelse av ferietidspunktet følger av ferieloven § 6. Arbeidstaker kan kreve at hovedferie som omfatter tre uker 
             gis i hovedferieperioden 1 juni - 30 september. 
@@ -556,24 +555,24 @@ function getArbeidsavtaleBodyNorsk(
             For å motivere eldre arbeidstakere til å stå lenger i arbeid, gis, i henhold til HTA, for tiden 
             tjenestefri med lønn tilsvarende 10 dager pr. år fra det kalenderåret man fyller 62 år.
         </p>
-        <p class="MsoNormal">
+        <p style="font-family: Arial, sans-serif; font-size: 11pt;">
             Arbeidstaker har rett til full lønn under sykdom i inntil ett år, permisjon ved svangerskap, fødsel, adopsjon og amming, og ved barns sykdom iht. HTA §§ 18.- 20. 
             Når viktige velferds- og omsorgsgrunner foreligger, kan en arbeidstaker tilstås velferdspermisjon med lønn i inntil 12 arbeidsdager. 
             Arbeidstakere gis anledning til nødvendig korttidsfravær i arbeidstiden, f.eks. 
             korte lege- eller tannlegebesøk. Korttidsfraværet må avklares med nærmeste overordnede.
         </p>
-        <p class="MsoNormal">
+        <p style="font-family: Arial, sans-serif; font-size: 11pt;">
             UiB tilbyr kompetanseutvikling i henhold til HA med tilpasningsavtale, særavtale og interne retningslinjer.
         </p>
-        <p class="MsoNormal">
+        <p style="font-family: Arial, sans-serif; font-size: 11pt;">
             For ansettelsesforholdet gjelder oppsigelsesfrister i statsansatteloven § 22. 
             Ansatte må levere sin oppsigelse skriftlig. Ved oppsigelse fra arbeidsgiver vises det til saksbehandlingsreglene i statsansatteloven § 32.
         </p>
-        <p class="MsoNormal">
+        <p style="font-family: Arial, sans-serif; font-size: 11pt;">
         Ansatte må ikke inneha ekstraerverv eller annet erverv i strid med reglene i staten. Noen ansattgrupper må registrere sine ekstraerverv i henhold til retningslinjer ved UiB. 
         Rettigheter til forsknings- og arbeidsresultater er regulert i Reglement om håndtering av ansattes rettigheter til forsknings- og arbeidsresultater ved Universitetet i Bergen.
         </p>
-        <p class="MsoNormal">
+        <p style="font-family: Arial, sans-serif; font-size: 11pt;">
             Ansatte ved UiB har taushetsplikt etter forvaltningsloven, og eventuelt særlige taushetspliktsregler som gjelder for stillingen. 
             Ved å underskrive arbeidskontrakten erklærer den ansatte å kjenne til og respekterer reglene om taushetsplikt.
         </p>

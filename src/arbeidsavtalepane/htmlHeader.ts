@@ -114,44 +114,44 @@ function getArbeidsavtaleHeadingEngelsk(
   ${htmlStyle}
 <br style='mso-special-character:line-break;page-break-before:always'>
 <br>
-                  <h1 class="h1" style="text-align: center;">EMPLOYMENT AGREEMENT</h1>
+                  <h1 class="h1" style="text-align: center; font-family: Arial, sans-serif;">EMPLOYMENT AGREEMENT</h1>
       
       
-                  <p>${name} has entered into the following employment agreement with the University of Bergen, P.O. Box 7800, 5020 Bergen.</p>
+                  <p style="font-family: Arial, sans-serif; font-size: 11pt;">${name} has entered into the following employment agreement with the University of Bergen, P.O. Box 7800, 5020 Bergen.</p>
 
                   <table>
                           <tr>
-                                  <td>Name</td>
+                                  <td><b>Name</b></td>
                                   <td>${name}</td>
-                                  <td>Social security number</td>
+                                  <td><b>Social security number</b></td>
                                   <td>${personalId}</td>
                           </tr>
                           
                           <tr>
-                                  <td>Place of work</td>
+                                  <td><b>Place of work</b></td>
                                   <td>${placeOfWork}</td>
                                   <td></td>
                                   <td></td>
                                   
                           </tr>
                           <tr>
-                                  <td>Position code</td>
+                                  <td><b>Position code</b></td>
                                   <td>${positionCode}</td>
-                                  <td>Percentage of full-time position</td>
+                                  <td><b>Percentage of full-time position</b></td>
                                   <td>${percentageFullTime}</td>
                                   
                           </tr>
                           <tr>
                                   <td>Seniority</td>
                                   <td>${seniority}</td>
-                                  <td>Annual salary in a 100 % position</td>
+                                  <td><b>Annual salary in a 100 % position</b></td>
                                   <td>${annualSalary}</td>
                           </tr>
                           ${mobFamAllowance}
                           <tr>
-                                  <td>Start date</td>
+                                  <td><b>Start date</b></td>
                                   <td>${startingDate}</td>
-                                  <td>${endDate !== "" ? "End date" : ""}</td>
+                                  <td>${endDate !== "" ? "<b>End date</b>" : ""}</td>
                                   <td>${endDate !== "" ? endDate : ""}</td>
                           </tr>
                   </table>
@@ -207,42 +207,42 @@ function getArbeidsavtaleHeadingNorsk(
   ${htmlStyle}
           <br style='mso-special-character:line-break;page-break-before:always'>
           <br>
-                  <h1 class="h1" style="text-align: center;">ARBEIDSAVTALE</h1>      
-                  <p>${name} har inngått følgende arbeidsavtale med Universitetet i Bergen, Postboks 7800, 5020 Bergen.</p>
+                  <h1 class="h1" style="text-align: center; font-family: Arial, sans-serif;">ARBEIDSAVTALE</h1>      
+                  <p style="font-family: Arial, sans-serif; font-size: 11pt;">${name} har inngått følgende arbeidsavtale med Universitetet i Bergen, Postboks 7800, 5020 Bergen.</p>
 
                   <table>
                           <tr>
-                                  <td>Navn</td>
+                                  <td><b>Navn</b></td>
                                   <td>${name}</td>
-                                  <td>Fødselsnummer.</td>
+                                  <td><b>Fødselsnummer</b></td>
                                   <td>${personalId}</td>
                           </tr>
                           
                           <tr>
-                                  <td>Arbeidssted</td>
+                                  <td><b>Arbeidssted</b></td>
                                   <td>${placeOfWork}</td>
                                   <td></td>
                                   <td></td>
                                   
                           </tr>
                           <tr>
-                                  <td>Stillingskode</td>
+                                  <td><b>Stillingskode</b></td>
                                   <td>${positionCode}</td>
-                                  <td>Prosentandel av fulltidsstilling</td>
+                                  <td><b>Stillingsprosent</b></td>
                                   <td>${percentageFullTime}</td>
                                   
                           </tr>
                           <tr>
-                                  <td>Stillingsansiennitet</td>
+                                  <td><b>Stillingsansiennitet</b></td>
                                   <td>${seniority}</td>
-                                  <td>Årslønn i 100 % stilling</td>
+                                  <td><b>Årslønn i 100 % stilling</b></td>
                                   <td>${annualSalary}</td>
                           </tr>
                           ${mobFamAllowance}
                           <tr>
-                                  <td>Startdato</td>
+                                  <td><b>Startdato</b></td>
                                   <td>${startingDate}</td>
-                                  <td>${endDate !== "" ? "Sluttdato" : ""}</td>
+                                  <td>${endDate !== "" ? "<b>Sluttdato</b>" : ""}</td>
                                   <td>${endDate !== "" ? endDate : ""}</td>
                           </tr>
                   </table>
