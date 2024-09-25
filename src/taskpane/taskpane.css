@@ -97,3 +97,7 @@ b {
     display: flex;
     justify-content: space-between; /* Aligns first button to left, second to right */
 }
+
+.center-text {
+    text-align: center;
+}

@@ -114,7 +114,7 @@ function getArbeidsavtaleHeadingEngelsk(
   ${htmlStyle}
 <br style='mso-special-character:line-break;page-break-before:always'>
 <br>
-                  <h1 class="h1">EMPLOYMENT AGREEMENT</h1>
+                  <h1 class="h1" style="text-align: center;">EMPLOYMENT AGREEMENT</h1>
       
       
                   <p>${name} has entered into the following employment agreement with the University of Bergen, P.O. Box 7800, 5020 Bergen.</p>
@@ -207,7 +207,7 @@ function getArbeidsavtaleHeadingNorsk(
   ${htmlStyle}
           <br style='mso-special-character:line-break;page-break-before:always'>
           <br>
-                  <h1 class="h1">ARBEIDSAVTALE</h1>      
+                  <h1 class="h1" style="text-align: center;">ARBEIDSAVTALE</h1>      
                   <p>${name} har inngått følgende arbeidsavtale med Universitetet i Bergen, Postboks 7800, 5020 Bergen.</p>
 
                   <table>
@@ -235,7 +235,7 @@ function getArbeidsavtaleHeadingNorsk(
                           <tr>
                                   <td>Stillingsansiennitet</td>
                                   <td>${seniority}</td>
-                                  <td>Årslønn/lønnstrinn</td>
+                                  <td>Årslønn</td>
                                   <td>${annualSalary}</td>
                           </tr>
                           ${mobFamAllowance}
