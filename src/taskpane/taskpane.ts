@@ -71,25 +71,12 @@ async function copyFirstPageHeaderToPrimaryHeader() {
   await Word.run(async (context) => {
     const firstPageHeaderHTMLPromise = context.document.sections.getFirst().getHeader(Word.HeaderFooterType.firstPage).getRange().getHtml();
     const primaryHeaderRange = context.document.sections.getFirst().getHeader(Word.HeaderFooterType.primary).getRange();
-    const primaryHeaderHTMLPromise = primaryHeaderRange.getHtml();
 
     await context.sync();
-
     const firstPageHeaderHTML = firstPageHeaderHTMLPromise.value;
-    let primaryHeaderHTML = primaryHeaderHTMLPromise.value;
-    primaryHeaderHTML = primaryHeaderHTML.replace(/<p[^>]*>\s*((<span[^>]*>\s*(&nbsp;|\s)*\s*<\/span>)\s*)+<\/p>/g, '');
-    primaryHeaderRange.clear();
 
     await context.sync(); 
-
-    // Conditionally insert the cleaned primary header HTML if it's not empty
-    if (primaryHeaderHTML.trim()) {
-      primaryHeaderRange.insertHtml(primaryHeaderHTML, Word.InsertLocation.start);
-      await context.sync(); 
-    }
-
-    // Insert the first page header HTML at the end of the primary header
-    primaryHeaderRange.insertHtml(firstPageHeaderHTML, Word.InsertLocation.replace);
+    primaryHeaderRange.insertHtml(firstPageHeaderHTML, Word.InsertLocation.start);
 
     await context.sync();
   }).catch(error => {
