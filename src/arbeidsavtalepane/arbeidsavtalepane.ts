@@ -70,6 +70,18 @@ function removeTrailingSpacesAndPeriods(input: string): string {
   return input.replace(/[. ]+$/, '');
 }
 
+// Function to convert ISO date to dd.mm.yyyy format
+function formatDate(isoDate: string): string {
+  const date = new Date(isoDate);
+  if (!isNaN(date.getTime())) {
+      const day = String(date.getDate()).padStart(2, '0');
+      const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+      const year = date.getFullYear();
+      return `${day}.${month}.${year}`;
+  }
+  return isoDate; // Return the original value if the date is invalid
+}
+
 /**
  * Initializes the arbeidsavtalepane by adding event listeners to the input fields and checkboxes.
  */
@@ -422,8 +434,8 @@ export async function initializeArbeidsavtalepane() {
         famAllowance,
         mobMonths,
         famMonths,
-        startingDateElement.value,
-        endDateElement.value,
+        formatDate(startingDateElement.value),
+        formatDate(endDateElement.value),
       );
 
       htmlBodyText = getArbeidsavtale(
