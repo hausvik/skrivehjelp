@@ -53,17 +53,34 @@ export function getArbeidsavtaleHeading(
         mobilityMonths: number,
         familyMonths: number,
         startingDate: string,
-        endDate: string
+        endDate: string,
+        employeeType: string
 ): string {
-        // Assuming getArbeidsavtaleHeadingEngelsk and getArbeidsavtaleHeadingNorsk have been updated
-        // to accept individual parameters as well.
+        switch (employeeType) {
+            case "fast":
+                employeeType = engelsk ? "Permanent employment" : "Fast ansettelse";
+                break;
+            case "temp":
+                employeeType = engelsk ? "Temporary employment" : "Midlertidig ansettelse";
+                break;
+            case "sub":
+                employeeType = engelsk ? "Substitute" : "Vikar";
+                break;
+            case "term":
+                employeeType = engelsk ? "Fixed-term" : "Åremål";
+                break;
+            default:
+                employeeType ="";
+                break;
+        }
+
         return engelsk
                 ? getArbeidsavtaleHeadingEngelsk(name, personalId, placeOfWork, positionCode,
                         percentageFullTime, seniority, annualSalary, mobilityAllowance, familyAllowance,
-                        mobilityMonths, familyMonths, startingDate, endDate)
+                        mobilityMonths, familyMonths, startingDate, endDate, employeeType)
                 : getArbeidsavtaleHeadingNorsk(name, personalId, placeOfWork, positionCode,
                         percentageFullTime, seniority, annualSalary, mobilityAllowance, familyAllowance,
-                        mobilityMonths, familyMonths, startingDate, endDate);
+                        mobilityMonths, familyMonths, startingDate, endDate, employeeType);
 }
 /**
  * Generates an HTML string representing the header of an employment contract, in English.
@@ -81,6 +98,7 @@ export function getArbeidsavtaleHeading(
  * @param {number} familyMonths - The number of months the family allowance is paid.
  * @param {string} startingDate - The starting date of the employment.
  * @param {string} endDate - The end date of the employment, if any.
+ * @param {string} employeeType - The type of employment.
  * @returns {string} An HTML string representing the employment contract header.
  */
 function getArbeidsavtaleHeadingEngelsk(
@@ -96,7 +114,8 @@ function getArbeidsavtaleHeadingEngelsk(
         mobilityMonths: number,
         familyMonths: number,
         startingDate: string,
-        endDate: string
+        endDate: string,
+        employeeType: string
 ): string {
         let mobilityRow1 = mobilityAllowance != 0 && mobilityAllowance != null ? "Mobility allowance" : "";
         let mobilityRow2 = mobilityAllowance != 0 && mobilityAllowance != null ? `NOK ${mobilityAllowance} for ${mobilityMonths} months` : "";
@@ -115,6 +134,7 @@ function getArbeidsavtaleHeadingEngelsk(
 <br style='mso-special-character:line-break;page-break-before:always'>
 <br>
                   <h1 class="h1" style="text-align: center; font-family: Arial, sans-serif;">EMPLOYMENT AGREEMENT</h1>
+                  <h3 class="h2" style="text-align: center; font-family: Arial, sans-serif;">${employeeType}</h3>
       
       
                   <p style="font-family: Arial, sans-serif; font-size: 11pt;">${name} has entered into the following employment agreement with the University of Bergen, P.O. Box 7800, 5020 Bergen.</p>
@@ -175,6 +195,7 @@ function getArbeidsavtaleHeadingEngelsk(
  * @param {number} familyAllowance - The family allowance.
  * @param {string} startingDate - The starting date of the employment.
  * @param {string} endDate - The end date of the employment, if any.
+ * @param {string} employeeType - The type of employment.
  * @returns {string} An HTML string representing the employment contract header.
  */
 function getArbeidsavtaleHeadingNorsk(
@@ -190,7 +211,8 @@ function getArbeidsavtaleHeadingNorsk(
         mobilityMonths: number,
         familyMonths: number,
         startingDate: string,
-        endDate: string
+        endDate: string,
+        employeeType: string
 ): string {
         let mobilityRow1 = mobilityAllowance != 0 && mobilityAllowance != null ? "Mobilitetstillegg" : "";
         let mobilityRow2 = mobilityAllowance != 0 && mobilityAllowance != null ? `NOK ${mobilityAllowance} i ${mobilityMonths} måneder` : "";
@@ -207,7 +229,9 @@ function getArbeidsavtaleHeadingNorsk(
   ${htmlStyle}
           <br style='mso-special-character:line-break;page-break-before:always'>
           <br>
-                  <h1 class="h1" style="text-align: center; font-family: Arial, sans-serif;">ARBEIDSAVTALE</h1>      
+                  <h1 class="h1" style="text-align: center; font-family: Arial, sans-serif;">ARBEIDSAVTALE</h1>
+                  <h3 class="h2" style="text-align: center; font-family: Arial, sans-serif;">${employeeType}</h3>
+
                   <p style="font-family: Arial, sans-serif; font-size: 11pt;">${name} har inngått følgende arbeidsavtale med Universitetet i Bergen, Postboks 7800, 5020 Bergen.</p>
 
                   <table>
