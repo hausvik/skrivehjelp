@@ -162,7 +162,7 @@ function getArbeidsavtaleBodyEngelsk(
 
   if (termEmployee != null) {
     switch (termEmployee) {
-      case 'ekstraverv':
+      case 'ekstraerverv':
         aremalText = `The extra duty is in addition to the main position at: ${additionalDuty}. 
     The employment is for a fixed term, cf. University and University Colleges Act § 7-7. The employment relationship ends without notice at the expiration of the fixed term, cf. Civil Servants Act § 17 (2). `;
         break;
@@ -394,7 +394,7 @@ function getArbeidsavtaleBodyNorsk(
 
   if (termEmployee != null) {
     switch (termEmployee) {
-      case 'ekstraverv':
+      case 'ekstraerverv':
         aremalText = `Ekstraervervet kommer i tillegg til hovedstilling ved: ${additionalDuty}. 
     Ansettelsen er på åremål, jf. uhl. § 7-7. Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp, jf. statsansatteloven § 17 (2). `;
         break;

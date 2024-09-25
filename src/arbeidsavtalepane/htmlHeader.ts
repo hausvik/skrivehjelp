@@ -226,7 +226,7 @@ function getArbeidsavtaleHeadingNorsk(
                                   
                           </tr>
                           <tr>
-                                  <td>Stilling kode</td>
+                                  <td>Stillingskode</td>
                                   <td>${positionCode}</td>
                                   <td>Prosentandel av fulltidsstilling</td>
                                   <td>${percentageFullTime}</td>
@@ -242,7 +242,7 @@ function getArbeidsavtaleHeadingNorsk(
                           <tr>
                                   <td>Startdato</td>
                                   <td>${startingDate}</td>
-                                  <td>${endDate !== "" ? "Slutt dato" : ""}</td>
+                                  <td>${endDate !== "" ? "Sluttdato" : ""}</td>
                                   <td>${endDate !== "" ? endDate : ""}</td>
                           </tr>
                   </table>
