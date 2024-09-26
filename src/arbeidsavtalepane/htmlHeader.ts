@@ -133,11 +133,11 @@ function getArbeidsavtaleHeadingEngelsk(
   ${htmlStyle}
 <br style='mso-special-character:line-break;page-break-before:always'>
 <br>
-                  <h1 class="h1" style="text-align: center; font-family: Arial, sans-serif;">EMPLOYMENT AGREEMENT</h1>
-                  <h3 class="h2" style="text-align: center; font-family: Arial, sans-serif;">${employeeType}</h3>
+                  <h1 class="h1" style="text-align: center;">EMPLOYMENT AGREEMENT</h1>
+                  <h3 class="h2" style="text-align: center;">${employeeType}</h3>
       
       
-                  <p style="font-family: Arial, sans-serif; font-size: 11pt;">${name} has entered into the following employment agreement with the University of Bergen, P.O. Box 7800, 5020 Bergen.</p>
+                  <p class="msoNormal" style="font-size: 11pt;">${name} has entered into the following employment agreement with the University of Bergen, P.O. Box 7800, 5020 Bergen.</p>
 
                   <table>
                           <tr>
@@ -229,10 +229,10 @@ function getArbeidsavtaleHeadingNorsk(
   ${htmlStyle}
           <br style='mso-special-character:line-break;page-break-before:always'>
           <br>
-                  <h1 class="h1" style="text-align: center; font-family: Arial, sans-serif;">ARBEIDSAVTALE</h1>
-                  <h3 class="h2" style="text-align: center; font-family: Arial, sans-serif;">${employeeType}</h3>
+                  <h1 class="h1" style="text-align: center;">ARBEIDSAVTALE</h1>
+                  <h3 class="h2" style="text-align: center;">${employeeType}</h3>
 
-                  <p style="font-family: Arial, sans-serif; font-size: 11pt;">${name} har inngått følgende arbeidsavtale med Universitetet i Bergen, Postboks 7800, 5020 Bergen.</p>
+                  <p class="msoNormal" style="font-size: 11pt;">${name} har inngått følgende arbeidsavtale med Universitetet i Bergen, Postboks 7800, 5020 Bergen.</p>
 
                   <table>
                           <tr>
