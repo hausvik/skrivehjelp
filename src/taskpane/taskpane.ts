@@ -1,32 +1,53 @@
 import { initializeArbeidsavtalepane } from '../arbeidsavtalepane/arbeidsavtalepane';
+import { initializeStandardtekstpane } from '../tilretteleggingspane/tilretteleggingspane';
+import { createDynamicPane } from '../dynamicpane/dynamicpane';
+
 import arbeidsavtalepaneHtml from '../arbeidsavtalepane/arbeidsavtalepane.html';
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.
- * See LICENSE in the project root for license information.
- */
+import tilretteleggingspaneHtml from '../tilretteleggingspane/tilretteleggingspane.html';
+import dynamicpaneHtml from '../dynamicpane/dynamicpane.html';
 
 /* global document, Office, Word */
 
 Office.onReady((info) => {
   if (info.host === Office.HostType.Word) {
-    (document.getElementById("sideload-msg") as HTMLElement).style.display = "none";
-    (document.getElementById("app-body") as HTMLElement).style.display = "flex";
-    (document.getElementById("testMal") as HTMLButtonElement).onclick = arbeidsavtalePane; // A clicker is needed for every button
+    const sideloadMsg = document.getElementById("sideload-msg") as HTMLElement;
+    const appBody = document.getElementById("app-body") as HTMLElement;
+    const arbeidsavtaleButton = document.getElementById("arbeidsavtale") as HTMLButtonElement;
+    const tilretteleggingButton = document.getElementById("tilrettelegging") as HTMLButtonElement;
+
+    if (sideloadMsg) sideloadMsg.style.display = "none";
+    if (appBody) appBody.style.display = "flex";
+    if (arbeidsavtaleButton) arbeidsavtaleButton.onclick = () => newPane("arbeidsavtale");
+    if (tilretteleggingButton) tilretteleggingButton.onclick = () => newPane("tilrettelegging");
   }
 });
 
 /**
- * Inserts the HTML for testMal into the document.
+ * Inserts the HTML for the new pane into the document.
  * Serves as a template for later HTMLtext insertions.
  */
-export async function arbeidsavtalePane() {
+export async function newPane(paneName: string, htmlContent?: string) {
   const taskPaneBody = document.getElementById("app-body");
 
   if (taskPaneBody) {
-    taskPaneBody.innerHTML = arbeidsavtalepaneHtml;
-    initializeArbeidsavtalepane();
+    switch (paneName) {
+      case "arbeidsavtale":
+        taskPaneBody.innerHTML = arbeidsavtalepaneHtml;
+        initializeArbeidsavtalepane();
+        break;
+      case "tilrettelegging":
+        taskPaneBody.innerHTML = tilretteleggingspaneHtml;
+        initializeStandardtekstpane();
+        break;
+      case "dynamicpane":
+        taskPaneBody.innerHTML = dynamicpaneHtml;
+        createDynamicPane(htmlContent || "");
+      default:
+        break;
+    }
   }
 }
+
 /**
  * Inserts the given text into the document.
  * @param textToInsert The text to insert into the document
