@@ -5,6 +5,7 @@
     "src/utils/readExcel.ts",
     "src/utils/combineHTML.ts",
     "src/utils/radioButton.ts",
+    "custom.d.ts",
   ],
   "compilerOptions": {
     "strict": true,
