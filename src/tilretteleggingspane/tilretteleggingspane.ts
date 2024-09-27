@@ -72,7 +72,11 @@ export async function getHtmlContent(filePath: string): Promise<string> {
     return htmlContent; // Return the HTML content
   } catch (error) {
     console.error('Error loading HTML content:', error);
-    return 'Error loading HTML content: ' + error + ` at ` + fullPath;
+
+    const textExample = `<p>Vi viser til søknaden din av `+"${søknadsdato}"+` om tilrettelegging [tilretteleggingstiltak] i [evt. emnekode].</p>
+                          <p>Søknaden er innvilget / Søknaden er avslått.</p>
+                          <p>Du innvilges [beskrivelse].</p>`
+return textExample;
   }
 }
 
