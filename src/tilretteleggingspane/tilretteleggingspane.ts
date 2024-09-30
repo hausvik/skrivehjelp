@@ -49,8 +49,8 @@ export async function initializeStandardtekstpane() {
  */
 async function fetchHtmlFiles() {
   const response = await fetch('https://ds.app.uib.no/standardtekster/dev/_generert/C_utdanning');
-  console.log(response);
   const files = await response.json();
+  console.log(files)
   return files.filter((file: HtmlFile) => file.name.endsWith('.html'));
 }
 
