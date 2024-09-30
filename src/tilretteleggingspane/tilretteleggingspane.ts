@@ -38,7 +38,7 @@ export async function initializeStandardtekstpane() {
       container.appendChild(paragraph); // Append the paragraph below the button
     }
   } catch (error) {
-    console.error('Error initializing standard text pane:', error);
+    console.error('Error initializing tilretteleggingspane:', error);
   }
 }
 
@@ -48,7 +48,7 @@ export async function initializeStandardtekstpane() {
  * @returns {Promise<Array>} A promise that resolves to an array of HTML file objects.
  */
 async function fetchHtmlFiles() {
-  const response = await fetch('https://ds.app.uib.no/standardtekster/dev/_generert/C_utdanning');
+  const response = await fetch('https://ds.app.uib.no/standardtekster/dev/_generert/C_utdanning/'); 
   const files = await response.json();
   console.log(files)
   return files.filter((file: HtmlFile) => file.name.endsWith('.html'));
