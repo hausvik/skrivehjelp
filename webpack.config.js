@@ -47,6 +47,7 @@ module.exports = async (env, options) => {
         },
         {
           test: /\.(png|jpg|jpeg|gif|ico)$/,
+
           type: "asset/resource",
           generator: {
             filename: "assets/[name][ext][query]",
@@ -92,9 +93,10 @@ module.exports = async (env, options) => {
     ],
     devServer: {
       headers: {
-        "Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+        'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization'
       },
-
       server: {
         type: "https",
         options: env.WEBPACK_BUILD || options.https !== undefined ? options.https : await getHttpsOptions(),
