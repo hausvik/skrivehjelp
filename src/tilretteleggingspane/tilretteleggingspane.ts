@@ -48,7 +48,8 @@ export async function initializeStandardtekstpane() {
  * @returns {Promise<Array>} A promise that resolves to an array of HTML file objects.
  */
 async function fetchHtmlFiles() {
-  const response = await fetch('https://git.app.uib.no/api/v4/projects/40985/repository/tree?path=_generert/C_utdanning/C.c.15%2BC.d.08%2BC.e.04_tilrettelegging');
+  const response = await fetch('https://ds.app.uib.no/standardtekster/dev/_generert/C_utdanning');
+  console.log(response);
   const files = await response.json();
   return files.filter((file: HtmlFile) => file.name.endsWith('.html'));
 }
@@ -60,7 +61,7 @@ async function fetchHtmlFiles() {
  * @returns {Promise<string>} The content of the HTML file.
  */
 export async function getHtmlContent(filePath: string): Promise<string> {
-    let fullPath = `https://git.app.uib.no/dok/standardtekster/-/raw/main/`+`${filePath}`;
+    let fullPath = `https://ds.app.uib.no/standardtekster/dev/_generert/C_utdanning/`+`${filePath}`;
     
     while (fullPath.includes('+')){
       fullPath = fullPath.replace(`+`, '%2B');
@@ -73,9 +74,7 @@ export async function getHtmlContent(filePath: string): Promise<string> {
   } catch (error) {
     console.error('Error loading HTML content:', error);
 
-    const textExample = `<p>Vi viser til søknaden din av `+"${søknadsdato}"+` om tilrettelegging [tilretteleggingstiltak] i [evt. emnekode].</p>
-                          <p>Søknaden er innvilget / Søknaden er avslått.</p>
-                          <p>Du innvilges [beskrivelse].</p>`
+    const textExample = `<p>DETTE ER TEKST SOM VISER AT DEN IKKE FANT FIL-TEKSTNE `+"${eksempel}"
 return textExample;
   }
 }
