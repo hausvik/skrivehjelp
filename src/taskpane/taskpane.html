@@ -19,24 +19,20 @@
     <!-- Template styles -->
     <link href="taskpane.css" rel="stylesheet" type="text/css" />
 </head>
-
+<header class="ms-welcome__header ms-bgColor-neutralLighter">
+    <img width="70" height="70" src="../../assets/icon-128.png" alt="UiB Logo" title="UiB" />
+</header>
 <body class="ms-font-m ms-welcome ms-Fabric">
-    <header class="ms-welcome__header ms-bgColor-neutralLighter">
-        <img width="70" height="70" src="../../assets/icon-128.png" alt="UiB Logo" title="UiB" />
-    </header>
-    <section id="sideload-msg" class="ms-welcome__main">
-        <h2 class="ms-font-xl">Please <a target="_blank" href="https://learn.microsoft.com/office/dev/add-ins/testing/test-debug-office-add-ins#sideload-an-office-add-in-for-testing" rel="noopener noreferrer">sideload</a> your add-in to see app body.</h2>
-    </section>
+    
     <main id="app-body" class="ms-welcome__main">
-
         <h1 class="ms-font-xxl">Velkommen</h1>
         <h2 class="ms-font-xl"> Velg en mal i listen under for å starte. </h2>
         <div role="button" id="arbeidsavtale" class="ms-welcome__action ms-Button ms-Button--hero ms-font-xl">
             <span class="ms-Button-label">Arbeidsavtale</span>
         </div>
         <br>
-        <div role="button" id="tilrettelegging" class="ms-welcome__action ms-Button ms-Button--hero ms-font-xl"> 
-            <span class="ms-Button-label">Tilrettelegging</span>
+        <div role="button" id="standardtekster" class="ms-welcome__action ms-Button ms-Button--hero ms-font-xl"> 
+            <span class="ms-Button-label">Standardtekster</span>
         </div>
         <p><label id="item-subject"></label></p>
     </main>

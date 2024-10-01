@@ -1,6 +1,5 @@
 import { insertText } from "../taskpane/taskpane";
-
-import { insertText } from "../taskpane/taskpane";
+import { newPane } from "../taskpane/taskpane";
 
 /**
  * Generates a dynamic pane with a form based on the provided HTML content.
@@ -37,10 +36,10 @@ export function createDynamicPane(htmlContent: string, paneTitle?: string): void
 
     // Create a button to reset the
     const resetButton = document.createElement('button');
-    resetButton.textContent = 'Reset';
+    resetButton.textContent = 'Tilbake';
     resetButton.className = 'btn btn-secondary'; // Add Bootstrap classes
     resetButton.addEventListener('click', () => {
-        form.reset();
+        newPane("standardtekster");
     });
 
     // Create a button to generate text

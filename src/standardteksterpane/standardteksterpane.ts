@@ -58,6 +58,13 @@ export async function initializeStandardtekstpane() {
   } catch (error) {
     console.error('Error fetching folders:', error);
   }
+
+  // add Tilbake button
+  const backButton = document.createElement('button');
+  backButton.textContent = 'Tilbake';
+  backButton.className = 'btn btn-secondary btn-sm';
+  backButton.onclick = () => newPane();
+  container.appendChild(backButton);
 }
 
 
