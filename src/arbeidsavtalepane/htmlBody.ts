@@ -212,7 +212,7 @@ function getArbeidsavtaleBodyEngelsk(
              cf. Civil Servants Act § 17 (2). `
         break;
       default:
-        console.log('This should not happen! Please check the termType value.');
+        console.error('This should not happen! Please check the termType value.');
         break;
     }
   }
@@ -448,7 +448,7 @@ function getArbeidsavtaleBodyNorsk(
              jf. statsansatteloven § 17 (2). `
         break;
       default:
-        console.log('This should not happen! Please check the termType value.');
+        console.error('This should not happen! Please check the termType value.');
         break;
     }}
   
