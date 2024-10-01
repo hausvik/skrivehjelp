@@ -19,15 +19,53 @@ export async function initializeStandardtekstpane() {
   }
 
   try {
-    const folders = await fetchFolders();
+    const folders = await fetchFolders(urlPath, '/standardtekster/dev/');
+    
     for (const folder of folders) {
+      // Recursively add subfolders to the folders array
+      const subfolders = await fetchSubfolders(folder, '/standardtekster/dev/_generert/');
+
       try {
         const folderDiv = document.createElement('div');
         folderDiv.className = 'folder-container';
-        const folderTitle = document.createElement('h5');
+        const folderTitle = document.createElement('h3');
         folderTitle.textContent = cleanTitle(folder);
         folderDiv.appendChild(folderTitle);
+      
+        for (const subfolder of subfolders) {
+          console.log(subfolder);
+          const subFolderDiv = document.createElement('div');
+          subFolderDiv.className = 'folder-container';
+          const subFolderTitle = document.createElement('h4');
+          subFolderTitle.textContent = cleanTitle(subfolder);
+          subFolderDiv.appendChild(subFolderTitle);
+      
+          // Append the subFolderDiv to the folderDiv
+          folderDiv.appendChild(subFolderDiv);
 
+          // Add file buttons for subfolders
+          const htmlFiles = await fetchHtmlFiles(subfolder);
+          for (const file of htmlFiles) {
+            if (file.name) {
+              const button = document.createElement('button');
+              button.textContent = extractButtonName(file.name);
+              button.className = 'btn btn-primary btn-sm';
+
+              button.onclick = async () => {
+                if (file.name) {
+                  const content = await getHtmlContent(subfolder, file.name);
+                  newPane('dynamicpane', content, extractButtonName(file.name));
+                } else {
+                  console.error('File name is null');
+                }
+              };
+
+              subFolderDiv.appendChild(button);
+            }
+          }
+        }
+
+        // Add file buttons for main folders
         const htmlFiles = await fetchHtmlFiles(folder);
         for (const file of htmlFiles) {
           if (file.name) {
@@ -35,13 +73,10 @@ export async function initializeStandardtekstpane() {
             button.textContent = extractButtonName(file.name);
             button.className = 'btn btn-primary btn-sm';
 
-            const tempText = await getHtmlContent(folder, file.name);
-
             button.onclick = async () => {
               if (file.name) {
                 const content = await getHtmlContent(folder, file.name);
                 newPane('dynamicpane', content, extractButtonName(file.name));
-
               } else {
                 console.error('File name is null');
               }
@@ -59,7 +94,7 @@ export async function initializeStandardtekstpane() {
     console.error('Error fetching folders:', error);
   }
 
-  // add Tilbake button
+  // Add Tilbake button
   const backButton = document.createElement('button');
   backButton.textContent = 'Tilbake';
   backButton.className = 'btn btn-secondary btn-sm';
@@ -73,8 +108,8 @@ export async function initializeStandardtekstpane() {
  * 
  * @returns {Promise<Array<string>>} A promise that resolves to an array of folder names.
  */
-async function fetchFolders(): Promise<Array<string>> {
-  const response = await fetch(urlPath);
+async function fetchFolders(url: string, root?: string): Promise<Array<string>> {
+  const response = await fetch(url);
   const text = await response.text();
   const parser = new DOMParser();
   const doc = parser.parseFromString(text, 'text/html');
@@ -82,10 +117,31 @@ async function fetchFolders(): Promise<Array<string>> {
 
   const folders = Array.from(folderElements)
     .map((element) => element.getAttribute('href'))
-    .filter((folder): folder is string => folder !== null && folder !== '/standardtekster/dev/'); // Ignore the root directory and filter out null values
+    .filter((folder): folder is string => folder !== null && folder !== root); // Ignore the root directory and filter out null values
 
 
-  return folders.slice(1);
+  return folders;
+}
+
+/**
+ * Fetches the list of subfolders from the specified folder.
+ * 
+ * @param {string} folder - The folder to fetch subfolders from.
+ * @returns {Promise<Array<string>>} A promise that resolves to an array of subfolder names.
+ */
+async function fetchSubfolders(folder: string, root?: string): Promise<Array<string>> {
+  const fullUrl = urlPath + folder;
+  const response = await fetch(fullUrl);
+  const text = await response.text();
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(text, 'text/html');
+  const folderElements = doc.querySelectorAll('a');
+
+  const subfolders = Array.from(folderElements)
+    .map((element) => element.getAttribute('href'))
+    .filter((folder): folder is string => folder !== null && folder !== root && folder.endsWith('/')); // Ignore the root directory, filter out null values, and ensure it ends with a slash
+
+  return subfolders.map(subfolder => folder + subfolder);
 }
 
 /**
@@ -162,5 +218,9 @@ function extractButtonName(fileName: string): string {
  * @returns folderName with underscores replaced by spaces and slashes removed
  */
 function cleanTitle(folderName: string): string {
-  return folderName.replace(/_/g, ' ').replace(/\//g, '');
+  const parts = folderName.split('/');
+  const lastPart = parts[parts.length -2];
+  const decodedName = decodeURIComponent(lastPart);
+  const newName = decodedName.replace(/_/g, ' ');
+  return newName;
 }
