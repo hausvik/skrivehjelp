@@ -224,6 +224,7 @@ function cleanTitle(folderName: string): string {
   const parts = folderName.split('/');
   const lastPart = parts[parts.length - 2];
   const decodedName = decodeURIComponent(lastPart);
-  const newName = decodedName.replace(/_/g, ' ');
+  let newName = decodedName.replace(/_/g, ' ');
+  newName = newName.replace(/-/g, ' ');
   return newName;
 }
