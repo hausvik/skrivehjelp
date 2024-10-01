@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        #button-container {
+        .button-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: space-around;
@@ -15,22 +15,23 @@
         }
 
         button {
-            margin: 10px;
-            padding: 10px;
+            margin: 5px;
             font-size: 16px;
         }
 
         .folder-container {
-          border: 1px solid #ccc;
-          padding: 10px;
-          margin-bottom: 15px;
-          border-radius: 5px;
-          background-color: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            padding: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            margin-bottom: 5px;
+
         }
-        
+
         .folder-container h3,
         .folder-container h4 {
-          font-size: 16px;
+            font-size: 16px;
         }
     </style>
 
