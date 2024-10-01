@@ -1,5 +1,7 @@
 import { insertText } from "../taskpane/taskpane";
 
+import { insertText } from "../taskpane/taskpane";
+
 /**
  * Generates a dynamic pane with a form based on the provided HTML content.
  * The form contains text boxes for each variable name found in the HTML content.

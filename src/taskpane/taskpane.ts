@@ -1,9 +1,9 @@
 import { initializeArbeidsavtalepane } from '../arbeidsavtalepane/arbeidsavtalepane';
-import { initializeStandardtekstpane } from '../tilretteleggingspane/tilretteleggingspane';
+import { initializeStandardtekstpane } from '../standardteksterpane/standardteksterpane';
 import { createDynamicPane } from '../dynamicpane/dynamicpane';
 
 import arbeidsavtalepaneHtml from '../arbeidsavtalepane/arbeidsavtalepane.html';
-import tilretteleggingspaneHtml from '../tilretteleggingspane/tilretteleggingspane.html';
+import standardteksterpaneHtml from '../standardteksterpane/standardteksterpane.html';
 import dynamicpaneHtml from '../dynamicpane/dynamicpane.html';
 
 /* global document, Office, Word */
@@ -26,7 +26,7 @@ Office.onReady((info) => {
  * Inserts the HTML for the new pane into the document.
  * Serves as a template for later HTMLtext insertions.
  */
-export async function newPane(paneName: string, htmlContent?: string) {
+export async function newPane(paneName: string, htmlContent?: string, paneTitle?: string) {
   const taskPaneBody = document.getElementById("app-body");
 
   if (taskPaneBody) {
@@ -36,12 +36,12 @@ export async function newPane(paneName: string, htmlContent?: string) {
         initializeArbeidsavtalepane();
         break;
       case "tilrettelegging":
-        taskPaneBody.innerHTML = tilretteleggingspaneHtml;
+        taskPaneBody.innerHTML = standardteksterpaneHtml;
         initializeStandardtekstpane();
         break;
       case "dynamicpane":
         taskPaneBody.innerHTML = dynamicpaneHtml;
-        createDynamicPane(htmlContent || "");
+        createDynamicPane(htmlContent || "", paneTitle);
       default:
         break;
     }
