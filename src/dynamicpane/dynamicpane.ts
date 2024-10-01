@@ -44,7 +44,7 @@ export function createDynamicPane(htmlContent: string, paneTitle?: string): void
 
     // Create a button to generate text
     const generateButton = document.createElement('button');
-    generateButton.textContent = 'Generate Text';
+    generateButton.textContent = 'Sett inn tekst';
     generateButton.className = 'btn btn-primary'; // Add Bootstrap classes
     generateButton.addEventListener('click', () => {
         // Collect input values from the form
