@@ -91,7 +91,6 @@ export function createDynamicPane(htmlContent: string, paneTitle?: string): void
  * @returns {object} - An object containing the form element and the modified content.
  */
 function parseContent(content: string): { form: HTMLFormElement, modifiedContent: string } {
-    console.log(content);
     const form = document.createElement('form');
     const variableRegex = /\$\{([^}]+)\}/g;
     let match;
@@ -103,7 +102,6 @@ function parseContent(content: string): { form: HTMLFormElement, modifiedContent
             continue; // Skip if the variable name has already been processed
         }
         processedVariables.add(variableName);
-        console.log('Found variable:', variableName); // Log each variable name
         const decodedName = decodeURIComponent(variableName.replace(/-/g, ' '));
 
         const label = document.createElement('label');
@@ -120,9 +118,6 @@ function parseContent(content: string): { form: HTMLFormElement, modifiedContent
         inputContainer.className = 'form-group';
         inputContainer.appendChild(label); // Append the label first
         inputContainer.appendChild(input); // Append the input field second
-
-        // Debugging: Check if inputContainer is created correctly
-        console.log('Input container created:', inputContainer);
 
         form.appendChild(inputContainer);
     }
