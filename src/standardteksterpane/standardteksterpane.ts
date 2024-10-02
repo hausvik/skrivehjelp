@@ -20,17 +20,18 @@ export async function initializeStandardtekstpane() {
 
   try {
     const folders = await fetchFolders(urlPath, '/standardtekster/dev/');
-    
+    // Loops main folders
     for (const folder of folders) {
       const subfolders = await fetchSubfolders(folder, '/standardtekster/dev/_generert/');
       const folderDiv = createFolderDiv(folder, 'h3');
 
+      // Loops subfolders of folders
       for (const subfolder of subfolders) {
         const subFolderDiv = createFolderDiv(subfolder, 'h4');
         await addFileButtons(subFolderDiv, subfolder);
         folderDiv.appendChild(subFolderDiv);
       }
-
+      
       await addFileButtons(folderDiv, folder);
       container.appendChild(folderDiv);
     }
@@ -59,39 +60,62 @@ function createButton(text: string, className: string, onClick: () => void): HTM
   return button;
 }
 
-/**
- * Creates a folder div element with the specified folder name and title tag.
- * 
- * @param {string} folder - The name of the folder.
- * @param {'h3' | 'h4'} titleTag - The HTML tag to use for the folder title.
- * @returns {HTMLDivElement} The created folder div element.
- */
 function createFolderDiv(folder: string, titleTag: 'h3' | 'h4'): HTMLDivElement {
+  const isTopLevel = titleTag === 'h3';
+
   const folderDiv = document.createElement('div');
-  folderDiv.className = 'folder-container';
+  folderDiv.className = isTopLevel ? 'folder-container' : 'subfolder-container';
+
   const folderTitle = document.createElement(titleTag);
   folderTitle.textContent = cleanTitle(folder);
+  folderTitle.style.cursor = 'pointer'; // Indicate that the title is clickable
+
+  // Create a container for the folder's contents
+  const contentDiv = document.createElement('div');
+  contentDiv.className = 'folder-content';
+  contentDiv.style.display = 'none'; // Default to hidden for all folders
+
+  // Add the click event listener to toggle the visibility of the content and nested contents
+  folderTitle.addEventListener('click', () => {
+    const isHidden = contentDiv.style.display === 'none';
+    if (isTopLevel) {
+      // Unhide all subfolder-containers inside the folder-container
+      const subfolderContainers = folderDiv.querySelectorAll('.subfolder-container');
+      subfolderContainers.forEach(subfolderContainer => {
+        (subfolderContainer as HTMLElement).style.display = isHidden ? 'flex' : 'none';
+      });
+    } else {
+      // Unhide all buttons inside the subfolder-container
+      const buttons = folderDiv.querySelectorAll('button');
+      buttons.forEach(button => {
+        (button as HTMLElement).style.display = isHidden ? 'block' : 'none';
+      });
+    }
+    contentDiv.style.display = isHidden ? 'block' : 'none';
+  });
+
   folderDiv.appendChild(folderTitle);
+  folderDiv.appendChild(contentDiv);
+
   return folderDiv;
 }
 
-/**
- * Adds buttons for each HTML file in the specified folder to the container element.
- * 
- * @param {HTMLElement} container - The container element to add the buttons to.
- * @param {string} folder - The name of the folder containing the HTML files.
- */
 async function addFileButtons(container: HTMLElement, folder: string) {
   try {
     const htmlFiles = await fetchHtmlFiles(folder);
+    const contentDiv = container.querySelector('.folder-content');
+    if (!contentDiv) {
+      console.error('Content div not found');
+      return;
+    }
     for (const file of htmlFiles) {
       if (file.name) {
-        const fileName = file.name; // TypeScript now knows fileName is a string
+        const fileName = file.name;
         const button = createButton(extractButtonName(fileName), 'btn btn-primary btn-sm', async () => {
           const content = await getHtmlContent(folder, fileName);
           newPane('dynamicpane', content, extractButtonName(fileName));
         });
-        container.appendChild(button);
+        contentDiv.appendChild(button);
       }
     }
   } catch (error) {

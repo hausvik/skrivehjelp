@@ -17,21 +17,37 @@
         button {
             margin: 5px;
             font-size: 16px;
+            display: none;
         }
 
         .folder-container {
             display: flex;
             flex-direction: column;
             padding: 5px;
-            border: 1px solid #ccc;
+            border: 1px solid #000000;
             box-sizing: border-box;
             margin-bottom: 5px;
-
+            background-color: #cccc;
         }
 
-        .folder-container h3,
-        .folder-container h4 {
+        .subfolder-container {
+            display: flex;
+            flex-direction: column;
+            padding: 5px;
+            border: 1px solid #000000;
+            box-sizing: border-box;
+            margin-bottom: 5px;
+            background-color: #acacaccc;
+            display: none;
+        }
+
+
+        .folder-container h3 {
             font-size: 16px;
+        }
+
+        .folder-container h4 {
+            font-size: 14px;
         }
     </style>
 
