@@ -5,7 +5,7 @@ interface HtmlFile {
   path: string;
 }
 
-const urlPath = 'https://ds.app.uib.no/standardtekster/dev/_generert/';
+const urlPath = 'https://ds.app.uib.no/standardtekster/main/_generert/';
 
 /**
  * Initializes the standard text pane by fetching HTML files and creating buttons for each file.
@@ -19,10 +19,10 @@ export async function initializeStandardtekstpane() {
   }
 
   try {
-    const folders = await fetchFolders(urlPath, '/standardtekster/dev/');
+    const folders = await fetchFolders(urlPath, '/standardtekster/main/');
     // Loops main folders
     for (const folder of folders) {
-      const subfolders = await fetchSubfolders(folder, '/standardtekster/dev/_generert/');
+      const subfolders = await fetchSubfolders(folder, '/standardtekster/main/_generert/');
       const folderDiv = createFolderDiv(folder, 'h3');
 
       // Loops subfolders of folders
