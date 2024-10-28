@@ -155,7 +155,7 @@ function getArbeidsavtaleBodyEngelsk(
     The University of Bergen will ensure payment of allowances in accordance with the EC Grant Agreement. Payments will be made in 
     NOK according to the valuta course at payment day. Living allowance is replaced by annual salary according to basic collective agreement. 
     If needed, compliance with the EU funding rates will be ensured by corrective 
-    payments following the end of the project period.`;
+    payments following the end of the project period. `;
   }
   if (mobility || family) {
     mobFamAllowanceText = `The amounts of ${mobility ? `mobility allowance ` : ``}${mobility && family ? `and ` : ``}${family ? `family allowance ` : ``}

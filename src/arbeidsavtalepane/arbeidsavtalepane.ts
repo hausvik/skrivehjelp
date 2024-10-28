@@ -75,10 +75,10 @@ function removeTrailingSpacesAndPeriods(input: string): string {
 function formatDate(isoDate: string): string {
   const date = new Date(isoDate);
   if (!isNaN(date.getTime())) {
-      const day = String(date.getDate()).padStart(2, '0');
-      const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
-      const year = date.getFullYear();
-      return `${day}.${month}.${year}`;
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const year = date.getFullYear();
+    return `${day}.${month}.${year}`;
   }
   return isoDate; // Return the original value if the date is invalid
 }
@@ -89,6 +89,8 @@ function formatDate(isoDate: string): string {
 export async function initializeArbeidsavtalepane() {
 
   // Input elements
+  let mscaSupervisor: HTMLInputElement | null = document.getElementById("mscaSupervisor") as HTMLInputElement;
+  let mscaSupervisorText: HTMLInputElement | null = document.getElementById("mscaSupervisorText") as HTMLInputElement;
   let engelsk: HTMLInputElement | null = document.getElementById("engelsk") as HTMLInputElement;
   let mobilityAndFamilyAllowanceBox: HTMLInputElement | null = document.getElementById("mobilityFamilyAllowanceBox") as HTMLInputElement;
   let mscaBox: HTMLInputElement | null = document.getElementById("MSCA") as HTMLInputElement;
@@ -167,7 +169,7 @@ export async function initializeArbeidsavtalepane() {
   let skoTitle = "" as string;
   let jobTitle = "" as string; // Not in use, but might be usefull?
   let category = "" as string; // Not in use, but might be usefull?
-  let employeeType = "fast" as string; 
+  let employeeType = "fast" as string;
   let teachingPos = false as boolean;
   let substituteTypeGroupValue = "" as string;
   let mscaArbeidsgiveravgift = 1.141 as number;
@@ -222,6 +224,17 @@ export async function initializeArbeidsavtalepane() {
       norwegianCompetence.style.display = "none";
       radioButtonUtils.uncheckAllRadioButtons(norwegianCompetence, "norwegianCompetence");
     }
+
+    if (mscaBox.checked && (positionCodeSelect.value.includes("Forsker") ||
+      positionCodeSelect.value.includes("Stipendiat") ||
+      positionCodeSelect.value.includes("Postdoktor"))) {
+      mscaSupervisor.style.display = "block";
+    }
+    else {
+      mscaSupervisor.style.display = "none"
+      mscaSupervisorText.value = "";
+    }
+
   });
 
   // Event listner for the externallyFunded box
@@ -241,6 +254,16 @@ export async function initializeArbeidsavtalepane() {
       familyAllowanceElement.placeholder = mscaBox.checked ? "EUR" : "NOK";
       frameProgramme.value = "";
       grantNumb.value = "";
+
+      if (mscaBox.checked && (positionCodeSelect.value.includes("Forsker") ||
+        positionCodeSelect.value.includes("Stipendiat") ||
+        positionCodeSelect.value.includes("Postdoktor"))) {
+        mscaSupervisor.style.display = "block";
+      }
+      else {
+        mscaSupervisor.style.display = "none"
+        mscaSupervisorText.value = "";
+      }
     });
 
   // Event listner for abroardEmployee
@@ -271,7 +294,7 @@ export async function initializeArbeidsavtalepane() {
   // Code for when "Midlertidig" is selected
   if (tempEmployee && endDateGroup) {
     tempEmployee.addEventListener("change", () => {
-      employeeType ="temp";
+      employeeType = "temp";
       endDateGroup.style.display = "block";
       workDescriptionElement.style.display = "block";
       norwegianCompetence.style.display = "none";
@@ -309,7 +332,7 @@ export async function initializeArbeidsavtalepane() {
   // Code for when "Åremål" is selected
   if (termEmployee && endDateGroup) {
     termEmployee.addEventListener("change", () => {
-      employeeType="term";
+      employeeType = "term";
       termOptionsGroup.style.display = "block";
       norwegianCompetence.style.display = "none";
       endDateGroup.style.display = "block";
@@ -404,9 +427,9 @@ export async function initializeArbeidsavtalepane() {
     });
   }
 
-if(tilbakeButton) {
-  tilbakeButton.addEventListener('click', () => {
-    newPane();
+  if (tilbakeButton) {
+    tilbakeButton.addEventListener('click', () => {
+      newPane();
     });
   };
 
@@ -451,6 +474,8 @@ if(tilbakeButton) {
         formatDate(startingDateElement.value),
         formatDate(endDateElement.value),
         employeeType,
+        mscaSupervisorText.value,
+        mscaBox.checked,
       );
 
       htmlBodyText = getArbeidsavtale(
