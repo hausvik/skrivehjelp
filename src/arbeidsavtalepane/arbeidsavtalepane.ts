@@ -475,6 +475,7 @@ export async function initializeArbeidsavtalepane() {
         formatDate(endDateElement.value),
         employeeType,
         mscaSupervisorText.value,
+        mscaBox.checked,
       );
 
       htmlBodyText = getArbeidsavtale(
