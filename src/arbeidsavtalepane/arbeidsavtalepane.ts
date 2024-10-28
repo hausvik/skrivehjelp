@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 import { insertText } from "../taskpane/taskpane";
+import { newPane } from "../taskpane/taskpane";
 import { getArbeidsavtaleHeading } from "./htmlHeader";
 import { getArbeidsavtale } from "./htmlBody";
 import { addToDropDown, updateDropDown } from "../utils/readExcel";
@@ -157,7 +158,8 @@ export async function initializeArbeidsavtalepane() {
 
 
   // Button
-  let button: HTMLButtonElement | null = document.getElementById("generateDocument") as HTMLButtonElement;
+  let tilbakeButton: HTMLButtonElement | null = document.getElementById("tilbake") as HTMLButtonElement;
+  let generateTextButton: HTMLButtonElement | null = document.getElementById("generateDocument") as HTMLButtonElement;
   let resetButton: HTMLButtonElement | null = document.getElementById("resetButton") as HTMLButtonElement;
 
   // Variables
@@ -402,9 +404,15 @@ export async function initializeArbeidsavtalepane() {
     });
   }
 
+if(tilbakeButton) {
+  tilbakeButton.addEventListener('click', () => {
+    newPane();
+    });
+  };
+
   // Button logic
-  if (button) {
-    button.addEventListener("click", () => {
+  if (generateTextButton) {
+    generateTextButton.addEventListener("click", () => {
       if (
         !tempEmployee.checked &&
         externallyFundedBox.checked &&

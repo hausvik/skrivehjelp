@@ -65,6 +65,7 @@ module.exports = async (env, options) => {
         chunks: ["arbeidsavtalepane"],
         filename: "arbeidsavtalepane.html",
       }),
+
       new CopyWebpackPlugin({
         patterns: [
           {
@@ -90,11 +91,23 @@ module.exports = async (env, options) => {
         chunks: ["polyfill", "commands"],
       }),
     ],
+
     devServer: {
       headers: {
         "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+        "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
       },
-
+      
+      proxy: [
+        {
+          context: ['/standardtekster'],
+          target: 'https://ds.app.uib.no',
+          secure: false,
+          changeOrigin: true,
+        }
+      ],
+      
       server: {
         type: "https",
         options: env.WEBPACK_BUILD || options.https !== undefined ? options.https : await getHttpsOptions(),
@@ -103,5 +116,5 @@ module.exports = async (env, options) => {
     },
   };
 
-  return config;
+return config;
 };

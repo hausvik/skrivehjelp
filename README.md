@@ -1,8 +1,11 @@
 # Word Add-in
 
-Welcome to our Word Add-in, a tool designed to streamline the process of creating work agreements at UiB. This Add-in replaces our legacy VBA macros, providing a more efficient and user-friendly way to generate these documents.
+Welcome to our Word Add-in, designed for creating standardised documents at UiB. It replaces the old VBA macros with a more efficient and user-friendly solution. The Add-in features two main functions: work agreements and standardised texts.
 
-With this Add-in, you can automatically populate arbeidsavtaler with the necessary information, saving time and reducing the possibility of errors. It's designed with simplicity in mind, making it easy for anyone to generate arbeidsavtaler directly within Microsoft Word.
+The work agreement function automates filling in necessary details, saving time and reducing errors, and allows easy generation of work agreements directly in Word.
+
+For standardised text, HTML files are organised into folders and one-level subfolders on a website. The add-in will automatically add new standardised texts as they are added to the website. These texts can be inserted into Word at the "START" bookmark or at the document's end if "START" is missing. 
+
 
 # How to Run
 

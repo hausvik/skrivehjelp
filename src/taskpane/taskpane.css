@@ -95,9 +95,28 @@ b {
 
 .button-container {
     display: flex;
+    gap: 10px;
+    justify-content: space-between; /* Aligns first button to left, second to right */
+}
+
+.vertical-button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     justify-content: space-between; /* Aligns first button to left, second to right */
 }
 
 .center-text {
     text-align: center;
+}
+
+.header-title {
+    font-size: 24px; /* Adjust the size as needed */
+    font-weight: bold;
+    text-align: center; /* Center the text */
+}
+
+.sub-header-title {
+    font-size: 14px; /* Adjust the size as needed */
+    text-align: center; /* Center the text */
 }

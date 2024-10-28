@@ -150,9 +150,11 @@ function getArbeidsavtaleBodyEngelsk(
 
   if (mscaBox) {
     mscaText = `The position is connected to the ${frameProgram} action, under the Marie Sklodowska-Curie, regulated by EC 
-    Grant Agreement No: ${grantNumber}. The Personal Career Development Plan (PCDP) specifies the training under the Action. 
+    Grant Agreement No: ${grantNumber}. The researcher is obliged to work exclusively for the research training under the action. 
+    The Personal Career Development Plan (PCDP) specifies the training under the Action. 
     The University of Bergen will ensure payment of allowances in accordance with the EC Grant Agreement. Payments will be made in 
-    NOK according to the valuta course at payment day. If needed, compliance with the EU funding rates will be ensured by corrective 
+    NOK according to the valuta course at payment day. Living allowance is replaced by annual salary according to basic collective agreement. 
+    If needed, compliance with the EU funding rates will be ensured by corrective 
     payments following the end of the project period.`;
   }
   if (mobility || family) {
@@ -200,19 +202,21 @@ function getArbeidsavtaleBodyEngelsk(
         aremalText = `The employment is for a fixed term, cf. University and University Colleges Act § 7-6 (1) g. The employment relationship ends without notice at the expiration of the fixed term, cf. Civil Servants Act
              § 17 (2). Admission to a doctoral program is a condition for taking up the position.  To become employed as a research fellow, admission to a doctoral 
              program or a binding agreement for such admission, is required. ${karrierefremmendeArbeid ? `Career-promoting work constitutes ${karrierefremmendeArbeidMengde}
-                 of the fixed-term period.  Refer to your specific career plan.` : ''}`
+                 of the fixed-term period.  Refer to your specific career plan.` : ''} The appointed person must not have any secondary employment contrary to the rules of the University of Bergen or government rules.
+                  Rights to research and work results are governed by the Regulation on handling employees' rights to the results of work and research at the University of Bergen.`
         break;
       case 'kunstnerisk':
         aremalText = `The employment is for a fixed term, cf. University and University Colleges Act § 7-6 (1) g. The employment relationship ends without notice at the expiration of the fixed term, cf.
              Civil Servants Act § 17 (2).  The employment is associated with the Scholarship Program for Artistic Development Work. ${karrierefremmendeArbeid ?
-            `Career-promoting work constitutes ${karrierefremmendeArbeidMengde} of the fixed-term period. Refer to your specific career plan.` : ''}`
+            `Career-promoting work constitutes ${karrierefremmendeArbeidMengde} of the fixed-term period. Refer to your specific career plan.` : ''} The appointed person must not have any secondary employment contrary to the rules of the University of Bergen or
+             government rules. Rights to research and work results are governed by the Regulation on handling employees' rights to the results of work and research at the University of Bergen.`
         break;
       case 'vitenskapelig':
         aremalText = `The employment is for a fixed term, cf. University and University Colleges Act § 7-4 (1) i. The employment relationship ends without notice at the expiration of the fixed term,
              cf. Civil Servants Act § 17 (2). `
         break;
       default:
-        console.log('This should not happen! Please check the termType value.');
+        console.error('This should not happen! Please check the termType value.');
         break;
     }
   }
@@ -386,9 +390,11 @@ function getArbeidsavtaleBodyNorsk(
 
   if (mscaBox) {
     mscaText = `Stillingen er knyttet til ${frameProgram}-aksjonen, under Marie Sklodowska-Curie, regulert av EFs tilskuddsavtale 
-    nr. ${grantNumber}. Den personlige karriereutviklingsplanen spesifiserer opplæringen under action. 
+    nr. ${grantNumber}. Forskeren er forpliktet til å arbeide eksklusivt med forskerutdanningen under tiltaket. 
+    Den personlige karriereutviklingsplanen spesifiserer opplæringen under action. 
     Universitetet i Bergen vil sørge for utbetaling av tillegg i samsvar med EUs tilskuddsavtale. Utbetalinger vil bli gjort i 
-    NOK i henhold til valutakursen på betalingsdagen. Om nødvendig, vil overensstemmelse med EUs finansieringssatser sikres ved 
+    NOK i henhold til valutakursen på betalingsdagen. Levegodtgjørelsen erstattes av årslønn i henhold til grunnleggende tariffavtale. 
+    Om nødvendig, vil overensstemmelse med EUs finansieringssatser sikres ved 
     korrektive betalinger etter prosjektperiodens slutt.`;
   }
   if (mobility || family) {
@@ -436,19 +442,22 @@ function getArbeidsavtaleBodyNorsk(
         aremalText = `Ansettelsen er på åremål, jf. uhl § 7-6 (1) g. Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp, jf. statsansatteloven
              § 17 (2). Opptak til doktorgradsprogram er et vilkår for tiltredelse i stillingen.  For å bli ansatt som stipendiat kreves opptak i et doktorgradsprogram,
               eller at det foreligger en forpliktende avtale om opptak. ${karrierefremmendeArbeid ? `Karrierefremmende arbeid utgjør ${karrierefremmendeArbeidMengde}
-                 av åremålsperioden, hendvis til din karriereplan.` : ''}`
+                 av åremålsperioden, hendvis til din karriereplan.` : ''} Ansatte må ikke inneha sidegjøremål i strid med reglene ved UiB eller i staten. Rettigheter 
+                 til forsknings- og arbeidsresultater er regulert i Reglement om håndtering av ansattes rettigheter til forsknings- og arbeidsresultater ved Universitetet i Bergen.`
         break;
       case 'kunstnerisk':
         aremalText = `Ansettelsen er på åremål, jf. uhl § 7-6 (1) g. Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp, jf.
              statsansatteloven § 17 (2).  Ansettelsen er knyttet til Stipendprogram for kunstnerisk utviklingsarbeid. ${karrierefremmendeArbeid ?
-            `Karrierefremmende arbeid utgjør ${karrierefremmendeArbeidMengde} av åremålsperioden, hendvis til din karriereplan.` : ''}`
+            `Karrierefremmende arbeid utgjør ${karrierefremmendeArbeidMengde} av åremålsperioden, hendvis til din karriereplan.` : ''} Ansatte må ikke inneha sidegjøremål i
+             strid med reglene ved UiB eller i staten. Rettigheter til forsknings- og arbeidsresultater er regulert i Reglement om håndtering av ansattes 
+             rettigheter til forsknings- og arbeidsresultater ved Universitetet i Bergen.`
         break;
       case 'vitenskapelig':
         aremalText = `Ansettelsen er på åremål, jf. uhl. § 7-4 (1) i. Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp,
              jf. statsansatteloven § 17 (2). `
         break;
       default:
-        console.log('This should not happen! Please check the termType value.');
+        console.error('This should not happen! Please check the termType value.');
         break;
     }}
   
@@ -480,7 +489,7 @@ function getArbeidsavtaleBodyNorsk(
   }
   if (externallyFoundedResearcher) {
     externallyFoundedResearcherText = `Ved avslutning av prosjektet forutsettes fortsatt ansettelse av videre 
-  ekstern finansiering av stillingen. Den ansatte oppfordres til å ta aktiv del i arbeidet med søknader om 
+  ekstern finansiering av stillingen. Den ansatte oppfordres til å ta aktiv del i arbeidet med søknader om f
   nye prosjektmidler til finansiering av stillingen. `;
   }
 

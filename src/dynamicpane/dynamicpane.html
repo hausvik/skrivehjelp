@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DynamicPane</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <h3 id="paneTitle" class="mb-5">Dynamicpane</h3>
+    <div id="input-container"></div>
+    <div id="dynamic-pane-container"></div> <!-- Container for the dynamic pane -->
+    <script src="../dynamicpane/dynamicpane.ts"></script>
+    <script>
+        const dynamicPane = createDynamicPane(htmlContent, paneTitle);
+        document.getElementById('dynamic-pane-container').appendChild(dynamicPane);
+    </script>
+</body>
+</html>
