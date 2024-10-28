@@ -150,9 +150,11 @@ function getArbeidsavtaleBodyEngelsk(
 
   if (mscaBox) {
     mscaText = `The position is connected to the ${frameProgram} action, under the Marie Sklodowska-Curie, regulated by EC 
-    Grant Agreement No: ${grantNumber}. The Personal Career Development Plan (PCDP) specifies the training under the Action. 
+    Grant Agreement No: ${grantNumber}. The researcher is obliged to work exclusively for the research training under the action. 
+    The Personal Career Development Plan (PCDP) specifies the training under the Action. 
     The University of Bergen will ensure payment of allowances in accordance with the EC Grant Agreement. Payments will be made in 
-    NOK according to the valuta course at payment day. If needed, compliance with the EU funding rates will be ensured by corrective 
+    NOK according to the valuta course at payment day. Living allowance is replaced by annual salary according to basic collective agreement. 
+    If needed, compliance with the EU funding rates will be ensured by corrective 
     payments following the end of the project period.`;
   }
   if (mobility || family) {
@@ -388,9 +390,11 @@ function getArbeidsavtaleBodyNorsk(
 
   if (mscaBox) {
     mscaText = `Stillingen er knyttet til ${frameProgram}-aksjonen, under Marie Sklodowska-Curie, regulert av EFs tilskuddsavtale 
-    nr. ${grantNumber}. Den personlige karriereutviklingsplanen spesifiserer opplæringen under action. 
+    nr. ${grantNumber}. Forskeren er forpliktet til å arbeide eksklusivt med forskerutdanningen under tiltaket. 
+    Den personlige karriereutviklingsplanen spesifiserer opplæringen under action. 
     Universitetet i Bergen vil sørge for utbetaling av tillegg i samsvar med EUs tilskuddsavtale. Utbetalinger vil bli gjort i 
-    NOK i henhold til valutakursen på betalingsdagen. Om nødvendig, vil overensstemmelse med EUs finansieringssatser sikres ved 
+    NOK i henhold til valutakursen på betalingsdagen. Levegodtgjørelsen erstattes av årslønn i henhold til grunnleggende tariffavtale. 
+    Om nødvendig, vil overensstemmelse med EUs finansieringssatser sikres ved 
     korrektive betalinger etter prosjektperiodens slutt.`;
   }
   if (mobility || family) {
