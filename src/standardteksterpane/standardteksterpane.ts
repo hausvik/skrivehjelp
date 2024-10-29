@@ -6,17 +6,9 @@ interface HtmlFile {
 }
 
 const urlPath = 'https://ds.app.uib.no/standardtekster/main/_generert/';
+const urlUtkast = 'https://ds.app.uib.no/standardtekster/dev/';
 
-/**
- * Initializes the standard text pane by fetching HTML files and creating buttons for each file.
- * The buttons are added to the button container and are styled with specific classes.
- */
-export async function initializeStandardtekstpane() {
-  const container = document.getElementById('button-container');
-  if (!container) {
-    console.error('Container element not found');
-    return;
-  }
+async function addButtons(container: HTMLElement, url: string) {
 
   try {
     const folders = await fetchFolders(urlPath, '/standardtekster/main/');
@@ -31,7 +23,7 @@ export async function initializeStandardtekstpane() {
         await addFileButtons(subFolderDiv, subfolder);
         folderDiv.appendChild(subFolderDiv);
       }
-      
+
       await addFileButtons(folderDiv, folder);
       container.appendChild(folderDiv);
     }
@@ -39,6 +31,35 @@ export async function initializeStandardtekstpane() {
     console.error('Error fetching folders:', error);
   }
 
+}
+
+
+/**
+ * Initializes the standard text pane by fetching HTML files and creating buttons for each file.
+ * The buttons are added to the button container and are styled with specific classes.
+ */
+export async function initializeStandardtekstpane() {
+  const container = document.getElementById('button-container');
+  const showAll = document.getElementById('show-all') as HTMLInputElement;;
+
+  if (!container) {
+    console.error('Container element not found');
+    return;
+  }
+  addButtons(container, urlPath)
+
+  showAll?.addEventListener("change", async () => {
+    if (showAll.checked) {
+      container.innerHTML = '';
+      addButtons(container, urlUtkast);
+    }
+    else {
+      container.innerHTML = '';
+      addButtons(container, urlPath);
+    }
+
+
+  });
   // Add Tilbake button
   const backButton = createButton('Tilbake', 'btn btn-secondary btn-sm', () => newPane());
   container.appendChild(backButton);
