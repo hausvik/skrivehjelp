@@ -40,9 +40,10 @@ async function addButtons(container: HTMLElement, url: string) {
  */
 export async function initializeStandardtekstpane() {
   const container = document.getElementById('button-container');
+  const backButtonContainer = document.getElementById('back-button-container');
   const showAll = document.getElementById('show-all') as HTMLInputElement;;
 
-  if (!container) {
+  if (!container || !backButtonContainer) {
     console.error('Container element not found');
     return;
   }
@@ -62,7 +63,7 @@ export async function initializeStandardtekstpane() {
   });
   // Add Tilbake button
   const backButton = createButton('Tilbake', 'btn btn-secondary btn-sm', () => newPane());
-  container.appendChild(backButton);
+  backButtonContainer.appendChild(backButton);
 }
 
 /**
