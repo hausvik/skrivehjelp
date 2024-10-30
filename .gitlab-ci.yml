@@ -85,11 +85,13 @@ update_publicrepo:
   script:
     - git clone https://oauth2:${READ_TOKEN}@git.app.uib.no/dok/skrivehjelp.git
     - cd skrivehjelp
+    - git config user.email "ci-bot@bot.uib.no"
+    - git config user.name "CI Bot"
     - echo "Update from CI" >> update.log
     - git add update.log
     - git commit -m "Automated update from CI"
     - git remote add github https://hausvik:${GITHUB_TOKEN}@github.com/hausvik/skrivehjelp.git
     - git push github main
   rules:
-    - if: '$CI_COMMIT_BRANCH == "dev"'
+    - if: '$CI_COMMIT_BRANCH == "dev"
 
