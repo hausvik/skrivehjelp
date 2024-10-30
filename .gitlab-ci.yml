@@ -37,8 +37,8 @@ stages:
 
 build:
   stage: build
-  # Så lenge det ikke gjennomføres noen automatiske tester, er det ikke
-  # nødvendig å kjøre skriptet ved hver commit.
+  script:
+    - echo "Build stage placeholder"
 
 update_external_repo:
   stage: update
