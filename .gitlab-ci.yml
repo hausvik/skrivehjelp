@@ -1,3 +1,9 @@
+stages:
+  - build
+  - test
+  - deploy
+  - update
+
 default:
   image: node
   cache:
@@ -10,7 +16,6 @@ default:
   before_script:
     - npm ci --cache .npm --prefer-offline
     ## https://docs.gitlab.com/ee/ci/ssh_keys/#ssh-keys-when-using-the-docker-executor
-    ##
     ## Install ssh-agent if not already installed, it is required by Docker.
     ## (change apt-get to yum if you use an RPM-based image)
     - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
@@ -27,7 +32,7 @@ default:
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
 
-    ## Add fingreprints to SSH known hosts
+    ## Add fingerprints to SSH known hosts
     - cp "$SSH_KNOWN_HOSTS" ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
 
@@ -74,3 +79,16 @@ deploy:
 # Bruk scp, men hvis det hadde vært rsync ...
 #rsync -acv --copy-links --progress --delete --chmod=u=rwX,g=rX,o=rx \
 #  dist radisson7.uib.no:/var/www/org/ds/$CI_COMMIT_BRANCH"
+
+update_publicrepo:
+  stage: update
+  script:
+    - git clone https://git.app.uib.no/dok/skrivehjelp.git
+    - cd skrivehjelp
+    - echo "Update from CI" >> update.log
+    - git add update.log
+    - git commit -m "Automated update from CI"
+    - git push https://hausvik:${GITHUB_TOKEN}@github.com/hausvik/skrivehjelp.git
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "prod"'
+
