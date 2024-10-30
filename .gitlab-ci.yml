@@ -82,7 +82,6 @@ deploy:
 
 update_publicrepo:
   stage: update
-  image: ghcr.io/github/cli/cli:latest
   script:
     - git clone --branch prod https://oauth2:${READ_TOKEN}@git.app.uib.no/dok/skrivehjelp.git
     - cd skrivehjelp
@@ -99,5 +98,5 @@ update_publicrepo:
     - gh pr create --title "Automated update from CI" --body "This PR was created automatically by the CI pipeline." --base main --head $NEW_BRANCH
     - gh pr merge $NEW_BRANCH --merge --admin
   rules:
-    - if: '$CI_COMMIT_BRANCH == "dev"'
+    - if: '$CI_COMMIT_BRANCH == "prod"'
 
