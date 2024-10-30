@@ -100,8 +100,6 @@ update_publicrepo:
     - git remote add github https://hausvik:${GITHUB_TOKEN}@github.com/hausvik/skrivehjelp.git
     - git push github $NEW_BRANCH
     - git checkout main
-    - git pull github main
-    - git merge $NEW_BRANCH
-    - git push github main
+
   rules:
     - if: '$CI_COMMIT_BRANCH == "dev"'
