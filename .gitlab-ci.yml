@@ -98,5 +98,5 @@ update_publicrepo:
     - gh pr create --title "Automated update from CI" --body "This PR was created automatically by the CI pipeline." --base main --head $NEW_BRANCH
     - gh pr merge $NEW_BRANCH --merge --admin
   rules:
-    - if: '$CI_COMMIT_BRANCH == "prod"'
+    - if: '$CI_COMMIT_BRANCH == "dev"'
 
