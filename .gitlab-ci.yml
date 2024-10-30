@@ -99,8 +99,9 @@ update_publicrepo:
     - git checkout -b $NEW_BRANCH
     - git remote add github https://hausvik:${GITHUB_TOKEN}@github.com/hausvik/skrivehjelp.git
     - git push github $NEW_BRANCH
-    - echo "${GITHUB_TOKEN}" | gh auth login --with-token
-    - gh pr create --title "Automated update from CI" --body "This PR was created automatically by the CI pipeline." --base main --head $NEW_BRANCH
-    - gh pr merge $NEW_BRANCH --merge --admin
+    - git checkout main
+    - git pull github main
+    - git merge $NEW_BRANCH
+    - git push github main
   rules:
     - if: '$CI_COMMIT_BRANCH == "dev"'
