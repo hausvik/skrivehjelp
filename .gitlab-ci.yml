@@ -83,7 +83,7 @@ deploy:
 update_publicrepo:
   stage: update
   script:
-    - git clone https://oauth2:${READ_TOKEN}@git.app.uib.no/dok/skrivehjelp.git
+    - git clone --branch prod https://oauth2:${READ_TOKEN}@git.app.uib.no/dok/skrivehjelp.git
     - cd skrivehjelp
     - git config user.email "ci-bot@bot.uib.no"
     - git config user.name "CI Bot"
