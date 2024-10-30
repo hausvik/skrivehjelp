@@ -5,7 +5,41 @@ interface HtmlFile {
   path: string;
 }
 
-const urlPath = 'https://ds.app.uib.no/standardtekster/main/_generert/';
+const urlPathMain = 'https://ds.app.uib.no/standardtekster/main/_generert/';
+const urlPathDev = 'https://ds.app.uib.no/standardtekster/dev/_generert/';
+
+async function addButtons(container: HTMLElement, url: string) {
+  let urlPart = '/standardtekster/main/';
+  let subfolderUrlPart = '/standardtekster/main/_generert/';
+  let urlPath = urlPathMain;
+  
+  if (url === urlPathDev) {
+    urlPart = '/standardtekster/dev/';
+    subfolderUrlPart = '/standardtekster/dev/_generert/';
+    urlPath = urlPathDev;
+  }
+
+  try {
+    const folders = await fetchFolders(url, urlPart);
+    // Loops main folders
+    for (const folder of folders) {
+      const subfolders = await fetchSubfolders(folder, subfolderUrlPart, urlPath);
+      const folderDiv = createFolderDiv(folder, 'h3');
+
+      // Loops subfolders of folders
+      for (const subfolder of subfolders) {
+        const subFolderDiv = createFolderDiv(subfolder, 'h4');
+        await addFileButtons(subFolderDiv, subfolder, urlPath);
+        folderDiv.appendChild(subFolderDiv);
+      }
+
+      await addFileButtons(folderDiv, folder, urlPath);
+      container.appendChild(folderDiv);
+    }
+  } catch (error) {
+    console.error('Error fetching folders:', error);
+  }
+}
 
 /**
  * Initializes the standard text pane by fetching HTML files and creating buttons for each file.
@@ -13,35 +47,29 @@ const urlPath = 'https://ds.app.uib.no/standardtekster/main/_generert/';
  */
 export async function initializeStandardtekstpane() {
   const container = document.getElementById('button-container');
-  if (!container) {
+  const backButtonContainer = document.getElementById('back-button-container');
+  const showAll = document.getElementById('show-all') as HTMLInputElement;
+
+  if (!container || !backButtonContainer) {
     console.error('Container element not found');
     return;
   }
+  addButtons(container, urlPathMain);
 
-  try {
-    const folders = await fetchFolders(urlPath, '/standardtekster/main/');
-    // Loops main folders
-    for (const folder of folders) {
-      const subfolders = await fetchSubfolders(folder, '/standardtekster/main/_generert/');
-      const folderDiv = createFolderDiv(folder, 'h3');
-
-      // Loops subfolders of folders
-      for (const subfolder of subfolders) {
-        const subFolderDiv = createFolderDiv(subfolder, 'h4');
-        await addFileButtons(subFolderDiv, subfolder);
-        folderDiv.appendChild(subFolderDiv);
-      }
-      
-      await addFileButtons(folderDiv, folder);
-      container.appendChild(folderDiv);
+  showAll?.addEventListener("change", async () => {
+    if (showAll.checked) {
+      container.innerHTML = '';
+      addButtons(container, urlPathDev);
     }
-  } catch (error) {
-    console.error('Error fetching folders:', error);
-  }
+    else {
+      container.innerHTML = '';
+      addButtons(container, urlPathMain);
+    }
+  });
 
   // Add Tilbake button
   const backButton = createButton('Tilbake', 'btn btn-secondary btn-sm', () => newPane());
-  container.appendChild(backButton);
+  backButtonContainer.appendChild(backButton);
 }
 
 /**
@@ -100,9 +128,9 @@ function createFolderDiv(folder: string, titleTag: 'h3' | 'h4'): HTMLDivElement 
   return folderDiv;
 }
 
-async function addFileButtons(container: HTMLElement, folder: string) {
+async function addFileButtons(container: HTMLElement, folder: string, urlPath: string) {
   try {
-    const htmlFiles = await fetchHtmlFiles(folder);
+    const htmlFiles = await fetchHtmlFiles(folder, urlPath);
     const contentDiv = container.querySelector('.folder-content');
     if (!contentDiv) {
       console.error('Content div not found');
@@ -112,7 +140,7 @@ async function addFileButtons(container: HTMLElement, folder: string) {
       if (file.name) {
         const fileName = file.name;
         const button = createButton(extractButtonName(fileName), 'btn btn-primary btn-sm', async () => {
-          const content = await getHtmlContent(folder, fileName);
+          const content = await getHtmlContent(folder, fileName, urlPath);
           newPane('dynamicpane', content, extractButtonName(fileName));
         });
         contentDiv.appendChild(button);
@@ -148,10 +176,11 @@ async function fetchFolders(url: string, root?: string): Promise<Array<string>> 
  * Fetches the list of subfolders from the specified folder.
  * 
  * @param {string} folder - The folder to fetch subfolders from.
- * @param {string} [root] - The root directory to ignore.
+ * @param {string} root - The root directory to ignore.
+ * @param {string} urlPath - The base URL path.
  * @returns {Promise<Array<string>>} A promise that resolves to an array of subfolder names.
  */
-async function fetchSubfolders(folder: string, root?: string): Promise<Array<string>> {
+async function fetchSubfolders(folder: string, root: string, urlPath: string): Promise<Array<string>> {
   const fullUrl = urlPath + folder;
   const response = await fetch(fullUrl);
   const text = await response.text();
@@ -170,9 +199,10 @@ async function fetchSubfolders(folder: string, root?: string): Promise<Array<str
  * Fetches the list of HTML files from the specified folder.
  * 
  * @param {string} folder - The folder to fetch HTML files from.
+ * @param {string} urlPath - The base URL path.
  * @returns {Promise<Array<HtmlFile>>} A promise that resolves to an array of HTML file objects.
  */
-async function fetchHtmlFiles(folder: string): Promise<Array<HtmlFile>> {
+async function fetchHtmlFiles(folder: string, urlPath: string): Promise<Array<HtmlFile>> {
   const fullUrl = urlPath + folder;
   const response = await fetch(fullUrl);
   const htmlText = await response.text();
@@ -192,9 +222,10 @@ async function fetchHtmlFiles(folder: string): Promise<Array<HtmlFile>> {
  * 
  * @param {string} folder - The folder containing the HTML file.
  * @param {string} filePath - The path to the HTML file.
+ * @param {string} urlPath - The base URL path.
  * @returns {Promise<string>} A promise that resolves to the content of the HTML file.
  */
-export async function getHtmlContent(folder: string, filePath: string): Promise<string> {
+export async function getHtmlContent(folder: string, filePath: string, urlPath: string): Promise<string> {
   let fullPath = urlPath + folder + filePath;
 
   while (fullPath.includes('+')) {
