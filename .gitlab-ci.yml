@@ -1,3 +1,9 @@
+stages:
+  - build
+  - test
+  - deploy
+  - update
+
 default:
   image: node
   cache:
