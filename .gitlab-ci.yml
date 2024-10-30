@@ -90,8 +90,10 @@ update_publicrepo:
     - echo "Update from CI" >> update.log
     - git add update.log
     - git commit -m "Automated update from CI"
+    - NEW_BRANCH="update-$(date +%Y%m%d%H%M%S)"
+    - git checkout -b $NEW_BRANCH
     - git remote add github https://hausvik:${GITHUB_TOKEN}@github.com/hausvik/skrivehjelp.git
-    - git push github main
+    - git push github $NEW_BRANCH
   rules:
     - if: '$CI_COMMIT_BRANCH == "dev"'
 
