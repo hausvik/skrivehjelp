@@ -83,6 +83,11 @@ deploy:
 update_publicrepo:
   stage: update
   script:
+    - apt-get update && apt-get install -y curl
+    - curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
+    - chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg
+    - echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+    - apt-get update && apt-get install -y gh
     - git clone --branch prod https://oauth2:${READ_TOKEN}@git.app.uib.no/dok/skrivehjelp.git
     - cd skrivehjelp
     - git config user.email "ci-bot@bot.uib.no"
@@ -94,9 +99,8 @@ update_publicrepo:
     - git checkout -b $NEW_BRANCH
     - git remote add github https://hausvik:${GITHUB_TOKEN}@github.com/hausvik/skrivehjelp.git
     - git push github $NEW_BRANCH
-    - gh auth login --with-token <<< "${GITHUB_TOKEN}"
+    - echo "${GITHUB_TOKEN}" | gh auth login --with-token
     - gh pr create --title "Automated update from CI" --body "This PR was created automatically by the CI pipeline." --base main --head $NEW_BRANCH
     - gh pr merge $NEW_BRANCH --merge --admin
   rules:
     - if: '$CI_COMMIT_BRANCH == "dev"'
-
