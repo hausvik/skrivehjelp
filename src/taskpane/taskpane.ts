@@ -1,9 +1,11 @@
 import { initializeArbeidsavtalepane } from '../arbeidsavtalepane/arbeidsavtalepane';
 import { initializeStandardtekstpane } from '../standardteksterpane/standardteksterpane';
+import { initializeTilbudsbrevpane } from '../tilbudsbrevpane/tilbudsbrevpane';
 import { createDynamicPane } from '../dynamicpane/dynamicpane';
 
 import arbeidsavtalepaneHtml from '../arbeidsavtalepane/arbeidsavtalepane.html';
 import standardteksterpaneHtml from '../standardteksterpane/standardteksterpane.html';
+import tilbudsbrevpaneHTML from '../tilbudsbrevpane/tilbudsbrevpane.html';
 import dynamicpaneHtml from '../dynamicpane/dynamicpane.html';
 import defaultpaneHtml from '../taskpane/taskpane.html';
 
@@ -23,9 +25,12 @@ Office.onReady((info) => {
 function defaultPane() {
   const arbeidsavtaleButton = document.getElementById("arbeidsavtale") as HTMLButtonElement;
   const tilretteleggingButton = document.getElementById("standardtekster") as HTMLButtonElement;
+  const tilbudsbrevButton = document.getElementById("tilbudsbrev") as HTMLButtonElement;
 
   if (arbeidsavtaleButton) arbeidsavtaleButton.onclick = () => newPane("arbeidsavtale");
   if (tilretteleggingButton) tilretteleggingButton.onclick = () => newPane("standardtekster");
+  if (tilbudsbrevButton) tilbudsbrevButton.onclick = () => newPane("tilbudsbrev");
+
   const mainElement = document.getElementById("app-body");
           if (mainElement) {
               const headers = mainElement.getElementsByTagName("header");
@@ -55,6 +60,10 @@ export async function newPane(paneName?: string, htmlContent?: string, paneTitle
       case "dynamicpane":
         taskPaneBody.innerHTML = dynamicpaneHtml;
         createDynamicPane(htmlContent || "", paneTitle);
+        break;
+      case "tilbudsbrev":
+        taskPaneBody.innerHTML = tilbudsbrevpaneHTML;
+        initializeTilbudsbrevpane();
         break;
       default:
           taskPaneBody.innerHTML = defaultpaneHtml;
