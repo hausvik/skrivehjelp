@@ -4,7 +4,7 @@
   <Version>1.1.1.0</Version>
   <ProviderName>Universitetet i Bergen</ProviderName>
   <DefaultLocale>nb-NO</DefaultLocale>
-  <DisplayName DefaultValue="Assistent dev"/>
+  <DisplayName DefaultValue="Skrivehjelp dev"/>
   <Description DefaultValue= "Inneholder standardtekster fra UiB f.eks. til å generere arbeidsavtaler."/>
   <IconUrl DefaultValue="https://ds.app.uib.no/add-in/dev/assets/icon-32-dev.png"/>
   <HighResolutionIconUrl DefaultValue="https://ds.app.uib.no/add-in/dev/assets/icon-64-dev.png"/>
@@ -73,11 +73,11 @@
       </bt:Urls>
       <bt:ShortStrings>
         <bt:String id="GetStarted.Title" DefaultValue="Skrivehjelp dev" />
-        <bt:String id="CommandsGroup.Label" DefaultValue="Assistent dev"/>
+        <bt:String id="CommandsGroup.Label" DefaultValue="Skrivehjelp dev"/>
         <bt:String id="TaskpaneButton.Label" DefaultValue="Skrivehjelp dev"/>
       </bt:ShortStrings>
       <bt:LongStrings>
-        <bt:String id="GetStarted.Description" DefaultValue="Assistent deven din ble installert som den skulle, klikk her for å komme i gang!"/>
+        <bt:String id="GetStarted.Description" DefaultValue="Skrivehjelp-dev ble installert som den skulle, klikk her for å komme i gang!"/>
         <bt:String id="TaskpaneButton.Tooltip" DefaultValue="Klikk for å starte appen."/>
       </bt:LongStrings>
     </Resources>

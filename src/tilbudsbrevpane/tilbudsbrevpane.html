@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tilbudsbrev</title>
+    <style>
+        /* Set all select elements to take up 100% of their container's width */
+        select {
+            width: 100%;
+            white-space: normal; /* Allow text wrapping */
+        }
+
+        /* Ensure the options wrap text */
+        select option {
+            white-space: normal; /* Allow text wrapping */
+        }
+    </style>
+</head>
+
+<body>
+    <h2 class="mb-5">Tilbudsbrev</h2>
+    <form>
+        <!-- Check box group -->
+        <div class="form-checkbox-group" id="employeeTypeRadioGroup">
+            <div>
+                <label>Avtaletype</label>
+                <br>
+                <div class="form-check" >
+                    <input type="radio" class="form-check-input" id="employee" name="employeeType" value="Fast" checked>
+                    <label class="form-check-label" for="employee">Fast ansatt</label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="tempEmployee" name="employeeType" value="Midlertidig">
+                    <label class="form-check-label" for="tempEmployee">Midlertidig</label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="termEmployee" name="employeeType" value="Åremål">
+                    <label class="form-check-label" for="termEmployee">Åremål</label>
+                </div>
+            </div>
+        </div>
+            <div class="form-group">
+                <br>
+                <label>Valg</label>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="engelsk" checked>
+                    <label class="form-check-label" for="engelsk">Engelsk avtale</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="externallyFunded">
+                    <label class="form-check-label" for="externallyFunded">Eksternfinansiert</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="needsNorwegianCompetence">
+                    <label class="form-check-label" for="needsNorwegianCompetence">Behov for norskopplæring</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="relocateToNorway">
+                    <label class="form-check-label" for="relocateToNorway">Flytter til Norge</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="eksportlisens">
+                    <label class="form-check-label" for="eksportlisens">Forbehold om eksportlisens</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="oppholdstillatelse">
+                    <label class="form-check-label" for="oppholdstillatelse">Forbehold om oppholdstillatelse</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="bankID">
+                    <label class="form-check-label" for="bankID">Mottaker har ikke BankID</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <br>
+                <label>Utfylling</label>
+                <div class="hidden-form-group" id="tempYearsGroup" class="form-check-input">
+                    <label for="tempYears">Antall år stillingen gjelder</label>
+                    <input type="text" class="form-control" id="tempYears">
+                </div>
+                <div class="hidden-form-group" id="datoForbeholdGroup" class="form-check-input">
+                    <label for="datoForbehold">Frist for å innfri forbehold</label>
+                    <input type="text" class="form-control" id="datoForbehold">
+                </div>
+                <div class="form-group">
+                    <label for="avdeling">Fakultet / Avdeling</label>
+                    <select class="form-control" id="avdeling">
+                        <option value=""></option>
+                    </select>
+                </div>
+                <div class="hidden-form-group" id="seksjonGroup">
+                    <label for="seksjon">Institutt / Seksjon</label>
+                    <select class="form-control" id="seksjon">
+                        <option value=""></option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="positionCode">Stillingskode</label>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="allCodes">
+                        <label class="form-check-label" for="allCodes">Vis alle stillingskoder</label>
+                    </div>
+                    <select class="form-control" id="positionCode">
+                        <option value=""></option>
+                    </select>
+                </div>
+                
+                <div class="hidden-form-group" id="careerPromotingWorkGroup">
+                    <label class="form-check-label" for="careerPromotingWork">Mengde karrierefremmende arbeid</label>
+                    <input type="number" class="form-control" id="careerPromotingWork" min="0" max="100" step="1">
+                </div>
+                <div class="hidden-form-group form-check" id="educationCompetenceGroup">
+                    <input type="checkbox" class="form-check-input" id="educationCompetence">
+                    <label class="form-check-label" for="educationCompetence">Oppfyller ikke krav til utdanningsfaglig kompetanse</label>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="percentageWork">Stillingsprosent</label>
+                    <input type="text" class="form-control" id="percentageWork">
+                </div>
+                <div class="form-group">
+                    <label for="annualSalary">Årslønn i 100 % stilling</label>
+                    <input type="text" class="form-control" id="annualSalary">
+                </div>
+                <div class="hidden-form-group" id="externallyFundedGroup">
+                    <label for="externallyFundedProjectName">Navn på eksternt finansiert prosjekt</label>
+                    <input type="text" class="form-control" id="externallyFundedProjectName">
+                </div>
+                <div class="hidden-form-group" id="noBankIdGroup">
+                    <div>
+                        <label for="answerByDate">Frist for å svare</label>
+                        <input type="date" class="form-control" id="answerByDate">
+                    </div>
+                    <div>
+            
+                        <label for="answerEmail">Svar til epost</label>
+                        <input type="text" class="form-control" id="answerEmail">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <br>
+                <label>Kontaktinformasjon</label>
+                <div class="form-group">
+                    <label for="contactLocalName">Kontaktperson navn</label>
+                    <input type="text" class="form-control" id="contactLocalName">
+                </div>
+                <div class="form-group">
+                    <label for="contactLocalEmail">Kontaktperson epost</label>
+                    <input type="text" class="form-control" id="contactLocalEmail">
+                </div>
+                <div class="form-group">
+                    <label for="contactHrName">HR-kontakt navn</label>
+                    <input type="text" class="form-control" id="contactHrName">
+                </div>
+                <div class="form-group">
+                    <label for="contactHrEmail">HR-kontakt epost</label>
+                    <input type="text" class="form-control" id="contactHrEmail">
+                </div>
+            </div>
+    </form>
+    <!-- Buttons -->
+    <div class="button-container">
+        <button id="tilbake" type="button" class="btn btn-secondary btn-sm">Tilbake</button>
+        <button id="resetButton" type="reset" class="btn btn-info btn-sm">Tilbakestill skjema</button>
+        <button id="generateDocument" type="button" class="btn btn-primary btn-sm">Sett inn tekst</button>
+    </div>
+    <script src="../tilbudsbrevpane/tilbudsbrevpane.ts"></script>
+</body>
+
+</html>
