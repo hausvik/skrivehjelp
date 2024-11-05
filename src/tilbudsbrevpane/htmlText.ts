@@ -65,6 +65,7 @@ export function getTilbudsbrev(english: boolean, employeeType: string, externall
     externalProjectName: string, annualSalary: string, answerByDate: string, answerEmail: string, contactLocalName: string, contactLocalEmail: string,
     contactHrName: string, contactHrEmail: string): string {
 
+    
 
     // Get avdelingsnavn
     let avdelingName = "";
@@ -123,7 +124,6 @@ export function getTilbudsbrev(english: boolean, employeeType: string, externall
 }
 
 function getEngelskTilbudsbrev(params: TilbudsbrevParams): string {
-
     // Determine the employee type text
     const employeeTypeText = params.employeeType === 'Fast' ? 'permanent' :
         params.employeeType === 'Midlertidig' ? 'temporary' :
@@ -199,12 +199,13 @@ function getEngelskTilbudsbrev(params: TilbudsbrevParams): string {
 
 
     // Tekst om svarfrist og svar
-    let answerText = `<h3>Return the acceptance- and information form </h3>` + pTag + `You can respond to the offer by filling out the form in the link below as soon as possible, and no later than two weeks. If you accept the position, we will send you the employment contract as soon as you have received the form.` + pTagEnd+ pTag +
-    `(<i>lim inn lenke og url fra lenkegenerator</i>)` + pTagEnd;
+    let answerText = `<h3>Return the acceptance- and information form </h3>` + pTag + `You can respond to the offer by filling out the form in the link below as soon as possible, and no later than two weeks. If you accept the position, we will send you the employment contract as soon as you have received the form.` + pTagEnd + pTag +
+        `(<i>lim inn lenke og url fra lenkegenerator</i>)` + pTagEnd;
+    
     if (params.noBankID) {
-    answerText = `<h3>Return the acceptance- and information form </h3>` + pTag + `Please respond to the offer of employment as soon as possible, and within ${params.answerByDate}, to ${params.answerEmail}. ` + pTagEnd 
-    + pTag + `If you accept, you must return the acceptance and information form with your response to the offer of employment. ` + pTagEnd
-    + params.oppholdstillatelse? pTag + `You will receive the necessary documentation for your application for a residence permit once you have accepted the position. ` + pTagEnd : ``;
+        answerText = `<h3>Return the acceptance- and information form </h3>` + pTag + `Please respond to the offer of employment as soon as possible, and within ${params.answerByDate}, to ${params.answerEmail}. ` + pTagEnd 
+        + pTag + `If you accept, you must return the acceptance and information form with your response to the offer of employment. ` + pTagEnd
+        + (params.oppholdstillatelse ? pTag + `You will receive the necessary documentation for your application for a residence permit once you have accepted the position. ` + pTagEnd : ``);
     }
 
     // Tekst om å bli kjent med UiB
@@ -296,6 +297,9 @@ function getNorskTilbudsbrev(params: TilbudsbrevParams): string {
     // Tekst om svarfrist og svar
     let answerText = `<h3>Return the acceptance- and information form </h3>` + pTag + `You can respond to the offer by filling out the form in the link below as soon as possible, and no later than two weeks. If you accept the position, we will send you the employment contract as soon as you have received the form.` + pTagEnd+ pTag +
     `(<i>lim inn lenke og url fra lenkegenerator</i>)` + pTagEnd;
+
+    
+
     if (params.noBankID) {
     answerText = `<h3>Return the acceptance- and information form </h3>` + pTag + `Please respond to the offer of employment as soon as possible, and within ${params.answerByDate}, to ${params.answerEmail}. ` + pTagEnd 
     + pTag + `If you accept, you must return the acceptance and information form with your response to the offer of employment. ` + pTagEnd
