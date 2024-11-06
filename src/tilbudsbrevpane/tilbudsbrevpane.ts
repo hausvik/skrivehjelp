@@ -41,17 +41,8 @@ function resetDropdown(AllPositionCodes: PositionCode[], selectElement: HTMLSele
   updateDropDownFromExcel(selectElement, AllPositionCodes);
 }
 
-/**
- * Get job title or category from a position code.
- * @param positionCodesElement Element from the positionCodes array
- * @param checkString String to check for
- * @param returnType 0 to return english SKO with title, 1 to return jobTitle, 2 to return category, 3 for teachingposition boolean
- * @param isEnglish Boolean to specify whether to return the Norwegian or English job title
- * @returns Job title, category, teachingpos, depending on returnType
- */
 function getPositionDetail(positionCodesElement: any, checkString: string, returnType: number, isEnglish: boolean) {
   const positionDetails = positionCodesElement.find((c: any) => c.Norsk === checkString) || null;
-
 
   if (positionDetails) {
     if (returnType === 0) {
@@ -60,13 +51,12 @@ function getPositionDetail(positionCodesElement: any, checkString: string, retur
         : positionDetails['Norsk'];
     }
     else if (returnType === 1) {
-      if (positionDetails['Engelsk stillingsbetegnelse'] === undefined && isEnglish) {
-        return "";
+      const englishTitle = positionDetails['Engelsk stillingsbetegnelse'];
+      const norwegianTitle = positionDetails['Norsk stillingsbetegnelse'];
+      if (isEnglish && englishTitle !== undefined && englishTitle !== '') {
+        return englishTitle.toLowerCase();
       }
-      return (isEnglish && positionDetails['Engelsk'] !== undefined)
-        ? positionDetails['Engelsk stillingsbetegnelse'].toLowerCase()
-        : positionDetails['Norsk stillingsbetegnelse'].toLowerCase();
-
+      return norwegianTitle.toLowerCase();
     } else if (returnType === 2) {
       return positionDetails['Kategori'];
     }
@@ -220,11 +210,12 @@ export async function initializeTilbudsbrevpane() {
     }
   });
 
+  let selectedEmployeeType = 'Fast';
   // Add event listener to employeeType radio buttons
   const employeeTypeRadios = document.querySelectorAll('input[name="employeeType"]');
   employeeTypeRadios.forEach((radio) => {
     radio.addEventListener("change", () => {
-      const selectedEmployeeType = (document.querySelector('input[name="employeeType"]:checked') as HTMLInputElement).value;
+      selectedEmployeeType = (document.querySelector('input[name="employeeType"]:checked') as HTMLInputElement).value;
       if (selectedEmployeeType === 'Fast') {
         tempYearsGroup.style.display = "none";
         tempYears.value = "";
@@ -233,6 +224,7 @@ export async function initializeTilbudsbrevpane() {
         tempYearsGroup.style.display = "block";
       }
     });
+    ;
   });
 
 
@@ -251,6 +243,7 @@ export async function initializeTilbudsbrevpane() {
     const selectedPositionCode = positionCode.value;
     skoTitle = getPositionDetail(AllPositionCodes, selectedPositionCode, 0, engelsk.checked).substring(0, 4);
     jobTitle = getPositionDetail(AllPositionCodes, selectedPositionCode, 1, engelsk.checked);
+    console.log(`Title: `+jobTitle);
     category = getPositionDetail(AllPositionCodes, selectedPositionCode, 2, engelsk.checked);
     teachingPos = getPositionDetail(AllPositionCodes, selectedPositionCode, 3, engelsk.checked) === '1' ? true : false;
 
@@ -351,7 +344,7 @@ export async function initializeTilbudsbrevpane() {
         usedPosTitle = getPositionDetail(AllPositionCodes, positionCode.value, 1, engelsk.checked);
       }
 
-      insertText(getTilbudsbrev(engelsk.checked, employeeType, externallyFunded.checked, needsNorwegianCompetence.checked, relocateToNorway.checked,
+      insertText(getTilbudsbrev(engelsk.checked, selectedEmployeeType, externallyFunded.checked, needsNorwegianCompetence.checked, relocateToNorway.checked,
         eksportlisens.checked, oppholdstillatelse.checked, noBankID.checked, tempYears.value, datoForbehold.value, avdeling.value, seksjon.value,
         skoTitle, usedPosTitle, noEducationCompetence.checked, careerPromotingWork.value, percentageWork.value, externallyFundedProjectName.value,
         annualSalary.value, answerByDate.value, answerEmail.value, contactLocalName.value, contactLocalEmail.value, contactHrName.value,

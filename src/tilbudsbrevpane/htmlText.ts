@@ -65,8 +65,6 @@ export function getTilbudsbrev(english: boolean, employeeType: string, externall
     externalProjectName: string, annualSalary: string, answerByDate: string, answerEmail: string, contactLocalName: string, contactLocalEmail: string,
     contactHrName: string, contactHrEmail: string): string {
 
-    
-
     // Get avdelingsnavn
     let avdelingName = "";
     if (avdeling != "") {
@@ -131,7 +129,7 @@ function getEngelskTilbudsbrev(params: TilbudsbrevParams): string {
 
     // Intro tekst
     let introText = pTag + `${params.avdelingName} at the University of Bergen (UiB) has the pleasure of offering you a ${employeeTypeText} position as ${params.posTitle + `, ` + params.posCode} (${params.percentageWork} %) ${params.seksjonName ? `at ${params.seksjonName}` : ``} from the date agreed upon. 
-    ${params.employeeType === `Fast` ? `The position is for ${params.tempYears} years. ` : ``} ${params.posCode === `1017`? `${params.careerPromotingWork} % will be dedicated to career promoting work.` : ``} ${params.posCode === `1352`? `${params.careerPromotingWork} months will be dedicated to career promoting work.` : ``}
+    ${params.employeeType === `Fast` ? `` : `The position is for ${params.tempYears} years. `} ${params.careerPromotingWork===`0` ? ``:`${params.posCode === `1017`? `${params.careerPromotingWork} % will be dedicated to career promoting work.` : ``} ${params.posCode === `1352`? `${params.careerPromotingWork} months will be dedicated to career promoting work.` : ``}`} 
     ${params.externallyFunded ? `The employment is associated with the externally funded project: ${params.externalProjectName}. ` : ``}` + pTagEnd + pTag + `
     
     Your workplace will be at the University of Bergen, and the conditions in this letter are only applicable for work in Norway. ` + pTagEnd
@@ -146,12 +144,12 @@ function getEngelskTilbudsbrev(params: TilbudsbrevParams): string {
     }
 
     // Tekst om lønn
-    let salaryText = `<h3>Salary</h3>` + pTag + `The position entails membership in the Norwegian Public Service Pension Fund and salary will be equivalent NOK ${params.annualSalary},- yearly before taxes (in a 100 % position). Further increases in salary will be based on seniority in the position. ` + pTagEnd;
+    let salaryText = `<h3>Salary</h3>` + pTag + `The position entails membership in the <a href="https://www.spk.no/en/">Norwegian Public Service Pension Fund</a> and salary will be equivalent NOK ${params.annualSalary},- yearly before taxes (in a 100 % position). Further increases in salary will be based on seniority in the position. ` + pTagEnd;
 
     // Tekst hvis stipendiat
     let stipendiatText = ``;
     if (params.posCode === `1017`) {
-        stipendiatText = pTag + `You must be enrolled in the doctoral program (PhD) at (fakultet) to be a PhD Research Fellow. Application for admission to the PhD program should be completed no later than one (1) month after you start in the position. ` + pTagEnd + pTag + `You may not undertake duties (additional employments) which exceed the terms of appointment for research fellows. ` + pTagEnd;
+        stipendiatText = pTag + `You must be enrolled in the doctoral program (PhD) at ${params.avdelingName} to be a PhD Research Fellow. Application for admission to the PhD program should be completed no later than one (1) month after you start in the position. ` + pTagEnd + pTag + `You may not undertake duties (additional employments) which exceed the terms of appointment for research fellows. ` + pTagEnd;
     }
 
     // Tekst hvis forsker
@@ -199,7 +197,7 @@ function getEngelskTilbudsbrev(params: TilbudsbrevParams): string {
 
 
     // Tekst om svarfrist og svar
-    let answerText = `<h3>Return the acceptance- and information form </h3>` + pTag + `You can respond to the offer by filling out the form in the link below as soon as possible, and no later than two weeks. If you accept the position, we will send you the employment contract as soon as you have received the form.` + pTagEnd + pTag +
+    let answerText = `<h3>Return the acceptance- and information form </h3>` + pTag + `You can respond to the offer by filling out the form in the link below as soon as possible, and no later than two weeks. If you accept the position, we will send you the employment contract as soon as we have received the form.` + pTagEnd + pTag +
         `(<i>lim inn lenke og url fra lenkegenerator</i>)` + pTagEnd;
     
     if (params.noBankID) {
@@ -295,7 +293,7 @@ function getNorskTilbudsbrev(params: TilbudsbrevParams): string {
 
 
     // Tekst om svarfrist og svar
-    let answerText = `<h3>Return the acceptance- and information form </h3>` + pTag + `You can respond to the offer by filling out the form in the link below as soon as possible, and no later than two weeks. If you accept the position, we will send you the employment contract as soon as you have received the form.` + pTagEnd+ pTag +
+    let answerText = `<h3>Return the acceptance- and information form </h3>` + pTag + `You can respond to the offer by filling out the form in the link below as soon as possible, and no later than two weeks. If you accept the position, we will send you the employment contract as soon as we have received the form.` + pTagEnd+ pTag +
     `(<i>lim inn lenke og url fra lenkegenerator</i>)` + pTagEnd;
 
     
