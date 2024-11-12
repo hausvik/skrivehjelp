@@ -509,7 +509,7 @@ export async function initializeArbeidsavtalepane() {
       );
 
       let htmlText = combineHtmlStrings([htmlHeaderText, htmlBodyText, getArbeidsavtaleFooter(engelsk.checked, nameSign.value, namePos.value)]);
-      insertText(htmlText, undefined, true);
+      insertText(htmlText);
     });
   }
 }
