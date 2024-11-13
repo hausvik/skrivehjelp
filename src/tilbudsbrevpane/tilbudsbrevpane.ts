@@ -54,9 +54,9 @@ function getPositionDetail(positionCodesElement: any, checkString: string, retur
       const englishTitle = positionDetails['Engelsk stillingsbetegnelse'];
       const norwegianTitle = positionDetails['Norsk stillingsbetegnelse'];
       if (isEnglish && englishTitle !== undefined && englishTitle !== '') {
-        return englishTitle.toLowerCase();
+        return englishTitle;
       }
-      return norwegianTitle.toLowerCase();
+      return norwegianTitle;
     } else if (returnType === 2) {
       return positionDetails['Kategori'];
     }
@@ -109,9 +109,6 @@ export async function initializeTilbudsbrevpane() {
   const careerPromotingWorkGroup: HTMLElement | null = document.getElementById("careerPromotingWorkGroup") as HTMLElement;
 
   // Fields
-  const employee: HTMLInputElement | null = document.getElementById("employee") as HTMLInputElement;
-  const tempEmployee: HTMLInputElement | null = document.getElementById("tempEmployee") as HTMLInputElement;
-  const termEmployee: HTMLInputElement | null = document.getElementById("termEmployee") as HTMLInputElement;
   const tempYears: HTMLInputElement | null = document.getElementById("tempYears") as HTMLInputElement;
   const engelsk: HTMLInputElement | null = document.getElementById("engelsk") as HTMLInputElement;
   const externallyFunded: HTMLInputElement | null = document.getElementById("externallyFunded") as HTMLInputElement;
@@ -141,18 +138,11 @@ export async function initializeTilbudsbrevpane() {
   const AllPositionCodes: PositionCode[] = await addToDropDown('assets\\stillingskoder.xlsx', 'positionCode');
 
   // Variables
-  let externallyFoundedResearcher = false as boolean;
+  let selectedEmployeeType = 'Fast';
   let skoTitle = "" as string;
   let jobTitle = "" as string; // Not in use, but might be usefull?
-  let category = "" as string; // Not in use, but might be usefull?
-  let employeeType = "fast" as string;
   let teachingPos = false as boolean;
-  let substituteTypeGroupValue = "" as string;
-  let mscaArbeidsgiveravgift = 1.141 as number;
 
-
-  let selectedAvd: OrgUnit | null = null;
-  let selectedSek: OrgUnit | null = null;
 
   // TODO: REMOVE ME WHEN NORSK IS ADDED
   engelsk?.addEventListener('change', () => {
@@ -210,7 +200,7 @@ export async function initializeTilbudsbrevpane() {
     }
   });
 
-  let selectedEmployeeType = 'Fast';
+  
   // Add event listener to employeeType radio buttons
   const employeeTypeRadios = document.querySelectorAll('input[name="employeeType"]');
   employeeTypeRadios.forEach((radio) => {
@@ -244,7 +234,6 @@ export async function initializeTilbudsbrevpane() {
     skoTitle = getPositionDetail(AllPositionCodes, selectedPositionCode, 0, engelsk.checked).substring(0, 4);
     jobTitle = getPositionDetail(AllPositionCodes, selectedPositionCode, 1, engelsk.checked);
     console.log(`Title: `+jobTitle);
-    category = getPositionDetail(AllPositionCodes, selectedPositionCode, 2, engelsk.checked);
     teachingPos = getPositionDetail(AllPositionCodes, selectedPositionCode, 3, engelsk.checked) === '1' ? true : false;
 
     if (teachingPos) {
