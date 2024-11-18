@@ -204,7 +204,7 @@ function getEngelskTilbudsbrev(params: TilbudsbrevParams): string {
 
     // Tekst om svarfrist og svar
     let answerText = `<h3>Return the acceptance- and information form </h3>` + pTag + `You can respond to the offer by filling out the form in the link below as soon as possible, and no later than two weeks. If you accept the position, we will send you the employment contract as soon as we have received the form.` + pTagEnd + pTag +
-    `${params.answerUrl !== "" ? `<a href="${params.answerUrl}">Confirmation- and personal details form</a>` : `<b>Ugyldig saksnummer, venligst bruk <a href='https://digiforms.uib.no/lenkegenerator'>lenkegeneratoren</a> and paste the result here.</b>`}` + 
+    `${params.answerUrl !== "" ? `<a href="${params.answerUrl}">Confirmation- and personal details form</a>` : `    <b style="color: red; font-size: 16pt;">Kunne ikke generere lenke, bruk <a href='https://digiforms.uib.no/lenkegenerator' style="color: blue; text-decoration: underline;">lenkegeneratoren</a> og lim inn her.</b>`}` + 
     pTagEnd + pTag + `${params.answerUrl !== "" ? `<img src="${params.qrCode}" alt="QR code for the confirmation- and personal details form" />` : ""}` + pTagEnd;
     
     if (params.noBankID) {
@@ -213,8 +213,6 @@ function getEngelskTilbudsbrev(params: TilbudsbrevParams): string {
         + (params.oppholdstillatelse ? pTag + `You will receive the necessary documentation for your application for a residence permit once you have accepted the position. ` + pTagEnd : ``);
     }
 
-    console.log
-    console.log("answerText= " + answerText);
 
     // Tekst om å bli kjent med UiB
     let getToKnowUiB = `<h3>Get to know UiB</h3>` + pTag +`We encourage you to get to know UiB better before your first day of work. <a href="https://www.uib.no/en/foremployees/162174/new-employee-university-bergen">This webpage</a> contains much useful information for new employees.` + pTagEnd;
