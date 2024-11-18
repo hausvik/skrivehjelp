@@ -135,7 +135,7 @@ function getEngelskTilbudsbrev(params: TilbudsbrevParams): string {
 
     // Intro tekst
     let introText = pTag + `${params.avdelingName} at the University of Bergen (UiB) has the pleasure of offering you a ${employeeTypeText} position as ${params.posTitle + `, ` + params.posCode} (${params.percentageWork} %) ${params.seksjonName ? `at ${params.seksjonName}` : ``} from the date agreed upon. 
-    ${params.employeeType === `Fast` ? `` : `The position is for ${params.tempYears} years. `} ${params.careerPromotingWork===`0` ? ``:`${params.posCode === `1017`? `${params.careerPromotingWork} % will be dedicated to career promoting work.` : ``} ${params.posCode === `1352`? `${params.careerPromotingWork} months will be dedicated to career promoting work.` : ``}`} 
+    ${params.employeeType === `Fast` ? `` : `The position is for ${params.tempYears} years. `} ${    params.careerPromotingWork === `0` || params.careerPromotingWork === `` ? ``:`${params.posCode === `1017`? `${params.careerPromotingWork} % will be dedicated to career promoting work.` : ``} ${params.posCode === `1352`? `${params.careerPromotingWork} months will be dedicated to career promoting work.` : ``}`} 
     ${params.externallyFunded ? `The employment is associated with the externally funded project: ${params.externalProjectName}. ` : ``}` + pTagEnd + pTag + `
     
     Your workplace will be at the University of Bergen, and the conditions in this letter are only applicable for work in Norway. ` + pTagEnd
