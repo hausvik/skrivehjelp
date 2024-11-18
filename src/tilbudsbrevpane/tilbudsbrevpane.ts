@@ -320,7 +320,7 @@ export async function initializeTilbudsbrevpane() {
 
   
   caseNumber.addEventListener('change', async () => {
-    const caseNumberPattern = /^\d{4}\/\d{1,9}$/;
+    const caseNumberPattern = /^\d{4}\/\d{1,5}$/;
     if (!caseNumberPattern.test(caseNumber.value)) {
         answerUrl = "";
     } else {
