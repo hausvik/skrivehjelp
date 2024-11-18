@@ -5,6 +5,7 @@ import { combineHtmlStrings } from "../utils/combineHTML";
 import * as radioButtonUtils from "../utils/radioButton";
 import { fetchOrgUnits, getChildren } from "../utils/getOrgReg";
 import { getTilbudsbrev } from "./htmlText";
+import { generateQRCode } from "../utils/qrGenerator";
 
 
 
@@ -107,6 +108,7 @@ export async function initializeTilbudsbrevpane() {
   const seksjonGroup: HTMLElement | null = document.getElementById("seksjonGroup") as HTMLElement;
   const tempYearsGroup: HTMLElement | null = document.getElementById("tempYearsGroup") as HTMLElement;
   const careerPromotingWorkGroup: HTMLElement | null = document.getElementById("careerPromotingWorkGroup") as HTMLElement;
+  const linkGeneratorGroup: HTMLElement | null = document.getElementById("linkGenerator") as HTMLElement;
 
   // Fields
   const tempYears: HTMLInputElement | null = document.getElementById("tempYears") as HTMLInputElement;
@@ -133,6 +135,7 @@ export async function initializeTilbudsbrevpane() {
   const contactLocalEmail: HTMLInputElement | null = document.getElementById("contactLocalEmail") as HTMLInputElement;
   const contactHrName: HTMLInputElement | null = document.getElementById("contactHrName") as HTMLInputElement;
   const contactHrEmail: HTMLInputElement | null = document.getElementById("contactHrEmail") as HTMLInputElement;
+  const caseNumber: HTMLInputElement | null = document.getElementById("caseNumber") as HTMLInputElement;
 
   // Ref to position codes
   const AllPositionCodes: PositionCode[] = await addToDropDown('assets\\stillingskoder.xlsx', 'positionCode');
@@ -140,9 +143,10 @@ export async function initializeTilbudsbrevpane() {
   // Variables
   let selectedEmployeeType = 'Fast';
   let skoTitle = "" as string;
-  let jobTitle = "" as string; // Not in use, but might be usefull?
+  let jobTitle = "" as string;
+  let answerUrl = "";
   let teachingPos = false as boolean;
-
+  let qrCode = "";
 
   // TODO: REMOVE ME WHEN NORSK IS ADDED
   engelsk?.addEventListener('change', () => {
@@ -160,10 +164,10 @@ export async function initializeTilbudsbrevpane() {
   avdeling?.addEventListener("change", async () => {
     const selectedOption = avdeling.options[avdeling.selectedIndex];
     const selectedJson = selectedOption.value;
-    if (selectedJson === ""){
+    if (selectedJson === "") {
       seksjonGroup.style.display = "none";
-        seksjon.value = "";
-        return;
+      seksjon.value = "";
+      return;
     }
     const selectedOrgUnit = JSON.parse(selectedJson); // Parse the JSON string
 
@@ -200,7 +204,7 @@ export async function initializeTilbudsbrevpane() {
     }
   });
 
-  
+
   // Add event listener to employeeType radio buttons
   const employeeTypeRadios = document.querySelectorAll('input[name="employeeType"]');
   employeeTypeRadios.forEach((radio) => {
@@ -233,7 +237,7 @@ export async function initializeTilbudsbrevpane() {
     const selectedPositionCode = positionCode.value;
     skoTitle = getPositionDetail(AllPositionCodes, selectedPositionCode, 0, engelsk.checked).substring(0, 4);
     jobTitle = getPositionDetail(AllPositionCodes, selectedPositionCode, 1, engelsk.checked);
-    console.log(`Title: `+jobTitle);
+    console.log(`Title: ` + jobTitle);
     teachingPos = getPositionDetail(AllPositionCodes, selectedPositionCode, 3, engelsk.checked) === '1' ? true : false;
 
     if (teachingPos) {
@@ -262,6 +266,8 @@ export async function initializeTilbudsbrevpane() {
       }
     }
   });
+
+
 
   // Add event listeners eksportlisens
   eksportlisens.addEventListener('change', () => {
@@ -300,15 +306,28 @@ export async function initializeTilbudsbrevpane() {
   noBankID.addEventListener('change', () => {
     if (noBankID.checked) {
       noBankIdGroup.style.display = "block";
+      linkGeneratorGroup.style.display = "none";
+      caseNumber.value = "";
     }
     else {
       noBankIdGroup.style.display = "none";
+      linkGeneratorGroup.style.display = "block";
       answerByDate.value = "";
       answerEmail.value = "";
+      caseNumber.value = "";
     }
   });
 
-
+  
+  caseNumber.addEventListener('change', async () => {
+    const caseNumberPattern = /^\d{4}\/\d{1,9}$/;
+    if (!caseNumberPattern.test(caseNumber.value)) {
+        answerUrl = "";
+    } else {
+        answerUrl = `https://digiforms.uib.no/ettersending/${caseNumber.value}/AkseptOpplysning`;
+        qrCode = await generateQRCode(answerUrl);
+    }
+});
 
   // back button
   if (tilbakeButton) {
@@ -328,6 +347,7 @@ export async function initializeTilbudsbrevpane() {
   if (generateTextButton) {
     generateTextButton.addEventListener("click", () => {
 
+      
       let usedPosTitle = getPositionDetail(AllPositionCodes, positionCode.value, 1, !engelsk.checked);;
       if (engelsk.checked) {
         usedPosTitle = getPositionDetail(AllPositionCodes, positionCode.value, 1, engelsk.checked);
@@ -337,7 +357,7 @@ export async function initializeTilbudsbrevpane() {
         eksportlisens.checked, oppholdstillatelse.checked, noBankID.checked, tempYears.value, datoForbehold.value, avdeling.value, seksjon.value,
         skoTitle, usedPosTitle, noEducationCompetence.checked, careerPromotingWork.value, percentageWork.value, externallyFundedProjectName.value,
         annualSalary.value, answerByDate.value, answerEmail.value, contactLocalName.value, contactLocalEmail.value, contactHrName.value,
-        contactHrEmail.value), 'START');
+        contactHrEmail.value, answerUrl, qrCode), 'START');
     });
   }
 
