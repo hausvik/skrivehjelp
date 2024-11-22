@@ -73,11 +73,11 @@
       </bt:Urls>
       <bt:ShortStrings>
         <bt:String id="GetStarted.Title" DefaultValue="Skrivehjelp" />
-        <bt:String id="CommandsGroup.Label" DefaultValue="Assistent"/>
+        <bt:String id="CommandsGroup.Label" DefaultValue="Skrivehjelp"/>
         <bt:String id="TaskpaneButton.Label" DefaultValue="Skrivehjelp"/>
       </bt:ShortStrings>
       <bt:LongStrings>
-        <bt:String id="GetStarted.Description" DefaultValue="Assistenten din ble installert som den skulle, klikk her for å komme i gang!"/>
+        <bt:String id="GetStarted.Description" DefaultValue="Skrivehjelp ble installert som den skulle, klikk her for å komme i gang!"/>
         <bt:String id="TaskpaneButton.Tooltip" DefaultValue="Klikk for å starte appen."/>
       </bt:LongStrings>
     </Resources>

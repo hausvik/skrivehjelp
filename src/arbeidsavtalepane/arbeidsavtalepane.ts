@@ -3,7 +3,7 @@ import { insertText } from "../taskpane/taskpane";
 import { newPane } from "../taskpane/taskpane";
 import { getArbeidsavtaleHeading } from "./htmlHeader";
 import { getArbeidsavtale } from "./htmlBody";
-import { addToDropDown, updateDropDown } from "../utils/readExcel";
+import { addToDropDown, updateDropDownFromExcel } from "../utils/readExcel";
 import { combineHtmlStrings } from "../utils/combineHTML";
 import * as radioButtonUtils from "../utils/radioButton";
 import { getArbeidsavtaleFooter } from "./htmlFooter";
@@ -42,7 +42,7 @@ function getPositionDetail(positionCodesElement: any, checkString: string, retur
         return "";
       }
       return (isEnglish && positionDetails['Engelsk'] !== undefined)
-        ? positionDetails['Norsk stillingsbetegnelse'].toLowerCase() + ` (${positionDetails['Engelsk stillingsbetegnelse'].toLowerCase()})`
+        ? positionDetails['Engelsk stillingsbetegnelse'].toLowerCase()
         : positionDetails['Norsk stillingsbetegnelse'].toLowerCase();
 
     } else if (returnType === 2) {
@@ -59,12 +59,12 @@ function getPositionDetail(positionCodesElement: any, checkString: string, retur
 // Modified function to filter and update the dropdown based on a specified column to search
 function filterAndUpdateDropdown(AllPositionCodes: PositionCode[], searchTerm: string, selectElement: HTMLSelectElement, searchColumn: keyof PositionCode): void {
   let filteredPositionCodes = AllPositionCodes.filter(code => code[searchColumn].toString().includes(searchTerm));
-  updateDropDown(selectElement, filteredPositionCodes);
+  updateDropDownFromExcel(selectElement, filteredPositionCodes);
 }
 
 // Function to reset the dropdown
 function resetDropdown(AllPositionCodes: PositionCode[], selectElement: HTMLSelectElement): void {
-  updateDropDown(selectElement, AllPositionCodes);
+  updateDropDownFromExcel(selectElement, AllPositionCodes);
 }
 
 function removeTrailingSpacesAndPeriods(input: string): string {
@@ -509,7 +509,7 @@ export async function initializeArbeidsavtalepane() {
       );
 
       let htmlText = combineHtmlStrings([htmlHeaderText, htmlBodyText, getArbeidsavtaleFooter(engelsk.checked, nameSign.value, namePos.value)]);
-      insertText(htmlText, undefined, true);
+      insertText(htmlText);
     });
   }
 }
