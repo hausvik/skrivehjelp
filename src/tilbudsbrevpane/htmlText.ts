@@ -155,7 +155,7 @@ function getEngelskTilbudsbrev(params: TilbudsbrevParams): string {
     // Tekst hvis stipendiat
     let stipendiatText = ``;
     if (params.posCode === `1017`) {
-        stipendiatText = pTag + `You must be enrolled in the doctoral program (PhD) at ${params.avdelingName} to be a PhD Candidate. Application for admission to the PhD program should be completed no later than one (1) month after you start in the position. ` + pTagEnd + pTag + `You may not undertake duties (additional employments) which exceed the terms of appointment for research fellows. ` + pTagEnd;
+        stipendiatText = pTag + `You must be enrolled in the doctoral program (PhD) at ${params.avdelingName} to be a PhD Candidate. Application for admission to the PhD program should be completed no later than one (1) month after you start in the position. ` + pTagEnd + pTag + `You may not undertake duties (additional employments) which exceed the terms of appointment for PhD Candidates. ` + pTagEnd;
     }
 
     // Tekst hvis forsker
@@ -253,7 +253,7 @@ function getNorskTilbudsbrev(params: TilbudsbrevParams): string {
     // Tekst hvis stipendiat
     let stipendiatText = ``;
     if (params.posCode === `1017`) {
-        stipendiatText = pTag + `You must be enrolled in the doctoral program (PhD) at (fakultet) to be a PhD Candidate. Application for admission to the PhD program should be completed no later than one (1) month after you start in the position. ` + pTagEnd + pTag + `You may not undertake duties (additional employments) which exceed the terms of appointment for research fellows. ` + pTagEnd;
+        stipendiatText = pTag + `You must be enrolled in the doctoral program (PhD) at (fakultet) to be a PhD Candidate. Application for admission to the PhD program should be completed no later than one (1) month after you start in the position. ` + pTagEnd + pTag + `You may not undertake duties (additional employments) which exceed the terms of appointment for PhD Candidates. ` + pTagEnd;
     }
 
     // Tekst hvis forsker
