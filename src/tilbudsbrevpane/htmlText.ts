@@ -219,7 +219,7 @@ function getEngelskTilbudsbrev(params: TilbudsbrevParams): string {
 
 
     // Tekst om kontaktinfo
-    let contactInfo = `<h3>Contacts</h3>` + pTag + `If you have any questions, please contact (Head of Administration/supervisor) <a href="mailto:${params.contactLocalEmail}">${params.contactLocalName}</a>. You can also contact HR adviser <a href="mailto:${params.contactHrEmail}">${params.contactHrName}</a>` + pTagEnd
+    let contactInfo = `<h3>Contacts</h3>` + pTag + `If you have any questions, please contact (Head of Administration/supervisor) ${params.contactLocalName} (<a href="mailto:${params.contactLocalEmail}">${params.contactLocalEmail}</a>). You can also contact HR adviser ${params.contactHrName} (<a href="mailto:${params.contactHrEmail}">${params.contactHrEmail}</a>)` + pTagEnd
     + pTag + `We take this opportunity to welcome you as an employee at the University of Bergen! ` + pTagEnd;
 
     return introText + forbeholdText + salaryText + stipendiatText + forskerText + undervisningskompetanseText + norskText + relocateText +fastAnsettelseText + answerText + getToKnowUiB + contactInfo;
