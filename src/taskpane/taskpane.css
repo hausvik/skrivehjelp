@@ -96,7 +96,7 @@ b {
 .button-container {
     display: flex;
     gap: 10px;
-    justify-content: space-between; /* Aligns first button to left, second to right */
+    justify-content: flex-start; /* Align items to the start of the container */
 }
 
 .vertical-button-container {

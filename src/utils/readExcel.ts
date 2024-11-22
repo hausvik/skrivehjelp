@@ -78,7 +78,7 @@ type PositionCode = {
   InUse: number;
 };
 
-export function updateDropDown(selectElement: HTMLSelectElement, positionCodes: PositionCode[]): void {
+export function updateDropDownFromExcel(selectElement: HTMLSelectElement, positionCodes: PositionCode[]): void {
   // Clear existing options
   selectElement.innerHTML = '';
 
