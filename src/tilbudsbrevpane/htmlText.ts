@@ -135,7 +135,7 @@ function getEngelskTilbudsbrev(params: TilbudsbrevParams): string {
 
     // Intro tekst
     let introText = pTag + `${params.avdelingName} at the University of Bergen (UiB) has the pleasure of offering you a ${employeeTypeText} position as ${params.posTitle + `, ` + params.posCode} (${params.percentageWork} %) ${params.seksjonName ? `at ${params.seksjonName}` : ``} from the date agreed upon. 
-    ${params.employeeType === `Fast` ? `` : `The position is for ${params.tempYears} years. `} ${    params.careerPromotingWork === `0` || params.careerPromotingWork === `` ? ``:`${params.posCode === `1017`? `${params.careerPromotingWork} % will be dedicated to career promoting work.` : ``} ${params.posCode === `1352`? `${params.careerPromotingWork} months will be dedicated to career promoting work.` : ``}`} 
+    ${params.employeeType === `Fast` ? `` : `The position is for ${params.tempYears} years. `} ${params.careerPromotingWork === `0` || params.careerPromotingWork === `` ? ``:`${params.posCode === `1017`? `${params.careerPromotingWork} % will be dedicated to career promoting work.` : ``} ${params.posCode === `1352`? `${params.careerPromotingWork} months will be dedicated to career promoting work.` : ``}`} 
     ${params.externallyFunded ? `The employment is associated with the externally funded project: ${params.externalProjectName}. ` : ``}` + pTagEnd + pTag + `
     
     Your workplace will be at the University of Bergen, and the conditions in this letter are only applicable for work in Norway. ` + pTagEnd
@@ -145,7 +145,7 @@ function getEngelskTilbudsbrev(params: TilbudsbrevParams): string {
     if (params.oppholdstillatelse || params.eksportlisens) {
         forbeholdText = `<h3>Condition for the offer of employment</h3>` +
             `${params.eksportlisens ? pTag + `In accordance with the advertisement text, the University of Bergen complies with the legislation for export control. We must therefore apply to the relevant authorities for <a href="https://www.regjeringen.no/en/topics/foreign-affairs/export-control/om-eksportkontroll/export-control/id2008483/">export control license</a> for you. ` + pTagEnd : ``}` +
-            `${params.oppholdstillatelse ? pTag + `To be able to start in the position you must hold a residence permit for work in Norway.  You will receive the necessary documentation for your application once you have accepted the position. ` + pTagEnd : ``}` +
+            `${params.oppholdstillatelse ? pTag + `To be able to start in the position you must hold a residence permit for work in Norway. You will receive the necessary documentation for your application once you have accepted the position. ` + pTagEnd : ``}` +
             pTag + `If conditions for the employment are not met by ${params.datoForbehold} we will withdraw our offer. ` + pTagEnd;
     }
 
@@ -155,7 +155,7 @@ function getEngelskTilbudsbrev(params: TilbudsbrevParams): string {
     // Tekst hvis stipendiat
     let stipendiatText = ``;
     if (params.posCode === `1017`) {
-        stipendiatText = pTag + `You must be enrolled in the doctoral program (PhD) at ${params.avdelingName} to be a PhD Candidate. Application for admission to the PhD program should be completed no later than one (1) month after you start in the position. ` + pTagEnd + pTag + `You may not undertake duties (additional employments) which exceed the terms of appointment for PhD Candidates. ` + pTagEnd;
+        stipendiatText = pTag + `You must be enrolled in the doctoral program (PhD) at ${params.avdelingName} to be a PhD Candidate. Application for admission to the PhD program should be completed no later than one (1) month after you start in the position. ` + pTagEnd + pTag + `The appointed person must not have any secondary employment contrary to the rules of the University of Bergen or government rules. ` + pTagEnd;
     }
 
     // Tekst hvis forsker
@@ -204,7 +204,7 @@ function getEngelskTilbudsbrev(params: TilbudsbrevParams): string {
 
     // Tekst om svarfrist og svar
     let answerText = `<h3>Return the acceptance- and information form </h3>` + pTag + `You can respond to the offer by filling out the form in the link below as soon as possible, and no later than two weeks. If you accept the position, we will send you the employment contract as soon as we have received the form.` + pTagEnd + pTag +
-    `${params.answerUrl !== "" ? `<a href="${params.answerUrl}">Confirmation- and personal details form</a>` : `    <b style="color: red; font-size: 16pt;">Kunne ikke generere lenke, bruk <a href='https://digiforms.uib.no/lenkegenerator' style="color: blue; text-decoration: underline;">lenkegeneratoren</a> og lim inn her.</b>`}` + 
+    `${params.answerUrl !== "" ? `<a href="${params.answerUrl}">Confirmation- and personal details form</a>` : `<b style="color: red; font-size: 16pt;">Kunne ikke generere lenke, bruk <a href='https://digiforms.uib.no/lenkegenerator' style="color: blue; text-decoration: underline;">lenkegeneratoren</a> og lim inn her.</b>`}` + 
     pTagEnd + pTag + `${params.answerUrl !== "" ? `<img src="${params.qrCodeElements}" alt="QR code for the confirmation- and personal details form" />` : ""}` + pTagEnd;
     
     if (params.noBankID) {
@@ -233,8 +233,8 @@ function getNorskTilbudsbrev(params: TilbudsbrevParams): string {
             params.employeeType === 'Åremål' ? 'mellombels' : '';
 
     // Intro tekst
-    let introText = pTag + `${params.avdelingName} ved Universitetet i Bergen (UiB) har gleda av å tilby deg ei  ${employeeTypeText} stilling som ${params.posTitle + `, ` + params.posCode} (${params.percentageWork} %) ${params.seksjonName ? `ved ${params.seksjonName}` : ``} frå den datoen som vert avtalt. 
-    ${params.employeeType === `Fast` ? `` : `Stillinga er for ein periode på ${params.tempYears} år. `} ${    params.careerPromotingWork === `0` || params.careerPromotingWork === `` ? ``:`${params.posCode === `1017`? `${params.careerPromotingWork} % skal bli brukt til karrierefremjande arbeid, som undervising og administrative oppgåver.` : ``} ${params.posCode === `1352`? `${params.careerPromotingWork} måneder skal bli brukt til karrierefremjande arbeid, som undervising og administrative oppgåver.` : ``}`} 
+    let introText = pTag + `${params.avdelingName} ved Universitetet i Bergen (UiB) har gleda av å tilby deg ei ${employeeTypeText} stilling som ${params.posTitle + `, ` + params.posCode} (${params.percentageWork} %) ${params.seksjonName ? `ved ${params.seksjonName}` : ``} frå den datoen som vert avtalt. 
+    ${params.employeeType === `Fast` ? `` : `Stillinga er for ein periode på ${params.tempYears} år. `} ${params.careerPromotingWork === `0` || params.careerPromotingWork === `` ? ``:`${params.posCode === `1017`? `${params.careerPromotingWork} % skal bli brukt til karrierefremjande arbeid, som undervising og administrative oppgåver.` : ``} ${params.posCode === `1352`? `${params.careerPromotingWork} måneder skal bli brukt til karrierefremjande arbeid, som undervising og administrative oppgåver.` : ``}`} 
     ${params.externallyFunded ? `Stillinga er knytt til det eksternfinansierte prosjektet: ${params.externalProjectName}. ` : ``}` + pTagEnd 
     + pTag + `Din arbeidsplass vil vere ved Universitetet i Bergen, og vilkåra i dette brevet gjeld berre for arbeid i Noreg. ` + pTagEnd
 
@@ -244,7 +244,7 @@ function getNorskTilbudsbrev(params: TilbudsbrevParams): string {
         forbeholdText = `<h3>Vilkår for tilbod om stilling</h3>` +
             `${params.eksportlisens ? pTag + `I samsvar med utlysingsteksten er Universitetet i Bergen underlagd lovgjeving for eksportkontroll. Vi har søkt relevante styresmakter om <a href="https://www.regjeringen.no/en/topics/foreign-affairs/export-control/om-eksportkontroll/export-control/id2008483/">om eksportkontrollisens</a> for deg. ` + pTagEnd : ``}` +
             `${params.oppholdstillatelse ? pTag + `For å kunne starte i stillinga, treng du godkjent opphaldsløyve for arbeid i Noreg. Du vil få tilsendt naudsynt dokumentasjon til søknaden når du har takka ja til stillinga. ` + pTagEnd : ``}` +
-            pTag + `Om vilkåra for tilsetjing ikkje er oppfylte innan  ${params.datoForbehold} vil vi trekke tilbodet. ` + pTagEnd;
+            pTag + `Om vilkåra for tilsetjing ikkje er oppfylte innan ${params.datoForbehold} vil vi trekke tilbodet. ` + pTagEnd;
     }
 
     // Tekst om lønn
@@ -253,7 +253,7 @@ function getNorskTilbudsbrev(params: TilbudsbrevParams): string {
     // Tekst hvis stipendiat
     let stipendiatText = ``;
     if (params.posCode === `1017`) {
-        stipendiatText = pTag + `Det er eit vilkår i stillinga at du er teken opp i ph.d.-programmet ved ${params.avdelingName}. Søknad om opptak til ph.d-programmet skal vere fullført seinast ein (1) månad etter at du har starta i stillinga.` + pTagEnd + pTag + `Du må ikkje ha noko ekstraerverv som er i strid med reglane til Universitetet i Bergen eller statlege reglar.  ` + pTagEnd;
+        stipendiatText = pTag + `Det er eit vilkår i stillinga at du er teken opp i ph.d.-programmet ved ${params.avdelingName}. Søknad om opptak til ph.d-programmet skal vere fullført seinast ein (1) månad etter at du har starta i stillinga.` + pTagEnd + pTag + `Du må ikkje ha noko ekstraerverv som er i strid med reglane til Universitetet i Bergen eller statlege reglar. ` + pTagEnd;
     }
 
     // Tekst hvis forsker
@@ -302,7 +302,7 @@ function getNorskTilbudsbrev(params: TilbudsbrevParams): string {
 
     // Tekst om svarfrist og svar
     let answerText = `<h3>Retur av aksept- og opplysningsskjema</h3>` + pTag + `32.	Du svarer på tilbodet ved å fylle ut skjemaet i lenka under så snart som mogleg, og ikkje seinare enn innan to veker. Dersom du takkar ja til stillinga, sender vi deg arbeidsavtalen så snart vi har mottatt skjemaet.` + pTagEnd + pTag +
-    `${params.answerUrl !== "" ? `<a href="${params.answerUrl}">Aksept- og opplysningsskjema</a>` : `    <b style="color: red; font-size: 16pt;">Kunne ikke generere lenke, bruk <a href='https://digiforms.uib.no/lenkegenerator' style="color: blue; text-decoration: underline;">lenkegeneratoren</a> og lim inn her.</b>`}` + 
+    `${params.answerUrl !== "" ? `<a href="${params.answerUrl}">Aksept- og opplysningsskjema</a>` : `<b style="color: red; font-size: 16pt;">Kunne ikke generere lenke, bruk <a href='https://digiforms.uib.no/lenkegenerator' style="color: blue; text-decoration: underline;">lenkegeneratoren</a> og lim inn her.</b>`}` + 
     pTagEnd + pTag + `${params.answerUrl !== "" ? `<img src="${params.qrCodeElements}" alt="QR kode til Aksept- og opplysningsskjema" />` : ""}` + pTagEnd;
     
     if (params.noBankID) {
