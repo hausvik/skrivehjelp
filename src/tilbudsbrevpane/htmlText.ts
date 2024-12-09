@@ -277,13 +277,13 @@ function getNorskTilbudsbrev(params: TilbudsbrevParams): string {
     // Tekst for manglende undervisningskompetanse
     let undervisningskompetanseText = ``;
     if (params.needsEducationalCompetance) {
-        undervisningskompetanseText = `<h3>Utdanningsfagleg kompetanse</h3>` + pTag + `W24.	Universitetet i Bergen tilbyr kurs i universitetspedagogisk basiskompetanse, og du kan delta på dei gratis. Du finn meir informasjon på <a href="https://www.uib.no/uped">universitetet si nettside</a>.  ` + pTagEnd;
+        undervisningskompetanseText = `<h3>Utdanningsfagleg kompetanse</h3>` + pTag + `Universitetet i Bergen tilbyr kurs i universitetspedagogisk basiskompetanse, og du kan delta på dei gratis. Du finn meir informasjon på <a href="https://www.uib.no/uped">universitetet si nettside</a>.  ` + pTagEnd;
     }
 
     // Tekst for manglende norsk ferdigheter
     let norskText = ``;
     if (params.needsNorwegianCompetence) {
-        norskText = `<h3>Norskkurs</h3>` + pTag + `26.	Vi tilbyr ulike typar og ulike nivå av norskkurs. Kursa er gratis. <a href="https://www.uib.no/en/international/128581/language-courses">Du finn meir informasjon om språkkursa her. </a>.` + pTagEnd;
+        norskText = `<h3>Norskkurs</h3>` + pTag + `Vi tilbyr ulike typar og ulike nivå av norskkurs. Kursa er gratis. <a href="https://www.uib.no/en/international/128581/language-courses">Du finn meir informasjon om språkkursa her. </a>.` + pTagEnd;
     }
 
     // Tekst for flytting til Norge
@@ -301,12 +301,12 @@ function getNorskTilbudsbrev(params: TilbudsbrevParams): string {
 
 
     // Tekst om svarfrist og svar
-    let answerText = `<h3>Retur av aksept- og opplysningsskjema</h3>` + pTag + `32.	Du svarer på tilbodet ved å fylle ut skjemaet i lenka under så snart som mogleg, og ikkje seinare enn innan to veker. Dersom du takkar ja til stillinga, sender vi deg arbeidsavtalen så snart vi har mottatt skjemaet.` + pTagEnd + pTag +
+    let answerText = `<h3>Retur av aksept- og opplysningsskjema</h3>` + pTag + `Du svarer på tilbodet ved å fylle ut skjemaet i lenka under så snart som mogleg, og ikkje seinare enn innan to veker. Dersom du takkar ja til stillinga, sender vi deg arbeidsavtalen så snart vi har mottatt skjemaet.` + pTagEnd + pTag +
     `${params.answerUrl !== "" ? `<a href="${params.answerUrl}">Aksept- og opplysningsskjema</a>` : `<b style="color: red; font-size: 16pt;">Kunne ikke generere lenke, bruk <a href='https://digiforms.uib.no/lenkegenerator' style="color: blue; text-decoration: underline;">lenkegeneratoren</a> og lim inn her.</b>`}` + 
     pTagEnd + pTag + `${params.answerUrl !== "" ? `<img src="${params.qrCodeElements}" alt="QR kode til Aksept- og opplysningsskjema" />` : ""}` + pTagEnd;
     
     if (params.noBankID) {
-        answerText = `<h3>Retur av aksept- og opplysningsskjema</h3>` + pTag + `35.	Du svarar på tilbodet ved å fylle ut og sende inn det vedlagde aksept- og opplysningsskjemaet så snart som mogleg, og seinast innan to veker. ` + `Dersom du takkar ja til stillinga, sender vi deg arbeidsavtalen så snart vi har mottatt skjemaet. ` + pTagEnd
+        answerText = `<h3>Retur av aksept- og opplysningsskjema</h3>` + pTag + `Du svarar på tilbodet ved å fylle ut og sende inn det vedlagde aksept- og opplysningsskjemaet så snart som mogleg, og seinast innan to veker. ` + `Dersom du takkar ja til stillinga, sender vi deg arbeidsavtalen så snart vi har mottatt skjemaet. ` + pTagEnd
         + (params.oppholdstillatelse ? `Du vil motta dei naudsynte dokumenta for å kunne søkje om opphaldsløyve så snart du har takka ja til stillinga. ` : ``)
         + pTag + `Skjemaet kan du laste opp <a href="${params.answerOnedrive}">her</a>. ` + pTagEnd + pTag + `<img src="${params.qrCodeOnedrive}" alt="QR-kode for opplastning av skjema" />` + pTagEnd
         
