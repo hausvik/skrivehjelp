@@ -346,11 +346,11 @@ export async function initializeTilbudsbrevpane() {
     generateTextButton.addEventListener("click", () => {
 
       
-      let usedPosTitle = getPositionDetail(AllPositionCodes, positionCode.value, 1, !engelsk.checked);;
+      let usedPosTitle = getPositionDetail(AllPositionCodes, positionCode.value, 1, false).toLowerCase();
       if (engelsk.checked) {
-        usedPosTitle = getPositionDetail(AllPositionCodes, positionCode.value, 1, engelsk.checked);
+        usedPosTitle = getPositionDetail(AllPositionCodes, positionCode.value, 1, true);
       }
-
+      
       insertText(getTilbudsbrev(engelsk.checked, selectedEmployeeType, externallyFunded.checked, needsNorwegianCompetence.checked, relocateToNorway.checked,
         eksportlisens.checked, oppholdstillatelse.checked, noBankID.checked, tempYears.value, datoForbehold.value, avdeling.value, seksjon.value,
         skoTitle, usedPosTitle, noEducationCompetence.checked, careerPromotingWork.value, percentageWork.value, externallyFundedProjectName.value,

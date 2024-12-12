@@ -289,7 +289,7 @@ function getNorskTilbudsbrev(params: TilbudsbrevParams): string {
     // Tekst for flytting til Norge
     let relocateText = ``;
     if (params.relocateToNorway) {
-        relocateText = `<h3>Flytte til Noreg</h3>` + pTag + `På nettsida til UiB sitt <a href="https://www.uib.no/en/international/128545/international-staff">Internasjonale Sente</a> finn du viktig informasjon om innvandring, skattekort, nødvendige steg etter at du har kome til Noreg og anna nyttig informasjon om flytting til Noreg. UiB tilbyr deg eit førebuingsseminar, og vi foreslår at du deltek på det seminaret før du startar i stillinga. Sjå  <a href="https://www.uib.no/en/international/calendar">kalenderen</a> for registreringslenkje.` + pTagEnd;
+        relocateText = `<h3>Flytte til Noreg</h3>` + pTag + `På nettsida til <a href="https://www.uib.no/en/international/128545/international-staff">Internasjonalt Sent</a> ved UiB finn du viktig informasjon om innvandring, skattekort, nødvendige steg etter at du har kome til Noreg og anna nyttig informasjon om flytting til Noreg. UiB tilbyr deg eit førebuingsseminar, og vi foreslår at du deltek på det seminaret før du startar i stillinga. Sjå  <a href="https://www.uib.no/en/international/calendar">kalenderen</a> for registreringslenkje.` + pTagEnd;
     }
 
 
@@ -308,7 +308,7 @@ function getNorskTilbudsbrev(params: TilbudsbrevParams): string {
     if (params.noBankID) {
         answerText = `<h3>Retur av aksept- og opplysningsskjema</h3>` + pTag + `Du svarar på tilbodet ved å fylle ut og sende inn det vedlagde aksept- og opplysningsskjemaet så snart som mogleg, og seinast innan to veker. ` + `Dersom du takkar ja til stillinga, sender vi deg arbeidsavtalen så snart vi har mottatt skjemaet. ` + pTagEnd
         + (params.oppholdstillatelse ? `Du vil motta dei naudsynte dokumenta for å kunne søkje om opphaldsløyve så snart du har takka ja til stillinga. ` : ``)
-        + pTag + `Skjemaet kan du laste opp <a href="${params.answerOnedrive}">her</a>. ` + pTagEnd + pTag + `<img src="${params.qrCodeOnedrive}" alt="QR-kode for opplastning av skjema" />` + pTagEnd
+        + pTag + `<a href="${params.answerOnedrive}">Skjemaet kan du laste opp her</a>. ` + pTagEnd + pTag + `<img src="${params.qrCodeOnedrive}" alt="QR-kode for opplastning av skjema" />` + pTagEnd
         
     }
 
