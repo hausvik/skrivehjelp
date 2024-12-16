@@ -5,6 +5,7 @@
  * @param vikar True if the employee is a substitute, false if the employee is not a substitute.
  * @param underviser True if the employee is a teacher, false if the employee is not a teacher.
  * @param jobTitle The job title.
+ * @param jobSko The SKO code of the job.
  * @param educationalCompetenceValue True if educational competence is needed, false if it is not needed.
  * @param norwegianCompetenceParam True if Norwegian competence is needed, false if it is not needed.
  * @param externallyFunded True if the employee is externally funded, false if the employee is not externally funded.
@@ -28,6 +29,7 @@ export function getArbeidsavtale(
   vikar: boolean,
   underviser: boolean,
   jobTitle: string,
+  jobSko: string,
   educationalCompetenceValue: boolean,
   norwegianCompetenceParam: boolean,
   externallyFunded: boolean,
@@ -56,6 +58,7 @@ export function getArbeidsavtale(
       vikar,
       underviser,
       jobTitle,
+      jobSko,
       educationalCompetenceValue,
       norwegianCompetenceParam,
       externallyFunded,
@@ -84,6 +87,7 @@ export function getArbeidsavtale(
       vikar,
       underviser,
       jobTitle,
+      jobSko,
       educationalCompetenceValue,
       norwegianCompetenceParam,
       externallyFunded,
@@ -114,6 +118,7 @@ function getArbeidsavtaleBodyEngelsk(
   vikar: boolean,
   underviser: boolean,
   jobTitle: string,
+  jobSko: string,
   educationalCompetenceParam: boolean,
   norwegianCompetenceParam: boolean,
   externallyFunded: boolean,
@@ -202,14 +207,12 @@ function getArbeidsavtaleBodyEngelsk(
         aremalText = `The employment is for a fixed term, cf. University and University Colleges Act § 7-6 (1) g. The employment relationship ends without notice at the expiration of the fixed term, cf. Civil Servants Act
              § 17 (2). Admission to a doctoral program is a condition for taking up the position.  To become employed as a research fellow, admission to a doctoral 
              program or a binding agreement for such admission, is required. ${karrierefremmendeArbeid ? `Career-promoting work constitutes ${karrierefremmendeArbeidMengde}
-                 of the fixed-term period.  Refer to your specific career plan.` : ''} The appointed person must not have any secondary employment contrary to the rules of the University of Bergen or government rules.
-                  Rights to research and work results are governed by the Regulation on handling employees' rights to the results of work and research at the University of Bergen.`
+                 of the fixed-term period.  Refer to your specific career plan.` : ''}`
         break;
       case 'kunstnerisk':
         aremalText = `The employment is for a fixed term, cf. University and University Colleges Act § 7-6 (1) g. The employment relationship ends without notice at the expiration of the fixed term, cf.
              Civil Servants Act § 17 (2).  The employment is associated with the Scholarship Program for Artistic Development Work. ${karrierefremmendeArbeid ?
-            `Career-promoting work constitutes ${karrierefremmendeArbeidMengde} of the fixed-term period. Refer to your specific career plan.` : ''} The appointed person must not have any secondary employment contrary to the rules of the University of Bergen or
-             government rules. Rights to research and work results are governed by the Regulation on handling employees' rights to the results of work and research at the University of Bergen.`
+            `Career-promoting work constitutes ${karrierefremmendeArbeidMengde} of the fixed-term period. Refer to your specific career plan.` : ''}`
         break;
       case 'vitenskapelig':
         aremalText = `The employment is for a fixed term, cf. University and University Colleges Act § 7-4 (1) i. The employment relationship ends without notice at the expiration of the fixed term,
@@ -339,7 +342,8 @@ Salary is paid on the 12th of each month via bank transfer, unless otherwise spe
             Employees must submit their resignation in writing. In case of termination by the employer, reference is made to the procedural rules in the Civil Servants Act § 32.
         </p>
         <p class="MsoNormal" style="font-size: 11pt;">
-        Employees must not hold additional positions or other employment in conflict with the rules of the state. Some employee groups must register their additional positions in accordance with guidelines at UiB.
+        ${(jobSko === '1017' || jobSko === '1352') ? `Employees in positions as PhD candidates or postdoctoral fellows will normally not have access to secondary employment without approval from the employer. ` : `Employees must not hold additional positions or other employment in conflict with the rules of the state. `}
+        Some employee groups must register their additional positions in accordance with guidelines at UiB.
         Rights to research and work results are regulated in the Regulations for managing employees' rights to research and work results at the University of Bergen.
         </p>
         <p class="MsoNormal" style="font-size: 11pt;">
@@ -354,6 +358,7 @@ function getArbeidsavtaleBodyNorsk(
   vikar: boolean,
   underviser: boolean,
   jobTitle: string,
+  jobSko: string,
   educationalCompetenceParam: boolean,
   norwegianCompetenceParam: boolean,
   externallyFunded: boolean,
@@ -442,15 +447,12 @@ function getArbeidsavtaleBodyNorsk(
         aremalText = `Ansettelsen er på åremål, jf. uhl § 7-6 (1) g. Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp, jf. statsansatteloven
              § 17 (2). Opptak til doktorgradsprogram er et vilkår for tiltredelse i stillingen.  For å bli ansatt som stipendiat kreves opptak i et doktorgradsprogram,
               eller at det foreligger en forpliktende avtale om opptak. ${karrierefremmendeArbeid ? `Karrierefremmende arbeid utgjør ${karrierefremmendeArbeidMengde}
-                 av åremålsperioden, hendvis til din karriereplan.` : ''} Ansatte må ikke inneha sidegjøremål i strid med reglene ved UiB eller i staten. Rettigheter 
-                 til forsknings- og arbeidsresultater er regulert i Reglement om håndtering av ansattes rettigheter til forsknings- og arbeidsresultater ved Universitetet i Bergen.`
+                 av åremålsperioden, hendvis til din karriereplan.` : ''} `
         break;
       case 'kunstnerisk':
         aremalText = `Ansettelsen er på åremål, jf. uhl § 7-6 (1) g. Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp, jf.
              statsansatteloven § 17 (2).  Ansettelsen er knyttet til Stipendprogram for kunstnerisk utviklingsarbeid. ${karrierefremmendeArbeid ?
-            `Karrierefremmende arbeid utgjør ${karrierefremmendeArbeidMengde} av åremålsperioden, hendvis til din karriereplan.` : ''} Ansatte må ikke inneha sidegjøremål i
-             strid med reglene ved UiB eller i staten. Rettigheter til forsknings- og arbeidsresultater er regulert i Reglement om håndtering av ansattes 
-             rettigheter til forsknings- og arbeidsresultater ved Universitetet i Bergen.`
+            `Karrierefremmende arbeid utgjør ${karrierefremmendeArbeidMengde} av åremålsperioden, hendvis til din karriereplan.` : ''}`
         break;
       case 'vitenskapelig':
         aremalText = `Ansettelsen er på åremål, jf. uhl. § 7-4 (1) i. Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp,
@@ -578,8 +580,8 @@ function getArbeidsavtaleBodyNorsk(
             Ansatte må levere sin oppsigelse skriftlig. Ved oppsigelse fra arbeidsgiver vises det til saksbehandlingsreglene i statsansatteloven § 32.
         </p>
         <p class="MsoNormal" style="font-size: 11pt;">
-        Ansatte må ikke inneha ekstraerverv eller annet erverv i strid med reglene i staten. Noen ansattgrupper må registrere sine ekstraerverv i henhold til retningslinjer ved UiB. 
-        Rettigheter til forsknings- og arbeidsresultater er regulert i Reglement om håndtering av ansattes rettigheter til forsknings- og arbeidsresultater ved Universitetet i Bergen.
+        ${(jobSko === '1017' || jobSko === '1352') ? `Ansatte i stillinger som stipendiat eller postdoktor vil normalt ikke ha adgang til sidegjøremål, uten godkjenning fra arbeidsgiver. ` : `Ansatte må ikke inneha ekstraerverv eller annet erverv i strid med reglene i staten. `}
+        Noen ansattgrupper må registrere sine ekstraerverv i henhold til retningslinjer ved UiB. Rettigheter til forsknings- og arbeidsresultater er regulert i Reglement om håndtering av ansattes rettigheter til forsknings- og arbeidsresultater ved Universitetet i Bergen.
         </p>
         <p class="MsoNormal" style="font-size: 11pt;">
             Ansatte ved UiB har taushetsplikt etter forvaltningsloven, og eventuelt særlige taushetspliktsregler som gjelder for stillingen. 
