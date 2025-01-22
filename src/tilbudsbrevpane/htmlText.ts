@@ -145,8 +145,8 @@ function getEngelskTilbudsbrev(params: TilbudsbrevParams): string {
     if (params.oppholdstillatelse || params.eksportlisens) {
         forbeholdText = `<h3>Condition for the offer of employment</h3>` +
             `${params.eksportlisens ? pTag + `In accordance with the advertisement text, the University of Bergen complies with the legislation for export control. We must therefore apply to the relevant authorities for <a href="https://www.regjeringen.no/en/topics/foreign-affairs/export-control/om-eksportkontroll/export-control/id2008483/">export control license</a> for you. ` + pTagEnd : ``}` +
-            `${params.oppholdstillatelse ? pTag + `To be able to start in the position you must hold a residence permit for work in Norway. You will receive the necessary documentation for your application once you have accepted the position. ` + pTagEnd : ``}` +
-            pTag + `If conditions for the employment are not met by ${params.datoForbehold} we will withdraw our offer. ` + pTagEnd;
+            `${params.oppholdstillatelse ? pTag + `To be able to start in the position you must hold a residence permit for work in Norway. You will receive the necessary documentation for your application once you have accepted the position. `: ``}` +
+            `If conditions for the employment are not met by ${params.datoForbehold} we will withdraw our offer. ` + pTagEnd;
     }
 
     // Tekst om lønn
@@ -203,13 +203,14 @@ function getEngelskTilbudsbrev(params: TilbudsbrevParams): string {
 
 
     // Tekst om svarfrist og svar
-    let answerText = `<h3>Return the acceptance- and information form </h3>` + pTag + `You can respond to the offer by filling out the form in the link below as soon as possible, and no later than two weeks. If you accept the position, we will send you the employment contract as soon as we have received the form.` + pTagEnd + pTag +
+    let answerText = `<h3>Return the acceptance- and information form </h3>` + pTag + `You can respond to the offer by filling out the form in the link below as soon as possible, and no later than two weeks. `  +
+    (params.oppholdstillatelse ? `You will receive the necessary documentation for your application for a residence permit once you have accepted the position. ` : `If you accept the position, we will send you the employment contract as soon as we have received the form. `) + pTagEnd + pTag +
     `${params.answerUrl !== "" ? `<a href="${params.answerUrl}">Confirmation- and personal details form</a>` : `<b style="color: red; font-size: 16pt;">Kunne ikke generere lenke, bruk <a href='https://digiforms.uib.no/lenkegenerator' style="color: blue; text-decoration: underline;">lenkegeneratoren</a> og lim inn her.</b>`}` + 
     pTagEnd + pTag + `${params.answerUrl !== "" ? `<img src="${params.qrCodeElements}" alt="QR code for the confirmation- and personal details form" />` : ""}` + pTagEnd;
     
     if (params.noBankID) {
-        answerText = `<h3>Return the acceptance- and information form </h3>` + pTag + `Please respond to the offer of employment by returning the acceptance and information form as soon as possible, and no later than two weeks. ` + `If you accept the position, we will send you the employment contract as soon as we have received the form. ` + pTagEnd
-        + (params.oppholdstillatelse ? `You will receive the necessary documentation for your application for a residence permit once you have accepted the position. ` : ``)
+        answerText = `<h3>Return the acceptance- and information form </h3>` + pTag + `Please respond to the offer of employment by returning the acceptance and information form as soon as possible, and no later than two weeks. ` 
+        + (params.oppholdstillatelse ? `You will receive the necessary documentation for your application for a residence permit once you have accepted the position. ` : `If you accept the position, we will send you the employment contract as soon as we have received the form. `) + pTagEnd
         + pTag + `The form can be uploaded <a href="${params.answerOnedrive}">here</a>. ` + pTagEnd + pTag + `<img src="${params.qrCodeOnedrive}" alt="QR code for the upload location" />` + pTagEnd
         
     }
@@ -243,8 +244,8 @@ function getNorskTilbudsbrev(params: TilbudsbrevParams): string {
     if (params.oppholdstillatelse || params.eksportlisens) {
         forbeholdText = `<h3>Vilkår for tilbod om stilling</h3>` +
             `${params.eksportlisens ? pTag + `I samsvar med utlysingsteksten er Universitetet i Bergen underlagd lovgjeving for eksportkontroll. Vi har søkt relevante styresmakter om <a href="https://www.regjeringen.no/en/topics/foreign-affairs/export-control/om-eksportkontroll/export-control/id2008483/">om eksportkontrollisens</a> for deg. ` + pTagEnd : ``}` +
-            `${params.oppholdstillatelse ? pTag + `For å kunne starte i stillinga, treng du godkjent opphaldsløyve for arbeid i Noreg. Du vil få tilsendt naudsynt dokumentasjon til søknaden når du har takka ja til stillinga. ` + pTagEnd : ``}` +
-            pTag + `Om vilkåra for tilsetjing ikkje er oppfylte innan ${params.datoForbehold} vil vi trekke tilbodet. ` + pTagEnd;
+            `${params.oppholdstillatelse ? pTag + `For å kunne starte i stillinga, treng du godkjent opphaldsløyve for arbeid i Noreg. Du vil få tilsendt naudsynt dokumentasjon til søknaden når du har takka ja til stillinga. ` : ``}` +
+            `Om vilkåra for tilsetjing ikkje er oppfylte innan ${params.datoForbehold} vil vi trekke tilbodet. ` + pTagEnd;
     }
 
     // Tekst om lønn
@@ -301,15 +302,15 @@ function getNorskTilbudsbrev(params: TilbudsbrevParams): string {
 
 
     // Tekst om svarfrist og svar
-    let answerText = `<h3>Retur av aksept- og opplysningsskjema</h3>` + pTag + `Du svarer på tilbodet ved å fylle ut skjemaet i lenka under så snart som mogleg, og ikkje seinare enn innan to veker. Dersom du takkar ja til stillinga, sender vi deg arbeidsavtalen så snart vi har mottatt skjemaet.` + pTagEnd + pTag +
+    let answerText = `<h3>Retur av aksept- og opplysningsskjema</h3>` + pTag + `Du svarar på tilbodet ved å fylle ut skjemaet i lenka under så snart som mogleg, og ikkje seinare enn innan to veker. ` +
+    (params.oppholdstillatelse ? `Du vil motta dei naudsynte dokumenta for å kunne søkje om opphaldsløyve så snart du har takka ja til stillinga. ` : `Dersom du takkar ja til stillinga, sender vi deg arbeidsavtalen så snart vi har mottatt skjemaet.`) + pTagEnd +
     `${params.answerUrl !== "" ? `<a href="${params.answerUrl}">Aksept- og opplysningsskjema</a>` : `<b style="color: red; font-size: 16pt;">Kunne ikke generere lenke, bruk <a href='https://digiforms.uib.no/lenkegenerator' style="color: blue; text-decoration: underline;">lenkegeneratoren</a> og lim inn her.</b>`}` + 
     pTagEnd + pTag + `${params.answerUrl !== "" ? `<img src="${params.qrCodeElements}" alt="QR kode til Aksept- og opplysningsskjema" />` : ""}` + pTagEnd;
     
     if (params.noBankID) {
-        answerText = `<h3>Retur av aksept- og opplysningsskjema</h3>` + pTag + `Du svarar på tilbodet ved å fylle ut og sende inn det vedlagde aksept- og opplysningsskjemaet så snart som mogleg, og seinast innan to veker. ` + `Dersom du takkar ja til stillinga, sender vi deg arbeidsavtalen så snart vi har mottatt skjemaet. ` + pTagEnd
-        + (params.oppholdstillatelse ? `Du vil motta dei naudsynte dokumenta for å kunne søkje om opphaldsløyve så snart du har takka ja til stillinga. ` : ``)
-        + pTag + `<a href="${params.answerOnedrive}">Skjemaet kan du laste opp her</a>. ` + pTagEnd + pTag + `<img src="${params.qrCodeOnedrive}" alt="QR-kode for opplastning av skjema" />` + pTagEnd
-        
+        answerText = `<h3>Retur av aksept- og opplysningsskjema</h3>` + pTag + `Du svarar på tilbodet ved å fylle ut og sende inn det vedlagde aksept- og opplysningsskjemaet så snart som mogleg, og seinast innan to veker. ` +
+        (params.oppholdstillatelse ? `Du vil motta dei naudsynte dokumenta for å kunne søkje om opphaldsløyve så snart du har takka ja til stillinga. ` : `Dersom du takkar ja til stillinga, sender vi deg arbeidsavtalen så snart vi har mottatt skjemaet.`) + pTagEnd +
+        pTag + `<a href="${params.answerOnedrive}">Skjemaet kan du laste opp her</a>. ` + pTagEnd + pTag + `<img src="${params.qrCodeOnedrive}" alt="QR-kode for opplastning av skjema" />` + pTagEnd;
     }
 
 
