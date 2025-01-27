@@ -62,11 +62,11 @@
                         <input type="checkbox" class="form-check-input" id="allCodes">
                         <label class="form-check-label" for="allCodes">Vis alle stillingskoder</label>
                     </div>
-                    
+
                 </div>
             </div>
 
-            <div class="hidden-form-group" id="abroardEmployeeTextGroup" >
+            <div class="hidden-form-group" id="abroardEmployeeTextGroup">
                 <label for="abroardEmployeeText">Tekst som beskriver utenlandsoppholdet</label>
                 <textarea class="form-control" id="abroardEmployeeText" rows="3"></textarea>
             </div>
@@ -84,8 +84,7 @@
                         <label class="form-check-label" for="leader">Leder for avdeling eller grunnenhet</label>
                     </div>
                     <div>
-                        <input type="radio" class="form-check-input" name="termType" id="double"
-                            value="double">
+                        <input type="radio" class="form-check-input" name="termType" id="double" value="double">
                         <label class="form-check-label" for="double">Dobbeltkompetanseutdanning</label>
                     </div>
                     <div>
@@ -189,11 +188,19 @@
                         <option value=""></option>
                     </select>
                 </div>
+                <div class="hidden-form-group" id="lærlingGroup">
+                    <div class="form-group">
+                        <label for="lonnsplan">Lønnsplan lærling</label>
+                        <input type="text" class="form-control" id="lonnsplan" value="90.910">
+                        <label for="lonnsutbetaling">Prosentvis utbetaling av lønn etter 9.10.1</label>
+                        <textarea class="form-control" id="lonnsutbetaling" rows="4" cols="50">1. halvår 30%, 2. halvår 40%, 3. halvår 50%, 4. halvår 80%</textarea>
+                    </div>
+                </div>
                 <div class="hidden-form-group" id="tempTeachNeedGroup">
-                    <input type="checkbox" id="tempTeachNeed" >
+                    <input type="checkbox" id="tempTeachNeed">
                     <label for="tempTeachNeed">Midlertidig for å dekke undervisningsbehov</label>
                 </div>
-                <div class="hidden-form-group" id="norwegianCompetence" >
+                <div class="hidden-form-group" id="norwegianCompetence">
                     <div>
                         <label>Innfrir den ansatte kravet om norskferdigheter ved ansettelse?</label>
                         <div class="form-check">
@@ -208,8 +215,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="hidden-form-group" id="mscaSupervisor"> 
-                    <div class="form-group" >
+                <div class="hidden-form-group" id="mscaSupervisor">
+                    <div class="form-group">
                         <label for="mscaSupervisorText">Navn på veileder</label>
                         <input type="text" class="form-control" id="mscaSupervisorText">
                     </div>
@@ -271,7 +278,7 @@
                     <label for="mobilityAllowanceMonths">Antall måneder med mobilitetstillegg</label>
                     <input type="number" class="form-control" id="mobilityAllowanceMonths">
                 </div>
-                
+
                 <div class="hidden-form-group" id="familyAllowanceGroup">
                     <label for="familyAllowance">Familietillegg per måned</label>
                     <input type="number" class="form-control" id="familyAllowance" placeholder="NOK">
@@ -279,10 +286,10 @@
                     <label for="familyAllowanceMonths">Antall måneder med familietillegg</label>
                     <input type="number" class="form-control" id="familyAllowanceMonths">
                 </div>
-            
+
                 <div class="hidden-form-group" id="workDescription">
                     <label for="workDescriptionText">Beskrivelse av arbeidet</label>
-                    <textarea  class="form-control" id="workDescriptionText" rows="3"></textarea>
+                    <textarea class="form-control" id="workDescriptionText" rows="3"></textarea>
                 </div>
 
                 <div class="hidden-form-group" id="additionalDutyGroup">

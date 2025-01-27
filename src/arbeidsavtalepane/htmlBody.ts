@@ -21,6 +21,7 @@
  * @param termEmployee The type of term employee.
  * @param karrierefremmendeArbeid True if the work is career-promoting, false if it is not.
  * @param termAmount The amount of term work.
+ * @param lonnsutbetaling The salary payment structure, for "lærling"
  * @returns The body of the document as an HTMLString.
  */
 export function getArbeidsavtale(
@@ -51,7 +52,15 @@ export function getArbeidsavtale(
   family: boolean,
   frameProgram: string,
   grantNumber: string,
+  lonnsutbetaling: string,
 ): string {
+
+  let lærling = false;
+  if (jobSko === '1362' || jobSko === '1446') {
+    lærling = true;
+  }
+
+
   if (engelsk) {
     return getArbeidsavtaleBodyEngelsk(
       fastAnsatt,
@@ -79,7 +88,9 @@ export function getArbeidsavtale(
       mobility,
       family,
       frameProgram,
-      grantNumber);
+      grantNumber,
+      lærling,
+      lonnsutbetaling,);
   }
   else {
     return getArbeidsavtaleBodyNorsk(
@@ -108,7 +119,9 @@ export function getArbeidsavtale(
       mobility,
       family,
       frameProgram,
-      grantNumber);
+      grantNumber,
+      lærling,
+      lonnsutbetaling,);
   }
 }
 
@@ -140,6 +153,8 @@ function getArbeidsavtaleBodyEngelsk(
   family: boolean,
   frameProgram: string,
   grantNumber: string,
+  lærling: boolean,
+  lonnsutbetaling: string,
 ): string {
   let educationalCompetenceNeeded = "";
   let norwegianCompetenceNeeded = "";
@@ -224,14 +239,20 @@ function getArbeidsavtaleBodyEngelsk(
     }
   }
 
-  if(workDescription != null){
+  if (workDescription != null) {
     workText = `Description of the work: ${workDescription}.`;
   }
-  if (midlertidigAnsatt && !underviser) {
+  if (midlertidigAnsatt && !underviser && !lærling) {
     tempEmployeeText = `The work to be performed is of a temporary nature, cf. the Civil Servants Act § 9 (1) a.  
     ${workText} The employment relationship terminates at the end of the agreed period in accordance with the Civil Servants Act § 17 (1). `;
   }
-  else if (midlertidigAnsatt && underviser) {
+
+  if (midlertidigAnsatt && !underviser && lærling) {
+    tempEmployeeText = `The work to be performed is of a temporary nature to be an apprentice in accordance with the approved apprenticeship contract pursuant to the Working Environment Act (WEA) § 14-9 (2) letter C, cf. the Education Act (EA) § 7-4. Description of the work:
+    ${workText} When the apprenticeship period according to the contract is over, or when the apprenticeship contract is terminated pursuant to EA § 7-3, the employment contract also ceases, cf. EA § 7-4.`; +
+    `Apprentices and apprentice candidates should generally not be required to work overtime. `;
+  }
+  else if (midlertidigAnsatt && underviser && !lærling) {
     tempEmployeeText = `The employment is temporary to cover teaching needs in the advertised position pursuant to the University and University Colleges Act § 7-3.  
     ${workText} The employment relationship ends without notice upon the expiration of the employment period.  `;
   }
@@ -294,11 +315,11 @@ function getArbeidsavtaleBodyEngelsk(
   return `
     ${bodyIntro}
         <p class="MsoNormal" style="font-size: 11pt;">
-The employment contract, along with any job advertisement text, 
-            constitutes the terms of employment at the time of commencement. The employment is subject to 
+        ${lærling? `The employment contract contains, together with the approved apprenticeship contract, the terms of employment at the time of commencement.` : `The employment contract, along with any job advertisement text, 
+            constitutes the terms of employment at the time of commencement.`} The employment is subject to 
             compliance with the regulations that apply to the position at any given time.  
             General salary and working conditions are governed by the Main Collective Agreement in the state (HTA). 
-            Furthermore, the employment relationship is regulated by the Civil Servants Act, 
+            Furthermore, the employment relationship is regulated by the ${lærling? `Education Act, ` : `Civil Servants Act, `}
             the Working Environment Act (WEA), the Universities and Colleges Act (UCA), the National Insurance Act, 
             the Act on the Government Pension Fund, the Act on Age Limits for Public Servants, 
             the Dispute Act, the Main Agreement in the state (HA) with Adaptation Agreement at UiB, 
@@ -311,7 +332,7 @@ Salary is paid on the 12th of each month via bank transfer, unless otherwise spe
             which is part of the co-financing of training and development measures.
         </p>
         <p class="MsoNormal" style="font-size: 11pt;">
-            The rules in the Civil Servants Act § 15 regarding probationary period apply. The probationary period is 6 months from the date of commencement. Except for positions with a duration of less than 1 year, where the probationary period will be half of the employment period.
+            The rules in the ${lærling? `Working Environment Act 15-6, oppl. 7-4` : `Civil Servants Act § 22`} regarding probationary period apply. The probationary period is 6 months from the date of commencement. Except for positions with a duration of less than 1 year, where the probationary period will be half of the employment period.
             If the employee has been absent from work during the probationary period, the employer may extend the probationary period by a period corresponding to the length of the absence.
             </p>
         <p class="MsoNormal" style="font-size: 11pt;">
@@ -337,11 +358,11 @@ Salary is paid on the 12th of each month via bank transfer, unless otherwise spe
         <p class="MsoNormal" style="font-size: 11pt;">
             UiB offers competence development in accordance with the Main Agreement (HA) with adaptation agreement, special agreement, and internal guidelines.
         </p>
-        <p class="MsoNormal" style="font-size: 11pt;">
-            For the employment relationship, the notice periods in the Civil Servants Act § 22 apply. 
-            Employees must submit their resignation in writing. In case of termination by the employer, reference is made to the procedural rules in the Civil Servants Act § 32.
-        </p>
-        <p class="MsoNormal" style="font-size: 11pt;">
+        ${lærling? `` : `<p class="MsoNormal" style="font-size: 11pt;">
+                            For the employment relationship, the notice periods in the Civil Servants Act § 22 apply. 
+                            Employees must submit their resignation in writing. In case of termination by the employer, reference is made to the procedural rules in the Civil Servants Act § 32.
+                        </p>
+        <p class="MsoNormal" style="font-size: 11pt;">`}
         ${(jobSko === '1017' || jobSko === '1352') ? `Employees in positions as PhD candidates or postdoctoral fellows will normally not have access to secondary employment without approval from the employer. ` : `Employees must not hold additional positions or other employment in conflict with the rules of the state. `}
         Some employee groups must register their additional positions in accordance with guidelines at UiB.
         Rights to research and work results are regulated in the Regulations for managing employees' rights to research and work results at the University of Bergen.
@@ -380,6 +401,8 @@ function getArbeidsavtaleBodyNorsk(
   family: boolean,
   frameProgram: string,
   grantNumber: string,
+  lærling: boolean,
+  lonnsutbetaling: string,
 ): string {
   let educationalCompetenceNeeded = "";
   let norwegianCompetenceNeeded = "";
@@ -461,18 +484,26 @@ function getArbeidsavtaleBodyNorsk(
       default:
         console.error('This should not happen! Please check the termType value.');
         break;
-    }}
-  
+    }
+  }
 
-  if(workDescription != null){
+
+  if (workDescription != null) {
     workText = `Beskrivelse av arbeidet: ${workDescription}.`;
   }
 
-  if (midlertidigAnsatt && !underviser) {
+  if (midlertidigAnsatt && !underviser && !lærling) {
     tempEmployeeText = `Arbeidet som skal utføres er av midlertidig karakter, jf. statsansatteloven § 9 (1) a.  
     ${workText} Ansettelsesforholdet opphører ved det avtalte tidsrommets utløp iht. statsansatteloven § 17 (1). `;
   }
-  else if (midlertidigAnsatt && underviser) {
+
+  if (midlertidigAnsatt && !underviser && lærling) {
+    tempEmployeeText = `Arbeidet som skal utføres er av midlertidig karakter for å være lærling iht. godkjent lærekontrakt jf. Arbeidsmiljøloven (aml) § 14-9 (2) bokstav C, fj. Opplæringsloven (oppl) § 7-4. Beskrivelse av arbeidet:
+    ${workText} Når læretiden etter kontrakten er over, eller når lærekontrakten blir hevet etter oppl. § 7-3 faller også arbeidsavtalen bort, jf. oppl. § 7-4.`; + 
+    `Lærlinger og lærekandidater skal normalt ikke kunne pålegges overtidsarbeid.`;
+  }
+
+  else if (midlertidigAnsatt && underviser && !lærling) {
     tempEmployeeText = `Ansettelsen er midlertidig for å dekke undervisningsbehov i den utlyste stillingen i henhold til uhl. § 7-3.  
     ${workText} Ansettelsesforholdet opphører uten oppsigelse når ansettelsesperioden er utløpt.  `;
   }
@@ -532,11 +563,11 @@ function getArbeidsavtaleBodyNorsk(
   return `
     ${bodyIntro}
         <p class="MsoNormal" style="font-size: 11pt;">
-            Arbeidsavtalen inneholder, sammen med eventuell utlysningstekst, 
-            ansettelsesvilkårene ved tiltredelsen. Ansettelsen skjer med plikt 
+            ${lærling? `Arbeidsavtalen inneholder, sammen med godkjent lærekontrakt, ansettelsesvilkårene ved tiltredelsen.` : `Arbeidsavtalen inneholder, sammen med eventuell utlysningstekst, 
+            ansettelsesvilkårene ved tiltredelsen.`} Ansettelsen skjer med plikt 
             til å rette seg etter de bestemmelser som til enhver tid gjelder for stillingen.  
             Generelle lønns- og arbeidsvilkår reguleres av Hovedtariffavtalen i staten (HTA). 
-            For øvrig er ansettelsesforholdet blant annet regulert av statsansatteloven, 
+            For øvrig er ansettelsesforholdet blant annet regulert av ${lærling? `opplæringsloven, ` : `statsansatteloven, `}
             arbeidsmiljøloven (aml), universitets- og høyskoleloven (uhl), folketrygdloven, 
             Lov om Statens pensjonskasse, Lov om aldersgrenser for offentlige tjenestemenn m.fl., 
             tjenestetvistloven, Hovedavtalen i staten (HA) med Tilpasningsavtale ved UiB, 
@@ -549,7 +580,7 @@ function getArbeidsavtaleBodyNorsk(
             som inngår i delfinansiering av opplærings- og utviklingstiltak.
         </p>
         <p class="MsoNormal" style="font-size: 11pt;">
-            Reglene i statsansatteloven § 15 om prøvetid gjelder. Prøvetiden er 6 måneder fra tiltredelse. Med unntak av stillinger ved varighet under 1 år, hvor prøvetiden vil være halvparten av ansettelsesforholdets varighet.
+            Reglene i ${lærling? `arbeidsmiljøloven 15-6, oppl. 7-4` : `statsansatteloven § 15`} om prøvetid gjelder. Prøvetiden er 6 måneder fra tiltredelse. Med unntak av stillinger ved varighet under 1 år, hvor prøvetiden vil være halvparten av ansettelsesforholdets varighet.
             Dersom den ansatte har vært fraværende fra arbeidet i prøvetiden, kan arbeidsgiver forlenge prøvetiden med en periode som tilsvarer lengden av fraværet.  
         </p>
         <p class="MsoNormal" style="font-size: 11pt;">
@@ -575,10 +606,10 @@ function getArbeidsavtaleBodyNorsk(
         <p class="MsoNormal" style="font-size: 11pt;">
             UiB tilbyr kompetanseutvikling i henhold til HA med tilpasningsavtale, særavtale og interne retningslinjer.
         </p>
-        <p class="MsoNormal" style="font-size: 11pt;">
+        ${lærling? `` : `<p class="MsoNormal" style="font-size: 11pt;">
             For ansettelsesforholdet gjelder oppsigelsesfrister i statsansatteloven § 22. 
             Ansatte må levere sin oppsigelse skriftlig. Ved oppsigelse fra arbeidsgiver vises det til saksbehandlingsreglene i statsansatteloven § 32.
-        </p>
+        </p>`}
         <p class="MsoNormal" style="font-size: 11pt;">
         ${(jobSko === '1017' || jobSko === '1352') ? `Ansatte i stillinger som stipendiat eller postdoktor vil normalt ikke ha adgang til sidegjøremål, uten godkjenning fra arbeidsgiver. ` : `Ansatte må ikke inneha ekstraerverv eller annet erverv i strid med reglene i staten. `}
         Noen ansattgrupper må registrere sine ekstraerverv i henhold til retningslinjer ved UiB. Rettigheter til forsknings- og arbeidsresultater er regulert i Reglement om håndtering av ansattes rettigheter til forsknings- og arbeidsresultater ved Universitetet i Bergen.
@@ -588,4 +619,4 @@ function getArbeidsavtaleBodyNorsk(
             Ved å underskrive arbeidskontrakten erklærer den ansatte å kjenne til og respekterer reglene om taushetsplikt.
         </p>
     `;
-  }
+}

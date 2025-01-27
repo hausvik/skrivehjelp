@@ -39,6 +39,7 @@ const htmlStyle = `
  * @param {string} endDate - The end date of the employment, if any.
  * @param {string} mscaSupervisor - The name of the MSCA supervisor.
  * @param {boolean} mscaBox - Whether the MSCA box was checked.
+ * @param {string} lonnsplan - The salary plan, only used for "lærling".
  * @returns {string} An HTML string representing the employment contract header.
  */
 export function getArbeidsavtaleHeading(
@@ -58,33 +59,34 @@ export function getArbeidsavtaleHeading(
         endDate: string,
         employeeType: string,
         mscaSupervisor: string,
-        mscaBox: boolean
+        mscaBox: boolean,
+        lonnsplan: string,
 ): string {
         switch (employeeType) {
-            case "fast":
-                employeeType = engelsk ? "Permanent employment" : "Fast ansettelse";
-                break;
-            case "temp":
-                employeeType = engelsk ? "Temporary employment" : "Midlertidig ansettelse";
-                break;
-            case "sub":
-                employeeType = engelsk ? "Substitute" : "Vikar";
-                break;
-            case "term":
-                employeeType = engelsk ? "Fixed-term" : "Åremål";
-                break;
-            default:
-                employeeType ="";
-                break;
+                case "fast":
+                        employeeType = engelsk ? "Permanent employment" : "Fast ansettelse";
+                        break;
+                case "temp":
+                        employeeType = engelsk ? "Temporary employment" : "Midlertidig ansettelse";
+                        break;
+                case "sub":
+                        employeeType = engelsk ? "Substitute" : "Vikar";
+                        break;
+                case "term":
+                        employeeType = engelsk ? "Fixed-term" : "Åremål";
+                        break;
+                default:
+                        employeeType = "";
+                        break;
         }
 
         return engelsk
                 ? getArbeidsavtaleHeadingEngelsk(name, personalId, placeOfWork, positionCode,
                         percentageFullTime, seniority, annualSalary, mobilityAllowance, familyAllowance,
-                        mobilityMonths, familyMonths, startingDate, endDate, employeeType, mscaSupervisor, mscaBox)
+                        mobilityMonths, familyMonths, startingDate, endDate, employeeType, mscaSupervisor, mscaBox, lonnsplan)
                 : getArbeidsavtaleHeadingNorsk(name, personalId, placeOfWork, positionCode,
                         percentageFullTime, seniority, annualSalary, mobilityAllowance, familyAllowance,
-                        mobilityMonths, familyMonths, startingDate, endDate, employeeType, mscaSupervisor, mscaBox);
+                        mobilityMonths, familyMonths, startingDate, endDate, employeeType, mscaSupervisor, mscaBox, lonnsplan);
 }
 /**
  * Generates an HTML string representing the header of an employment contract, in English.
@@ -105,6 +107,7 @@ export function getArbeidsavtaleHeading(
  * @param {string} employeeType - The type of employment.
  * @param {string} mscaSupervisor - The name of the MSCA supervisor.
  * @param {boolean} mscaBox - Whether the MSCA box was checked.
+ * @param {string} lonnsplan - The salary plan, only used for "lærling".
  * @returns {string} An HTML string representing the employment contract header.
  */
 function getArbeidsavtaleHeadingEngelsk(
@@ -123,19 +126,30 @@ function getArbeidsavtaleHeadingEngelsk(
         endDate: string,
         employeeType: string,
         mscaSupervisor: string,
-        mscaBox: boolean
+        mscaBox: boolean,
+        lonnsplan: string,
 ): string {
+        let lærlingtabell = ``;
         let mobilityRow1 = mobilityAllowance != 0 && mobilityAllowance != null ? "Mobility allowance" : "";
-        let mobilityRow2 = mobilityAllowance != 0 && mobilityAllowance != null ? `${mscaBox? "EUR":"NOK"} ${mobilityAllowance} for ${mobilityMonths} months` : "";
+        let mobilityRow2 = mobilityAllowance != 0 && mobilityAllowance != null ? `${mscaBox ? "EUR" : "NOK"} ${mobilityAllowance} for ${mobilityMonths} months` : "";
         let familyRow1 = familyAllowance != 0 && familyAllowance != null ? "Family allowance" : "";
-        let familyRow2 = familyAllowance != 0 && familyAllowance != null ? `${mscaBox? "EUR":"NOK"} ${familyAllowance} for ${familyMonths} months` : "";
+        let familyRow2 = familyAllowance != 0 && familyAllowance != null ? `${mscaBox ? "EUR" : "NOK"} ${familyAllowance} for ${familyMonths} months` : "";
         let mobFamAllowance = (mobilityRow2 !== "" || familyRow2 !== "") ?
                 `<tr>
           <td><b>${mobilityRow1}</b></td>
           <td>${mobilityRow2}</td>
           <td><b>${familyRow1}</b></td>
           <td>${familyRow2}</td>
-      </tr>` : '';
+        </tr>` : '';
+        if (positionCode == "1362 - Lærling" || positionCode == "1446 - Lærekandidat") {
+                lærlingtabell =
+                        `<tr>
+                        <td><b>Salary plan</b></td>
+                        <td>${lonnsplan}</td>
+                        <td><b></b></td>
+                        <td></td>
+                        </tr>`;
+        }
 
         return `
   ${htmlStyle}
@@ -176,6 +190,7 @@ function getArbeidsavtaleHeadingEngelsk(
                                   <td>${annualSalary}</td>
                           </tr>
                           ${mobFamAllowance}
+                          ${lærlingtabell}
                           <tr>
                                   <td><b>Start date</b></td>
                                   <td>${startingDate}</td>
@@ -207,6 +222,7 @@ function getArbeidsavtaleHeadingEngelsk(
  * @param {string} mscaSupervisor - The name of the MSCA supervisor.
  * @param {boolean} mscaBox - Whether the MSCA box was checked.
  * @returns {string} An HTML string representing the employment contract header.
+ * @param {string} lonnsplan - The salary plan, only used for "lærling".
  */
 function getArbeidsavtaleHeadingNorsk(
         name: string,
@@ -224,19 +240,29 @@ function getArbeidsavtaleHeadingNorsk(
         endDate: string,
         employeeType: string,
         mscaSupervisor: string,
-        mscaBox: boolean
+        mscaBox: boolean,
+        lonnsplan: string,
 ): string {
+        let lærlingtabell = ``;
         let mobilityRow1 = mobilityAllowance != 0 && mobilityAllowance != null ? "Mobilitetstillegg" : "";
-        let mobilityRow2 = mobilityAllowance != 0 && mobilityAllowance != null ? `${mscaBox? "EUR":"NOK"} ${mobilityAllowance} i ${mobilityMonths} måneder` : "";
+        let mobilityRow2 = mobilityAllowance != 0 && mobilityAllowance != null ? `${mscaBox ? "EUR" : "NOK"} ${mobilityAllowance} i ${mobilityMonths} måneder` : "";
         let familyRow1 = familyAllowance != 0 && familyAllowance != null ? "Familietillegg" : "";
-        let familyRow2 = familyAllowance != 0 && familyAllowance != null ? `${mscaBox? "EUR":"NOK"} ${familyAllowance} i ${familyMonths} måneder` : "";
+        let familyRow2 = familyAllowance != 0 && familyAllowance != null ? `${mscaBox ? "EUR" : "NOK"} ${familyAllowance} i ${familyMonths} måneder` : "";
         let mobFamAllowance = (mobilityRow2 !== "" || familyRow2 !== "") ?
                 `<tr>
-          <td><b>${mobilityRow1}</b></td>
-          <td>${mobilityRow2}</td>
-          <td><b>${familyRow1}</b></td>
-          <td>${familyRow2}</td>
-      </tr>` : '';
+                <td><b>${mobilityRow1}</b></td>
+                <td>${mobilityRow2}</td>
+                <td><b>${familyRow1}</b></td>
+                <td>${familyRow2}</td>
+                </tr>` : '';
+        if (positionCode == "1362 - Lærling" || positionCode == "1446 - Lærekandidat") {
+                lærlingtabell =
+                `<tr>
+                <td><b>Lønnsplan</b></td>
+                <td>${lonnsplan}</td>
+                <td><b></b></td>
+                <td></td>
+        </tr>`};
         return `
   ${htmlStyle}
           <br style='mso-special-character:line-break;page-break-before:always'>
@@ -275,6 +301,7 @@ function getArbeidsavtaleHeadingNorsk(
                                   <td>${annualSalary}</td>
                           </tr>
                           ${mobFamAllowance}
+                          ${lærlingtabell}
                           <tr>
                                   <td><b>Startdato</b></td>
                                   <td>${startingDate}</td>
