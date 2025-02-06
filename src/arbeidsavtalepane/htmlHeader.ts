@@ -61,6 +61,7 @@ export function getArbeidsavtaleHeading(
         mscaSupervisor: string,
         mscaBox: boolean,
         lonnsplan: string,
+        lærlinglønnsstige: string,
 ): string {
         switch (employeeType) {
                 case "fast":
@@ -83,10 +84,10 @@ export function getArbeidsavtaleHeading(
         return engelsk
                 ? getArbeidsavtaleHeadingEngelsk(name, personalId, placeOfWork, positionCode,
                         percentageFullTime, seniority, annualSalary, mobilityAllowance, familyAllowance,
-                        mobilityMonths, familyMonths, startingDate, endDate, employeeType, mscaSupervisor, mscaBox, lonnsplan)
+                        mobilityMonths, familyMonths, startingDate, endDate, employeeType, mscaSupervisor, mscaBox, lonnsplan, lærlinglønnsstige)
                 : getArbeidsavtaleHeadingNorsk(name, personalId, placeOfWork, positionCode,
                         percentageFullTime, seniority, annualSalary, mobilityAllowance, familyAllowance,
-                        mobilityMonths, familyMonths, startingDate, endDate, employeeType, mscaSupervisor, mscaBox, lonnsplan);
+                        mobilityMonths, familyMonths, startingDate, endDate, employeeType, mscaSupervisor, mscaBox, lonnsplan, lærlinglønnsstige);
 }
 /**
  * Generates an HTML string representing the header of an employment contract, in English.
@@ -128,7 +129,13 @@ function getArbeidsavtaleHeadingEngelsk(
         mscaSupervisor: string,
         mscaBox: boolean,
         lonnsplan: string,
+        lærlinglønnsstige: string,
 ): string {
+        let lærling = false;
+        if (positionCode == "1362 - Lærling" || positionCode == "1446 - Lærekandidat") {
+                lærling = true;
+        }
+
         let lærlingtabell = ``;
         let mobilityRow1 = mobilityAllowance != 0 && mobilityAllowance != null ? "Mobility allowance" : "";
         let mobilityRow2 = mobilityAllowance != 0 && mobilityAllowance != null ? `${mscaBox ? "EUR" : "NOK"} ${mobilityAllowance} for ${mobilityMonths} months` : "";
@@ -141,13 +148,10 @@ function getArbeidsavtaleHeadingEngelsk(
           <td><b>${familyRow1}</b></td>
           <td>${familyRow2}</td>
         </tr>` : '';
-        if (positionCode == "1362 - Lærling" || positionCode == "1446 - Lærekandidat") {
+        if (lærling) {
                 lærlingtabell =
                         `<tr>
-                        <td><b>Salary plan</b></td>
-                        <td>${lonnsplan}</td>
-                        <td><b></b></td>
-                        <td></td>
+                        <td colspan="4">* Percentage payment of salary according to where one is in the apprenticeship: ${lærlinglønnsstige}</td>
                         </tr>`;
         }
 
@@ -184,10 +188,10 @@ function getArbeidsavtaleHeadingEngelsk(
                                   
                           </tr>
                           <tr>
-                                  <td><b>Seniority</b></td>
-                                  <td>${seniority}</td>
+                                  <td>${lærling ? "<b>Salaryplan</b>" : "<b>Seniority</b>"}</td>
+                                  <td>${lærling ? `${lonnsplan}` : `${seniority}`}</td>
                                   <td><b>Annual salary in a 100 % position</b></td>
-                                  <td>${annualSalary}</td>
+                                  <td>${annualSalary}${lærling ? `*` : ``}</td>
                           </tr>
                           ${mobFamAllowance}
                           ${lærlingtabell}
@@ -242,7 +246,12 @@ function getArbeidsavtaleHeadingNorsk(
         mscaSupervisor: string,
         mscaBox: boolean,
         lonnsplan: string,
+        lærlinglønnsstige: string,
 ): string {
+        let lærling = false;
+        if (positionCode == "1362 - Lærling" || positionCode == "1446 - Lærekandidat") {
+                lærling = true;
+        }
         let lærlingtabell = ``;
         let mobilityRow1 = mobilityAllowance != 0 && mobilityAllowance != null ? "Mobilitetstillegg" : "";
         let mobilityRow2 = mobilityAllowance != 0 && mobilityAllowance != null ? `${mscaBox ? "EUR" : "NOK"} ${mobilityAllowance} i ${mobilityMonths} måneder` : "";
@@ -255,13 +264,10 @@ function getArbeidsavtaleHeadingNorsk(
                 <td><b>${familyRow1}</b></td>
                 <td>${familyRow2}</td>
                 </tr>` : '';
-        if (positionCode == "1362 - Lærling" || positionCode == "1446 - Lærekandidat") {
+        if (lærling) {
                 lærlingtabell =
-                `<tr>
-                <td><b>Lønnsplan</b></td>
-                <td>${lonnsplan}</td>
-                <td><b></b></td>
-                <td></td>
+        `<tr>
+                <td colspan="4">* Prosentvis utbetaling av lønn i henhold til hvor man er i læreløpet: ${lærlinglønnsstige}</td>
         </tr>`};
         return `
   ${htmlStyle}
@@ -295,10 +301,10 @@ function getArbeidsavtaleHeadingNorsk(
                                   
                           </tr>
                           <tr>
-                                  <td><b>Stillingsansiennitet</b></td>
-                                  <td>${seniority}</td>
-                                  <td><b>Årslønn i 100 % stilling</b></td>
-                                  <td>${annualSalary}</td>
+                                  <td>${lærling ? "<b>Lønnsplan</b>" : "<b>Seniority</b>"}</td>
+                                  <td>${lærling ? `${lonnsplan}` : `${seniority}`}</td>
+                                  <td><b>Annual salary in a 100 % position</b></td>
+                                  <td>${annualSalary}${lærling ? `*` : ``}</td>
                           </tr>
                           ${mobFamAllowance}
                           ${lærlingtabell}

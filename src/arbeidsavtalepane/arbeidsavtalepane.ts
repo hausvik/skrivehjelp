@@ -144,6 +144,7 @@ export async function initializeArbeidsavtalepane() {
   let positionCodeSelect: HTMLSelectElement | null = document.getElementById("positionCode") as HTMLSelectElement;
 
   // Elements
+  let seniorityGroup: HTMLElement | null = document.getElementById("seniorityGroup") as HTMLElement;
   let lærlingGroup: HTMLElement | null = document.getElementById("lærlingGroup") as HTMLElement;
   let tempTeachNeedGroup: HTMLElement | null = document.getElementById("tempTeachNeedGroup") as HTMLElement;
   let additionalDutyGroup: HTMLElement | null = document.getElementById("additionalDutyGroup") as HTMLElement;
@@ -199,6 +200,7 @@ export async function initializeArbeidsavtalepane() {
   positionCodeSelect?.addEventListener("change", async () => {
     // Reset hidden fields (some resets are still bellow, move here if editing)
     lærlingGroup.style.display = "none";
+    seniorityGroup.style.display = "block";
     lonnsutbetaling.value = engelsk.checked ? englishLonnsutbetalingValue : initialLonnsutbetalingValue;
 
     // Get the selected position code and corresponding data
@@ -250,6 +252,7 @@ export async function initializeArbeidsavtalepane() {
 
     if (positionCodeSelect.value.includes("Lærling") || (positionCodeSelect.value.includes("Lærekandidat"))) {
       lærlingGroup.style.display = "block";
+      seniorityGroup.style.display = "none";
       if(engelsk.checked){lonnsutbetaling.value = englishLonnsutbetalingValue}
     }
   });
@@ -498,6 +501,7 @@ export async function initializeArbeidsavtalepane() {
         mscaSupervisorText.value,
         mscaBox.checked,
         lonnsplan.value,
+        lonnsutbetaling.value,
       );
 
       htmlBodyText = getArbeidsavtale(

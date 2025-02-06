@@ -240,7 +240,7 @@ function getArbeidsavtaleBodyEngelsk(
   }
 
   if (workDescription != null) {
-    workText = `Description of the work: ${workDescription}.`;
+    workText = `${workDescription}.`;
   }
   if (midlertidigAnsatt && !underviser && !lærling) {
     tempEmployeeText = `The work to be performed is of a temporary nature, cf. the Civil Servants Act § 9 (1) a.  
@@ -489,7 +489,7 @@ function getArbeidsavtaleBodyNorsk(
 
 
   if (workDescription != null) {
-    workText = `Beskrivelse av arbeidet: ${workDescription}.`;
+    workText = `${workDescription}.`;
   }
 
   if (midlertidigAnsatt && !underviser && !lærling) {
