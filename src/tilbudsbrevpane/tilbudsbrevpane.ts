@@ -129,8 +129,7 @@ export async function initializeTilbudsbrevpane() {
   const percentageWork: HTMLInputElement | null = document.getElementById("percentageWork") as HTMLInputElement;
   const annualSalary: HTMLInputElement | null = document.getElementById("annualSalary") as HTMLInputElement;
   const externallyFundedProjectName: HTMLInputElement | null = document.getElementById("externallyFundedProjectName") as HTMLInputElement;
-  const answerByDate: HTMLInputElement | null = document.getElementById("answerByDate") as HTMLInputElement;
-  const answerEmail: HTMLInputElement | null = document.getElementById("answerEmail") as HTMLInputElement;
+  const answerOnedrive: HTMLInputElement | null = document.getElementById("answerOnedrive") as HTMLInputElement;
   const contactLocalName: HTMLInputElement | null = document.getElementById("contactLocalName") as HTMLInputElement;
   const contactLocalEmail: HTMLInputElement | null = document.getElementById("contactLocalEmail") as HTMLInputElement;
   const contactHrName: HTMLInputElement | null = document.getElementById("contactHrName") as HTMLInputElement;
@@ -146,12 +145,9 @@ export async function initializeTilbudsbrevpane() {
   let jobTitle = "" as string;
   let answerUrl = "";
   let teachingPos = false as boolean;
-  let qrCode = "";
+  let qrCodeElements = "";
+  let qrCodeOnedrive = "";
 
-  // TODO: REMOVE ME WHEN NORSK IS ADDED
-  engelsk?.addEventListener('change', () => {
-    engelsk.checked = true;
-  });
 
   // Populate avdeling dropdown on load
   getChildren(1).then((children) => {
@@ -237,7 +233,6 @@ export async function initializeTilbudsbrevpane() {
     const selectedPositionCode = positionCode.value;
     skoTitle = getPositionDetail(AllPositionCodes, selectedPositionCode, 0, engelsk.checked).substring(0, 4);
     jobTitle = getPositionDetail(AllPositionCodes, selectedPositionCode, 1, engelsk.checked);
-    console.log(`Title: ` + jobTitle);
     teachingPos = getPositionDetail(AllPositionCodes, selectedPositionCode, 3, engelsk.checked) === '1' ? true : false;
 
     if (teachingPos) {
@@ -312,10 +307,13 @@ export async function initializeTilbudsbrevpane() {
     else {
       noBankIdGroup.style.display = "none";
       linkGeneratorGroup.style.display = "block";
-      answerByDate.value = "";
-      answerEmail.value = "";
+      answerOnedrive.value = "";
       caseNumber.value = "";
     }
+  });
+
+  answerOnedrive?.addEventListener('change', async () => {
+      qrCodeOnedrive = await generateQRCode(answerOnedrive.value);
   });
 
   
@@ -325,7 +323,7 @@ export async function initializeTilbudsbrevpane() {
         answerUrl = "";
     } else {
         answerUrl = `https://digiforms.uib.no/ettersending/${caseNumber.value}/AkseptOpplysning`;
-        qrCode = await generateQRCode(answerUrl);
+        qrCodeElements = await generateQRCode(answerUrl);
     }
 });
 
@@ -348,16 +346,16 @@ export async function initializeTilbudsbrevpane() {
     generateTextButton.addEventListener("click", () => {
 
       
-      let usedPosTitle = getPositionDetail(AllPositionCodes, positionCode.value, 1, !engelsk.checked);;
+      let usedPosTitle = getPositionDetail(AllPositionCodes, positionCode.value, 1, false).toLowerCase();
       if (engelsk.checked) {
-        usedPosTitle = getPositionDetail(AllPositionCodes, positionCode.value, 1, engelsk.checked);
+        usedPosTitle = getPositionDetail(AllPositionCodes, positionCode.value, 1, true);
       }
-
+      
       insertText(getTilbudsbrev(engelsk.checked, selectedEmployeeType, externallyFunded.checked, needsNorwegianCompetence.checked, relocateToNorway.checked,
         eksportlisens.checked, oppholdstillatelse.checked, noBankID.checked, tempYears.value, datoForbehold.value, avdeling.value, seksjon.value,
         skoTitle, usedPosTitle, noEducationCompetence.checked, careerPromotingWork.value, percentageWork.value, externallyFundedProjectName.value,
-        annualSalary.value, answerByDate.value, answerEmail.value, contactLocalName.value, contactLocalEmail.value, contactHrName.value,
-        contactHrEmail.value, answerUrl, qrCode), 'START');
+        annualSalary.value, answerOnedrive.value, contactLocalName.value, contactLocalEmail.value, contactHrName.value,
+        contactHrEmail.value, answerUrl, qrCodeElements, qrCodeOnedrive), 'START');
     });
   }
 

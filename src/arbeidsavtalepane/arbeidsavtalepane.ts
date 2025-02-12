@@ -368,6 +368,7 @@ export async function initializeArbeidsavtalepane() {
   if (researchFellow) {
     researchFellow.addEventListener('click', () => {
       positionCodeSelect.value = "1017 - Stipendiat";
+      skoTitle = getPositionDetail(AllPositionCodes, positionCodeSelect.value, 0, engelsk.checked);
       jobTitle = getPositionDetail(AllPositionCodes, positionCodeSelect.value, 1, engelsk.checked);
       category = getPositionDetail(AllPositionCodes, positionCodeSelect.value, 2, engelsk.checked);
     });
@@ -387,6 +388,7 @@ export async function initializeArbeidsavtalepane() {
   if (artisticFellow) {
     artisticFellow.addEventListener('click', () => {
       positionCodeSelect.value = "1017 - Stipendiat";
+      skoTitle = getPositionDetail(AllPositionCodes, positionCodeSelect.value, 0, engelsk.checked);
       jobTitle = getPositionDetail(AllPositionCodes, positionCodeSelect.value, 1, engelsk.checked);
       category = getPositionDetail(AllPositionCodes, positionCodeSelect.value, 2, engelsk.checked);
     });
@@ -395,6 +397,7 @@ export async function initializeArbeidsavtalepane() {
   if (postdoktor) {
     postdoktor.addEventListener('click', () => {
       positionCodeSelect.value = "1352 - Postdoktor";
+      skoTitle = getPositionDetail(AllPositionCodes, positionCodeSelect.value, 0, engelsk.checked);
       jobTitle = getPositionDetail(AllPositionCodes, positionCodeSelect.value, 1, engelsk.checked);
       category = getPositionDetail(AllPositionCodes, positionCodeSelect.value, 2, engelsk.checked);
     });
@@ -435,6 +438,7 @@ export async function initializeArbeidsavtalepane() {
 
   // Button logic
   if (generateTextButton) {
+    //Triggers a change of stillingskode, just in case the user has not clicked on the dropdown
     generateTextButton.addEventListener("click", () => {
       if (
         !tempEmployee.checked &&
@@ -484,6 +488,7 @@ export async function initializeArbeidsavtalepane() {
         substituteEmployee.checked,
         tempTeachNeed.checked,
         jobTitle,
+        skoTitle.substring(0,4),
         radioButtonUtils.checkSelectedRadioButtonValue(educationalCompetence, "educationalCompetence", "no"),
         radioButtonUtils.checkSelectedRadioButtonValue(norwegianCompetence, "norwegianCompetence", "no"),
         externallyFundedBox.checked,
