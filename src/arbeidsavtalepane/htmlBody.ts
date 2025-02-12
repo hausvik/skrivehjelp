@@ -306,7 +306,7 @@ The employment contract, along with any job advertisement text,
         </p>
         <p class="MsoNormal" style="font-size: 11pt;">
 Salary is paid on the 12th of each month via bank transfer, unless otherwise specifically agreed. 
-            A 2% pension contribution is deducted for membership in the Government Pension Fund for positions with a minimum of 20 percent of a full position. 
+            A 2% pension contribution is deducted for membership in the Government Pension Fund. 
             The state and the main unions have through a special agreement stipulated that employees in a 100% position shall be deducted NOK 400,- in gross salary per year, 
             which is part of the co-financing of training and development measures.
         </p>
@@ -544,7 +544,7 @@ function getArbeidsavtaleBodyNorsk(
         </p>
         <p class="MsoNormal" style="font-size: 11pt;">
             Lønn utbetales den 12. hver måned via bank, med mindre annet er avtalt særskilt. 
-            Det trekkes 2% pensjonsinnskudd til medlemskap i Statens pensjonskasse for stillinger med minimum 20 prosent av full stilling. 
+            Det trekkes 2% pensjonsinnskudd til medlemskap i Statens pensjonskasse. 
             Staten og hovedsammenslutningene har gjennom særavtale fastsatt at arbeidstakere i 100 % stilling skal trekkes kr 400,- i bruttolønn pr år, 
             som inngår i delfinansiering av opplærings- og utviklingstiltak.
         </p>
