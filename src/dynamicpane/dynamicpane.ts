@@ -105,12 +105,13 @@ function parseContent(content: string): { form: HTMLFormElement, modifiedContent
         const decodedName = decodeURIComponent(variableName.replace(/-/g, ' '));
 
         const label = document.createElement('label');
-        label.htmlFor = variableName;
+        const elementId = `DynamicFormElement${processedVariables.size}`;
+        label.htmlFor = elementId;
         label.textContent = decodedName;
 
         const input = document.createElement('input');
         input.type = 'text';
-        input.id = variableName;
+        input.id = elementId;
         input.name = variableName;
         input.className = 'form-control';
 
@@ -123,7 +124,8 @@ function parseContent(content: string): { form: HTMLFormElement, modifiedContent
     }
 
     const modifiedContent = content.replace(variableRegex, (match, variableName) => {
-        return `<div class="form-group"><label for="${variableName}">${decodeURIComponent(variableName.replace(/-/g, ' '))}</label><input type="text" class="form-control" id="${variableName}" name="${variableName}"></div>`;
+        const elementId = `DynamicFormElement${processedVariables.size}`;
+        return `<div class="form-group"><label for="${elementId}">${decodeURIComponent(variableName.replace(/-/g, ' '))}</label><input type="text" class="form-control" id="${elementId}" name="${variableName}"></div>`;
     });
 
     return { form, modifiedContent };
