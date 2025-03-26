@@ -89,6 +89,8 @@ function formatDate(isoDate: string): string {
 export async function initializeArbeidsavtalepane() {
 
   // Input elements
+  let lonnsutbetaling: HTMLInputElement | null = document.getElementById("lonnsutbetaling") as HTMLInputElement;
+  let lonnsplan: HTMLInputElement | null = document.getElementById("lonnsplan") as HTMLInputElement;
   let mscaSupervisor: HTMLInputElement | null = document.getElementById("mscaSupervisor") as HTMLInputElement;
   let mscaSupervisorText: HTMLInputElement | null = document.getElementById("mscaSupervisorText") as HTMLInputElement;
   let engelsk: HTMLInputElement | null = document.getElementById("engelsk") as HTMLInputElement;
@@ -142,6 +144,8 @@ export async function initializeArbeidsavtalepane() {
   let positionCodeSelect: HTMLSelectElement | null = document.getElementById("positionCode") as HTMLSelectElement;
 
   // Elements
+  let seniorityGroup: HTMLElement | null = document.getElementById("seniorityGroup") as HTMLElement;
+  let lærlingGroup: HTMLElement | null = document.getElementById("lærlingGroup") as HTMLElement;
   let tempTeachNeedGroup: HTMLElement | null = document.getElementById("tempTeachNeedGroup") as HTMLElement;
   let additionalDutyGroup: HTMLElement | null = document.getElementById("additionalDutyGroup") as HTMLElement;
   let additionalDutyRadio: HTMLElement | null = document.getElementById("additionalDuty") as HTMLElement;
@@ -174,6 +178,12 @@ export async function initializeArbeidsavtalepane() {
   let substituteTypeGroupValue = "" as string;
   let mscaArbeidsgiveravgift = 1.141 as number;
   const AllPositionCodes: PositionCode[] = await addToDropDown('assets\\stillingskoder.xlsx', 'positionCode');
+  const initialLonnsutbetalingValue = (document.getElementById('lonnsutbetaling') as HTMLTextAreaElement).value;
+  const englishLonnsutbetalingValue = "1st semester 30%, 2nd semester 40%, 3rd semester 50%, 4th semester 80%";
+
+  engelsk?.addEventListener("change", () => {
+    lonnsutbetaling.value = engelsk.checked ? englishLonnsutbetalingValue : initialLonnsutbetalingValue;
+  });
 
   positionCodeSelect?.addEventListener("mousedown", () => {
     if (scientificAssistant.checked) {
@@ -188,6 +198,11 @@ export async function initializeArbeidsavtalepane() {
   });
 
   positionCodeSelect?.addEventListener("change", async () => {
+    // Reset hidden fields (some resets are still bellow, move here if editing)
+    lærlingGroup.style.display = "none";
+    seniorityGroup.style.display = "block";
+    lonnsutbetaling.value = engelsk.checked ? englishLonnsutbetalingValue : initialLonnsutbetalingValue;
+
     // Get the selected position code and corresponding data
     const selectedPositionCode = positionCodeSelect.value;
     skoTitle = getPositionDetail(AllPositionCodes, selectedPositionCode, 0, engelsk.checked);
@@ -235,6 +250,11 @@ export async function initializeArbeidsavtalepane() {
       mscaSupervisorText.value = "";
     }
 
+    if (positionCodeSelect.value.includes("Lærling") || (positionCodeSelect.value.includes("Lærekandidat"))) {
+      lærlingGroup.style.display = "block";
+      seniorityGroup.style.display = "none";
+      if(engelsk.checked){lonnsutbetaling.value = englishLonnsutbetalingValue}
+    }
   });
 
   // Event listner for the externallyFunded box
@@ -480,6 +500,8 @@ export async function initializeArbeidsavtalepane() {
         employeeType,
         mscaSupervisorText.value,
         mscaBox.checked,
+        lonnsplan.value,
+        lonnsutbetaling.value,
       );
 
       htmlBodyText = getArbeidsavtale(
@@ -510,7 +532,7 @@ export async function initializeArbeidsavtalepane() {
         family,
         frameProgramme.value,
         grantNumb.value,
-
+        lonnsutbetaling.value,
       );
 
       let htmlText = combineHtmlStrings([htmlHeaderText, htmlBodyText, getArbeidsavtaleFooter(engelsk.checked, nameSign.value, namePos.value)]);
