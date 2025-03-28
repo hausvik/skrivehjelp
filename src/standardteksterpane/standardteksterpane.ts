@@ -26,21 +26,18 @@ async function addButtons(container: HTMLElement, url: string) {
 }
 
 async function createFolderStructure(folder: string, urlPath: string): Promise<HTMLDivElement> {
-  console.log(`Creating structure for folder: ${folder}`); // Debugging
   const folderDiv = createFolderDiv(folder, 'h3');
   const subfolders = await fetchSubfolders(folder, '', urlPath);
 
   for (const subfolder of subfolders) {
-    console.log(`Found subfolder: ${subfolder}`); // Debugging
     const subFolderDiv = await createFolderStructure(subfolder, urlPath);
     subFolderDiv.style.display = 'none'; // Ensure subfolders are collapsed by default
 
     const contentDiv = folderDiv.querySelector('.folder-content');
     if (contentDiv) {
       contentDiv.appendChild(subFolderDiv);
-      console.log(`Appended subFolderDiv for ${subfolder} to ${folder}`); // Debugging
     } else {
-      console.error(`Content div not found for folder: ${folder}`); // Debugging
+      console.error(`Content div not found for folder: ${folder}`);
     }
   }
 
@@ -110,7 +107,6 @@ function createFolderDiv(folder: string, titleTag: 'h3' | 'h4'): HTMLDivElement 
 
   folderTitle.addEventListener('click', () => {
     const isHidden = contentDiv.style.display === 'none';
-    console.log(`Folder clicked: ${folder}, isHidden: ${isHidden}`); // Debugging
 
     // Toggle visibility of all items inside the folder
     contentDiv.style.display = isHidden ? 'block' : 'none';
@@ -120,12 +116,9 @@ function createFolderDiv(folder: string, titleTag: 'h3' | 'h4'): HTMLDivElement 
     children.forEach((child) => {
       (child as HTMLElement).style.display = isHidden ? 'block' : 'none';
     });
-
-    console.log(`Toggled folder: ${folder}, new display: ${contentDiv.style.display}`); // Debugging
   });
 
   folderDiv.append(folderTitle, contentDiv);
-  console.log(`Created folderDiv for ${folder}:`, folderDiv); // Debugging
   return folderDiv;
 }
 
@@ -160,7 +153,6 @@ async function addFileButtons(container: HTMLElement, folder: string, urlPath: s
  * @returns {Promise<Array<string>>} A promise that resolves to an array of folder names.
  */
 async function fetchFolders(url: string, root?: string): Promise<Array<string>> {
-  console.log(`Fetching folders from URL: ${url}`); // Debugging
   const response = await fetch(url);
   const text = await response.text();
   const parser = new DOMParser();
@@ -171,7 +163,6 @@ async function fetchFolders(url: string, root?: string): Promise<Array<string>> 
     .map((element) => element.getAttribute('href'))
     .filter((folder): folder is string => folder !== null && folder !== root); // Ignore the root directory and filter out null values
 
-  console.log(`Fetched folders: ${folders}`); // Debugging
   return folders;
 }
 
