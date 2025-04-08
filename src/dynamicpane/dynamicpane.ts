@@ -52,7 +52,7 @@ export function createDynamicPane(htmlContent: string, paneTitle?: string): void
         let updatedContent = htmlContent;
         formData.forEach((value, key) => {
             const regex = new RegExp(`\\$\\{${key}\\}`, 'g');
-            updatedContent = updatedContent.replace(regex, value.toString());
+            updatedContent = updatedContent.replace(regex, value.toString() || key);
         });
 
         // Update HTML-tags to match Word's default styles
