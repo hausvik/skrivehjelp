@@ -120,3 +120,65 @@ b {
     font-size: 14px; /* Adjust the size as needed */
     text-align: center; /* Center the text */
 }
+
+.folder-container, .subfolder-container {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #ffffff; /* White background for better contrast */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.folder-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #2b3588; /* Ensure consistent dark blue for all folder titles */
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s; /* Smooth hover effect */
+}
+
+.folder-title:hover {
+    background-color: #f0f0f0; /* Light gray hover effect */
+    color: #005a9e; /* Brighter blue on hover */
+}
+
+.folder-title.open {
+    color: #005a9e; /* Highlight open folder */
+}
+
+.folder-content {
+    margin-left: 20px;
+    padding-left: 10px;
+    border-left: 2px solid #ddd; /* Indent subfolders visually */
+}
+
+.btn {
+    font-size: 14px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background-color 0.3s, box-shadow 0.3s; /* Smooth hover effect */
+}
+
+.btn-primary {
+    background-color: #2b3588;
+    color: #ffffff;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #005a9e;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: #ffffff;
+    border: none;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+}
