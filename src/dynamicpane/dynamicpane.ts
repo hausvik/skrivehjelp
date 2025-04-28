@@ -61,6 +61,11 @@ export function createDynamicPane(htmlContent: string, paneTitle?: string): void
         updatedContent = updatedContent.replace(/<h2>/g, '<h2 class="h2">');
         updatedContent = updatedContent.replace(/<h3>/g, '<h3 class="h3">');
 
+        // Ensure hyperlinks are properly formatted without adding </p>
+        updatedContent = updatedContent.replace(
+            /(https?:\/\/[^\s<]+)/g,
+            '<a href="$1" target="_blank">$1</a>'
+        );
 
         // Insert the updated content into the document
         insertText(updatedContent, 'START', false);
