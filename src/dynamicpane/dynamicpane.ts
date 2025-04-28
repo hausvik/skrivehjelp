@@ -61,9 +61,11 @@ export function createDynamicPane(htmlContent: string, paneTitle?: string): void
         updatedContent = updatedContent.replace(/<h2>/g, '<h2 class="h2">');
         updatedContent = updatedContent.replace(/<h3>/g, '<h3 class="h3">');
 
-        // Make URLs clickable by wrapping them in <a> tags
-        const urlRegex = /(https?:\/\/[^\s]+)/g;
-        updatedContent = updatedContent.replace(urlRegex, (url) => `<a href="${url}" target="_blank">${url}</a>`);
+        // Ensure hyperlinks are properly formatted without adding </p>
+        updatedContent = updatedContent.replace(
+            /(https?:\/\/[^\s<]+)/g,
+            '<a href="$1" target="_blank">$1</a>'
+        );
 
         // Insert the updated content into the document
         insertText(updatedContent, 'START', false);
