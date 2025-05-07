@@ -301,9 +301,9 @@ function getArbeidsavtaleHeadingNorsk(
                                   
                           </tr>
                           <tr>
-                                  <td>${lærling ? "<b>Lønnsplan</b>" : "<b>Seniority</b>"}</td>
+                                  <td>${lærling ? "<b>Lønnsplan</b>" : "<b>Stillingsansiennitet</b>"}</td>
                                   <td>${lærling ? `${lonnsplan}` : `${seniority}`}</td>
-                                  <td><b>Annual salary in a 100 % position</b></td>
+                                  <td><b>Årslønn i en 100 % stilling</b></td>
                                   <td>${annualSalary}${lærling ? `*` : ``}</td>
                           </tr>
                           ${mobFamAllowance}
