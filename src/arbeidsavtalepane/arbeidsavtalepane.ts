@@ -140,10 +140,12 @@ export async function initializeArbeidsavtalepane() {
   let familyAllowanceMonths: HTMLInputElement | null = document.getElementById("familyAllowanceMonths") as HTMLInputElement;
   let mobilityAllowanceMonths: HTMLInputElement | null = document.getElementById("mobilityAllowanceMonths") as HTMLInputElement;
 
+
   // Select elements
   let positionCodeSelect: HTMLSelectElement | null = document.getElementById("positionCode") as HTMLSelectElement;
 
   // Elements
+  let mscaCheck: HTMLElement | null = document.getElementById("mscaCheck") as HTMLElement;
   let seniorityGroup: HTMLElement | null = document.getElementById("seniorityGroup") as HTMLElement;
   let lærlingGroup: HTMLElement | null = document.getElementById("lærlingGroup") as HTMLElement;
   let tempTeachNeedGroup: HTMLElement | null = document.getElementById("tempTeachNeedGroup") as HTMLElement;
@@ -269,6 +271,7 @@ export async function initializeArbeidsavtalepane() {
   //Event listner for the mscaBox
   if (mscaBox)
     mscaBox.addEventListener("change", () => {
+      mscaCheck.style.display = mscaBox.checked ? "block" : "none";
       mscaInput.style.display = mscaBox.checked ? "block" : "none";
       mobilityAllowanceElement.placeholder = mscaBox.checked ? "EUR" : "NOK";
       familyAllowanceElement.placeholder = mscaBox.checked ? "EUR" : "NOK";
