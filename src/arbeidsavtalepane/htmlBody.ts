@@ -173,7 +173,7 @@ function getArbeidsavtaleBodyEngelsk(
     Grant Agreement No: ${grantNumber}. The researcher is obliged to work exclusively for the research training under the action. 
     The Personal Career Development Plan (PCDP) specifies the training under the Action. 
     The University of Bergen will ensure payment of allowances in accordance with the EC Grant Agreement. Payments will be made in 
-    NOK according to the valuta course at payment day. Living allowance is replaced by annual salary according to basic collective agreement. 
+    NOK according to the exchange rate at payment day. Living allowance is replaced by annual salary according to basic collective agreement. 
     If needed, compliance with the EU funding rates will be ensured by corrective 
     payments following the end of the project period. `;
   }
