@@ -4,41 +4,45 @@ interface HtmlFile {
   name: string;
   path: string;
 }
-
 const urlPathMain = 'https://ds.app.uib.no/standardtekster/main/_generert/';
 const urlPathDev = 'https://ds.app.uib.no/standardtekster/dev/_generert/';
 
 async function addButtons(container: HTMLElement, url: string) {
-  let urlPart = '/standardtekster/main/';
-  let subfolderUrlPart = '/standardtekster/main/_generert/';
-  let urlPath = urlPathMain;
-  
-  if (url === urlPathDev) {
-    urlPart = '/standardtekster/dev/';
-    subfolderUrlPart = '/standardtekster/dev/_generert/';
-    urlPath = urlPathDev;
-  }
+  const isDev = url === urlPathDev;
+  const urlPart = isDev ? '/standardtekster/dev/' : '/standardtekster/main/';
+  const subfolderUrlPart = `${urlPart}_generert/`;
+  const urlPath = isDev ? urlPathDev : urlPathMain;
 
   try {
     const folders = await fetchFolders(url, urlPart);
-    // Loops main folders
     for (const folder of folders) {
-      const subfolders = await fetchSubfolders(folder, subfolderUrlPart, urlPath);
-      const folderDiv = createFolderDiv(folder, 'h3');
-
-      // Loops subfolders of folders
-      for (const subfolder of subfolders) {
-        const subFolderDiv = createFolderDiv(subfolder, 'h4');
-        await addFileButtons(subFolderDiv, subfolder, urlPath);
-        folderDiv.appendChild(subFolderDiv);
-      }
-
-      await addFileButtons(folderDiv, folder, urlPath);
+      const folderDiv = await createFolderStructure(folder, urlPath);
       container.appendChild(folderDiv);
     }
   } catch (error) {
     console.error('Error fetching folders:', error);
+    container.innerHTML = `<p>Kunne ikke laste inn mapper. Vennligst prøv igjen senere.</p>`;
   }
+}
+
+async function createFolderStructure(folder: string, urlPath: string): Promise<HTMLDivElement> {
+  const folderDiv = createFolderDiv(folder, 'h3');
+  const subfolders = await fetchSubfolders(folder, '', urlPath);
+
+  for (const subfolder of subfolders) {
+    const subFolderDiv = await createFolderStructure(subfolder, urlPath);
+    subFolderDiv.style.display = 'none'; // Ensure subfolders are collapsed by default
+
+    const contentDiv = folderDiv.querySelector('.folder-content');
+    if (contentDiv) {
+      contentDiv.appendChild(subFolderDiv);
+    } else {
+      console.error(`Content div not found for folder: ${folder}`);
+    }
+  }
+
+  await addFileButtons(folderDiv, folder, urlPath);
+  return folderDiv;
 }
 
 /**
@@ -89,42 +93,32 @@ function createButton(text: string, className: string, onClick: () => void): HTM
 }
 
 function createFolderDiv(folder: string, titleTag: 'h3' | 'h4'): HTMLDivElement {
-  const isTopLevel = titleTag === 'h3';
-
   const folderDiv = document.createElement('div');
-  folderDiv.className = isTopLevel ? 'folder-container' : 'subfolder-container';
+  folderDiv.className = titleTag === 'h3' ? 'folder-container' : 'subfolder-container';
 
   const folderTitle = document.createElement(titleTag);
   folderTitle.textContent = cleanTitle(folder);
-  folderTitle.style.cursor = 'pointer'; // Indicate that the title is clickable
+  folderTitle.className = 'folder-title';
+  folderTitle.style.cursor = 'pointer';
 
-  // Create a container for the folder's contents
   const contentDiv = document.createElement('div');
   contentDiv.className = 'folder-content';
-  contentDiv.style.display = 'none'; // Default to hidden for all folders
+  contentDiv.style.display = 'none';
 
-  // Add the click event listener to toggle the visibility of the content and nested contents
   folderTitle.addEventListener('click', () => {
     const isHidden = contentDiv.style.display === 'none';
-    if (isTopLevel) {
-      // Unhide all subfolder-containers inside the folder-container
-      const subfolderContainers = folderDiv.querySelectorAll('.subfolder-container');
-      subfolderContainers.forEach(subfolderContainer => {
-        (subfolderContainer as HTMLElement).style.display = isHidden ? 'flex' : 'none';
-      });
-    } else {
-      // Unhide all buttons inside the subfolder-container
-      const buttons = folderDiv.querySelectorAll('button');
-      buttons.forEach(button => {
-        (button as HTMLElement).style.display = isHidden ? 'block' : 'none';
-      });
-    }
+
+    // Toggle visibility of all items inside the folder
     contentDiv.style.display = isHidden ? 'block' : 'none';
+    folderTitle.classList.toggle('open', isHidden);
+
+    const children = Array.from(contentDiv.children);
+    children.forEach((child) => {
+      (child as HTMLElement).style.display = isHidden ? 'block' : 'none';
+    });
   });
 
-  folderDiv.appendChild(folderTitle);
-  folderDiv.appendChild(contentDiv);
-
+  folderDiv.append(folderTitle, contentDiv);
   return folderDiv;
 }
 
@@ -184,15 +178,14 @@ async function fetchSubfolders(folder: string, root: string, urlPath: string): P
   const fullUrl = urlPath + folder;
   const response = await fetch(fullUrl);
   const text = await response.text();
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(text, 'text/html');
-  const folderElements = doc.querySelectorAll('a');
+  const doc = new DOMParser().parseFromString(text, 'text/html');
+  const subfolders = Array.from(doc.querySelectorAll('a'))
+    .map((el) => el.getAttribute('href'))
+    .filter((subfolder): subfolder is string => subfolder !== null && subfolder.endsWith('/') && !subfolder.includes('_generert/'));
 
-  const subfolders = Array.from(folderElements)
-    .map((element) => element.getAttribute('href'))
-    .filter((folder): folder is string => folder !== null && folder !== root && folder.endsWith('/')); // Ignore the root directory, filter out null values, and ensure it ends with a slash
-
-  return subfolders.map(subfolder => folder + subfolder);
+  return subfolders.map((subfolder) =>
+    subfolder.startsWith('/') ? subfolder.slice(1) : `${folder.replace(/\/$/, '')}/${subfolder}`
+  );
 }
 
 /**
@@ -251,22 +244,14 @@ export async function getHtmlContent(folder: string, filePath: string, urlPath: 
  * @returns {string} The extracted and formatted part of the file name.
  */
 function extractButtonName(fileName: string): string {
-  const nameWithoutExtension = fileName.replace('.html', '');
-  const decodedName = decodeURIComponent(nameWithoutExtension);
-  const nameWithSpaces = decodedName.replace(/-/g, ' ');
-  const words = nameWithSpaces.split(' ');
+  const nameWithoutExtension = decodeURIComponent(fileName.replace('.html', ''));
+  const words = nameWithoutExtension.replace(/-/g, ' ').split(' ');
 
-  // Capitalize the first word and wrap the last word (language code) in parentheses
-  const formattedWords = words.map((word, index) => {
-    if (index === 0) {
-      return word.charAt(0).toUpperCase() + word.slice(1);
-    } else if (index === words.length - 1) {
-      return `(${word.toUpperCase()})`;
-    }
-    return word;
-  });
-
-  return formattedWords.join(' ');
+  return words
+    .map((word, index) =>
+      index === 0 ? word.charAt(0).toUpperCase() + word.slice(1) : index === words.length - 1 ? `(${word.toUpperCase()})` : word
+    )
+    .join(' ');
 }
 
 /**
@@ -276,10 +261,6 @@ function extractButtonName(fileName: string): string {
  * @returns {string} The cleaned folder name.
  */
 function cleanTitle(folderName: string): string {
-  const parts = folderName.split('/');
-  const lastPart = parts[parts.length - 2];
-  const decodedName = decodeURIComponent(lastPart);
-  let newName = decodedName.replace(/_/g, ' ');
-  newName = newName.replace(/-/g, ' ');
-  return newName;
+  const lastPart = decodeURIComponent(folderName.split('/').slice(-2, -1)[0]);
+  return lastPart.replace(/[_-]/g, ' ');
 }

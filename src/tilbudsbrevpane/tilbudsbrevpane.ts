@@ -126,8 +126,8 @@ export async function initializeTilbudsbrevpane() {
   const positionCode: HTMLSelectElement | null = document.getElementById("positionCode") as HTMLSelectElement;
   const careerPromotingWork: HTMLInputElement | null = document.getElementById("careerPromotingWork") as HTMLInputElement;
   const noEducationCompetence: HTMLInputElement | null = document.getElementById("educationCompetence") as HTMLInputElement;
-  const percentageWork: HTMLInputElement | null = document.getElementById("percentageWork") as HTMLInputElement;
-  const annualSalary: HTMLInputElement | null = document.getElementById("annualSalary") as HTMLInputElement;
+  const percentageWork: HTMLInputElement | null = document.getElementById("arbeidstakerPercentageWork") as HTMLInputElement;
+  const annualSalary: HTMLInputElement | null = document.getElementById("arbeidstakerAnnualSalary") as HTMLInputElement;
   const externallyFundedProjectName: HTMLInputElement | null = document.getElementById("externallyFundedProjectName") as HTMLInputElement;
   const answerOnedrive: HTMLInputElement | null = document.getElementById("answerOnedrive") as HTMLInputElement;
   const contactLocalName: HTMLInputElement | null = document.getElementById("contactLocalName") as HTMLInputElement;

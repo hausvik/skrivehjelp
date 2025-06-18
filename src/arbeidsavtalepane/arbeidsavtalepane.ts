@@ -89,6 +89,8 @@ function formatDate(isoDate: string): string {
 export async function initializeArbeidsavtalepane() {
 
   // Input elements
+  let lonnsutbetaling: HTMLInputElement | null = document.getElementById("lonnsutbetaling") as HTMLInputElement;
+  let lonnsplan: HTMLInputElement | null = document.getElementById("lonnsplan") as HTMLInputElement;
   let mscaSupervisor: HTMLInputElement | null = document.getElementById("mscaSupervisor") as HTMLInputElement;
   let mscaSupervisorText: HTMLInputElement | null = document.getElementById("mscaSupervisorText") as HTMLInputElement;
   let engelsk: HTMLInputElement | null = document.getElementById("engelsk") as HTMLInputElement;
@@ -109,12 +111,12 @@ export async function initializeArbeidsavtalepane() {
   let artisticFellow: HTMLInputElement | null = document.getElementById("artisticFellow") as HTMLInputElement;
   let postdoktor: HTMLInputElement | null = document.getElementById("postdoc") as HTMLInputElement;
   let scientificAssistant: HTMLInputElement | null = document.getElementById("scientificAssistant") as HTMLInputElement;
-  let nameElement: HTMLInputElement | null = document.getElementById("name") as HTMLInputElement;
+  let nameElement: HTMLInputElement | null = document.getElementById("arbeidstakersnavn") as HTMLInputElement;
   let personalIdElement: HTMLInputElement | null = document.getElementById("personalId") as HTMLInputElement;
-  let placeOfWorkElement: HTMLInputElement | null = document.getElementById("placeOfWork") as HTMLInputElement;
-  let percentageFullTimeElement: HTMLInputElement | null = document.getElementById("percentageWork") as HTMLInputElement;
-  let seniorityElement: HTMLInputElement | null = document.getElementById("seniority") as HTMLInputElement;
-  let annualSalaryElement: HTMLInputElement | null = document.getElementById("annualSalary") as HTMLInputElement;
+  let placeOfWorkElement: HTMLInputElement | null = document.getElementById("arbeidstakersPlaceOfWork") as HTMLInputElement;
+  let percentageFullTimeElement: HTMLInputElement | null = document.getElementById("arbeidstakerPercentageWork") as HTMLInputElement;
+  let seniorityElement: HTMLInputElement | null = document.getElementById("arbeidstakerSeniority") as HTMLInputElement;
+  let annualSalaryElement: HTMLInputElement | null = document.getElementById("arbeidstakerAnnualSalary") as HTMLInputElement;
   let startingDateElement: HTMLInputElement | null = document.getElementById("startingDate") as HTMLInputElement;
   let endDateElement: HTMLInputElement | null = document.getElementById("endDate") as HTMLInputElement;
   let mobilityAllowanceElement: HTMLInputElement | null = document.getElementById("mobilityAllowance") as HTMLInputElement;
@@ -130,18 +132,22 @@ export async function initializeArbeidsavtalepane() {
   let allCodes: HTMLInputElement | null = document.getElementById("allCodes") as HTMLInputElement;
   let tempTeachNeed: HTMLInputElement | null = document.getElementById("tempTeachNeed") as HTMLInputElement;
   let doubleCompetence: HTMLInputElement | null = document.getElementById("doubleCompetence") as HTMLInputElement;
-  let namePos: HTMLInputElement | null = document.getElementById("namePos") as HTMLInputElement;
-  let nameSign: HTMLInputElement | null = document.getElementById("nameSign") as HTMLInputElement;
+  let namePos: HTMLInputElement | null = document.getElementById("avsenderStilling") as HTMLInputElement;
+  let nameSign: HTMLInputElement | null = document.getElementById("avsenderNavn") as HTMLInputElement;
   let mscaInput: HTMLInputElement | null = document.getElementById("mscaInput") as HTMLInputElement;
   let frameProgramme: HTMLInputElement | null = document.getElementById("frameProgram") as HTMLInputElement;
   let grantNumb: HTMLInputElement | null = document.getElementById("grantNumb") as HTMLInputElement;
   let familyAllowanceMonths: HTMLInputElement | null = document.getElementById("familyAllowanceMonths") as HTMLInputElement;
   let mobilityAllowanceMonths: HTMLInputElement | null = document.getElementById("mobilityAllowanceMonths") as HTMLInputElement;
 
+
   // Select elements
   let positionCodeSelect: HTMLSelectElement | null = document.getElementById("positionCode") as HTMLSelectElement;
 
   // Elements
+  let mscaCheck: HTMLElement | null = document.getElementById("mscaCheck") as HTMLElement;
+  let seniorityGroup: HTMLElement | null = document.getElementById("seniorityGroup") as HTMLElement;
+  let lærlingGroup: HTMLElement | null = document.getElementById("lærlingGroup") as HTMLElement;
   let tempTeachNeedGroup: HTMLElement | null = document.getElementById("tempTeachNeedGroup") as HTMLElement;
   let additionalDutyGroup: HTMLElement | null = document.getElementById("additionalDutyGroup") as HTMLElement;
   let additionalDutyRadio: HTMLElement | null = document.getElementById("additionalDuty") as HTMLElement;
@@ -174,6 +180,12 @@ export async function initializeArbeidsavtalepane() {
   let substituteTypeGroupValue = "" as string;
   let mscaArbeidsgiveravgift = 1.141 as number;
   const AllPositionCodes: PositionCode[] = await addToDropDown('assets\\stillingskoder.xlsx', 'positionCode');
+  const initialLonnsutbetalingValue = (document.getElementById('lonnsutbetaling') as HTMLTextAreaElement).value;
+  const englishLonnsutbetalingValue = "1st semester 30%, 2nd semester 40%, 3rd semester 50%, 4th semester 80%";
+
+  engelsk?.addEventListener("change", () => {
+    lonnsutbetaling.value = engelsk.checked ? englishLonnsutbetalingValue : initialLonnsutbetalingValue;
+  });
 
   positionCodeSelect?.addEventListener("mousedown", () => {
     if (scientificAssistant.checked) {
@@ -188,6 +200,11 @@ export async function initializeArbeidsavtalepane() {
   });
 
   positionCodeSelect?.addEventListener("change", async () => {
+    // Reset hidden fields (some resets are still bellow, move here if editing)
+    lærlingGroup.style.display = "none";
+    seniorityGroup.style.display = "block";
+    lonnsutbetaling.value = engelsk.checked ? englishLonnsutbetalingValue : initialLonnsutbetalingValue;
+
     // Get the selected position code and corresponding data
     const selectedPositionCode = positionCodeSelect.value;
     skoTitle = getPositionDetail(AllPositionCodes, selectedPositionCode, 0, engelsk.checked);
@@ -235,6 +252,11 @@ export async function initializeArbeidsavtalepane() {
       mscaSupervisorText.value = "";
     }
 
+    if (positionCodeSelect.value.includes("Lærling") || (positionCodeSelect.value.includes("Lærekandidat"))) {
+      lærlingGroup.style.display = "block";
+      seniorityGroup.style.display = "none";
+      if(engelsk.checked){lonnsutbetaling.value = englishLonnsutbetalingValue}
+    }
   });
 
   // Event listner for the externallyFunded box
@@ -249,6 +271,7 @@ export async function initializeArbeidsavtalepane() {
   //Event listner for the mscaBox
   if (mscaBox)
     mscaBox.addEventListener("change", () => {
+      mscaCheck.style.display = mscaBox.checked ? "block" : "none";
       mscaInput.style.display = mscaBox.checked ? "block" : "none";
       mobilityAllowanceElement.placeholder = mscaBox.checked ? "EUR" : "NOK";
       familyAllowanceElement.placeholder = mscaBox.checked ? "EUR" : "NOK";
@@ -480,6 +503,8 @@ export async function initializeArbeidsavtalepane() {
         employeeType,
         mscaSupervisorText.value,
         mscaBox.checked,
+        lonnsplan.value,
+        lonnsutbetaling.value,
       );
 
       htmlBodyText = getArbeidsavtale(
@@ -510,7 +535,7 @@ export async function initializeArbeidsavtalepane() {
         family,
         frameProgramme.value,
         grantNumb.value,
-
+        lonnsutbetaling.value,
       );
 
       let htmlText = combineHtmlStrings([htmlHeaderText, htmlBodyText, getArbeidsavtaleFooter(engelsk.checked, nameSign.value, namePos.value)]);
