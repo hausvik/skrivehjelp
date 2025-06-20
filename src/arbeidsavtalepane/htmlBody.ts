@@ -179,7 +179,7 @@ function getArbeidsavtaleBodyEngelsk(
   }
   if (mobility || family) {
     mobFamAllowanceText = `The amounts of ${mobility ? `mobility allowance ` : ``}${mobility && family ? `and ` : ``}${family ? `family allowance ` : ``}
-     specified above will be paid in addition to the monthly salary. `;
+     specified above will be paid in addition to the monthly salary. ${family ? `Family allowance is contingent on the employee having family obligations.` : ``}`; 
   }
 
   if (termEmployee != null) {
@@ -427,7 +427,7 @@ function getArbeidsavtaleBodyNorsk(
   }
   if (mobility || family) {
     mobFamAllowanceText = `Beløpene for ${mobility ? `mobilitetstillegg ` : ``}${mobility && family ? `og ` : ``}${family ? `familiestønad ` : ``}
-     som er spesifisert ovenfor, vil bli utbetalt i tillegg til månedslønnen. `;
+     som er spesifisert ovenfor, vil bli utbetalt i tillegg til månedslønnen. ${family ? `Familiestønad betinger at den ansatte har familieforpliktelser.` : ``}`;
   }
 
   if (termEmployee != null) {
