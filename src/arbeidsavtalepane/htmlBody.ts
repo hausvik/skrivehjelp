@@ -230,7 +230,7 @@ function getArbeidsavtaleBodyEngelsk(
             `Career-promoting work constitutes ${karrierefremmendeArbeidMengde} of the fixed-term period. Refer to your specific career plan.` : ''}`
         break;
       case 'vitenskapelig':
-        aremalText = `The employment is for a fixed term, cf. University and University Colleges Act § 7-4 (1) i. The employment relationship ends without notice at the expiration of the fixed term,
+        aremalText = `The employment is for a fixed term, cf. University and University Colleges Act § 7-6 (1) i. The employment relationship ends without notice at the expiration of the fixed term,
              cf. Civil Servants Act § 17 (2). `
         break;
       default:
@@ -478,7 +478,7 @@ function getArbeidsavtaleBodyNorsk(
             `Karrierefremmende arbeid utgjør ${karrierefremmendeArbeidMengde} av åremålsperioden, henvis til din karriereplan.` : ''}`
         break;
       case 'vitenskapelig':
-        aremalText = `Ansettelsen er på åremål, jf. uhl. § 7-4 (1) i. Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp,
+        aremalText = `Ansettelsen er på åremål, jf. uhl. § 7-6 (1) i. Ansettelsesforholdet opphører uten oppsigelse ved åremålsperiodens utløp,
              jf. statsansatteloven § 17 (2). `
         break;
       default:
