@@ -47,28 +47,41 @@ export function createDynamicPane(htmlContent: string, paneTitle?: string): void
     generateButton.textContent = 'Sett inn tekst';
     generateButton.className = 'btn btn-primary'; // Add Bootstrap classes
     generateButton.addEventListener('click', () => {
-        // Collect input values from the form
-        const formData = new FormData(form);
-        let updatedContent = htmlContent;
-        formData.forEach((value, key) => {
-            const regex = new RegExp(`\\$\\{${key}\\}`, 'g');
-            updatedContent = updatedContent.replace(regex, value.toString() || key);
-        });
+            // Collect input values from the form
+            const formData = new FormData(form);
+            let updatedContent = htmlContent;
 
-        // Update HTML-tags to match Word's default styles
-        updatedContent = updatedContent.replace(/<p>/g, '<p class="MsoNormal">');
-        updatedContent = updatedContent.replace(/<h1>/g, '<h1 class="h1">');
-        updatedContent = updatedContent.replace(/<h2>/g, '<h2 class="h2">');
-        updatedContent = updatedContent.replace(/<h3>/g, '<h3 class="h3">');
+            // Check if a radio button is selected
+            const selectedRadio = form.querySelector('input[name="DynamicTagGroup"]:checked') as HTMLInputElement;
+            if (selectedRadio) {
+                const selectedTag = selectedRadio.value;
+                const tagRegex = new RegExp(`&amp;&amp;${selectedTag}([\\s\\S]*?)(?=&amp;&amp;[A-Z]{2}|$)`, 'i');
+                const match = tagRegex.exec(htmlContent);
+                if (match) {
+                    updatedContent = match[1]; // Extract content between the selected tag and the next tag or document end
+                }
+            }
 
-        // Ensure hyperlinks are properly formatted without duplicating link text
-        updatedContent = updatedContent.replace(
-            /\[([^\]]+)\]\((https?:\/\/[^\s<]+)\)/g,
-            '<a href="$2" target="_blank">$1</a>'
-        );
+            // Replace placeholders with form data
+            formData.forEach((value, key) => {
+                const regex = new RegExp(`\\$\\{${key}\\}`, 'g');
+                updatedContent = updatedContent.replace(regex, value.toString() || key);
+            });
 
-        // Insert the updated content into the document
-        insertText(updatedContent, 'START', false);
+            // Update HTML-tags to match Word's default styles
+            updatedContent = updatedContent.replace(/<p>/g, '<p class="MsoNormal">');
+            updatedContent = updatedContent.replace(/<h1>/g, '<h1 class="h1">');
+            updatedContent = updatedContent.replace(/<h2>/g, '<h2 class="h2">');
+            updatedContent = updatedContent.replace(/<h3>/g, '<h3 class="h3">');
+
+            // Ensure hyperlinks are properly formatted without duplicating link text
+            updatedContent = updatedContent.replace(
+                /\[([^\]]+)\]\((https?:\/\/[^\s<]+)\)/g,
+                '<a href="$2" target="_blank">$1</a>'
+            );
+
+            // Insert the updated content into the document
+            insertText(updatedContent, 'START', false);
     });
 
     // Create a wrapper div for the buttons
@@ -95,12 +108,70 @@ export function createDynamicPane(htmlContent: string, paneTitle?: string): void
  * @param {string} content - The HTML content to be parsed.
  * @returns {object} - An object containing the form element and the modified content.
  */
-function parseContent(content: string): { form: HTMLFormElement, modifiedContent: string } {
+function parseContent(content: string): { form: HTMLFormElement, modifiedContent: string, tags: string[] } {
+    // Decode HTML entities
+    const textarea = document.createElement('textarea');
+    textarea.innerHTML = content;
+    content = textarea.value;
+
+    // Trim the content to remove leading/trailing whitespace
+    content = content.trim();
+
     const form = document.createElement('form');
     const variableRegex = /\$\{([^}]+)\}/g;
+    const tagRegex = /&&(EN|NN|NB)/gi; // Regex to find &&EN, &&NN, and &&NB tags (case-insensitive)
     let match;
     const processedVariables = new Set<string>();
+    const tagMatches: string[] = []; // Store all &&EN, &&NN, and &&NB matches
 
+    // Collect all &&EN, &&NN, and &&NB tags
+    while ((match = tagRegex.exec(content)) !== null) {
+        tagMatches.push(match[1]); // Store only the language code (EN, NN, NB)
+    }
+
+    // If more than one tag is found, create radio buttons
+    if (tagMatches.length > 0) {
+
+        const radioGroupContainer = document.createElement('div');
+        radioGroupContainer.className = 'form-group';
+
+        const groupLabel = document.createElement('label');
+        groupLabel.textContent = 'Velg språk';
+        radioGroupContainer.appendChild(groupLabel);
+
+        const languageMap: { [key: string]: string } = {
+            EN: 'Engelsk',
+            NN: 'Nynorsk',
+            NB: 'Bokmål'
+        };
+
+        tagMatches.forEach((tagContent, index) => {
+
+            const radioContainer = document.createElement('div');
+            radioContainer.className = 'form-check';
+
+            const radioInput = document.createElement('input');
+            radioInput.type = 'radio';
+            radioInput.id = `DynamicTagRadio${index + 1}`;
+            radioInput.name = 'DynamicTagGroup';
+            radioInput.value = tagContent;
+            radioInput.className = 'form-check-input';
+            radioInput.checked = index === 0; // Set the first radio button as default
+
+            const radioLabel = document.createElement('label');
+            radioLabel.htmlFor = `DynamicTagRadio${index + 1}`;
+            radioLabel.textContent = languageMap[tagContent] || tagContent; // Map to language name or fallback to tagContent
+            radioLabel.className = 'form-check-label';
+
+            radioContainer.appendChild(radioInput);
+            radioContainer.appendChild(radioLabel);
+            radioGroupContainer.appendChild(radioContainer);
+        });
+
+        form.appendChild(radioGroupContainer);
+    }
+
+    // Process variable placeholders
     while ((match = variableRegex.exec(content)) !== null) {
         const variableName = match[1];
         if (processedVariables.has(variableName)) {
@@ -133,5 +204,5 @@ function parseContent(content: string): { form: HTMLFormElement, modifiedContent
         return `<div class="form-group"><label for="${elementId}">${decodeURIComponent(variableName.replace(/-/g, ' '))}</label><input type="text" class="form-control" id="${elementId}" name="${variableName}"></div>`;
     });
 
-    return { form, modifiedContent };
+    return { form, modifiedContent, tags: tagMatches };
 }

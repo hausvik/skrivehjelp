@@ -318,7 +318,7 @@ function extractButtonName(fileName: string): string {
 
   return words
     .map((word, index) =>
-      index === 0 ? word.charAt(0).toUpperCase() + word.slice(1) : index === words.length - 1 ? `(${word.toUpperCase()})` : word
+      index === 0 ? word.charAt(0).toUpperCase() + word.slice(1) : word
     )
     .join(' ');
 }
