@@ -48,18 +48,12 @@ async function createFolderStructure(folder: string, urlPath: string): Promise<H
 export async function initializeStandardtekstpane() {
   const container = document.getElementById('button-container');
   const backButtonContainer = document.getElementById('back-button-container');
-  const showAll = document.getElementById('show-all') as HTMLInputElement;
 
   if (!container || !backButtonContainer) {
     console.error('Container element not found');
     return;
   }
   addButtons(container);
-
-  // Keep the checkbox but disable its functionality
-  showAll?.addEventListener("change", () => {
-    console.log('Checkbox functionality disabled.');
-  });
 
   // Add Tilbake button
   const backButton = createButton('Tilbake', 'btn btn-secondary btn-sm', () => newPane());
