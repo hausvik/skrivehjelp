@@ -5,16 +5,12 @@ interface HtmlFile {
   path: string;
 }
 const urlPathMain = 'https://ds.app.uib.no/standardtekster/main/_generert/';
-const urlPathDev = 'https://ds.app.uib.no/standardtekster/dev/_generert/';
 
-async function addButtons(container: HTMLElement, url: string) {
-  const isDev = url === urlPathDev;
-  const urlPart = isDev ? '/standardtekster/dev/' : '/standardtekster/main/';
-  const subfolderUrlPart = `${urlPart}_generert/`;
-  const urlPath = isDev ? urlPathDev : urlPathMain;
+async function addButtons(container: HTMLElement) {
+  const urlPath = urlPathMain;
 
   try {
-    const folders = await fetchFolders(url, urlPart);
+    const folders = await fetchFolders(urlPath, '/standardtekster/main/');
     for (const folder of folders) {
       const folderDiv = await createFolderStructure(folder, urlPath);
       container.appendChild(folderDiv);
@@ -52,24 +48,12 @@ async function createFolderStructure(folder: string, urlPath: string): Promise<H
 export async function initializeStandardtekstpane() {
   const container = document.getElementById('button-container');
   const backButtonContainer = document.getElementById('back-button-container');
-  const showAll = document.getElementById('show-all') as HTMLInputElement;
 
   if (!container || !backButtonContainer) {
     console.error('Container element not found');
     return;
   }
-  addButtons(container, urlPathMain);
-
-  showAll?.addEventListener("change", async () => {
-    if (showAll.checked) {
-      container.innerHTML = '';
-      addButtons(container, urlPathDev);
-    }
-    else {
-      container.innerHTML = '';
-      addButtons(container, urlPathMain);
-    }
-  });
+  addButtons(container);
 
   // Add Tilbake button
   const backButton = createButton('Tilbake', 'btn btn-secondary btn-sm', () => newPane());
@@ -133,10 +117,17 @@ async function addFileButtons(container: HTMLElement, folder: string, urlPath: s
     for (const file of htmlFiles) {
       if (file.name) {
         const fileName = file.name;
-        const button = createButton(extractButtonName(fileName), 'btn btn-primary btn-sm', async () => {
+        const isDraft = fileName.startsWith('UTKAST_'); // Check if the filename starts with 'UTKAST_'
+        const buttonClass = isDraft ? 'btn btn-danger btn-sm' : 'btn btn-primary btn-sm'; // Make button red if it's a draft
+        const button = createButton(extractButtonName(fileName), buttonClass, async () => {
           const content = await getHtmlContent(folder, fileName, urlPath);
           newPane('dynamicpane', content, extractButtonName(fileName));
         });
+
+        if (isDraft) {
+          button.style.display = 'none'; // Ensure the button is hidden immediately upon creation
+        }
+
         contentDiv.appendChild(button);
       }
     }
@@ -245,7 +236,14 @@ export async function getHtmlContent(folder: string, filePath: string, urlPath: 
  */
 function extractButtonName(fileName: string): string {
   const nameWithoutExtension = decodeURIComponent(fileName.replace('.html', ''));
-  const words = nameWithoutExtension.replace(/-/g, ' ').split(' ');
+  let cleanedName = nameWithoutExtension;
+
+  // Remove 'UTKAST_' prefix if it exists
+  if (cleanedName.startsWith('UTKAST_')) {
+    cleanedName = cleanedName.replace('UTKAST_', '');
+  }
+
+  const words = cleanedName.replace(/-/g, ' ').split(' ');
 
   return words
     .map((word, index) =>
