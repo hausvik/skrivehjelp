@@ -49,13 +49,28 @@
         .folder-container h4 {
             font-size: 14px;
         }
+
+        .centered-text {
+            text-align: center;
+        }
+
+        .red-text {
+            color: red;
+            font-weight: bold;
+        }
+
+        .blue-text {
+            color: blue;
+            font-weight: bold;
+        }
     </style>
 
 </head>
 
 <body>
-    <div>
+    <div class="centered-text">
         <h3 class="mb-5">Standardtekster</h3>
+        <p> Tekster med <span class="red-text">rød</span> knapp er utkast, mens <span class="blue-text">blå</span> knapper er publiserte.</p>
     </div>
     <div id="button-container"></div>
     <script src="../standardteksterpane/standardteksterpane.ts"></script>
