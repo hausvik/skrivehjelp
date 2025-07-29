@@ -21,12 +21,23 @@ async function addButtons(container: HTMLElement) {
   }
 }
 
-async function createFolderStructure(folder: string, urlPath: string): Promise<HTMLDivElement> {
+async function createFolderStructure(folder: string, urlPath: string, includeDrafts = false): Promise<HTMLDivElement> {
   const folderDiv = createFolderDiv(folder, 'h3');
   const subfolders = await fetchSubfolders(folder, '', urlPath);
 
+  // Filter out folders that only contain draft files
+  const validSubfolders = [];
   for (const subfolder of subfolders) {
-    const subFolderDiv = await createFolderStructure(subfolder, urlPath);
+    const subfolderFiles = await fetchHtmlFiles(subfolder, urlPath);
+    const hasProductionFiles = subfolderFiles.some((file) => !file.name?.startsWith('UTKAST_'));
+
+    if (hasProductionFiles || includeDrafts) {
+      validSubfolders.push(subfolder);
+    }
+  }
+
+  for (const subfolder of validSubfolders) {
+    const subFolderDiv = await createFolderStructure(subfolder, urlPath, includeDrafts);
     subFolderDiv.style.display = 'none'; // Ensure subfolders are collapsed by default
 
     const contentDiv = folderDiv.querySelector('.folder-content');
@@ -37,7 +48,7 @@ async function createFolderStructure(folder: string, urlPath: string): Promise<H
     }
   }
 
-  await addFileButtons(folderDiv, folder, urlPath);
+  await addFileButtons(folderDiv, folder, urlPath, includeDrafts);
   return folderDiv;
 }
 
@@ -58,6 +69,45 @@ export async function initializeStandardtekstpane() {
   // Add Tilbake button
   const backButton = createButton('Tilbake', 'btn btn-secondary btn-sm', () => newPane());
   backButtonContainer.appendChild(backButton);
+
+  // Add event listener for checkbox to show/hide draft buttons
+  const checkbox = document.getElementById('show-drafts-checkbox') as HTMLInputElement;
+  if (checkbox) {
+    checkbox.addEventListener('change', async () => {
+      const draftButtons = document.querySelectorAll('.btn-red');
+      const container = document.getElementById('button-container');
+
+      if (checkbox.checked) {
+        // Clear the container to avoid duplicates
+        if (container) {
+          container.innerHTML = '';
+        }
+
+        // Show draft buttons and add previously skipped folders with drafts
+        const folders = await fetchFolders(urlPathMain, '/standardtekster/main/');
+        for (const folder of folders) {
+          const folderDiv = await createFolderStructure(folder, urlPathMain, true); // Pass a flag to include drafts
+          if (container && folderDiv) {
+            container.appendChild(folderDiv);
+          }
+        }
+      } else {
+        // Clear the container to remove drafts
+        if (container) {
+          container.innerHTML = '';
+        }
+
+        // Re-add only production folders and buttons
+        const folders = await fetchFolders(urlPathMain, '/standardtekster/main/');
+        for (const folder of folders) {
+          const folderDiv = await createFolderStructure(folder, urlPathMain, false); // Exclude drafts
+          if (container && folderDiv) {
+            container.appendChild(folderDiv);
+          }
+        }
+      }
+    });
+  }
 }
 
 /**
@@ -106,7 +156,7 @@ function createFolderDiv(folder: string, titleTag: 'h3' | 'h4'): HTMLDivElement 
   return folderDiv;
 }
 
-async function addFileButtons(container: HTMLElement, folder: string, urlPath: string) {
+async function addFileButtons(container: HTMLElement, folder: string, urlPath: string, includeDrafts = false) {
   try {
     const htmlFiles = await fetchHtmlFiles(folder, urlPath);
     const contentDiv = container.querySelector('.folder-content');
@@ -114,19 +164,40 @@ async function addFileButtons(container: HTMLElement, folder: string, urlPath: s
       console.error('Content div not found');
       return;
     }
+
+    const productionFiles: HtmlFile[] = [];
+    const draftFiles: HtmlFile[] = [];
+
+    // Group files into production and drafts
     for (const file of htmlFiles) {
-      if (file.name) {
+      if (file.name?.startsWith('UTKAST_')) {
+        draftFiles.push(file);
+      } else {
+        productionFiles.push(file);
+      }
+    }
+
+    // Create buttons for production files only
+    for (const file of productionFiles) {
+      const fileName = file.name;
+      const buttonClass = 'btn-production'; // Use updated CSS class for production buttons
+      const button = createButton(extractButtonName(fileName), buttonClass, async () => {
+        const content = await getHtmlContent(folder, fileName, urlPath);
+        newPane('dynamicpane', content, extractButtonName(fileName));
+      });
+
+      contentDiv.appendChild(button);
+    }
+
+    // Create buttons for draft files if included
+    if (includeDrafts) {
+      for (const file of draftFiles) {
         const fileName = file.name;
-        const isDraft = fileName.startsWith('UTKAST_'); // Check if the filename starts with 'UTKAST_'
-        const buttonClass = isDraft ? 'btn btn-danger btn-sm' : 'btn btn-primary btn-sm'; // Make button red if it's a draft
+        const buttonClass = 'btn-draft'; // Use updated CSS class for draft buttons
         const button = createButton(extractButtonName(fileName), buttonClass, async () => {
           const content = await getHtmlContent(folder, fileName, urlPath);
           newPane('dynamicpane', content, extractButtonName(fileName));
         });
-
-        if (isDraft) {
-          button.style.display = 'none'; // Ensure the button is hidden immediately upon creation
-        }
 
         contentDiv.appendChild(button);
       }

@@ -54,14 +54,67 @@
             text-align: center;
         }
 
-        .red-text {
-            color: red;
+        .utkast-text-color {
+            color: #FFA500;
             font-weight: bold;
         }
 
-        .blue-text {
-            color: blue;
-            font-weight: bold;
+        .btn-red {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: none;
+        }
+
+        .btn-red:hover {
+            background-color: #e60000;
+        }
+
+        .btn-blue {
+            background-color: #4d79ff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-blue:hover {
+            background-color: #0033cc;
+        }
+
+        .btn-draft {
+            background-color: #E69500;
+            color: rgb(0, 0, 0);
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: none;
+        }
+
+        .btn-draft:hover {
+            background-color: #B37400;
+        }
+
+        .btn-production {
+            background-color: #008080;
+            color: rgb(255, 255, 255);
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-production:hover {
+            background-color: #005757;
         }
     </style>
 
@@ -70,7 +123,11 @@
 <body>
     <div class="centered-text">
         <h3 class="mb-5">Standardtekster</h3>
-        <p> Tekster med <span class="red-text">rød</span> knapp er utkast, mens <span class="blue-text">blå</span> knapper er publiserte.</p>
+    </div>
+    <div class="centered-text">
+        <label>
+            <input type="checkbox" id="show-drafts-checkbox"> Vis utkast (<span class="utkast-text-color">oransje</span>)
+        </label>
     </div>
     <div id="button-container"></div>
     <script src="../standardteksterpane/standardteksterpane.ts"></script>
