@@ -4,56 +4,235 @@ interface HtmlFile {
   name: string;
   path: string;
 }
+
+interface MetadataFile {
+  filename: string;
+  filepath: string;
+  title: string;
+  ansvarligEnhet: string;
+  kontaktperson: string;
+  FUP: string;
+  draft: boolean;
+  lang: string;
+  translations?: string[];
+}
+
+interface MetadataResponse {
+  files: MetadataFile[];
+}
+
+const metadataUrl = 'https://ds.app.uib.no/standardtekster/main/metadata.json';
 const urlPathMain = 'https://ds.app.uib.no/standardtekster/main/_generert/';
 
 async function addButtons(container: HTMLElement) {
-  const urlPath = urlPathMain;
-
   try {
-    const folders = await fetchFolders(urlPath, '/standardtekster/main/');
-    for (const folder of folders) {
-      const folderDiv = await createFolderStructure(folder, urlPath);
-      container.appendChild(folderDiv);
+    const metadata = await fetchMetadata();
+    const folderStructure = await createFolderStructureFromMetadata(metadata, false);
+    
+    // Get the keys in sorted order and append the folders in that order
+    const sortedKeys = Object.keys(folderStructure).sort((a, b) => {
+      const aLastPart = a.split('/').pop() || '';
+      const bLastPart = b.split('/').pop() || '';
+      
+      const aFirstLetter = aLastPart.charAt(0).toUpperCase();
+      const bFirstLetter = bLastPart.charAt(0).toUpperCase();
+      
+      if (aFirstLetter !== bFirstLetter) {
+        return aFirstLetter.localeCompare(bFirstLetter);
+      }
+      
+      return a.localeCompare(b);
+    });
+    
+    for (const key of sortedKeys) {
+      container.appendChild(folderStructure[key]);
     }
   } catch (error) {
-    console.error('Error fetching folders:', error);
-    container.innerHTML = `<p>Kunne ikke laste inn mapper. Vennligst prøv igjen senere.</p>`;
+    console.error('Error fetching metadata:', error);
+    container.innerHTML = `<p>Kunne ikke laste inn metadata. Vennligst prøv igjen senare.</p>`;
   }
-}
-
-async function createFolderStructure(folder: string, urlPath: string, includeDrafts = false): Promise<HTMLDivElement> {
-  const folderDiv = createFolderDiv(folder, 'h3');
-  const subfolders = await fetchSubfolders(folder, '', urlPath);
-
-  // Filter out folders that only contain draft files
-  const validSubfolders = [];
-  for (const subfolder of subfolders) {
-    const subfolderFiles = await fetchHtmlFiles(subfolder, urlPath);
-    const hasProductionFiles = subfolderFiles.some((file) => !file.name?.startsWith('UTKAST_'));
-
-    if (hasProductionFiles || includeDrafts) {
-      validSubfolders.push(subfolder);
-    }
-  }
-
-  for (const subfolder of validSubfolders) {
-    const subFolderDiv = await createFolderStructure(subfolder, urlPath, includeDrafts);
-    subFolderDiv.style.display = 'none'; // Ensure subfolders are collapsed by default
-
-    const contentDiv = folderDiv.querySelector('.folder-content');
-    if (contentDiv) {
-      contentDiv.appendChild(subFolderDiv);
-    } else {
-      console.error(`Content div not found for folder: ${folder}`);
-    }
-  }
-
-  await addFileButtons(folderDiv, folder, urlPath, includeDrafts);
-  return folderDiv;
 }
 
 /**
- * Initializes the standard text pane by fetching HTML files and creating buttons for each file.
+ * Fetches the metadata from the server.
+ * 
+ * @returns {Promise<MetadataResponse>} A promise that resolves to the metadata response.
+ */
+async function fetchMetadata(): Promise<MetadataResponse> {
+  const response = await fetch(metadataUrl);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch metadata: ${response.status} ${response.statusText}`);
+  }
+  return await response.json();
+}
+
+/**
+ * Creates folder structure from metadata with proper nesting.
+ * 
+ * @param {MetadataResponse} metadata - The metadata response.
+ * @param {boolean} includeDrafts - Whether to include draft files.
+ * @returns {Promise<Record<string, HTMLDivElement>>} A promise that resolves to folder structure.
+ */
+async function createFolderStructureFromMetadata(metadata: MetadataResponse, includeDrafts: boolean): Promise<Record<string, HTMLDivElement>> {
+  const folderStructure: Record<string, HTMLDivElement> = {};
+  const folderFiles: Record<string, MetadataFile[]> = {};
+  const allFolderPaths = new Set<string>();
+
+  // Filter files based on draft status first
+  const filesToProcess = includeDrafts ? metadata.files : metadata.files.filter(file => !file.draft);
+
+  // Collect all folder paths and group files
+  for (const file of filesToProcess) {
+    let pathParts = file.filepath.split('/').slice(0, -1); // Remove filename
+    
+    // Skip "_kildefiler" layer if it exists
+    if (pathParts[0] === '_kildefiler') {
+      pathParts = pathParts.slice(1);
+    }
+    
+    // Add all nested folder paths
+    for (let i = 1; i <= pathParts.length; i++) {
+      const folderPath = pathParts.slice(0, i).join('/');
+      allFolderPaths.add(folderPath);
+    }
+    
+    // Group files by their immediate parent folder
+    const immediateFolder = pathParts.join('/');
+    if (!folderFiles[immediateFolder]) {
+      folderFiles[immediateFolder] = [];
+    }
+    folderFiles[immediateFolder].push(file);
+  }
+
+  // Create folder divs for all paths
+  const sortedPaths = Array.from(allFolderPaths).sort((a, b) => {
+    // Custom sorting to handle folder names like A_, A.c_, C_
+    const aLastPart = a.split('/').pop() || '';
+    const bLastPart = b.split('/').pop() || '';
+    
+    // Extract the first letter for primary sorting
+    const aFirstLetter = aLastPart.charAt(0).toUpperCase();
+    const bFirstLetter = bLastPart.charAt(0).toUpperCase();
+    
+    if (aFirstLetter !== bFirstLetter) {
+      return aFirstLetter.localeCompare(bFirstLetter);
+    }
+    
+    // If first letters are the same, sort by the full path
+    return a.localeCompare(b);
+  });
+  
+  for (const folderPath of sortedPaths) {
+    const pathParts = folderPath.split('/');
+    const folderName = pathParts[pathParts.length - 1];
+    const depth = pathParts.length;
+    
+    // Determine if this is a top-level folder or subfolder
+    const isTopLevel = depth === 1;
+    const folderDiv = createFolderDiv(folderName, isTopLevel ? 'h3' : 'h4');
+    
+    // Add files to this folder if any exist
+    const files = folderFiles[folderPath];
+    if (files && files.length > 0) {
+      await addFileButtonsFromMetadata(folderDiv, files, includeDrafts);
+    }
+    
+    folderStructure[folderPath] = folderDiv;
+  }
+
+  // Create parent-child relationships
+  for (const folderPath of sortedPaths) {
+    const pathParts = folderPath.split('/');
+    if (pathParts.length > 1) {
+      const parentPath = pathParts.slice(0, -1).join('/');
+      const parentDiv = folderStructure[parentPath];
+      const childDiv = folderStructure[folderPath];
+      
+      if (parentDiv && childDiv) {
+        const parentContentDiv = parentDiv.querySelector('.folder-content');
+        if (parentContentDiv) {
+          // Hide subfolders by default
+          childDiv.style.display = 'none';
+          parentContentDiv.appendChild(childDiv);
+        }
+      }
+    }
+  }
+
+  // Return only top-level folders, maintaining sorted order
+  const topLevelFolders: Record<string, HTMLDivElement> = {};
+  const topLevelPaths = sortedPaths.filter(folderPath => 
+    !folderPath.includes('/') || folderPath.split('/').length === 1
+  );
+  
+  for (const folderPath of topLevelPaths) {
+    const folderDiv = folderStructure[folderPath];
+    if (folderDiv) {
+      topLevelFolders[folderPath] = folderDiv;
+    }
+  }
+
+  return topLevelFolders;
+}
+
+/**
+ * Creates file buttons from metadata.
+ * 
+ * @param {HTMLElement} container - The container element.
+ * @param {MetadataFile[]} files - Array of metadata files.
+ * @param {boolean} includeDrafts - Whether to include draft files.
+ */
+async function addFileButtonsFromMetadata(container: HTMLElement, files: MetadataFile[], includeDrafts: boolean) {
+  const contentDiv = container.querySelector('.folder-content');
+  if (!contentDiv) {
+    console.error('Content div not found');
+    return;
+  }
+
+  const productionFiles = files.filter(file => !file.draft);
+  const draftFiles = files.filter(file => file.draft);
+
+  // Create buttons for production files
+  for (const file of productionFiles) {
+    const buttonClass = 'btn-production';
+    const button = createButton(file.title, buttonClass, async () => {
+      const htmlFileName = file.filename.replace('.md', '.html');
+      // Remove filename and _kildefiler from path for URL construction
+      let pathParts = file.filepath.split('/').slice(0, -1); // Remove filename
+      if (pathParts[0] === '_kildefiler') {
+        pathParts = pathParts.slice(1); // Remove _kildefiler
+      }
+      const folderPath = pathParts.join('/') + '/';
+      const content = await getHtmlContent(folderPath, htmlFileName, urlPathMain);
+      newPane('dynamicpane', content, file.title);
+    });
+
+    contentDiv.appendChild(button);
+  }
+
+  // Create buttons for draft files if included
+  if (includeDrafts) {
+    for (const file of draftFiles) {
+      const buttonClass = 'btn-draft';
+      const button = createButton(file.title, buttonClass, async () => {
+        const htmlFileName = file.filename.replace('.md', '.html');
+        // Remove filename and _kildefiler from path for URL construction
+        let pathParts = file.filepath.split('/').slice(0, -1); // Remove filename
+        if (pathParts[0] === '_kildefiler') {
+          pathParts = pathParts.slice(1); // Remove _kildefiler
+        }
+        const folderPath = pathParts.join('/') + '/';
+        const content = await getHtmlContent(folderPath, htmlFileName, urlPathMain);
+        newPane('dynamicpane', content, file.title);
+      });
+
+      contentDiv.appendChild(button);
+    }
+  }
+}
+
+/**
+ * Initializes the standard text pane by fetching metadata and creating buttons for each file.
  * The buttons are added to the button container and are styled with specific classes.
  */
 export async function initializeStandardtekstpane() {
@@ -74,7 +253,6 @@ export async function initializeStandardtekstpane() {
   const checkbox = document.getElementById('show-drafts-checkbox') as HTMLInputElement;
   if (checkbox) {
     checkbox.addEventListener('change', async () => {
-      const draftButtons = document.querySelectorAll('.btn-red');
       const container = document.getElementById('button-container');
 
       if (checkbox.checked) {
@@ -83,27 +261,39 @@ export async function initializeStandardtekstpane() {
           container.innerHTML = '';
         }
 
-        // Show draft buttons and add previously skipped folders with drafts
-        const folders = await fetchFolders(urlPathMain, '/standardtekster/main/');
-        for (const folder of folders) {
-          const folderDiv = await createFolderStructure(folder, urlPathMain, true); // Pass a flag to include drafts
-          if (container && folderDiv) {
-            container.appendChild(folderDiv);
+        // Show draft buttons
+        try {
+          const metadata = await fetchMetadata();
+          const folderStructure = await createFolderStructureFromMetadata(metadata, true);
+          
+          // Get the keys in sorted order and append the folders in that order
+          const sortedKeys = Object.keys(folderStructure).sort((a, b) => {
+            const aLastPart = a.split('/').pop() || '';
+            const bLastPart = b.split('/').pop() || '';
+            
+            const aFirstLetter = aLastPart.charAt(0).toUpperCase();
+            const bFirstLetter = bLastPart.charAt(0).toUpperCase();
+            
+            if (aFirstLetter !== bFirstLetter) {
+              return aFirstLetter.localeCompare(bFirstLetter);
+            }
+            
+            return a.localeCompare(b);
+          });
+          
+          for (const key of sortedKeys) {
+            if (container) {
+              container.appendChild(folderStructure[key]);
+            }
           }
+        } catch (error) {
+          console.error('Error loading with drafts:', error);
         }
       } else {
         // Clear the container to remove drafts
         if (container) {
           container.innerHTML = '';
-        }
-
-        // Re-add only production folders and buttons
-        const folders = await fetchFolders(urlPathMain, '/standardtekster/main/');
-        for (const folder of folders) {
-          const folderDiv = await createFolderStructure(folder, urlPathMain, false); // Exclude drafts
-          if (container && folderDiv) {
-            container.appendChild(folderDiv);
-          }
+          addButtons(container);
         }
       }
     });
@@ -122,7 +312,7 @@ function createButton(text: string, className: string, onClick: () => void): HTM
   const button = document.createElement('button');
   button.textContent = text;
   button.className = className;
-  button.onclick = onClick;
+  button.addEventListener('click', onClick);
   return button;
 }
 
@@ -142,13 +332,31 @@ function createFolderDiv(folder: string, titleTag: 'h3' | 'h4'): HTMLDivElement 
   folderTitle.addEventListener('click', () => {
     const isHidden = contentDiv.style.display === 'none';
 
-    // Toggle visibility of all items inside the folder
+    // Toggle visibility of the content div
     contentDiv.style.display = isHidden ? 'block' : 'none';
     folderTitle.classList.toggle('open', isHidden);
 
+    // Show/hide direct children (both buttons and subfolders)
     const children = Array.from(contentDiv.children);
     children.forEach((child) => {
-      (child as HTMLElement).style.display = isHidden ? 'block' : 'none';
+      if (child.classList.contains('folder-container') || child.classList.contains('subfolder-container')) {
+        // For subfolders, show the container but keep their content collapsed
+        (child as HTMLElement).style.display = isHidden ? 'block' : 'none';
+        if (!isHidden) {
+          // When hiding parent, also hide subfolder contents
+          const subContent = child.querySelector('.folder-content') as HTMLElement;
+          if (subContent) {
+            subContent.style.display = 'none';
+            const subTitle = child.querySelector('.folder-title');
+            if (subTitle) {
+              subTitle.classList.remove('open');
+            }
+          }
+        }
+      } else {
+        // For buttons, just toggle visibility
+        (child as HTMLElement).style.display = isHidden ? 'block' : 'none';
+      }
     });
   });
 
@@ -156,121 +364,7 @@ function createFolderDiv(folder: string, titleTag: 'h3' | 'h4'): HTMLDivElement 
   return folderDiv;
 }
 
-async function addFileButtons(container: HTMLElement, folder: string, urlPath: string, includeDrafts = false) {
-  try {
-    const htmlFiles = await fetchHtmlFiles(folder, urlPath);
-    const contentDiv = container.querySelector('.folder-content');
-    if (!contentDiv) {
-      console.error('Content div not found');
-      return;
-    }
 
-    const productionFiles: HtmlFile[] = [];
-    const draftFiles: HtmlFile[] = [];
-
-    // Group files into production and drafts
-    for (const file of htmlFiles) {
-      if (file.name?.startsWith('UTKAST_')) {
-        draftFiles.push(file);
-      } else {
-        productionFiles.push(file);
-      }
-    }
-
-    // Create buttons for production files only
-    for (const file of productionFiles) {
-      const fileName = file.name;
-      const buttonClass = 'btn-production'; // Use updated CSS class for production buttons
-      const button = createButton(extractButtonName(fileName), buttonClass, async () => {
-        const content = await getHtmlContent(folder, fileName, urlPath);
-        newPane('dynamicpane', content, extractButtonName(fileName));
-      });
-
-      contentDiv.appendChild(button);
-    }
-
-    // Create buttons for draft files if included
-    if (includeDrafts) {
-      for (const file of draftFiles) {
-        const fileName = file.name;
-        const buttonClass = 'btn-draft'; // Use updated CSS class for draft buttons
-        const button = createButton(extractButtonName(fileName), buttonClass, async () => {
-          const content = await getHtmlContent(folder, fileName, urlPath);
-          newPane('dynamicpane', content, extractButtonName(fileName));
-        });
-
-        contentDiv.appendChild(button);
-      }
-    }
-  } catch (error) {
-    console.error('Error fetching HTML files:', error);
-  }
-}
-
-/**
- * Fetches the list of folders from the specified URL.
- * 
- * @param {string} url - The URL to fetch the folders from.
- * @param {string} [root] - The root directory to ignore.
- * @returns {Promise<Array<string>>} A promise that resolves to an array of folder names.
- */
-async function fetchFolders(url: string, root?: string): Promise<Array<string>> {
-  const response = await fetch(url);
-  const text = await response.text();
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(text, 'text/html');
-  const folderElements = doc.querySelectorAll('a');
-
-  const folders = Array.from(folderElements)
-    .map((element) => element.getAttribute('href'))
-    .filter((folder): folder is string => folder !== null && folder !== root); // Ignore the root directory and filter out null values
-
-  return folders;
-}
-
-/**
- * Fetches the list of subfolders from the specified folder.
- * 
- * @param {string} folder - The folder to fetch subfolders from.
- * @param {string} root - The root directory to ignore.
- * @param {string} urlPath - The base URL path.
- * @returns {Promise<Array<string>>} A promise that resolves to an array of subfolder names.
- */
-async function fetchSubfolders(folder: string, root: string, urlPath: string): Promise<Array<string>> {
-  const fullUrl = urlPath + folder;
-  const response = await fetch(fullUrl);
-  const text = await response.text();
-  const doc = new DOMParser().parseFromString(text, 'text/html');
-  const subfolders = Array.from(doc.querySelectorAll('a'))
-    .map((el) => el.getAttribute('href'))
-    .filter((subfolder): subfolder is string => subfolder !== null && subfolder.endsWith('/') && !subfolder.includes('_generert/'));
-
-  return subfolders.map((subfolder) =>
-    subfolder.startsWith('/') ? subfolder.slice(1) : `${folder.replace(/\/$/, '')}/${subfolder}`
-  );
-}
-
-/**
- * Fetches the list of HTML files from the specified folder.
- * 
- * @param {string} folder - The folder to fetch HTML files from.
- * @param {string} urlPath - The base URL path.
- * @returns {Promise<Array<HtmlFile>>} A promise that resolves to an array of HTML file objects.
- */
-async function fetchHtmlFiles(folder: string, urlPath: string): Promise<Array<HtmlFile>> {
-  const fullUrl = urlPath + folder;
-  const response = await fetch(fullUrl);
-  const htmlText = await response.text();
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(htmlText, 'text/html');
-  const fileElements = doc.querySelectorAll('a');
-  const files = Array.from(fileElements).map((element) => ({
-    name: element.getAttribute('href'),
-    path: fullUrl + element.getAttribute('href')
-  }));
-
-  return files.filter((file) => file.name !== null && file.name.endsWith('.html')) as Array<HtmlFile>;
-}
 
 /**
  * Fetches the content of the specified HTML file.
@@ -300,36 +394,12 @@ export async function getHtmlContent(folder: string, filePath: string, urlPath: 
 }
 
 /**
- * Extracts and formats the button name from the file name.
- * 
- * @param {string} fileName - The name of the file.
- * @returns {string} The extracted and formatted part of the file name.
- */
-function extractButtonName(fileName: string): string {
-  const nameWithoutExtension = decodeURIComponent(fileName.replace('.html', ''));
-  let cleanedName = nameWithoutExtension;
-
-  // Remove 'UTKAST_' prefix if it exists
-  if (cleanedName.startsWith('UTKAST_')) {
-    cleanedName = cleanedName.replace('UTKAST_', '');
-  }
-
-  const words = cleanedName.replace(/-/g, ' ').split(' ');
-
-  return words
-    .map((word, index) =>
-      index === 0 ? word.charAt(0).toUpperCase() + word.slice(1) : word
-    )
-    .join(' ');
-}
-
-/**
  * Cleans the folder name by replacing underscores with spaces and removing slashes.
  * 
  * @param {string} folderName - The name of the folder.
  * @returns {string} The cleaned folder name.
  */
 function cleanTitle(folderName: string): string {
-  const lastPart = decodeURIComponent(folderName.split('/').slice(-2, -1)[0]);
+  const lastPart = decodeURIComponent(folderName.split('/').pop() || folderName);
   return lastPart.replace(/[_-]/g, ' ');
 }
