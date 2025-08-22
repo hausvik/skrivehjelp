@@ -139,11 +139,12 @@ export async function initializeArbeidsavtalepane() {
   let grantNumb: HTMLInputElement | null = document.getElementById("grantNumb") as HTMLInputElement;
   let familyAllowanceMonths: HTMLInputElement | null = document.getElementById("familyAllowanceMonths") as HTMLInputElement;
   let mobilityAllowanceMonths: HTMLInputElement | null = document.getElementById("mobilityAllowanceMonths") as HTMLInputElement;
-
-
+  let entryPosition: HTMLInputElement | null = document.getElementById("entryPosition") as HTMLInputElement;
+  let entryGoal: HTMLInputElement | null = document.getElementById("entryGoal") as HTMLInputElement;
   // Select elements
   let positionCodeSelect: HTMLSelectElement | null = document.getElementById("positionCode") as HTMLSelectElement;
-
+  
+  
   // Elements
   let mscaCheck: HTMLElement | null = document.getElementById("mscaCheck") as HTMLElement;
   let seniorityGroup: HTMLElement | null = document.getElementById("seniorityGroup") as HTMLElement;
@@ -163,7 +164,7 @@ export async function initializeArbeidsavtalepane() {
   let substituteTypeGroup: HTMLElement | null = document.getElementById("substituteTypeGroup") as HTMLElement;
   let employeeTypeRadio: HTMLElement | null = document.getElementById("employeeTypeRadio") as HTMLElement;
   let abroardEmployeeTextGroup: HTMLElement | null = document.getElementById("abroardEmployeeTextGroup") as HTMLElement;
-
+  let entryGoalGroup: HTMLElement | null = document.getElementById("entryGoalGroup") as HTMLElement;
 
   // Button
   let tilbakeButton: HTMLButtonElement | null = document.getElementById("tilbake") as HTMLButtonElement;
@@ -313,6 +314,20 @@ export async function initializeArbeidsavtalepane() {
       workDescriptionElement.style.display = "none";
     });
   }
+
+  //Code for then termtype is changed
+  termOptionsGroup?.addEventListener("change", () => {
+    if (entryPosition.checked) {
+      entryGoalGroup.style.display = "block";
+    } else {
+      entryGoalGroup.style.display = "none";
+      // Reset the select element to empty option
+      const entryGoalSelect = document.getElementById("entryGoal") as HTMLSelectElement;
+      if (entryGoalSelect) {
+        entryGoalSelect.value = "";
+      }
+    }
+  });
 
   // Code for when "Midlertidig" is selected
   if (tempEmployee && endDateGroup) {
@@ -505,7 +520,9 @@ export async function initializeArbeidsavtalepane() {
         mscaBox.checked,
         lonnsplan.value,
         lonnsutbetaling.value,
+        entryGoal.value,
       );
+      console.log(entryPosition.value);
 
       htmlBodyText = getArbeidsavtale(
         engelsk.checked,

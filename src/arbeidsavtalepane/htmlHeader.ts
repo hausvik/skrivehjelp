@@ -62,6 +62,7 @@ export function getArbeidsavtaleHeading(
         mscaBox: boolean,
         lonnsplan: string,
         lærlinglønnsstige: string,
+        entryGoalSelect: string,
 ): string {
         switch (employeeType) {
                 case "fast":
@@ -81,13 +82,22 @@ export function getArbeidsavtaleHeading(
                         break;
         }
 
+        switch (entryGoalSelect){
+                case "Førsteamanuensis":
+                        entryGoalSelect = engelsk ? "Associate Professor" : "Førsteamanuensis";
+                        break;
+                case "Professor":
+                        entryGoalSelect = "Professor";
+                        break;
+        }
+
         return engelsk
                 ? getArbeidsavtaleHeadingEngelsk(name, personalId, placeOfWork, positionCode,
                         percentageFullTime, seniority, annualSalary, mobilityAllowance, familyAllowance,
-                        mobilityMonths, familyMonths, startingDate, endDate, employeeType, mscaSupervisor, mscaBox, lonnsplan, lærlinglønnsstige)
+                        mobilityMonths, familyMonths, startingDate, endDate, employeeType, mscaSupervisor, mscaBox, lonnsplan, lærlinglønnsstige, entryGoalSelect)
                 : getArbeidsavtaleHeadingNorsk(name, personalId, placeOfWork, positionCode,
                         percentageFullTime, seniority, annualSalary, mobilityAllowance, familyAllowance,
-                        mobilityMonths, familyMonths, startingDate, endDate, employeeType, mscaSupervisor, mscaBox, lonnsplan, lærlinglønnsstige);
+                        mobilityMonths, familyMonths, startingDate, endDate, employeeType, mscaSupervisor, mscaBox, lonnsplan, lærlinglønnsstige, entryGoalSelect);
 }
 /**
  * Generates an HTML string representing the header of an employment contract, in English.
@@ -130,6 +140,7 @@ function getArbeidsavtaleHeadingEngelsk(
         mscaBox: boolean,
         lonnsplan: string,
         lærlinglønnsstige: string,
+        entryGoalSelect: string,
 ): string {
         let lærling = false;
         if (positionCode == "1362 - Lærling" || positionCode == "1446 - Lærekandidat") {
@@ -137,6 +148,7 @@ function getArbeidsavtaleHeadingEngelsk(
         }
 
         let lærlingtabell = ``;
+        let innstegsstilling= ``;
         let mobilityRow1 = mobilityAllowance != 0 && mobilityAllowance != null ? "Mobility allowance" : "";
         let mobilityRow2 = mobilityAllowance != 0 && mobilityAllowance != null ? `${mscaBox ? "EUR" : "NOK"} ${mobilityAllowance} for ${mobilityMonths} months` : "";
         let familyRow1 = familyAllowance != 0 && familyAllowance != null ? "Family allowance" : "";
@@ -153,6 +165,15 @@ function getArbeidsavtaleHeadingEngelsk(
                         `<tr>
                         <td colspan="4">* Percentage payment of salary according to where one is in the apprenticeship: ${lærlinglønnsstige}</td>
                         </tr>`;
+        }
+        if (entryGoalSelect !== "") {
+                innstegsstilling = `
+                                <tr>
+                                  <td><b>Target position</b></td>
+                                  <td>${entryGoalSelect}</td>
+                                  <td><b></b></td>
+                                  <td></td>
+                                </tr>`;
         }
 
         return `
@@ -201,6 +222,7 @@ function getArbeidsavtaleHeadingEngelsk(
                                   <td>${endDate !== "" ? "<b>End date</b>" : ""}</td>
                                   <td>${endDate !== "" ? endDate : ""}</td>
                           </tr>
+                          ${innstegsstilling}
                   </table>
                   <br>
       `;
@@ -247,12 +269,14 @@ function getArbeidsavtaleHeadingNorsk(
         mscaBox: boolean,
         lonnsplan: string,
         lærlinglønnsstige: string,
+        entryGoalSelect: string,
 ): string {
         let lærling = false;
         if (positionCode == "1362 - Lærling" || positionCode == "1446 - Lærekandidat") {
                 lærling = true;
         }
         let lærlingtabell = ``;
+        let innstegsstilling= ``;
         let mobilityRow1 = mobilityAllowance != 0 && mobilityAllowance != null ? "Mobilitetstillegg" : "";
         let mobilityRow2 = mobilityAllowance != 0 && mobilityAllowance != null ? `${mscaBox ? "EUR" : "NOK"} ${mobilityAllowance} i ${mobilityMonths} måneder` : "";
         let familyRow1 = familyAllowance != 0 && familyAllowance != null ? "Familietillegg" : "";
@@ -269,6 +293,16 @@ function getArbeidsavtaleHeadingNorsk(
         `<tr>
                 <td colspan="4">* Prosentvis utbetaling av lønn i henhold til hvor man er i læreløpet: ${lærlinglønnsstige}</td>
         </tr>`};
+        if (entryGoalSelect !== "") {
+                innstegsstilling = `
+                                <tr>
+                                  <td><b>Kvalifiseringsmål</b></td>
+                                  <td>${entryGoalSelect}</td>
+                                  <td><b></b></td>
+                                  <td></td>
+                                </tr>`;
+        }
+
         return `
   ${htmlStyle}
           <br style='mso-special-character:line-break;page-break-before:always'>
@@ -314,6 +348,7 @@ function getArbeidsavtaleHeadingNorsk(
                                   <td>${endDate !== "" ? "<b>Sluttdato</b>" : ""}</td>
                                   <td>${endDate !== "" ? endDate : ""}</td>
                           </tr>
+                          ${innstegsstilling}
                   </table>
       `;
 }
