@@ -166,15 +166,6 @@ function getArbeidsavtaleHeadingEngelsk(
                         <td colspan="4">* Percentage payment of salary according to where one is in the apprenticeship: ${lærlinglønnsstige}</td>
                         </tr>`;
         }
-        if (entryGoalSelect !== "") {
-                innstegsstilling = `
-                                <tr>
-                                  <td><b>Target position</b></td>
-                                  <td>${entryGoalSelect}</td>
-                                  <td><b></b></td>
-                                  <td></td>
-                                </tr>`;
-        }
 
         return `
   ${htmlStyle}
@@ -197,8 +188,8 @@ function getArbeidsavtaleHeadingEngelsk(
                           <tr>
                                   <td><b>Place of work</b></td>
                                   <td>${placeOfWork}</td>
-                                  <td>${mscaSupervisor !== "" ? "<b>Supervisor(s)</b>" : ""}</td>
-                                  <td>${mscaSupervisor}</td>
+                                  <td>${mscaSupervisor !== "" ? "<b>Supervisor(s)</b>" : ""}${entryGoalSelect !== "" ? "<b>Target position</b>" : ""}</td>
+                                  <td>${mscaSupervisor}${entryGoalSelect}</td>
                                   
                           </tr>
                           <tr>
@@ -293,15 +284,6 @@ function getArbeidsavtaleHeadingNorsk(
         `<tr>
                 <td colspan="4">* Prosentvis utbetaling av lønn i henhold til hvor man er i læreløpet: ${lærlinglønnsstige}</td>
         </tr>`};
-        if (entryGoalSelect !== "") {
-                innstegsstilling = `
-                                <tr>
-                                  <td><b>Kvalifiseringsmål</b></td>
-                                  <td>${entryGoalSelect}</td>
-                                  <td><b></b></td>
-                                  <td></td>
-                                </tr>`;
-        }
 
         return `
   ${htmlStyle}
@@ -323,8 +305,8 @@ function getArbeidsavtaleHeadingNorsk(
                           <tr>
                                   <td><b>Arbeidssted</b></td>
                                   <td>${placeOfWork}</td>
-                                  <td>${mscaSupervisor !== "" ? "<b>Veilder(e)</b>" : ""}</td>
-                                  <td>${mscaSupervisor}</td>
+                                  <td>${mscaSupervisor !== "" ? "<b>Veilder(e)</b>" : ""}${entryGoalSelect !== "" ? "<b>Kvalifiseringsmål</b>" : ""}</td>
+                                  <td>${mscaSupervisor}${entryGoalSelect}</td>
                                   
                           </tr>
                           <tr>
@@ -348,7 +330,6 @@ function getArbeidsavtaleHeadingNorsk(
                                   <td>${endDate !== "" ? "<b>Sluttdato</b>" : ""}</td>
                                   <td>${endDate !== "" ? endDate : ""}</td>
                           </tr>
-                          ${innstegsstilling}
                   </table>
       `;
 }
