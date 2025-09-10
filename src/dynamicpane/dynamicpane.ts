@@ -80,6 +80,75 @@ export function createDynamicPane(htmlContent: string, paneTitle?: string): void
                 '<a href="$2" target="_blank">$1</a>'
             );
 
+            // Add CSS styling for tables to stretch vertically to fit the page
+            if (updatedContent.includes('<table')) {
+                const tableStyles = `
+                    <style>
+                        table {
+                            width: 100%;
+                            height: 100%;
+                            border-collapse: collapse;
+                            table-layout: auto;
+                            border: none;
+                            mso-table-layout-alt: fixed;
+                            mso-table-wrap: none;
+                            mso-table-anchor-vertical: page;
+                            mso-table-anchor-horizontal: column;
+                            mso-table-left: left;
+                            mso-table-margin-left: 0;
+                            mso-table-margin-right: 0;
+                            mso-border-alt: none;
+                        }
+                        tbody {
+                            height: 100%;
+                        }
+                        td, th {
+                            vertical-align: top;
+                            padding: 8px;
+                            border: none;
+                            mso-height-rule: auto;
+                            mso-border-alt: none;
+                        }
+                        th {
+                            display: none;
+                            visibility: hidden;
+                        }
+                        thead {
+                            display: none;
+                            visibility: hidden;
+                        }
+                        tr {
+                            height: auto;
+                            mso-height-rule: auto;
+                            border: none;
+                        }
+                    </style>
+                `;
+                
+                // Insert the styles at the beginning of the content
+                updatedContent = tableStyles + updatedContent;
+                
+                // Modify existing table tags to include vertical stretching attributes
+                updatedContent = updatedContent.replace(
+                    /<table([^>]*)>/gi,
+                    '<table$1 style="width: 100%; height: 100%; border-collapse: collapse; table-layout: auto; border: none; mso-table-layout-alt: fixed; mso-table-wrap: none; mso-border-alt: none;">'
+                );
+                
+                // Remove or hide header rows but preserve content
+                updatedContent = updatedContent.replace(
+                    /<thead[^>]*>([\s\S]*?)<\/thead>/gi,
+                    '$1'
+                );
+                updatedContent = updatedContent.replace(
+                    /<th([^>]*)>/gi,
+                    '<td$1 style="border: none; mso-border-alt: none;">'
+                );
+                updatedContent = updatedContent.replace(
+                    /<\/th>/gi,
+                    '</td>'
+                );
+            }
+
             // Insert the updated content into the document
             insertText(updatedContent, 'START', false);
     });
