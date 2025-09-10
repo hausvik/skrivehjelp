@@ -172,10 +172,9 @@ function getArbeidsavtaleBodyEngelsk(
     mscaText = `The position is connected to the ${frameProgram} action, under the Marie Sklodowska-Curie, regulated by EC 
     Grant Agreement No: ${grantNumber}. The researcher is obliged to work exclusively for the research training under the action. 
     The Personal Career Development Plan (PCDP) specifies the training under the Action. 
-    The University of Bergen will ensure payment of allowances in accordance with the EC Grant Agreement. Payments will be made in 
-    NOK according to the exchange rate at payment day. Living allowance is replaced by annual salary according to basic collective agreement. 
-    If needed, compliance with the EU funding rates will be ensured by corrective 
-    payments following the end of the project period. `;
+    The University of Bergen (UiB) will ensure payment of allowances in accordance with the EC Grant Agreement. Payments will be made in 
+    NOK according to the exchange rate at payment day. Living allowance is replaced by annual salary according to basic collective agreement and local salary policy for UiB. 
+    If needed, compliance with the EU funding rates will be ensured by corrective payments following the end of the project period. `;
   }
   if (mobility || family) {
     mobFamAllowanceText = `The amounts of ${mobility ? `mobility allowance ` : ``}${mobility && family ? `and ` : ``}${family ? `family allowance ` : ``}
