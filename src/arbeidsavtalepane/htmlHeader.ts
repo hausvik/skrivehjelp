@@ -150,9 +150,9 @@ function getArbeidsavtaleHeadingEngelsk(
         let lærlingtabell = ``;
         let innstegsstilling= ``;
         let mobilityRow1 = mobilityAllowance != 0 && mobilityAllowance != null ? "Mobility allowance" : "";
-        let mobilityRow2 = mobilityAllowance != 0 && mobilityAllowance != null ? `${mscaBox ? "EUR" : "NOK"} ${mobilityAllowance} for ${mobilityMonths} months` : "";
+        let mobilityRow2 = mobilityAllowance != 0 && mobilityAllowance != null ? `${mscaBox ? "EUR" : "NOK"} ${mobilityAllowance} per month for ${mobilityMonths} months` : "";
         let familyRow1 = familyAllowance != 0 && familyAllowance != null ? "Family allowance" : "";
-        let familyRow2 = familyAllowance != 0 && familyAllowance != null ? `${mscaBox ? "EUR" : "NOK"} ${familyAllowance} for ${familyMonths} months` : "";
+        let familyRow2 = familyAllowance != 0 && familyAllowance != null ? `${mscaBox ? "EUR" : "NOK"} ${familyAllowance} per month for ${familyMonths} months` : "";
         let mobFamAllowance = (mobilityRow2 !== "" || familyRow2 !== "") ?
                 `<tr>
           <td><b>${mobilityRow1}</b></td>
