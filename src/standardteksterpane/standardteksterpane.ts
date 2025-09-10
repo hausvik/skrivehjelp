@@ -382,7 +382,17 @@ export async function getHtmlContent(folder: string, filePath: string, urlPath: 
   }
 
   try {
-    const response = await fetch(fullPath);
+    const response = await fetch(fullPath, {
+      headers: {
+        'Accept': 'text/html; charset=utf-8',
+        'Accept-Charset': 'utf-8'
+      }
+    });
+    
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
+    
     const htmlContent = await response.text();
     return htmlContent; // Return the HTML content
   }
